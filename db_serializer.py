@@ -213,7 +213,7 @@ class Store(IToFromJSONData):
             name=json_data["name"],
             storefront_url=json_data["storefront_url"],
             logo=json_data["logo"],
-            storefront_affiliate_link=json_data["storefront_affiliate_link"],
+            storefront_affiliate_link=json_data.get("storefront_affiliate_link"),
             ships_from=json_data.get("ships_from", []),
             ships_to=json_data.get("ships_to", [])
         )
