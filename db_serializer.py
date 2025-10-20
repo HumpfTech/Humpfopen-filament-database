@@ -170,7 +170,7 @@ class Store(IToFromJSONData):
     name: str
     storefront_url: str
     logo: str
-    affiliate: bool
+    storefront_affiliate_link: str | None
     ships_from: list[str]
     ships_to: list[str]
 
@@ -179,7 +179,7 @@ class Store(IToFromJSONData):
                  name: str,
                  storefront_url: str,
                  logo: str,
-                 affiliate=False,
+                 storefront_affiliate_link=None,
                  ships_from: list[str] = None,
                  ships_to: list[str] = None):
         if ships_from is None:
@@ -191,7 +191,7 @@ class Store(IToFromJSONData):
         self.name = name
         self.storefront_url = storefront_url
         self.logo = logo
-        self.affiliate = affiliate
+        self.storefront_affiliate_link = storefront_affiliate_link
         self.ships_from = ships_from
         self.ships_to = ships_to
 
@@ -201,7 +201,7 @@ class Store(IToFromJSONData):
             "name": self.name,
             "storefront_url": self.storefront_url,
             "logo": self.logo,
-            "affiliate": self.affiliate,
+            "storefront_affiliate_link": self.storefront_affiliate_link,
             "ships_from": self.ships_from,
             "ships_to": self.ships_to
         })
@@ -213,7 +213,7 @@ class Store(IToFromJSONData):
             name=json_data["name"],
             storefront_url=json_data["storefront_url"],
             logo=json_data["logo"],
-            affiliate=json_data["affiliate"],
+            storefront_affiliate_link=json_data["storefront_affiliate_link"],
             ships_from=json_data.get("ships_from", []),
             ships_to=json_data.get("ships_to", [])
         )
