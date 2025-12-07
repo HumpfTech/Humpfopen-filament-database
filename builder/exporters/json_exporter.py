@@ -1,24 +1,34 @@
 """
-JSON exporters for various formats: all.json, per-brand JSON, NDJSON.
+JSON exporter for the Open Filament Database.
 """
 
 import gzip
 import json
-import os
+from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Any
 
-from ..models import Database, Brand
+from ..models import Database
 
 
 def entity_to_dict(entity: Any) -> dict:
-    """Convert a dataclass entity to a dictionary, removing None values."""
-    if hasattr(entity, '__dataclass_fields__'):
+    """Convert a dataclass entity to a dictionary, handling nested dataclasses."""
+    if entity is None:
+        return None
+    if is_dataclass(entity) and not isinstance(entity, type):
         result = {}
-        for field in entity.__dataclass_fields__:
-            value = getattr(entity, field)
+        for field_name in entity.__dataclass_fields__:
+            value = getattr(entity, field_name)
             if value is not None:
-                result[field] = value
+                if is_dataclass(value) and not isinstance(value, type):
+                    result[field_name] = entity_to_dict(value)
+                elif isinstance(value, list):
+                    result[field_name] = [
+                        entity_to_dict(v) if is_dataclass(v) and not isinstance(v, type) else v
+                        for v in value
+                    ]
+                else:
+                    result[field_name] = value
         return result
     return entity
 
@@ -29,14 +39,12 @@ def database_to_dict(db: Database, version: str, generated_at: str) -> dict:
         "version": version,
         "generated_at": generated_at,
         "brands": [entity_to_dict(b) for b in db.brands],
-        "material_families": [entity_to_dict(m) for m in db.material_families],
+        "materials": [entity_to_dict(m) for m in db.materials],
         "filaments": [entity_to_dict(f) for f in db.filaments],
         "variants": [entity_to_dict(v) for v in db.variants],
         "sizes": [entity_to_dict(s) for s in db.sizes],
         "stores": [entity_to_dict(s) for s in db.stores],
         "purchase_links": [entity_to_dict(pl) for pl in db.purchase_links],
-        "documents": [entity_to_dict(d) for d in db.documents],
-        "tags": [entity_to_dict(t) for t in db.tags],
     }
 
 
@@ -44,194 +52,121 @@ def export_all_json(db: Database, output_dir: str, version: str, generated_at: s
     """Export all data to a single all.json file."""
     output_path = Path(output_dir) / "json"
     output_path.mkdir(parents=True, exist_ok=True)
-    
+
     data = database_to_dict(db, version, generated_at)
-    
+
     # Write uncompressed JSON
-    json_file = output_path / "all.json"
-    with open(json_file, 'w', encoding='utf-8') as f:
+    all_json_path = output_path / "all.json"
+    with open(all_json_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"  Written: {json_file}")
-    
-    # Write compressed JSON
-    gz_file = output_path / "all.json.gz"
-    with gzip.open(gz_file, 'wt', encoding='utf-8') as f:
+    print(f"  Written: {all_json_path}")
+
+    # Write gzip compressed JSON
+    all_json_gz_path = output_path / "all.json.gz"
+    with gzip.open(all_json_gz_path, 'wt', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False)
-    print(f"  Written: {gz_file}")
-    
-    return json_file, gz_file
+    print(f"  Written: {all_json_gz_path}")
 
 
 def export_ndjson(db: Database, output_dir: str, version: str, generated_at: str):
     """Export all data as newline-delimited JSON (NDJSON)."""
     output_path = Path(output_dir) / "json"
     output_path.mkdir(parents=True, exist_ok=True)
-    
-    ndjson_file = output_path / "all.ndjson"
-    
-    with open(ndjson_file, 'w', encoding='utf-8') as f:
-        # Write metadata line first
-        meta = {
-            "_type": "meta",
-            "version": version,
-            "generated_at": generated_at
-        }
+
+    ndjson_path = output_path / "all.ndjson"
+    with open(ndjson_path, 'w', encoding='utf-8') as f:
+        # Write metadata line
+        meta = {"_type": "meta", "version": version, "generated_at": generated_at}
         f.write(json.dumps(meta, ensure_ascii=False) + '\n')
-        
+
         # Write each entity type
         for brand in db.brands:
-            record = {"_type": "brand", **entity_to_dict(brand)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
-        
-        for material in db.material_families:
-            record = {"_type": "material_family", **entity_to_dict(material)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+            line = {"_type": "brand", **entity_to_dict(brand)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+
+        for material in db.materials:
+            line = {"_type": "material", **entity_to_dict(material)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
         for filament in db.filaments:
-            record = {"_type": "filament", **entity_to_dict(filament)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+            line = {"_type": "filament", **entity_to_dict(filament)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
         for variant in db.variants:
-            record = {"_type": "variant", **entity_to_dict(variant)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+            line = {"_type": "variant", **entity_to_dict(variant)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
         for size in db.sizes:
-            record = {"_type": "size", **entity_to_dict(size)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+            line = {"_type": "size", **entity_to_dict(size)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
         for store in db.stores:
-            record = {"_type": "store", **entity_to_dict(store)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+            line = {"_type": "store", **entity_to_dict(store)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
-        for purchase_link in db.purchase_links:
-            record = {"_type": "purchase_link", **entity_to_dict(purchase_link)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+        for pl in db.purchase_links:
+            line = {"_type": "purchase_link", **entity_to_dict(pl)}
+            f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
-        for document in db.documents:
-            record = {"_type": "document", **entity_to_dict(document)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
-        
-        for tag in db.tags:
-            record = {"_type": "tag", **entity_to_dict(tag)}
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
-    
-    print(f"  Written: {ndjson_file}")
-    return ndjson_file
+    print(f"  Written: {ndjson_path}")
 
 
 def export_per_brand_json(db: Database, output_dir: str, version: str, generated_at: str):
-    """Export separate JSON files for each brand."""
+    """Export separate JSON files per brand."""
     output_path = Path(output_dir) / "json" / "brands"
     output_path.mkdir(parents=True, exist_ok=True)
 
-    # Build lookup maps for efficient filtering
-    filaments_by_brand = {}
-    for filament in db.filaments:
-        filaments_by_brand.setdefault(filament.brand_id, []).append(filament)
-
-    variants_by_filament = {}
-    for variant in db.variants:
-        variants_by_filament.setdefault(variant.filament_id, []).append(variant)
-
-    sizes_by_variant = {}
-    for size in db.sizes:
-        sizes_by_variant.setdefault(size.variant_id, []).append(size)
-
-    purchase_links_by_size = {}
-    for pl in db.purchase_links:
-        purchase_links_by_size.setdefault(pl.size_id, []).append(pl)
-
-    documents_by_filament = {}
-    for doc in db.documents:
-        documents_by_filament.setdefault(doc.filament_id, []).append(doc)
-
-    # Create index for brand listing
-    brand_index = []
+    # Build index
+    index = {
+        "version": version,
+        "generated_at": generated_at,
+        "brands": []
+    }
 
     for brand in db.brands:
-        brand_filaments = filaments_by_brand.get(brand.id, [])
+        # Get all data for this brand
+        brand_materials = [m for m in db.materials if m.brand_id == brand.id]
+        brand_filaments = [f for f in db.filaments if f.brand_id == brand.id]
+        brand_filament_ids = {f.id for f in brand_filaments}
+        brand_variants = [v for v in db.variants if v.filament_id in brand_filament_ids]
+        brand_variant_ids = {v.id for v in brand_variants}
+        brand_sizes = [s for s in db.sizes if s.variant_id in brand_variant_ids]
+        brand_size_ids = {s.id for s in brand_sizes}
+        brand_purchase_links = [pl for pl in db.purchase_links if pl.size_id in brand_size_ids]
 
-        # Collect all variants for this brand
-        brand_variants = []
-        for filament in brand_filaments:
-            brand_variants.extend(variants_by_filament.get(filament.id, []))
-
-        # Collect all sizes for this brand
-        brand_sizes = []
-        for variant in brand_variants:
-            brand_sizes.extend(sizes_by_variant.get(variant.id, []))
-
-        # Collect all purchase links for this brand
-        brand_purchase_links = []
-        for size in brand_sizes:
-            brand_purchase_links.extend(purchase_links_by_size.get(size.id, []))
-
-        # Collect all documents for this brand
-        brand_documents = []
-        for filament in brand_filaments:
-            brand_documents.extend(documents_by_filament.get(filament.id, []))
-
-        # Get relevant material families
-        material_ids = set(f.material_family_id for f in brand_filaments)
-        brand_materials = [m for m in db.material_families if m.id in material_ids]
-
-        # Build brand data
         brand_data = {
             "version": version,
             "generated_at": generated_at,
             "brand": entity_to_dict(brand),
-            "material_families": [entity_to_dict(m) for m in brand_materials],
+            "materials": [entity_to_dict(m) for m in brand_materials],
             "filaments": [entity_to_dict(f) for f in brand_filaments],
             "variants": [entity_to_dict(v) for v in brand_variants],
             "sizes": [entity_to_dict(s) for s in brand_sizes],
             "purchase_links": [entity_to_dict(pl) for pl in brand_purchase_links],
-            "documents": [entity_to_dict(d) for d in brand_documents],
         }
 
         # Write brand JSON
-        brand_file = output_path / f"{brand.slug}.json"
-        with open(brand_file, 'w', encoding='utf-8') as f:
+        brand_json_path = output_path / f"{brand.slug}.json"
+        with open(brand_json_path, 'w', encoding='utf-8') as f:
             json.dump(brand_data, f, indent=2, ensure_ascii=False)
 
-        # Also write compressed version
-        gz_file = output_path / f"{brand.slug}.json.gz"
-        with gzip.open(gz_file, 'wt', encoding='utf-8') as f:
-            json.dump(brand_data, f, ensure_ascii=False)
-
         # Add to index
-        brand_index.append({
+        index["brands"].append({
             "id": brand.id,
-            "slug": brand.slug,
             "name": brand.name,
-            "filament_count": len(brand_filaments),
-            "variant_count": len(brand_variants),
-            "size_count": len(brand_sizes),
-            "file": f"{brand.slug}.json",
-            "file_gz": f"{brand.slug}.json.gz"
+            "slug": brand.slug,
+            "path": f"brands/{brand.slug}.json"
         })
-    
-    # Write brand index
-    index_file = output_path / "index.json"
-    index_data = {
-        "version": version,
-        "generated_at": generated_at,
-        "brands": brand_index
-    }
-    with open(index_file, 'w', encoding='utf-8') as f:
-        json.dump(index_data, f, indent=2, ensure_ascii=False)
-    
-    print(f"  Written: {len(db.brands)} brand files to {output_path}")
-    print(f"  Written: {index_file}")
-    
-    return output_path
+
+    # Write index
+    index_path = output_path / "index.json"
+    with open(index_path, 'w', encoding='utf-8') as f:
+        json.dump(index, f, indent=2, ensure_ascii=False)
+    print(f"  Written: {index_path} and {len(db.brands)} brand files")
 
 
 def export_json(db: Database, output_dir: str, version: str, generated_at: str):
     """Export all JSON formats."""
-    print("Exporting JSON...")
-    
     export_all_json(db, output_dir, version, generated_at)
     export_ndjson(db, output_dir, version, generated_at)
     export_per_brand_json(db, output_dir, version, generated_at)
-    
-    print("JSON export complete!")

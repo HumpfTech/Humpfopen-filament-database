@@ -1,67 +1,210 @@
 """
 Utility functions for the Open Filament Database builder.
+
+UUID Generation follows the OFD standard specification:
+- UUIDs are derived using UUIDv5 with SHA1 hash (RFC 4122, section 4.3)
+- Each entity type has its own namespace UUID
+- Derivation uses binary concatenation of parent UUIDs + UTF-8 encoded strings
 """
 
 import hashlib
 import re
 import uuid
 from datetime import datetime, timezone
-from typing import Optional, Tuple
+from typing import Optional, Union
 
 
-# UUID namespace for generating deterministic IDs
-NAMESPACE = uuid.UUID('6ba7b810-9dad-11d1-80b4-00c04fd430c8')  # DNS namespace
+# =============================================================================
+# UUID Namespaces (from OFD specification)
+# =============================================================================
+
+# Standard namespaces for UUID derivation
+NAMESPACE_BRAND = uuid.UUID("5269dfb7-1559-440a-85be-aba5f3eff2d2")
+NAMESPACE_MATERIAL = uuid.UUID("616fc86d-7d99-4953-96c7-46d2836b9be9")
+NAMESPACE_PACKAGE = uuid.UUID("6f7d485e-db8d-4979-904e-a231cd6602b2")
+NAMESPACE_INSTANCE = uuid.UUID("31062f81-b5bd-4f86-a5f8-46367e841508")
+
+# Extended namespaces for entities not in the core spec
+# These follow the same pattern but with custom namespaces
+NAMESPACE_FILAMENT = uuid.UUID("a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d")
+NAMESPACE_VARIANT = uuid.UUID("b2c3d4e5-f6a7-5b6c-9d0e-1f2a3b4c5d6e")
+NAMESPACE_SIZE = uuid.UUID("c3d4e5f6-a7b8-6c7d-0e1f-2a3b4c5d6e7f")
+NAMESPACE_STORE = uuid.UUID("d4e5f6a7-b8c9-7d8e-1f2a-3b4c5d6e7f8a")
+NAMESPACE_PURCHASE_LINK = uuid.UUID("e5f6a7b8-c9d0-8e9f-2a3b-4c5d6e7f8a9b")
 
 
-def generate_uuid5(name: str) -> str:
-    """Generate a deterministic UUID5 from a name."""
-    return str(uuid.uuid5(NAMESPACE, name))
+# =============================================================================
+# Core UUID Generation (OFD Standard)
+# =============================================================================
 
+def _derive_uuid(namespace: uuid.UUID, *args: Union[bytes, str, uuid.UUID]) -> uuid.UUID:
+    """
+    Derive a UUID using the OFD standard algorithm.
+
+    Uses UUIDv5 with SHA1 hash as specified in RFC 4122, section 4.3.
+
+    Args:
+        namespace: The namespace UUID for this entity type
+        *args: Components to concatenate. Can be:
+            - bytes: Used as-is
+            - str: Encoded as UTF-8
+            - uuid.UUID: Used as bytes (binary form)
+
+    Returns:
+        Derived UUID
+    """
+    # Build the name by concatenating all args
+    parts = []
+    for arg in args:
+        if isinstance(arg, bytes):
+            parts.append(arg)
+        elif isinstance(arg, uuid.UUID):
+            parts.append(arg.bytes)
+        elif isinstance(arg, str):
+            parts.append(arg.encode("utf-8"))
+        else:
+            # Convert to string and encode
+            parts.append(str(arg).encode("utf-8"))
+
+    name = b"".join(parts)
+    return uuid.uuid5(namespace, name)
+
+
+def generate_brand_uuid(brand_name: str) -> str:
+    """
+    Generate a brand UUID according to OFD standard.
+
+    Formula: NAMESPACE_BRAND + brand_name (UTF-8)
+
+    Example:
+        >>> generate_brand_uuid("Prusament")
+        'ae5ff34e-298e-50c9-8f77-92a97fb30b09'
+    """
+    return str(_derive_uuid(NAMESPACE_BRAND, brand_name))
+
+
+def generate_material_uuid(brand_uuid: Union[str, uuid.UUID], material_name: str) -> str:
+    """
+    Generate a material UUID according to OFD standard.
+
+    Formula: NAMESPACE_MATERIAL + brand_uuid (bytes) + material_name (UTF-8)
+
+    Example:
+        >>> brand_uuid = generate_brand_uuid("Prusament")
+        >>> generate_material_uuid(brand_uuid, "PLA Prusa Galaxy Black")
+        '1aaca54a-431f-5601-adf5-85dd018f487f'
+    """
+    if isinstance(brand_uuid, str):
+        brand_uuid = uuid.UUID(brand_uuid)
+    return str(_derive_uuid(NAMESPACE_MATERIAL, brand_uuid, material_name))
+
+
+def generate_package_uuid(brand_uuid: Union[str, uuid.UUID], gtin: str) -> str:
+    """
+    Generate a package UUID according to OFD standard.
+
+    Formula: NAMESPACE_PACKAGE + brand_uuid (bytes) + gtin (UTF-8)
+
+    Example:
+        >>> brand_uuid = generate_brand_uuid("Prusament")
+        >>> generate_package_uuid(brand_uuid, "1234")
+        '7ed3ce83-764d-56de-bdcd-dc5226a0efd1'
+    """
+    if isinstance(brand_uuid, str):
+        brand_uuid = uuid.UUID(brand_uuid)
+    return str(_derive_uuid(NAMESPACE_PACKAGE, brand_uuid, gtin))
+
+
+def generate_instance_uuid(nfc_tag_uid: bytes) -> str:
+    """
+    Generate an instance UUID according to OFD standard.
+
+    Formula: NAMESPACE_INSTANCE + nfc_tag_uid (bytes)
+
+    Note: NFC tag UID must be a bytestream with MSB first.
+    For NFCV, the UID MUST be 8 bytes with 0xE0 as the first byte.
+
+    Example:
+        >>> nfc_tag_uid = b"\\xE0\\x04\\x01\\x08\\x66\\x2F\\x6F\\xBC"
+        >>> generate_instance_uuid(nfc_tag_uid)
+        'bf63e92d-9ca5-53d7-9fab-ffdd0240c585'
+    """
+    return str(_derive_uuid(NAMESPACE_INSTANCE, nfc_tag_uid))
+
+
+# =============================================================================
+# Extended UUID Generation (for database entities)
+# =============================================================================
 
 def generate_brand_id(name: str) -> str:
-    """Generate a stable ID for a brand."""
-    return generate_uuid5(f"Brand::{name.lower().strip()}")
+    """Generate a stable ID for a brand using the OFD standard algorithm."""
+    return generate_brand_uuid(name)
 
 
-def generate_material_family_id(code: str) -> str:
-    """Generate a stable ID for a material family."""
-    return generate_uuid5(f"MaterialFamily::{code.upper().strip()}")
+def generate_material_id(brand_id: str, material: str) -> str:
+    """
+    Generate a stable ID for a material (at brand level).
+
+    Uses the OFD standard material UUID derivation.
+    """
+    return generate_material_uuid(brand_id, material)
 
 
-def generate_filament_id(path: str) -> str:
-    """Generate a stable ID for a filament based on its path."""
-    return generate_uuid5(f"Filament::{path}")
+def generate_filament_id(brand_id: str, material_id: str, filament_name: str) -> str:
+    """
+    Generate a stable ID for a filament.
+
+    Formula: NAMESPACE_FILAMENT + brand_uuid (bytes) + material_uuid (bytes) + filament_name (UTF-8)
+    """
+    brand_uuid = uuid.UUID(brand_id)
+    material_uuid = uuid.UUID(material_id)
+    return str(_derive_uuid(NAMESPACE_FILAMENT, brand_uuid, material_uuid, filament_name))
 
 
-def generate_variant_id(path: str) -> str:
-    """Generate a stable ID for a variant based on its path."""
-    return generate_uuid5(f"Variant::{path}")
+def generate_variant_id(filament_id: str, color_name: str) -> str:
+    """
+    Generate a stable ID for a variant.
+
+    Formula: NAMESPACE_VARIANT + filament_uuid (bytes) + color_name (UTF-8)
+    """
+    filament_uuid = uuid.UUID(filament_id)
+    return str(_derive_uuid(NAMESPACE_VARIANT, filament_uuid, color_name))
 
 
-def generate_size_id(key: str) -> str:
-    """Generate a stable ID for a size."""
-    return generate_uuid5(f"Size::{key}")
+def generate_size_id(variant_id: str, weight: int, diameter: float, index: int = 0) -> str:
+    """
+    Generate a stable ID for a size.
+
+    Formula: NAMESPACE_SIZE + variant_uuid (bytes) + weight (decimal string) + diameter (decimal string) + index (decimal string)
+    """
+    variant_uuid = uuid.UUID(variant_id)
+    # Numbers are encoded as decimal strings per the spec
+    return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, str(weight), str(diameter), str(index)))
 
 
-def generate_store_id(name: str) -> str:
-    """Generate a stable ID for a store."""
-    return generate_uuid5(f"Store::{name.lower().strip()}")
+def generate_store_id(store_slug: str) -> str:
+    """
+    Generate a stable ID for a store.
+
+    Formula: NAMESPACE_STORE + store_slug (UTF-8)
+    """
+    return str(_derive_uuid(NAMESPACE_STORE, store_slug))
 
 
-def generate_document_id(key: str) -> str:
-    """Generate a stable ID for a document."""
-    return generate_uuid5(f"Document::{key}")
+def generate_purchase_link_id(size_id: str, store_id: str, url: str) -> str:
+    """
+    Generate a stable ID for a purchase link.
+
+    Formula: NAMESPACE_PURCHASE_LINK + size_uuid (bytes) + store_uuid (bytes) + url (UTF-8)
+    """
+    size_uuid = uuid.UUID(size_id)
+    store_uuid = uuid.UUID(store_id)
+    return str(_derive_uuid(NAMESPACE_PURCHASE_LINK, size_uuid, store_uuid, url))
 
 
-def generate_purchase_link_id(key: str) -> str:
-    """Generate a stable ID for a purchase link."""
-    return generate_uuid5(f"PurchaseLink::{key}")
-
-
-def generate_tag_id(name: str) -> str:
-    """Generate a stable ID for a tag."""
-    return generate_uuid5(f"Tag::{name.lower().strip()}")
-
+# =============================================================================
+# String Utilities
+# =============================================================================
 
 def slugify(text: str) -> str:
     """Convert text to a URL-friendly slug."""
@@ -82,128 +225,69 @@ def normalize_color_hex(color: str) -> Optional[str]:
     """Normalize a color value to #RRGGBB format."""
     if not color:
         return None
-    
+
+    # Handle arrays - take first value
+    if isinstance(color, list):
+        if not color:
+            return None
+        color = color[0]
+
     # Remove any whitespace
-    color = color.strip()
-    
+    color = str(color).strip()
+
     # If already in correct format, return as-is
     if re.match(r'^#[0-9A-Fa-f]{6}$', color):
         return color.upper()
-    
+
     # Handle 3-digit hex
     if re.match(r'^#[0-9A-Fa-f]{3}$', color):
         r, g, b = color[1], color[2], color[3]
         return f'#{r}{r}{g}{g}{b}{b}'.upper()
-    
+
     # Handle hex without #
     if re.match(r'^[0-9A-Fa-f]{6}$', color):
         return f'#{color}'.upper()
-    
+
     if re.match(r'^[0-9A-Fa-f]{3}$', color):
         r, g, b = color[0], color[1], color[2]
         return f'#{r}{r}{g}{g}{b}{b}'.upper()
-    
+
     # Return as-is if we can't parse it
     return color
 
+
+# =============================================================================
+# Time Utilities
+# =============================================================================
 
 def get_current_timestamp() -> str:
     """Get the current UTC timestamp in ISO 8601 format."""
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
-def parse_price(price_str: str) -> Tuple[Optional[str], Optional[str]]:
-    """
-    Parse a price string like "$19.99" or "€24,99" or "19.99 USD".
-    
-    Returns:
-        Tuple of (amount, currency) where amount is a string decimal
-    """
-    if not price_str:
-        return None, None
-    
-    price_str = price_str.strip()
-    
-    # Common currency symbols
-    currency_symbols = {
-        '$': 'USD',
-        '€': 'EUR',
-        '£': 'GBP',
-        '¥': 'JPY',
-        '₹': 'INR',
-        'kr': 'SEK',  # Could also be NOK, DKK
-    }
-    
-    # Check for currency symbol at start
-    for symbol, code in currency_symbols.items():
-        if price_str.startswith(symbol):
-            amount = price_str[len(symbol):].strip()
-            # Normalize decimal separator
-            amount = amount.replace(',', '.')
-            # Remove any thousands separators
-            if '.' in amount:
-                parts = amount.split('.')
-                if len(parts) == 2 and len(parts[-1]) == 2:
-                    # Likely a decimal
-                    amount = amount.replace(' ', '')
-            return amount, code
-    
-    # Check for currency code at end (e.g., "19.99 USD")
-    match = re.match(r'^([\d.,\s]+)\s*([A-Z]{3})$', price_str)
-    if match:
-        amount = match.group(1).strip().replace(',', '.').replace(' ', '')
-        currency = match.group(2)
-        return amount, currency
-    
-    # Check for currency code at start (e.g., "USD 19.99")
-    match = re.match(r'^([A-Z]{3})\s*([\d.,]+)$', price_str)
-    if match:
-        currency = match.group(1)
-        amount = match.group(2).replace(',', '.')
-        return amount, currency
-    
-    # Just a number
-    match = re.match(r'^[\d.,]+$', price_str)
-    if match:
-        amount = price_str.replace(',', '.')
-        return amount, None
-    
-    return None, None
-
+# =============================================================================
+# Hash Utilities
+# =============================================================================
 
 def calculate_sha256(data: bytes) -> str:
     """Calculate SHA256 hash of data."""
     return hashlib.sha256(data).hexdigest()
 
 
-def normalize_url(url: str) -> str:
-    """Normalize a URL by removing tracking parameters etc."""
-    if not url:
-        return url
-    
-    # Remove common tracking parameters
-    tracking_params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ref', 'fbclid', 'gclid']
-    
-    from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
-    
-    try:
-        parsed = urlparse(url)
-        query_params = parse_qs(parsed.query)
-        
-        # Remove tracking params
-        filtered_params = {k: v for k, v in query_params.items() if k.lower() not in tracking_params}
-        
-        # Rebuild URL
-        new_query = urlencode(filtered_params, doseq=True)
-        normalized = urlunparse((
-            parsed.scheme,
-            parsed.netloc,
-            parsed.path,
-            parsed.params,
-            new_query,
-            ''  # Remove fragment
-        ))
-        
-        return normalized
-    except Exception:
-        return url
+def calculate_file_sha256(filepath: str) -> str:
+    """Calculate SHA256 hash of a file."""
+    with open(filepath, 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+# =============================================================================
+# Collection Utilities
+# =============================================================================
+
+def ensure_list(value) -> list:
+    """Ensure a value is a list."""
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return value
+    return [value]
