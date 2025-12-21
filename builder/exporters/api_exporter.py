@@ -7,11 +7,10 @@ Follows the native data directory hierarchy:
 
 import json
 import shutil
-from dataclasses import is_dataclass
 from pathlib import Path
-from typing import Any
 
 from ..models import Database
+from ..serialization import entity_to_dict
 
 
 def export_schemas(api_path: Path, schemas_dir: Path, version: str, generated_at: str) -> int:
@@ -49,28 +48,6 @@ def export_schemas(api_path: Path, schemas_dir: Path, version: str, generated_at
         json.dump(schemas_index, f, indent=2, ensure_ascii=False)
 
     return len(schema_files)
-
-
-def entity_to_dict(entity: Any) -> dict:
-    """Convert a dataclass entity to a dictionary, handling nested dataclasses."""
-    if entity is None:
-        return None
-    if is_dataclass(entity) and not isinstance(entity, type):
-        result = {}
-        for field_name in entity.__dataclass_fields__:
-            value = getattr(entity, field_name)
-            if value is not None:
-                if is_dataclass(value) and not isinstance(value, type):
-                    result[field_name] = entity_to_dict(value)
-                elif isinstance(value, list):
-                    result[field_name] = [
-                        entity_to_dict(v) if is_dataclass(v) and not isinstance(v, type) else v
-                        for v in value
-                    ]
-                else:
-                    result[field_name] = value
-        return result
-    return entity
 
 
 def write_json(path: Path, data: dict):
