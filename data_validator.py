@@ -8,7 +8,9 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 
 from PIL import Image
-from jsonschema import validate, ValidationError as JsonSchemaValidationError, RefResolver, RefResolutionError
+from jsonschema import validate, ValidationError as JsonSchemaValidationError
+from referencing import Registry, Resource
+from referencing.exceptions import Unresolvable
 
 
 # -------------------------
@@ -161,18 +163,24 @@ class JsonValidator(BaseValidator):
             return result
 
         try:
-            # Build schema store for RefResolver to handle external $ref
-            schema_store = {
-                schema.get('$id', ''): schema  # Include the schema itself for local refs
-            }
+            # Build registry for referencing library to handle external $ref
+            resources = []
+
+            # Add main schema with its $id
+            schema_id = schema.get('$id', '')
+            if schema_id:
+                resources.append((schema_id, Resource.from_contents(schema)))
+
+            # Add material_types schema for cross-references
             material_types = self.schema_cache.get('material_types')
             if material_types:
-                schema_store['./material_types_schema.json'] = material_types
+                resources.append(('./material_types_schema.json', Resource.from_contents(material_types)))
+                mt_id = material_types.get('$id', '')
+                if mt_id:
+                    resources.append((mt_id, Resource.from_contents(material_types)))
 
-            # Use file:// URI as base to properly resolve local fragment references
-            base_uri = f"file://{Path('schemas').absolute()}/"
-            resolver = RefResolver(base_uri, schema, store=schema_store)
-            validate(data, schema, resolver=resolver)
+            registry = Registry().with_resources(resources)
+            validate(data, schema, registry=registry)
         except JsonSchemaValidationError as e:
             result.add_error(ValidationError(
                 level=ValidationLevel.ERROR,
@@ -180,7 +188,7 @@ class JsonValidator(BaseValidator):
                 message=f"Schema validation failed: {e.message} at {e.json_path}",
                 path=json_path
             ))
-        except RefResolutionError as e:
+        except Unresolvable as e:
             result.add_error(ValidationError(
                 level=ValidationLevel.ERROR,
                 category="JSON",
