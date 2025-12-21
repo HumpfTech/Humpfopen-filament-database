@@ -1,13 +1,13 @@
 {
-  "id": "polymaker",
-  "name": "PolyMaker",
-  "storefront_url": "https://us.polymaker.com/",
-  "storefront_affiliate_link": "https://us.polymaker.com?aff=1306&utm_source=affiliately&utm_campaign=aff",
-  "logo": "polymaker.png",
-  "ships_from": [
-    "US"
-  ],
-  "ships_to": [
-    "US"
-  ]
+    "id": "polymaker",
+    "name": "PolyMaker",
+    "storefront_url": "https://us.polymaker.com/",
+    "storefront_affiliate_link": "https://us.polymaker.com?aff=1306&utm_source=affiliately&utm_campaign=aff",
+    "logo": "logo.avif",
+    "ships_from": [
+        "US"
+    ],
+    "ships_to": [
+        "US"
+    ]
 }

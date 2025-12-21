@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 
 from PIL import Image
-from jsonschema import validate, ValidationError as JsonSchemaValidationError
+from jsonschema import validate, ValidationError as JsonSchemaValidationError, RefResolver, RefResolutionError
 
 
 # -------------------------
@@ -22,12 +22,13 @@ class ValidationLevel(Enum):
 
 ILLEGAL_CHARACTERS = [
     "#", "%", "&", "{", "}", "\\", "<", ">", "*", "?",
-    "/", "$", "!", "'", '"', ":", "@", "+", "`", "|", "="
+    "/", "$", "!", "'", '"', ":", "@", "`", "|", "="
 ]
 
 LOGO_MIN_SIZE = 100
 LOGO_MAX_SIZE = 400
-SNAKE_CASE_PATTERN = re.compile(r'^[a-z0-9]+(?:_[a-z0-9]+)*$')
+SNAKE_CASE_PATTERN = re.compile(r'^[a-z0-9+]+(?:_[a-z0-9+]+)*$')
+LOGO_NAME_PATTERN = re.compile(r'^logo\.(png|webp|jpg|svg|avif)$')
 
 
 # -------------------------
@@ -99,12 +100,13 @@ class SchemaCache:
     def __init__(self):
         self._schemas: Dict[str, Dict] = {}
         self._schema_paths = {
-            'store':    'schemas/store_schema.json',
-            'brand':    'schemas/brand_schema.json',
-            'material': 'schemas/material_schema.json',
-            'filament': 'schemas/filament_schema.json',
-            'variant':  'schemas/variant_schema.json',
-            'sizes':    'schemas/sizes_schema.json',
+            'store':          'schemas/store_schema.json',
+            'brand':          'schemas/brand_schema.json',
+            'material':       'schemas/material_schema.json',
+            'material_types': 'schemas/material_types_schema.json',
+            'filament':       'schemas/filament_schema.json',
+            'variant':        'schemas/variant_schema.json',
+            'sizes':          'schemas/sizes_schema.json',
         }
 
     def get(self, schema_name: str) -> Optional[Dict]:
@@ -159,12 +161,30 @@ class JsonValidator(BaseValidator):
             return result
 
         try:
-            validate(data, schema)
+            # Build schema store for RefResolver to handle external $ref
+            schema_store = {
+                schema.get('$id', ''): schema  # Include the schema itself for local refs
+            }
+            material_types = self.schema_cache.get('material_types')
+            if material_types:
+                schema_store['./material_types_schema.json'] = material_types
+
+            # Use file:// URI as base to properly resolve local fragment references
+            base_uri = f"file://{Path('schemas').absolute()}/"
+            resolver = RefResolver(base_uri, schema, store=schema_store)
+            validate(data, schema, resolver=resolver)
         except JsonSchemaValidationError as e:
             result.add_error(ValidationError(
                 level=ValidationLevel.ERROR,
                 category="JSON",
                 message=f"Schema validation failed: {e.message} at {e.json_path}",
+                path=json_path
+            ))
+        except RefResolutionError as e:
+            result.add_error(ValidationError(
+                level=ValidationLevel.ERROR,
+                category="JSON",
+                message=f"Schema reference error: {e}",
                 path=json_path
             ))
 
@@ -199,18 +219,16 @@ class LogoValidator(BaseValidator):
 
         # Validate naming convention
         name = logo_path.name
-        if not name.endswith('.svg'):
-            name_without_ext = logo_path.stem
-            if not SNAKE_CASE_PATTERN.fullmatch(name_without_ext):
-                result.add_error(ValidationError(
-                    level=ValidationLevel.ERROR,
-                    category="Logo",
-                    message=f"Logo name '{name}' must follow lowercase snake_case (e.g., sunlu.png or proteor_print.png)",
-                    path=logo_path
-                ))
+        if not LOGO_NAME_PATTERN.fullmatch(name):
+            result.add_error(ValidationError(
+                level=ValidationLevel.ERROR,
+                category="Logo",
+                message=f"Logo name '{name}' must be 'logo.png', 'logo.webp', 'logo.jpg', 'logo.svg', or 'logo.avif'",
+                path=logo_path
+            ))
 
-        # Validate dimensions for non-SVG files
-        if not name.endswith('.svg'):
+        # Validate dimensions for raster images (skip SVG and AVIF which need special handling)
+        if not name.endswith('.svg') and not name.endswith('.avif'):
             try:
                 with Image.open(logo_path) as img:
                     width, height = img.size
@@ -656,7 +674,7 @@ def collect_folder_validation_tasks(data_dir: Path, stores_dir: Path) -> List[
             task_type='folder',
             name=f"Brand Folder: {brand_dir.name}",
             path=brand_dir,
-            extra_data={'json_file': 'brand.json', 'json_key': 'brand'}
+            extra_data={'json_file': 'brand.json', 'json_key': 'id'}
         ))
 
         # Material folders
@@ -680,7 +698,7 @@ def collect_folder_validation_tasks(data_dir: Path, stores_dir: Path) -> List[
                     task_type='folder',
                     name=f"Filament Folder: {filament_dir.name}",
                     path=filament_dir,
-                    extra_data={'json_file': 'filament.json', 'json_key': 'name'}
+                    extra_data={'json_file': 'filament.json', 'json_key': 'id'}
                 ))
 
                 # Variant folders
@@ -693,7 +711,7 @@ def collect_folder_validation_tasks(data_dir: Path, stores_dir: Path) -> List[
                         name=f"Variant Folder: {variant_dir.name}",
                         path=variant_dir,
                         extra_data={'json_file': 'variant.json',
-                                    'json_key':  'color_name'}
+                                    'json_key':  'id'}
                     ))
 
     # Store folders

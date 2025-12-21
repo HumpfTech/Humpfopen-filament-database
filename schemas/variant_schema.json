@@ -3,10 +3,19 @@
     "definitions": {
         "string_limit": {
             "maxLength": 1000
+        },
+        "id": {
+            "maxLength": 1000,
+            "pattern": "^[a-z0-9+]+(_[a-z0-9+]+)*$"
         }
     },
     "properties": {
-        "color_name": {
+        "id": {
+            "type": "string",
+            "description": "The unique identifier for this variant",
+            "$ref": "#/definitions/id"
+        },
+        "name": {
             "type": "string",
             "description": "The manufacturer's name for this filament color",
             "$ref": "#/definitions/string_limit"
@@ -92,7 +101,8 @@
     },
     "additionalProperties": false,
     "required": [
-        "color_name",
+        "id",
+        "name",
         "color_hex"
     ]
 }

@@ -4,6 +4,10 @@
         "string_limit": {
             "maxLength": 1000
         },
+        "id": {
+            "maxLength": 1000,
+            "pattern": "^[a-z0-9+]+(_[a-z0-9+]+)*$"
+        },
         "specific_slicer_settings": {
             "type": "object",
             "properties": {
@@ -15,6 +19,11 @@
                 "overrides": {
                     "type": "object",
                     "description": "Key-value pairs for settings that should be overridden for this filament"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "The unique identifier for this slicer profile",
+                    "$ref": "#/definitions/id"
                 }
             },
             "required": [
@@ -63,6 +72,11 @@
         }
     },
     "properties": {
+        "id": {
+            "type": "string",
+            "description": "The unique identifier for this filament",
+            "$ref": "#/definitions/id"
+        },
         "name": {
             "type": "string",
             "description": "The manufacture's name for this filament",
@@ -117,6 +131,7 @@
     },
     "additionalProperties": false,
     "required": [
+        "id",
         "name",
         "density",
         "diameter_tolerance"

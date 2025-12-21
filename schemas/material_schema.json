@@ -1,20 +1,36 @@
 {
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "definitions": {
         "string_limit": {
             "maxLength": 1000
+        },
+        "material_type": {
+            "$ref": "./material_types_schema.json"
         },
         "specific_slicer_settings": {
             "type": "object",
             "properties": {
                 "profile_name": {
                     "type": "string",
-                    "description": "The name of the profile for this filament. If there is a profile specifically for this filament, that is what should be specified, even if it is printer specific. For slic3r variants, data after the '@' does not need to be included and will be removed when loading into python.",
-                    "$ref": "#/definitions/string_limit"
+                    "maxLength": 1000,
+                    "description": "The name of the profile for this filament."
                 },
                 "overrides": {
                     "type": "object",
                     "description": "Key-value pairs for settings that should be overridden for this filament"
+                },
+                "first_layer_bed_temp": {
+                    "type": "integer"
+                },
+                "first_layer_nozzle_temp": {
+                    "type": "integer"
+                },
+                "bed_temp": {
+                    "type": "integer"
+                },
+                "nozzle_temp": {
+                    "type": "integer"
                 }
             },
             "required": [
@@ -38,7 +54,7 @@
                 },
                 "generic": {
                     "type": "object",
-                    "description": "Generic options that will automatically be mapped to the correct config definition for each slicer. Slicer specific settings are applied first, then these are applied on top.",
+                    "description": "Generic options that will automatically be mapped to the correct config definition for each slicer.",
                     "properties": {
                         "first_layer_bed_temp": {
                             "type": "integer"
@@ -60,16 +76,14 @@
     },
     "properties": {
         "material": {
-            "type": "string",
             "description": "The material type of the filament",
-            "$ref": "#/definitions/string_limit"
+            "$ref": "#/definitions/material_type"
         },
         "default_max_dry_temperature": {
             "type": "integer"
         },
         "default_slicer_settings": {
-            "$ref": "#/definitions/slicer_settings",
-            "description": "The default slicer settings that should be used for this type of filament material. This will be used in any case where a filament does not specify its own \"slicer_settings\""
+            "$ref": "#/definitions/slicer_settings"
         }
     },
     "additionalProperties": false,
