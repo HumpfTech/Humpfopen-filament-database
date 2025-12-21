@@ -5,6 +5,7 @@
     "generic": {
       "first_layer_bed_temp": 45,
       "first_layer_nozzle_temp": 250,
+      "bed_temp": 10,
       "nozzle_temp": 250
     }
   }

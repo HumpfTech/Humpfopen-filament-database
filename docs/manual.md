@@ -26,7 +26,7 @@ data/
 
 ### 🏷️ Adding a Brand
 
-- Go to the `brands/` directory and create a new folder for your brand.
+- Go to the `data/` directory and create a new folder for your brand.
 - Add the logo of your brand, it should:
   - Max be 400x400, unless it's an svg.
   - Named with lowercase snakecase.
@@ -89,3 +89,21 @@ Each filament represents a product line (e.g., "Silk PLA", "Tough PLA", etc.), *
       - A store id, mostly this'll be a string that refers to a store inside `/stores` directory.
       - A url to the shop page, preferably this'll be the exact variant but the general filament page works in a pinch.
       - Whether or not it is an affiliate link.
+
+### 🏪 Adding a Store
+Stores are referenced in purchase links and live in the `/stores` directory.
+
+- Create a new folder in `/stores` named after your store (use lowercase with underscores for the folder name, e.g., `my_store`).
+- Add the store logo, it should:
+  - Max be 400x400, unless it's an svg.
+  - Named with lowercase snakecase (e.g. "my_store.png").
+- Create a `store.json` file. It should include:
+  - `id` - The store identifier (should match the folder name)
+  - `name` - The display name of the store
+  - `storefront_url` - The URL to the store's homepage
+  - `logo` - The filename of the logo image
+  - `ships_from` - An array of locations the store ships from (can be empty)
+  - `ships_to` - An array of locations the store ships to (can be empty)
+  - Optionally: `storefront_affiliate_link` - An affiliate link to the storefront
+
+For more details, refer to the schema in `schemas/store_schema.json`.

@@ -1,6 +1,6 @@
 # Validation of your files
 To make sure all your files are correct we need to run some code on them to check, for this you need python which if you haven't installed yet [can be found how to here](installing-software.md#python).
-After you've got python installed you can go back to the open-filament-database folder, assuming just used the WebUI by writting
+After you've got python installed you can go back to the open-filament-database folder, assuming just used the WebUI, by writting
 ```bash
 cd ..
 ```

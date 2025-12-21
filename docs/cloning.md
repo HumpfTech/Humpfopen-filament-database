@@ -12,15 +12,18 @@ git clone https://github.com/YOUR_USERNAME/open-filament-database.git
 ```
 press enter and let it run, when it allows you to write again you then enter the following two lines, first one will be speedy.
 
-**Remember to replace YOUR_BRANCHNAME with what your request provides**
-E.g. adding a new red variant to the plain pla of Elegoo would be "RedPlaElegoo
+**Remember to replace YOUR_BRANCHNAME with a descriptive name for your changes.**
+Use lowercase with hyphens, for example:
+- Adding a new red variant to Elegoo's PLA: `add-elegoo-red-pla`
+- Updating Bambu Lab PETG prices: `update-bambulab-petg-prices`
+- Adding a new brand: `add-sunlu-brand`
 
 ```bash
 cd open-filament-database
 git checkout -b YOUR_BRANCHNAME
 ```
 
-Leave open the window and go back follow the rest of the guide
+Leave the window open and continue with [Step 5 in the README](../README.md#5-make-your-changes) to make your changes.
 
 ## Cloning on Linux and MacOS
 Simply open you terminal and run the following to clone your repository and create a branch for your changes
@@ -30,4 +33,4 @@ cd open-filament-database
 git checkout -b YOUR_BRANCHNAME
 ```
 
-Leave open the terminal and go back follow the rest of the guide
+Leave the terminal open and continue with [Step 5 in the README](../README.md#5-make-your-changes) to make your changes.

@@ -24,3 +24,11 @@ Click the "Create pull request" button
 ![](img/pullRequesting08.png)
 And then you just fill it out with whatever info you think we need and wait for someone to come merge it, or be ready for some feedback \:D
 ![](img/pullRequesting02.png)
+
+### Using PR Templates
+When creating a pull request, you can use one of our templates to help structure your submission:
+
+- **Data Addition** - Use this when adding new brands, materials, filaments, variants, or stores. It includes checklists for validation and data quality.
+- **WebUI Changes** - Use this when making changes to the web interface code.
+
+To use a template, look for the "Choose a template" option when creating your PR, or you can find them in the `.github/PULL_REQUEST_TEMPLATE/` folder.

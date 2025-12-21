@@ -22,6 +22,13 @@
       </div>
     {/if}
 
+    {#if size.gtin}
+      <div class="flex justify-between items-center">
+        <span class="font-medium text-gray-700 dark:text-gray-300">GTIN:</span>
+        <span class="font-mono text-sm">{size.gtin}</span>
+      </div>
+    {/if}
+
     {#if size.ean}
       <div class="flex justify-between items-center">
         <span class="font-medium text-gray-700 dark:text-gray-300">EAN:</span>

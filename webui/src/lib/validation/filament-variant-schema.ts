@@ -19,6 +19,7 @@ export const filamentSizeSchema = z.object({
   diameter: z.number(),
   empty_spool_weight: z.number().nullable().optional(),
   spool_core_diameter: z.number().nullable().optional(),
+  gtin: z.string().max(1000).optional(),
   ean: z.string().optional(),
   article_number: z.string().optional(),
   discontinued: z.boolean().default(false),

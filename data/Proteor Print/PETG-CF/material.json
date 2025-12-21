@@ -4,9 +4,9 @@
   "default_slicer_settings": {
     "generic": {
       "first_layer_bed_temp": 90,
-      "first_layer_nozzle_temp": 240,
+      "first_layer_nozzle_temp": 250,
       "bed_temp": 90,
-      "nozzle_temp": 240
+      "nozzle_temp": 250
     }
   }
 }
