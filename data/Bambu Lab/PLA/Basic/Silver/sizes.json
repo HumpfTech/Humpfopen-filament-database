@@ -18,13 +18,13 @@
   {
     "filament_weight": 1000,
     "diameter": 1.75,
-    "ean": "921032457960",
     "purchase_links": [
       {
         "store_id": "3deksperten",
         "url": "https://3deksperten.dk/products/bambu-lab-pla-basic-silver-1-75mm-1kg-refill",
         "spool_refill": true
       }
-    ]
+    ],
+    "gtin": "921032457960"
   }
 ]
