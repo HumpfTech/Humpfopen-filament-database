@@ -1,0 +1,10 @@
+{
+  "id": "ProteorPrint",
+  "name": "Proteor Print",
+  "storefront_url": "https://www.proteordigital.com/category/all-products",
+  "logo": "proteor_print.png",
+  "ships_from": [
+    "US"
+  ],
+  "ships_to": []
+}
