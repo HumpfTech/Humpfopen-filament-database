@@ -14,7 +14,8 @@
                 "profile_name": {
                     "type": "string",
                     "maxLength": 1000,
-                    "description": "The name of the profile for this filament."
+                    "description": "The name of the profile for this filament. If there is a profile specifically for this filament, that is what should be specified, even if it is printer specific. For slic3r variants, data after the '@' does not need to be included and will be removed when loading into python.",
+                    "$ref": "#/definitions/string_limit"
                 },
                 "overrides": {
                     "type": "object",
@@ -54,7 +55,7 @@
                 },
                 "generic": {
                     "type": "object",
-                    "description": "Generic options that will automatically be mapped to the correct config definition for each slicer.",
+                    "description": "Generic options that will automatically be mapped to the correct config definition for each slicer. Slicer specific settings are applied first, then these are applied on top",
                     "properties": {
                         "first_layer_bed_temp": {
                             "type": "integer"
@@ -83,7 +84,8 @@
             "type": "integer"
         },
         "default_slicer_settings": {
-            "$ref": "#/definitions/slicer_settings"
+            "$ref": "#/definitions/slicer_settings",
+            "description": "The default slicer settings that should be used for this type of filament material. This will be used in any case where a filament does not specify its own \"slicer_settings\""
         }
     },
     "additionalProperties": false,
