@@ -128,7 +128,7 @@ jobs:
             ### Static API
 
             The full dataset is deployed at:
-            `https://${{ github.repository_owner }}.github.io/${{ replace(github.repository, github.repository_owner + '/', '') }}/
+            `https://${{ github.repository_owner }}.github.io/${{ replace(github.repository, github.repository_owner + '/', '') }}/`
 
             ### Endpoints
 
