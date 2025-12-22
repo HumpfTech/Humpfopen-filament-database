@@ -346,7 +346,7 @@ class DataCrawler:
             self._result.add_warning("Missing Field", f"Size entry [{index}] missing filament_weight", sizes_json)
             return
 
-        size_id = generate_size_id(variant_id, int(weight), float(diameter), index)
+        size_id = generate_size_id(variant_id, size_entry, index)
 
         size = Size(
             id=size_id,

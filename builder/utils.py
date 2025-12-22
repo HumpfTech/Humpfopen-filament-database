@@ -173,15 +173,27 @@ def generate_variant_id(filament_id: str, color_name: str) -> str:
     return str(_derive_uuid(NAMESPACE_VARIANT, filament_uuid, color_name))
 
 
-def generate_size_id(variant_id: str, weight: int, diameter: float, index: int = 0) -> str:
+def generate_size_id(variant_id: str, size_entry: dict, index: int = 0) -> str:
     """
     Generate a stable ID for a size.
 
-    Formula: NAMESPACE_SIZE + variant_uuid (bytes) + weight (decimal string) + diameter (decimal string) + index (decimal string)
+    Formula: NAMESPACE_SIZE + variant_uuid (bytes) + gtin/ean OR (weight + diameter + index)
     """
+    weight = size_entry.get("filament_weight")
+    diameter = size_entry.get("diameter", 1.75)
+
     variant_uuid = uuid.UUID(variant_id)
-    # Numbers are encoded as decimal strings per the spec
-    return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, str(weight), str(diameter), str(index)))
+
+    # Use gtin or ean if available for stable IDs
+    if gtin := size_entry.get("gtin"):
+        return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, gtin))
+
+    if ean := size_entry.get("ean"):
+        return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, ean))
+
+    # Fallback: use weight + diameter + index for uniqueness
+    id_str = f"{weight}_{diameter}_{index}"
+    return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, id_str))
 
 
 def generate_store_id(store_slug: str) -> str:
