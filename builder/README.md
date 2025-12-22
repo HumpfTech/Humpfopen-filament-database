@@ -9,7 +9,7 @@ This is the build system that transforms the human-readable filament database in
 python -m builder.build
 
 # Or with options
-python -m builder.build --version 2025.11.0 --output-dir dist
+python -m builder.build --version 2025.12.0 --output-dir dist
 ```
 
 ## Output Formats
@@ -27,125 +27,53 @@ The builder generates the following formats in the `dist/` directory:
 
 ### 2. SQLite (`dist/sqlite/`)
 
-- **`open_filament_db_v1.sqlite`** - Relational database
-- **`open_filament_db_v1.sqlite.xz`** - XZ compressed version
+- **`filaments.db`** - Relational database
+- **`filaments.db.xz`** - XZ compressed version
 
 The SQLite database includes:
 - Full relational schema with foreign keys
 - Indexes for common queries
-- Pre-built views: `v_full_spool`, `v_spool_offers`
+- Pre-built views: `v_full_variant`, `v_full_size`, `v_purchase_offers`
 
 ### 3. CSV (`dist/csv/`)
 
 - `brands.csv`
-- `material_families.csv`
-- `products.csv`
+- `materials.csv`
+- `filaments.csv`
 - `variants.csv`
-- `spools.csv`
+- `sizes.csv`
 - `stores.csv`
-- `offers.csv`
-- `documents.csv`
-- `full_spools.csv` - Denormalized view
+- `purchase_links.csv`
 
 ### 4. Static API (`dist/api/v1/`)
 
-A GitHub Pages-friendly split API:
+A GitHub Pages-friendly hierarchical API structure:
 
 ```
 api/v1/
-├── index.json          # Root with stats and endpoints
-├── routes.json         # API route definitions
+├── index.json                    # Root with stats and endpoints
 ├── brands/
-│   ├── index.json      # All brands
-│   └── {slug}.json     # Individual brand + products
-├── materials/
-│   ├── index.json      # All materials
-│   └── {code}.json     # Products by material
-├── products/
-│   ├── index.json      # All products
-│   └── {id}.json       # Product with variants
+│   ├── index.json                # All brands with paths
+│   └── {brand-slug}/
+│       ├── index.json            # Brand details + materials list
+│       └── materials/
+│           └── {material-slug}/
+│               ├── index.json    # Material details + filaments list
+│               └── filaments/
+│                   └── {filament-slug}/
+│                       ├── index.json           # Filament details + variants list
+│                       └── variants/
+│                           └── {variant-slug}.json  # Variant + sizes + purchase links
 ├── stores/
-│   ├── index.json      # All stores
-│   └── {slug}.json     # Store with offers
- └── search/
-    └── autocomplete.json  # Search index
+│   ├── index.json                # All stores
+│   └── {store-slug}.json         # Individual store details
+└── schemas/
+    ├── index.json                # Schema listing
+    └── *.json                    # JSON Schema files
 ```
 
-Additional endpoints implemented for navigation and discovery:
-
-```
-spools/
-├── index.json               # Sitemap of all spools (references only)
-└── {id}.json                # Individual spool with full data + offers
-materials/
-└── {code}-spools.json       # Sitemap of spools for a material (references only)
-brands/
-└── {brand}-spools.json      # Sitemap of spools for a brand (references only)
-catalog/
-├── index.json               # Catalog entry point (lists brands)
-└── {brand}/
-    ├── index.json           # Brand → available material types for this brand
-    └── {material}/
-        ├── index.json       # Material → branded products (aka product lines) under this brand/material
-        └── {product}/
-            ├── index.json   # Product → color variants list
-            └── {variant}.json  # Variant page with spool references (paths to /spools/{id}.json)
-```
-
-Catalog hierarchy mirrors SimplyPrint schema:
-- Brand
-  - Material types (e.g., PLA)
-    - Branded materials under the type (products like "PLA Basic", "PLA Matte")
-      - Colors (variants)
-        - Spool references (with paths to `/spools/{id}.json` for full data including offers)
-
-### API Reference Format
-
-The API uses a normalized reference format to reduce redundancy and file sizes. Instead of embedding full objects, related entities are referenced using ID + name + slug fields:
-
-| Entity | Reference Fields |
-|--------|-----------------|
-| Brand | `brand_id`, `brand_name`, `brand_slug` |
-| Material | `material_id`, `material_code`, `material_name` |
-| Product | `product_id`, `product_name`, `product_slug` |
-| Variant | `variant_id`, `variant_name`, `variant_slug` |
-| Store | `store_id`, `store_name`, `store_slug`, `storefront_url` |
-| Spool | `spool_id`, `spool_weight_g`, `spool_diameter_mm` |
-
-**Sitemap-style Index Files:**
-
-All `index.json` files serve as sitemaps - they contain lightweight references with `path` fields pointing to individual data files. This keeps index files small and allows clients to fetch only the data they need.
-
-**Example - Spool reference in product variants:**
-```json
-{
-  "spool_id": "spool-abc123",
-  "spool_weight_g": 1000,
-  "spool_diameter_mm": 1.75,
-  "sku": "PLA-BLK-1KG",
-  "gtin": "1234567890123",
-  "path": "../../spools/spool-abc123.json"
-}
-```
-
-**Example - Product in materials endpoint:**
-```json
-{
-  "id": "product-123",
-  "name": "PLA Basic",
-  "slug": "pla-basic",
-  "brand_id": "brand-456",
-  "brand_name": "Prusament",
-  "brand_slug": "prusament"
-}
-```
-
-Full entity data is available at dedicated endpoints:
-- `/brands/{slug}.json` - Full brand details
-- `/materials/{code}.json` - Full material details
-- `/products/{id}.json` - Full product details with variant references
-- `/stores/{slug}.json` - Full store details
-- `/spools/{id}.json` - Full spool details with offers (the canonical source for spool data)
+The API follows the native data directory hierarchy:
+- Brand → Material → Filament → Variant → Sizes (with purchase links)
 
 ## Command Line Options
 
@@ -157,7 +85,6 @@ Options:
   --data-dir, -d DIR      Data directory (default: data)
   --stores-dir, -s DIR    Stores directory (default: stores)
   --version, -v VERSION   Dataset version (default: auto-generated)
-  --base-url, -b URL      Base URL for static API
   --skip-json             Skip JSON export
   --skip-sqlite           Skip SQLite export
   --skip-csv              Skip CSV export
@@ -173,13 +100,13 @@ from builder import crawl_data, export_json, export_sqlite, export_csv, export_a
 db = crawl_data("data", "stores")
 
 # Export to various formats
-version = "2025.11.0"
-generated_at = "2025-11-27T12:00:00Z"
+version = "2025.12.0"
+generated_at = "2025-12-22T12:00:00Z"
 
 export_json(db, "dist", version, generated_at)
 export_sqlite(db, "dist", version, generated_at)
 export_csv(db, "dist", version, generated_at)
-export_api(db, "dist", version, generated_at, base_url="https://example.com/api/v1")
+export_api(db, "dist", version, generated_at, schemas_dir="schemas")
 ```
 
 ## Data Model
@@ -189,25 +116,20 @@ export_api(db, "dist", version, generated_at, base_url="https://example.com/api/
 | Entity | Description |
 |--------|-------------|
 | `Brand` | Filament manufacturer (e.g., Prusament, Polymaker) |
-| `MaterialFamily` | Material type (PLA, PETG, ABS, etc.) |
-| `Product` | Product line (e.g., "Prusament PLA") |
+| `Material` | Material type at brand level (PLA, PETG, ABS, etc.) |
+| `Filament` | Product line (e.g., "Prusament PLA") |
 | `Variant` | Color/finish variant (e.g., "Galaxy Black") |
-| `Spool` | Specific SKU (e.g., 1kg spool, 1.75mm) |
+| `Size` | Specific SKU (e.g., 1kg spool, 1.75mm diameter) |
 | `Store` | Retail store |
-| `Offer` | Price listing at a store |
-| `Document` | TDS/SDS documents |
-| `Tag` | Categorization tags |
+| `PurchaseLink` | Link to buy a specific size at a store |
 
 ### Relationships
 
 ```
-Brand (1) ←── (N) Product (1) ←── (N) Variant (1) ←── (N) Spool
-                     │                                      │
-                     ↓                                      ↓
-              MaterialFamily                         Offer ──→ Store
-                     │
-                     ↓
-                 Document
+Brand (1) ←── (N) Material (1) ←── (N) Filament (1) ←── (N) Variant (1) ←── (N) Size
+                                                                                  │
+                                                                                  ↓
+                                                                         PurchaseLink ──→ Store
 ```
 
 ## Directory Structure
@@ -219,6 +141,7 @@ builder/
 ├── models.py             # Data models (dataclasses)
 ├── utils.py              # Utility functions
 ├── crawler.py            # Data directory crawler
+├── serialization.py      # Entity serialization
 ├── exporters/
 │   ├── __init__.py
 │   ├── json_exporter.py  # JSON/NDJSON export
@@ -233,17 +156,24 @@ builder/
 ### SQLite
 
 ```sql
--- Find all PLA products
-SELECT b.name AS brand, p.name AS product, v.color_name
-FROM product p
-JOIN brand b ON b.id = p.brand_id
-JOIN material_family mf ON mf.id = p.material_family_id
-JOIN variant v ON v.id = (SELECT id FROM variant WHERE product_id = p.id LIMIT 1)
-WHERE mf.code = 'PLA'
-ORDER BY b.name, p.name;
+-- Find all PLA filaments
+SELECT b.name AS brand, f.name AS filament, v.color_name
+FROM filament f
+JOIN brand b ON b.id = f.brand_id
+JOIN material m ON m.id = f.material_id
+JOIN variant v ON v.filament_id = f.id
+WHERE m.material = 'PLA'
+ORDER BY b.name, f.name;
 
 -- Using the pre-built view
-SELECT * FROM v_full_spool WHERE material_code = 'PETG';
+SELECT * FROM v_full_size WHERE material = 'PETG' LIMIT 10;
+
+-- Count filaments per brand
+SELECT b.name, COUNT(f.id) as filaments
+FROM brand b
+LEFT JOIN filament f ON f.brand_id = b.id
+GROUP BY b.id
+ORDER BY filaments DESC;
 ```
 
 ### Python (with JSON)
@@ -254,24 +184,24 @@ import json
 with open('dist/json/all.json') as f:
     data = json.load(f)
 
-# Find all Prusament products
+# Find all Prusament filaments
 prusament = next(b for b in data['brands'] if b['name'] == 'Prusament')
-products = [p for p in data['products'] if p['brand_id'] == prusament['id']]
-print(f"Prusament has {len(products)} products")
+filaments = [f for f in data['filaments'] if f['brand_id'] == prusament['id']]
+print(f"Prusament has {len(filaments)} filaments")
 ```
 
 ### JavaScript (with Static API)
 
 ```javascript
 // Fetch brand list
-const brands = await fetch('https://example.com/api/v1/brands/index.json')
+const brandsRes = await fetch('https://example.com/api/v1/brands/index.json');
+const { brands } = await brandsRes.json();
+
+// Fetch specific brand with materials
+const prusament = await fetch('https://example.com/api/v1/brands/prusament/index.json')
   .then(r => r.json());
 
-// Fetch specific brand
-const prusament = await fetch('https://example.com/api/v1/brands/prusament.json')
-  .then(r => r.json());
-
-console.log(prusament.products.length);
+console.log(`Prusament has ${prusament.materials.length} material types`);
 ```
 
 ## CI/CD

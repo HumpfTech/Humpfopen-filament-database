@@ -5,10 +5,9 @@ Main build script for the Open Filament Database.
 This script crawls the data directory, normalizes all entities,
 and exports them to multiple formats:
 - JSON (all.json, all.ndjson, per-brand)
-- SQLite database
+- SQLite database (filaments.db)
 - CSV files
 - Static API (for GitHub Pages)
-- OpenAPI schema
 
 Usage:
     python -m builder.build [options]
@@ -22,7 +21,6 @@ Options:
     --skip-sqlite       Skip SQLite export
     --skip-csv          Skip CSV export
     --skip-api          Skip static API export
-    --skip-openapi      Skip OpenAPI schema export
 """
 
 import argparse
