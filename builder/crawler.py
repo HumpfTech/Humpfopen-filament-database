@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
+from .errors import BuildResult
 from .models import (
     Brand, Material, Filament, Variant, Size, Store, PurchaseLink, Database,
     SlicerSettings, GenericSlicerSettings, AllSlicerSettings, SlicerIds,
@@ -25,14 +26,15 @@ class DataCrawler:
         self.data_dir = Path(data_dir)
         self.stores_dir = Path(stores_dir)
         self.db = Database()
+        self._result = BuildResult()
 
         # Caches for deduplication
         self._brand_cache: dict[str, str] = {}  # name -> id
         self._material_cache: dict[str, str] = {}  # brand_id:material -> id
         self._store_cache: dict[str, str] = {}  # original_id -> uuid
 
-    def crawl(self) -> Database:
-        """Crawl all data and return the populated database."""
+    def crawl(self) -> tuple[Database, BuildResult]:
+        """Crawl all data and return the populated database and any errors."""
         print("Starting data crawl...")
 
         # Crawl stores first (so we can validate purchase links)
@@ -51,12 +53,12 @@ class DataCrawler:
         print(f"  Stores: {len(self.db.stores)}")
         print(f"  Purchase Links: {len(self.db.purchase_links)}")
 
-        return self.db
+        return self.db, self._result
 
     def _crawl_stores_directory(self):
         """Crawl the stores/ directory."""
         if not self.stores_dir.exists():
-            print(f"Warning: Stores directory {self.stores_dir} does not exist")
+            self._result.add_warning("Directory", "Stores directory does not exist", self.stores_dir)
             return
 
         for store_dir in sorted(self.stores_dir.iterdir()):
@@ -77,13 +79,13 @@ class DataCrawler:
             with open(store_json, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except (json.JSONDecodeError, IOError) as e:
-            print(f"Warning: Failed to parse {store_json}: {e}")
+            self._result.add_warning("JSON Parse", f"Failed to parse: {e}", store_json)
             return
 
         # Get the original ID from the JSON (required field)
         original_id = data.get("id")
         if not original_id:
-            print(f"Warning: Store {store_dir.name} missing 'id' field")
+            self._result.add_warning("Missing Field", "Store missing 'id' field", store_json)
             return
 
         store_id = generate_store_id(original_id)
@@ -108,7 +110,7 @@ class DataCrawler:
     def _crawl_data_directory(self):
         """Crawl the data/ directory for brands, products, variants."""
         if not self.data_dir.exists():
-            print(f"Warning: Data directory {self.data_dir} does not exist")
+            self._result.add_warning("Directory", "Data directory does not exist", self.data_dir)
             return
 
         # Each subdirectory of data/ is a brand
@@ -127,14 +129,14 @@ class DataCrawler:
         # Load brand.json
         brand_json = brand_dir / "brand.json"
         if not brand_json.exists():
-            print(f"Warning: Brand {brand_name} missing brand.json")
+            self._result.add_warning("Missing File", "Missing brand.json", brand_dir)
             return
 
         try:
             with open(brand_json, 'r', encoding='utf-8') as f:
                 brand_data = json.load(f)
         except (json.JSONDecodeError, IOError) as e:
-            print(f"Warning: Failed to parse {brand_json}: {e}")
+            self._result.add_warning("JSON Parse", f"Failed to parse: {e}", brand_json)
             return
 
         # Create brand
@@ -173,7 +175,7 @@ class DataCrawler:
                 with open(material_json, 'r', encoding='utf-8') as f:
                     material_data = json.load(f)
             except (json.JSONDecodeError, IOError) as e:
-                print(f"Warning: Failed to parse {material_json}: {e}")
+                self._result.add_warning("JSON Parse", f"Failed to parse: {e}", material_json)
 
         # Create material
         material_id = generate_material_id(brand_id, material_name)
@@ -213,14 +215,14 @@ class DataCrawler:
         # Load filament.json
         filament_json = filament_dir / "filament.json"
         if not filament_json.exists():
-            print(f"Warning: Filament {filament_dir} missing filament.json")
+            self._result.add_warning("Missing File", "Missing filament.json", filament_dir)
             return
 
         try:
             with open(filament_json, 'r', encoding='utf-8') as f:
                 filament_data = json.load(f)
         except (json.JSONDecodeError, IOError) as e:
-            print(f"Warning: Failed to parse {filament_json}: {e}")
+            self._result.add_warning("JSON Parse", f"Failed to parse: {e}", filament_json)
             return
 
         # Generate filament ID using OFD standard algorithm
@@ -264,14 +266,14 @@ class DataCrawler:
         # Load variant.json
         variant_json = variant_dir / "variant.json"
         if not variant_json.exists():
-            print(f"Warning: Variant {variant_dir} missing variant.json")
+            self._result.add_warning("Missing File", "Missing variant.json", variant_dir)
             return
 
         try:
             with open(variant_json, 'r', encoding='utf-8') as f:
                 variant_data = json.load(f)
         except (json.JSONDecodeError, IOError) as e:
-            print(f"Warning: Failed to parse {variant_json}: {e}")
+            self._result.add_warning("JSON Parse", f"Failed to parse: {e}", variant_json)
             return
 
         # Get color name first (needed for ID generation)
@@ -323,16 +325,16 @@ class DataCrawler:
             with open(sizes_json, 'r', encoding='utf-8') as f:
                 sizes_data = json.load(f)
         except (json.JSONDecodeError, IOError) as e:
-            print(f"Warning: Failed to parse {sizes_json}: {e}")
+            self._result.add_warning("JSON Parse", f"Failed to parse: {e}", sizes_json)
             return
 
         if not isinstance(sizes_data, list):
             sizes_data = [sizes_data]
 
         for idx, size_entry in enumerate(sizes_data):
-            self._create_size(size_entry, variant_id, idx)
+            self._create_size(size_entry, variant_id, idx, sizes_json)
 
-    def _create_size(self, size_entry: dict, variant_id: str, index: int):
+    def _create_size(self, size_entry: dict, variant_id: str, index: int, sizes_json: Path):
         """Create a size entity from a sizes.json entry."""
         weight = size_entry.get("filament_weight")
         diameter = size_entry.get("diameter", 1.75)
@@ -341,7 +343,7 @@ class DataCrawler:
             diameter = 1.75
 
         if weight is None:
-            print(f"Warning: Size entry missing filament_weight")
+            self._result.add_warning("Missing Field", f"Size entry [{index}] missing filament_weight", sizes_json)
             return
 
         size_id = generate_size_id(variant_id, int(weight), float(diameter), index)
@@ -366,21 +368,29 @@ class DataCrawler:
         # Process purchase links
         purchase_links = size_entry.get("purchase_links", [])
         for pl_idx, pl_entry in enumerate(purchase_links):
-            self._create_purchase_link(pl_entry, size_id, pl_idx)
+            self._create_purchase_link(pl_entry, size_id, index, pl_idx, sizes_json)
 
-    def _create_purchase_link(self, pl_entry: dict, size_id: str, index: int):
+    def _create_purchase_link(self, pl_entry: dict, size_id: str, size_index: int, link_index: int, sizes_json: Path):
         """Create a purchase link entity."""
         original_store_id = pl_entry.get("store_id")
         url = pl_entry.get("url")
 
         if not original_store_id or not url:
-            print(f"Warning: Purchase link missing store_id or url")
+            self._result.add_warning(
+                "Missing Field",
+                f"Purchase link [{size_index}].purchase_links[{link_index}] missing store_id or url",
+                sizes_json
+            )
             return
 
         # Look up the store UUID from the original ID
         store_uuid = self._store_cache.get(original_store_id)
         if not store_uuid:
-            print(f"Warning: Unknown store_id '{original_store_id}'")
+            self._result.add_warning(
+                "Invalid Reference",
+                f"Unknown store_id '{original_store_id}' at [{size_index}].purchase_links[{link_index}]",
+                sizes_json
+            )
             return
 
         pl_id = generate_purchase_link_id(size_id, store_uuid, url)
@@ -480,7 +490,7 @@ class DataCrawler:
         )
 
 
-def crawl_data(data_dir: str, stores_dir: str) -> Database:
-    """Main entry point to crawl data and return populated database."""
+def crawl_data(data_dir: str, stores_dir: str) -> tuple[Database, BuildResult]:
+    """Main entry point to crawl data and return populated database and errors."""
     crawler = DataCrawler(data_dir, stores_dir)
     return crawler.crawl()

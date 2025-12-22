@@ -34,6 +34,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from builder.crawler import crawl_data
+from builder.errors import BuildResult
 from builder.exporters import export_json, export_sqlite, export_csv, export_api
 from builder.utils import get_current_timestamp
 
@@ -158,9 +159,13 @@ def main():
     # Create output directory
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Initialize build result to collect all errors
+    build_result = BuildResult()
+
     # Step 1: Crawl data
     print("\n[1/5] Crawling data...")
-    db = crawl_data(str(data_dir), str(stores_dir))
+    db, crawl_result = crawl_data(str(data_dir), str(stores_dir))
+    build_result.merge(crawl_result)
 
     # Step 2: Export JSON
     if not args.skip_json:
@@ -195,13 +200,20 @@ def main():
     checksums = calculate_checksums(str(output_dir))
     write_manifest(str(output_dir), version, generated_at, checksums)
 
+    # Print any errors/warnings collected during build
+    build_result.print_summary()
+
     print("\n" + "=" * 60)
     print("Build complete!")
     print("=" * 60)
     print(f"\nOutput files are in: {output_dir}")
     print(f"Total artifacts: {len(checksums)}")
 
-    return 0
+    if build_result.errors:
+        print(f"\nBuild issues: {build_result.error_count} errors, {build_result.warning_count} warnings")
+
+    # Return non-zero exit code if there were errors
+    return 1 if build_result.has_errors else 0
 
 
 if __name__ == '__main__':
