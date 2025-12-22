@@ -15,9 +15,11 @@ from typing import Optional, Union
 
 
 # =============================================================================
-# UUID Namespaces (from OFD specification)
+# UUID Namespaces (from OPT specification)
 # =============================================================================
 
+# Core spec
+# https://specs.openprinttag.org/#/nfc_data_format?id=_321-uuid-derivation-algorithm
 # Standard namespaces for UUID derivation
 NAMESPACE_BRAND = uuid.UUID("5269dfb7-1559-440a-85be-aba5f3eff2d2")
 NAMESPACE_MATERIAL = uuid.UUID("616fc86d-7d99-4953-96c7-46d2836b9be9")

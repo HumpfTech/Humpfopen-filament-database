@@ -41,7 +41,7 @@ from builder.utils import get_current_timestamp
 def generate_version() -> str:
     """Generate a version string based on current date."""
     now = datetime.now(timezone.utc)
-    return f"{now.year}.{now.month}.0"
+    return now.strftime("%Y.%m.%d")
 
 
 def calculate_checksums(output_dir: str) -> dict:

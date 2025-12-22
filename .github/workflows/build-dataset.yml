@@ -128,18 +128,14 @@ jobs:
             ### Static API
 
             The full dataset is deployed at:
-            `https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/`
+            `https://${{ github.repository_owner }}.github.io/${{ replace(github.repository, github.repository_owner + '/', '') }}/
 
             ### Endpoints
 
-            - `/api/v1/index.json` - API root with stats and endpoints
-            - `/api/v1/brands/index.json` - List of all brands
-            - `/api/v1/brands/{slug}.json` - Individual brand with products
-            - `/api/v1/materials/index.json` - List of material families
-            - `/api/v1/products/index.json` - List of all products
-            - `/api/v1/products/{id}.json` - Individual product with variants
+            - `/api/v1/brands/{slug}.json` - Individual brand with filaments
             - `/api/v1/stores/index.json` - List of stores
-            - `/api/v1/search/autocomplete.json` - Search index
+            - `/api/v1/schemas/index.json` - List of available JSON schemas
+            - `/api/v1/schemas/{name}.json` - Individual JSON schema
 
             ### Direct Downloads
 
