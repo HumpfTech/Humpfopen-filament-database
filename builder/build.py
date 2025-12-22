@@ -205,7 +205,7 @@ def main():
     # Step 6: Export HTML landing page
     if not args.skip_html:
         print("\n[6/6] Exporting HTML landing page...")
-        export_html(db, str(output_dir), version, generated_at)
+        export_html(db, str(output_dir), version, generated_at, Path(__file__).parent.resolve().joinpath("templates"))
     else:
         print("\n[6/6] Skipping HTML export")
 
