@@ -161,7 +161,7 @@ function transformVariant(variantData: z.infer<typeof filamentVariantSchema>): v
   }
   
   // Add any additional fields you want in variant.json
-  if (variantData.discontinued) tempData.discontinued = tempData.discontinued;
+  if (variantData.discontinued) tempData.discontinued = variantData.discontinued;
 
   return {
     variant: tempData,
@@ -191,8 +191,6 @@ function transformSizes(sizeData: z.infer<typeof filamentSizesSchema>) {
 
       Array.from(value.purchase_links).forEach((link, index) => {
         let tempLink = structuredClone(link);
-
-        tempLink.affiliate = link?.affiliate ? link.affiliate : false;
 
         tempLinks[index] = tempLink;
       });

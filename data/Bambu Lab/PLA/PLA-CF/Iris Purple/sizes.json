@@ -5,8 +5,7 @@
     "purchase_links": [
       {
         "store_id": "BBLStore",
-        "url": "https://us.store.bambulab.com/collections/pla/products/pla-cf?variant=41286543245448",
-        "affiliate": false
+        "url": "https://us.store.bambulab.com/collections/pla/products/pla-cf?variant=41286543245448"
       }
     ],
     "gtin": "921115333082"

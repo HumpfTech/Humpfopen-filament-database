@@ -1,3 +1,6 @@
+<img align="left" width="80" height="80" src="docs/img/logo.png">
+<img src="https://github.com/OpenFilamentCollective/open-filament-database/actions/workflows/validate_data.yaml/badge.svg"> 
+
 # Open Filament Database
 The Open Filament Database, hosted by the new "Open Filament Collective" group, currently facilitated by SimplyPrint.
 
