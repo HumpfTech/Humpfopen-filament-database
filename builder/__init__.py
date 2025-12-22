@@ -16,7 +16,7 @@ Or programmatically:
     from builder.crawler import crawl_data
     from builder.exporters import export_json, export_sqlite, export_csv, export_api
 
-    db = crawl_data("data", "stores")
+    db, result = crawl_data("data", "stores")
     export_json(db, "dist", "2025.1.0", "2025-01-01T00:00:00Z")
 """
 

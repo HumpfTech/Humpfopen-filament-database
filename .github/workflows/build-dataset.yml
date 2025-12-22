@@ -132,8 +132,9 @@ jobs:
 
             ### Endpoints
 
-            - `/api/v1/brands/{slug}.json` - Individual brand with filaments
+            - `/api/v1/brands/{slug}/index.json` - Individual brand with filaments
             - `/api/v1/stores/index.json` - List of stores
+            - `/api/v1/stores/{slug}.json` - Individual store
             - `/api/v1/schemas/index.json` - List of available JSON schemas
             - `/api/v1/schemas/{name}.json` - Individual JSON schema
 

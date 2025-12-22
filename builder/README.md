@@ -97,7 +97,7 @@ Options:
 from builder import crawl_data, export_json, export_sqlite, export_csv, export_api
 
 # Crawl the data
-db = crawl_data("data", "stores")
+db, result = crawl_data("data", "stores")
 
 # Export to various formats
 version = "2025.12.0"

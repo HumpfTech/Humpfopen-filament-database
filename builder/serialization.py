@@ -87,7 +87,7 @@ def _unwrap_optional(python_type: Type) -> Type:
     if origin is Union:
         args = get_args(python_type)
         # Optional[X] is Union[X, None]
-        non_none = [a for a in args if a is not None]
+        non_none = [a for a in args if a is not type(None)]
         if len(non_none) == 1:
             return non_none[0]
     return python_type
