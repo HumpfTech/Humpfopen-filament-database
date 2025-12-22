@@ -8,6 +8,7 @@ and exports them to multiple formats:
 - SQLite database (filaments.db)
 - CSV files
 - Static API (for GitHub Pages)
+- HTML landing page (index.html)
 
 Usage:
     python -m builder.build [options]
@@ -21,6 +22,7 @@ Options:
     --skip-sqlite       Skip SQLite export
     --skip-csv          Skip CSV export
     --skip-api          Skip static API export
+    --skip-html         Skip HTML landing page export
 """
 
 import argparse
@@ -35,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from builder.crawler import crawl_data
 from builder.errors import BuildResult
-from builder.exporters import export_json, export_sqlite, export_csv, export_api
+from builder.exporters import export_json, export_sqlite, export_csv, export_api, export_html
 from builder.utils import get_current_timestamp
 
 
@@ -132,6 +134,11 @@ def main():
         action='store_true',
         help='Skip static API export'
     )
+    parser.add_argument(
+        '--skip-html',
+        action='store_true',
+        help='Skip HTML landing page export'
+    )
 
     args = parser.parse_args()
 
@@ -163,37 +170,44 @@ def main():
     build_result = BuildResult()
 
     # Step 1: Crawl data
-    print("\n[1/5] Crawling data...")
+    print("\n[1/6] Crawling data...")
     db, crawl_result = crawl_data(str(data_dir), str(stores_dir))
     build_result.merge(crawl_result)
 
     # Step 2: Export JSON
     if not args.skip_json:
-        print("\n[2/5] Exporting JSON...")
+        print("\n[2/6] Exporting JSON...")
         export_json(db, str(output_dir), version, generated_at)
     else:
-        print("\n[2/5] Skipping JSON export")
+        print("\n[2/6] Skipping JSON export")
 
     # Step 3: Export SQLite
     if not args.skip_sqlite:
-        print("\n[3/5] Exporting SQLite...")
+        print("\n[3/6] Exporting SQLite...")
         export_sqlite(db, str(output_dir), version, generated_at)
     else:
-        print("\n[3/5] Skipping SQLite export")
+        print("\n[3/6] Skipping SQLite export")
 
     # Step 4: Export CSV
     if not args.skip_csv:
-        print("\n[4/5] Exporting CSV...")
+        print("\n[4/6] Exporting CSV...")
         export_csv(db, str(output_dir), version, generated_at)
     else:
-        print("\n[4/5] Skipping CSV export")
+        print("\n[4/6] Skipping CSV export")
 
     # Step 5: Export Static API
     if not args.skip_api:
-        print("\n[5/5] Exporting Static API...")
+        print("\n[5/6] Exporting Static API...")
         export_api(db, str(output_dir), version, generated_at, schemas_dir=str(schemas_dir))
     else:
-        print("\n[5/5] Skipping Static API export")
+        print("\n[5/6] Skipping Static API export")
+
+    # Step 6: Export HTML landing page
+    if not args.skip_html:
+        print("\n[6/6] Exporting HTML landing page...")
+        export_html(db, str(output_dir), version, generated_at)
+    else:
+        print("\n[6/6] Skipping HTML export")
 
     # Calculate checksums and write manifest
     print("\nGenerating checksums and manifest...")

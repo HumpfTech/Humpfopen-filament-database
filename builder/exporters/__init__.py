@@ -6,6 +6,7 @@ from .json_exporter import export_json, export_all_json, export_ndjson, export_p
 from .sqlite_exporter import export_sqlite
 from .csv_exporter import export_csv
 from .api_exporter import export_api
+from .html_exporter import export_html
 
 __all__ = [
     'export_json',
@@ -15,4 +16,5 @@ __all__ = [
     'export_sqlite',
     'export_csv',
     'export_api',
+    'export_html',
 ]
