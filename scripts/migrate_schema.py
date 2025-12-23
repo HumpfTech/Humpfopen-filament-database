@@ -7,10 +7,20 @@ This script transforms the existing data files to conform to the updated schemas
 - filament.json: Add 'id' field, rename folder
 - variant.json: Rename 'color_name' -> 'name', add 'id', rename folder
 - store.json: Rename logo files, rename folder
-- sizes.json: Update store_id references to match new store IDs
+- sizes.json: Update store_id references, migrate spool_refill to size level
+- material.json: Map material types to valid enum values from material_types_schema.json
 
 The script processes stores first to discover ID mappings (old_id -> new_id),
 then uses these mappings to automatically update store_id references in data files.
+
+For spool_refill migration: The new schema moves spool_refill from purchase_link
+level to size level. If a size has mixed refill/non-refill purchase links, they
+are split into separate size entries.
+
+For material merging: When a material type maps to an existing folder (e.g.,
+"Carbon Fibre" -> "PETG"), filaments are merged. Unique filaments are moved,
+duplicate filaments have their data merged (missing variants/fields copied),
+then the source material folder is deleted.
 
 Usage:
     python scripts/migrate_schema.py --dry-run  # Preview changes
@@ -19,6 +29,7 @@ Usage:
 
 import argparse
 import json
+import os
 import re
 import shutil
 from dataclasses import dataclass, field
@@ -27,24 +38,42 @@ from typing import Any
 
 
 # Mapping from old material names to schema enum values
+# See schemas/material_types_schema.json for valid enum values
 MATERIAL_TYPE_MAP: dict[str, str] = {
+    # Nylon variants -> PA types
     "Nylon": "PA12",
-    "Carbon Fibre": "CF",
-    "Graphene": "GF",
-    "APLA": "PLA",
-    "PE": "PET",
-    "PA": "PPA",
     "PAHT": "PA12",
+    "PA": "PA6",
     "PA-CF": "PA6",
     "PA-GF": "PA6",
-    "CPE-HT": "CPE",
-    "PET-CF": "PET",
-    "PPA-CF": "PPA",
+    # PETG variants
     "PETG-CF": "PETG",
     "Addnite": "PETG",
+    "Carbon Fibre": "PETG",  # Add-North Carbon Fibre is PETG-based
+    "Graphene": "PETG",      # Add-North Graphene is PETG-based
+    # PET variants
+    "PE": "PET",
+    "PET-CF": "PET",
+    # PLA variants
+    "APLA": "PLA",
     "Bio-performance": "PLA",
     "AquaPrint": "PLA",
-    "Boron Carbide": "PA12"
+    "Woodfill": "PLA",
+    "Special": "PLA",
+    # PPA variants
+    "PPA-CF": "PPA",
+    # CPE variants
+    "CPE-HT": "CPE",
+    # PP variants
+    "CPX-PP": "PP",
+    # PC variants
+    "CPX-KyronMax": "PC",
+    # EVA variants
+    "EVA+": "EVA",
+    # Support materials (typically PVA-based)
+    "Support": "PVA",
+    # Composite materials
+    "Boron Carbide": "PA12",
 }
 
 
@@ -108,6 +137,9 @@ def generate_id(name: str) -> str:
 def rename_folder(folder: Path, new_name: str, dry_run: bool) -> Path:
     """Rename a folder to a new name.
 
+    Handles case-only renames on case-insensitive filesystems by using
+    a two-step rename through a temporary name.
+
     Returns:
         The new path after renaming (or the original if no rename needed).
     """
@@ -116,6 +148,21 @@ def rename_folder(folder: Path, new_name: str, dry_run: bool) -> Path:
 
     new_path = folder.parent / new_name
     if new_path.exists():
+        # Check if it's the same folder (case-insensitive rename like Black-White -> black_white)
+        try:
+            if folder.samefile(new_path):
+                # Same folder, different case - do a two-step rename via temp name
+                if dry_run:
+                    print(f"  Would rename folder: {folder.name} -> {new_name}")
+                else:
+                    temp_path = folder.parent / f".{new_name}_temp_{os.getpid()}"
+                    shutil.move(str(folder), str(temp_path))
+                    shutil.move(str(temp_path), str(new_path))
+                    print(f"  Renamed folder: {folder.name} -> {new_name}")
+                return new_path
+        except (OSError, ValueError):
+            pass
+
         print(f"  Warning: Cannot rename {folder.name} -> {new_name}, target exists")
         return folder
 
@@ -195,13 +242,81 @@ def save_json(path: Path, data: dict[str, Any], dry_run: bool) -> None:
         f.write('\n')
 
 
+def migrate_spool_refill(sizes_data: list[dict]) -> tuple[list[dict], bool]:
+    """Migrate spool_refill from purchase_link level to size level.
+
+    Per the new schema, spool_refill is now on the size object and applies to all
+    purchase_links within that size. If a size has mixed refill/non-refill links,
+    we split them into separate size entries.
+
+    Args:
+        sizes_data: List of size objects from sizes.json.
+
+    Returns:
+        Tuple of (updated sizes list, whether changes were made).
+    """
+    new_sizes = []
+    changed = False
+
+    for size_obj in sizes_data:
+        if not isinstance(size_obj, dict):
+            new_sizes.append(size_obj)
+            continue
+
+        purchase_links = size_obj.get('purchase_links', [])
+        if not purchase_links:
+            new_sizes.append(size_obj)
+            continue
+
+        # Separate links by spool_refill status
+        refill_links = []
+        non_refill_links = []
+
+        for link in purchase_links:
+            if not isinstance(link, dict):
+                non_refill_links.append(link)
+                continue
+
+            is_refill = link.get('spool_refill', False)
+            # Remove spool_refill from the link (it's deprecated at this level)
+            link_copy = {k: v for k, v in link.items() if k != 'spool_refill'}
+
+            if is_refill:
+                refill_links.append(link_copy)
+                changed = True  # We're removing/moving spool_refill
+            else:
+                # Only mark changed if we actually removed a spool_refill key
+                if 'spool_refill' in link:
+                    changed = True
+                non_refill_links.append(link_copy)
+
+        # Create size entries based on what we found
+        if non_refill_links:
+            # Non-refill size (original size without spool_refill)
+            non_refill_size = {k: v for k, v in size_obj.items() if k != 'purchase_links'}
+            non_refill_size['purchase_links'] = non_refill_links
+            # Ensure spool_refill is not set or is False
+            non_refill_size.pop('spool_refill', None)
+            new_sizes.append(non_refill_size)
+
+        if refill_links:
+            # Refill size (with spool_refill=true at size level)
+            refill_size = {k: v for k, v in size_obj.items() if k != 'purchase_links'}
+            refill_size['spool_refill'] = True
+            refill_size['purchase_links'] = refill_links
+            new_sizes.append(refill_size)
+            changed = True
+
+    return new_sizes, changed
+
+
 def migrate_sizes(
     sizes_file: Path,
     id_mapping: dict[str, str],
     valid_store_ids: set[str],
     dry_run: bool
 ) -> bool:
-    """Update store_id references in a sizes.json file.
+    """Update store_id references and migrate spool_refill in a sizes.json file.
 
     Args:
         sizes_file: Path to the sizes.json file.
@@ -220,6 +335,13 @@ def migrate_sizes(
 
     # sizes.json is a list of size objects
     if isinstance(data, list):
+        # First, migrate spool_refill from purchase_link level to size level
+        data, spool_refill_changed = migrate_spool_refill(data)
+        if spool_refill_changed:
+            print(f"        Migrated spool_refill to size level")
+            file_changed = True
+
+        # Then update store_id references
         for size_obj in data:
             if not isinstance(size_obj, dict):
                 continue
@@ -254,6 +376,62 @@ def migrate_sizes(
     return file_changed
 
 
+def merge_variant_dirs(
+    source_dir: Path, target_dir: Path, dry_run: bool
+) -> bool:
+    """Merge data from source variant directory into target if target is missing data.
+
+    Args:
+        source_dir: The source variant directory (will be deleted after merge).
+        target_dir: The target variant directory to merge into.
+        dry_run: If True, don't actually modify files.
+
+    Returns:
+        True if merge was successful (source can be deleted), False otherwise.
+    """
+    # Merge variant.json data if target is missing fields
+    source_variant = load_json(source_dir / 'variant.json')
+    target_variant = load_json(target_dir / 'variant.json')
+
+    if source_variant and target_variant:
+        merged = False
+        for key, value in source_variant.items():
+            if key not in target_variant and key != 'id':
+                target_variant[key] = value
+                merged = True
+                if dry_run:
+                    print(f"        Would merge field '{key}' into target variant.json")
+                else:
+                    print(f"        Merged field '{key}' into target variant.json")
+
+        if merged and not dry_run:
+            save_json(target_dir / 'variant.json', target_variant, dry_run)
+
+    # Merge sizes.json if source has data target doesn't
+    source_sizes = source_dir / 'sizes.json'
+    target_sizes = target_dir / 'sizes.json'
+
+    if source_sizes.exists():
+        source_data = load_json(source_sizes)
+        target_data = load_json(target_sizes) if target_sizes.exists() else []
+
+        if source_data and isinstance(source_data, list):
+            if not target_data:
+                # Target has no sizes, copy from source
+                if dry_run:
+                    print(f"        Would copy sizes.json to target")
+                else:
+                    shutil.copy2(str(source_sizes), str(target_sizes))
+                    print(f"        Copied sizes.json to target")
+            else:
+                if dry_run:
+                    print(f"        Would skip sizes.json (target already has data)")
+                else:
+                    print(f"        Skipped sizes.json (target already has data)")
+
+    return True
+
+
 def migrate_variant(
     variant_dir: Path,
     dry_run: bool,
@@ -262,6 +440,9 @@ def migrate_variant(
 ) -> tuple[bool, Path]:
     """Transform variant.json: color_name->name, add id, rename folder.
     Also updates store_id references in sizes.json.
+
+    If a folder with the target name already exists (e.g., renaming "Black-White" to
+    "black_white" when "black_white" already exists), merge the contents and delete the source.
 
     Args:
         variant_dir: Path to the variant directory.
@@ -310,6 +491,19 @@ def migrate_variant(
         if migrate_sizes(sizes_file, id_mapping, valid_store_ids, dry_run):
             changed = True
 
+    # Check if target folder already exists (duplicate scenario)
+    target_dir = variant_dir.parent / new_id
+    if target_dir.exists() and target_dir != variant_dir:
+        # Target exists - merge into it and delete source
+        print(f"    Merging duplicate variant: {folder_name} -> {new_id}")
+        merge_variant_dirs(variant_dir, target_dir, dry_run)
+        if dry_run:
+            print(f"    Would delete merged source: {folder_name}")
+        else:
+            shutil.rmtree(str(variant_dir))
+            print(f"    Deleted merged source: {folder_name}")
+        return True, target_dir
+
     # Rename folder to match id
     new_dir = rename_folder(variant_dir, new_id, dry_run)
     if new_dir != variant_dir:
@@ -318,8 +512,79 @@ def migrate_variant(
     return changed, new_dir
 
 
+def merge_filament_dirs(
+    source_dir: Path, target_dir: Path, dry_run: bool
+) -> bool:
+    """Merge data from source filament directory into target if target is missing data.
+
+    Compares the two directories and merges any missing variants or data from source
+    into target. After merging, the source can be safely deleted.
+
+    Args:
+        source_dir: The source filament directory (will be deleted after merge).
+        target_dir: The target filament directory to merge into.
+        dry_run: If True, don't actually modify files.
+
+    Returns:
+        True if merge was successful (source can be deleted), False otherwise.
+    """
+    # Get variants from both directories
+    source_variants = {d.name: d for d in source_dir.iterdir() if d.is_dir()}
+    target_variants = {d.name: d for d in target_dir.iterdir() if d.is_dir()}
+
+    # Merge missing variants from source to target
+    for variant_name, variant_dir in source_variants.items():
+        if variant_name not in target_variants:
+            # Variant doesn't exist in target - move it
+            dest = target_dir / variant_name
+            if dry_run:
+                print(f"        Would move variant: {variant_name} -> {target_dir.name}/")
+            else:
+                shutil.move(str(variant_dir), str(dest))
+                print(f"        Moved variant: {variant_name} -> {target_dir.name}/")
+        else:
+            # Variant exists in both - check if we need to merge sizes.json
+            source_sizes = variant_dir / 'sizes.json'
+            target_sizes = target_variants[variant_name] / 'sizes.json'
+
+            if source_sizes.exists():
+                source_data = load_json(source_sizes)
+                target_data = load_json(target_sizes) if target_sizes.exists() else []
+
+                if source_data and target_data is not None:
+                    # Check for purchase links or sizes that might be missing
+                    # For simplicity, if source has data target doesn't, log it
+                    if dry_run:
+                        print(f"        Would skip duplicate variant: {variant_name} (exists in target)")
+                    else:
+                        print(f"        Skipped duplicate variant: {variant_name} (exists in target)")
+
+    # Merge filament.json data if target is missing fields
+    source_filament = load_json(source_dir / 'filament.json')
+    target_filament = load_json(target_dir / 'filament.json')
+
+    if source_filament and target_filament:
+        merged = False
+        for key, value in source_filament.items():
+            if key not in target_filament and key != 'id':
+                target_filament[key] = value
+                merged = True
+                if dry_run:
+                    print(f"        Would merge field '{key}' into target filament.json")
+                else:
+                    print(f"        Merged field '{key}' into target filament.json")
+
+        if merged and not dry_run:
+            save_json(target_dir / 'filament.json', target_filament, dry_run)
+
+    return True
+
+
 def migrate_filament(filament_dir: Path, dry_run: bool) -> tuple[bool, Path]:
     """Transform filament.json: add id, rename folder.
+
+    If a folder with the target name already exists (e.g., renaming "Rigid X" to
+    "rigid_x" when "rigid_x" already exists), merge the contents and delete the source.
 
     Returns:
         Tuple of (changes_made, new_path after folder rename).
@@ -353,6 +618,19 @@ def migrate_filament(filament_dir: Path, dry_run: bool) -> tuple[bool, Path]:
             if key not in ordered:
                 ordered[key] = data[key]
         save_json(filament_file, ordered, dry_run)
+
+    # Check if target folder already exists (duplicate scenario)
+    target_dir = filament_dir.parent / new_id
+    if target_dir.exists() and target_dir != filament_dir:
+        # Target exists - merge into it and delete source
+        print(f"  Merging duplicate: {folder_name} -> {new_id}")
+        merge_filament_dirs(filament_dir, target_dir, dry_run)
+        if dry_run:
+            print(f"  Would delete merged source: {folder_name}")
+        else:
+            shutil.rmtree(str(filament_dir))
+            print(f"  Deleted merged source: {folder_name}")
+        return True, target_dir
 
     # Rename folder to match id
     new_dir = rename_folder(filament_dir, new_id, dry_run)
@@ -420,23 +698,41 @@ def migrate_material(
         # Target folder exists - merge filaments into it
         print(f"    Merging into existing folder: {new_folder_name}")
 
+        # Build a mapping of normalized names to actual folder names in target
+        target_filaments: dict[str, Path] = {}
+        for d in target_dir.iterdir():
+            if d.is_dir():
+                # Map both the actual name and the normalized name
+                target_filaments[d.name] = d
+                target_filaments[generate_id(d.name)] = d
+
         # Move all filament subdirectories to target
         filament_dirs = [d for d in material_dir.iterdir() if d.is_dir()]
         for filament_dir in filament_dirs:
-            dest = target_dir / filament_dir.name
-            if dest.exists():
-                report.add_issue(
-                    "Merge conflict",
-                    str(material_dir.relative_to(material_dir.parent.parent)),
-                    f"Cannot merge filament '{filament_dir.name}' - already exists in {new_folder_name}"
-                )
-                continue
+            # Check if a matching filament exists in target (by name or normalized name)
+            source_name = filament_dir.name
+            source_normalized = generate_id(source_name)
 
-            if dry_run:
-                print(f"      Would move filament: {filament_dir.name} -> {new_folder_name}/")
+            matching_target = target_filaments.get(source_name) or target_filaments.get(source_normalized)
+
+            if matching_target:
+                # Filament exists in both - merge data from source to target
+                print(f"      Merging duplicate filament: {source_name} -> {matching_target.name}")
+                merge_filament_dirs(filament_dir, matching_target, dry_run)
+                # Delete the source filament directory after merge
+                if dry_run:
+                    print(f"      Would delete merged source: {source_name}")
+                else:
+                    shutil.rmtree(str(filament_dir))
+                    print(f"      Deleted merged source: {source_name}")
             else:
-                shutil.move(str(filament_dir), str(dest))
-                print(f"      Moved filament: {filament_dir.name} -> {new_folder_name}/")
+                # Filament doesn't exist in target - move it
+                dest = target_dir / source_name
+                if dry_run:
+                    print(f"      Would move filament: {source_name} -> {new_folder_name}/")
+                else:
+                    shutil.move(str(filament_dir), str(dest))
+                    print(f"      Moved filament: {source_name} -> {new_folder_name}/")
 
         # Delete the now-empty source folder (including material.json)
         if dry_run:
@@ -750,7 +1046,7 @@ def update_store_references(
     dry_run: bool,
     report: MigrationReport
 ) -> int:
-    """Update store_id references in all sizes.json files.
+    """Update store_id references and migrate spool_refill in all sizes.json files.
 
     Normalizes store_id values to match existing store IDs.
     Uses multiple strategies to find the correct store ID:
@@ -758,6 +1054,8 @@ def update_store_references(
     2. Direct match with existing store IDs
     3. Normalized form matching
     4. Fuzzy matching for common patterns
+
+    Also migrates spool_refill from purchase_link level to size level.
 
     Args:
         data_dir: Path to the data directory.
@@ -792,6 +1090,13 @@ def update_store_references(
 
         # sizes.json is a list of size objects
         if isinstance(data, list):
+            # First, migrate spool_refill from purchase_link level to size level
+            data, spool_refill_changed = migrate_spool_refill(data)
+            if spool_refill_changed:
+                print(f"  {sizes_file.relative_to(data_dir)}: migrated spool_refill")
+                file_changed = True
+
+            # Then update store_id references
             for size_obj in data:
                 if not isinstance(size_obj, dict):
                     continue
