@@ -130,7 +130,7 @@ def rename_folder(folder: Path, new_name: str, dry_run: bool) -> Path:
 
 def find_logo_file(directory: Path) -> Path | None:
     """Find a logo file in the given directory."""
-    logo_extensions = ['.png', '.jpg', '.jpeg', '.webp', '.svg', '.avif']
+    logo_extensions = ['.png', '.jpg', '.jpeg', '.svg', '.avif']
     for f in directory.iterdir():
         if f.is_file() and f.suffix.lower() in logo_extensions:
             return f
@@ -147,7 +147,7 @@ def rename_logo(directory: Path, current_logo: str, dry_run: bool) -> str | None
         return None
 
     # Already in correct format
-    if re.match(r'^logo\.(png|webp|jpg|svg|avif)$', current_logo):
+    if re.match(r'^logo\.(png|jpg|svg|avif)$', current_logo):
         return current_logo
 
     # Find the current logo file

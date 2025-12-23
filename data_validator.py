@@ -30,7 +30,7 @@ ILLEGAL_CHARACTERS = [
 LOGO_MIN_SIZE = 100
 LOGO_MAX_SIZE = 400
 SNAKE_CASE_PATTERN = re.compile(r'^[a-z0-9+]+(?:_[a-z0-9+]+)*$')
-LOGO_NAME_PATTERN = re.compile(r'^logo\.(png|webp|jpg|svg|avif)$')
+LOGO_NAME_PATTERN = re.compile(r'^logo\.(png|jpg|svg|avif)$')
 
 
 # -------------------------
@@ -231,7 +231,7 @@ class LogoValidator(BaseValidator):
             result.add_error(ValidationError(
                 level=ValidationLevel.ERROR,
                 category="Logo",
-                message=f"Logo name '{name}' must be 'logo.png', 'logo.webp', 'logo.jpg', 'logo.svg', or 'logo.avif'",
+                message=f"Logo name '{name}' must be 'logo.png', 'logo.jpg', 'logo.svg', or 'logo.avif'",
                 path=logo_path
             ))
 
