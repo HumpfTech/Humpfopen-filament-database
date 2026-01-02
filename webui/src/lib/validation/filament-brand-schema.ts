@@ -4,6 +4,9 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MIN_DIMENSIONS = { width: 100, height: 100 };
 const MAX_DIMENSIONS = { width: 400, height: 400 };
 
+// Pattern for snake_case identifiers (allows + in segments per schema)
+const ID_PATTERN = /^[a-z0-9+]+(_[a-z0-9+]+)*$/;
+
 const formatBytes = (bytes: number, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;
@@ -14,7 +17,11 @@ const formatBytes = (bytes: number, decimals = 2) => {
 };
 
 export const brandSchema = z.object({
-  brand: z.string().min(1, 'Brand name is required'),
+  id: z.string()
+    .min(1, 'Brand ID is required')
+    .max(1000)
+    .regex(ID_PATTERN, 'ID must be lowercase snake_case (e.g., my_brand)'),
+  name: z.string().min(1, 'Brand name is required'),
   website: z
     .string()
     .url('Please enter a valid URL')
@@ -34,5 +41,5 @@ export const brandSchema = z.object({
       message: `The image is too large. Please choose an image smaller than ${formatBytes(MAX_FILE_SIZE)}.`,
     })
     .optional(),
-  oldBrandName: z.string().optional(),
+  oldBrandId: z.string().optional(),
 });
