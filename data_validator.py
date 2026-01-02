@@ -119,6 +119,28 @@ class SchemaCache:
                 self._schemas[schema_name] = load_json(path)
         return self._schemas.get(schema_name)
 
+    def all_schemas(self) -> Dict[str, Optional[Dict]]:
+        """Return a mapping of schema path keys to loaded schema dicts.
+
+        Keys are the stored path (e.g. 'schemas/..') to support lookups by
+        relative filenames and full relative paths used in $ref values.
+        """
+        for name, relpath in self._schema_paths.items():
+            if name not in self._schemas:
+                p = Path(relpath)
+                if p.exists():
+                    self._schemas[name] = load_json(p)
+
+        # Build mapping of candidate keys -> schema content
+        mapping: Dict[str, Optional[Dict]] = {}
+        for name, relpath in self._schema_paths.items():
+            schema = self._schemas.get(name)
+            mapping[relpath] = schema
+            # also expose the filename with a leading './' as some $refs use that
+            mapping[f"./{Path(relpath).name}"] = schema
+
+        return mapping
+
 
 # -------------------------
 # Validators
@@ -166,18 +188,31 @@ class JsonValidator(BaseValidator):
             # Build registry for referencing library to handle external $ref
             resources = []
 
-            # Add main schema with its $id
-            schema_id = schema.get('$id', '')
-            if schema_id:
-                resources.append((schema_id, Resource.from_contents(schema)))
+            # Register all known schemas under both their stored path and
+            # a './filename' key since many schemas use relative './name.json' refs.
+            all_schemas = self.schema_cache.all_schemas()
+            for key, s in all_schemas.items():
+                if s is None:
+                    continue
+                try:
+                    resources.append((key, Resource.from_contents(s)))
+                except Exception:
+                    # skip schemas that cannot be read into a Resource
+                    continue
+                sid = s.get('$id', '')
+                if sid:
+                    try:
+                        resources.append((sid, Resource.from_contents(s)))
+                    except Exception:
+                        pass
 
-            # Add material_types schema for cross-references
-            material_types = self.schema_cache.get('material_types')
-            if material_types:
-                resources.append(('./material_types_schema.json', Resource.from_contents(material_types)))
-                mt_id = material_types.get('$id', '')
-                if mt_id:
-                    resources.append((mt_id, Resource.from_contents(material_types)))
+            # Also ensure the main schema is registered by its $id if present
+            main_id = schema.get('$id', '')
+            if main_id:
+                try:
+                    resources.append((main_id, Resource.from_contents(schema)))
+                except Exception:
+                    pass
 
             registry = Registry().with_resources(resources)
             validate(data, schema, registry=registry)
