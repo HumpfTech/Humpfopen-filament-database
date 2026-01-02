@@ -10,8 +10,8 @@
 </script>
 
 <svelte:head>
-	<title>{data?.colorData?.variant?.color_name ? data.colorData.variant.color_name : "Variant"}</title>
-	<meta name="description" content="This is an overview of {data?.colorData?.variant?.color_name ? data.colorData.variant.color_name : "a Variant"}"/>
+  <title>{data?.colorData?.name ? data.colorData.name : "Variant"}</title>
+  <meta name="description" content="This is an overview of {data?.colorData?.name ? data.colorData.name : "a Variant"}"/>
 </svelte:head>
 
 <div class="max-w-6xl mx-auto p-6">

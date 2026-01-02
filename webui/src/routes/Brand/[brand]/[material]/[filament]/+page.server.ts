@@ -99,6 +99,6 @@ export const actions = {
     }
 
     setFlash({ type: 'success', message: 'Color updated successfully!' }, cookies);
-    throw redirect(303, `/Brand/${stripOfIllegalChars(brand)}/${material}/${filament}/${form.data.color_name}`);
+    throw redirect(303, `/Brand/${stripOfIllegalChars(brand)}/${material}/${filament}/${form.data.id}`);
   },
 };

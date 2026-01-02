@@ -12,9 +12,9 @@ export const createVariant = async (
   filamentName: string,
   variantData: z.infer<typeof filamentVariantSchema>,
 ) => {
-  const variantDir = path.join(DATA_DIR, brandName, materialName, filamentName, variantData.color_name);
+  const variantDir = path.join(DATA_DIR, brandName, materialName, filamentName, variantData.id);
   if (fs.existsSync(variantDir)) {
-    throw new Error(`Variant "${variantData.color_name}" already exists in filament "${filamentName}".`);
+    throw new Error(`Variant "${variantData.name}" already exists in filament "${filamentName}".`);
   }
 
   try {
@@ -48,26 +48,26 @@ export async function updateVariant(
   try {
     let variantJsonPath: string, sizesJsonPath: string;
 
-    // Check if the color name has changed and requires folder rename
-    if (variantData.color_name !== variantName) {
+    // Check if the variant id has changed and requires folder rename
+    if (variantData.id !== variantName) {
       const newVariantDir = path.join(
         DATA_DIR,
         brandName,
         materialName,
         filamentName,
-        variantData.color_name,
+        variantData.id,
       );
 
       if (fs.existsSync(newVariantDir)) {
         throw new Error(
-          `Variant "${variantData.color_name}" already exists in filament "${filamentName}"`,
+          `Variant "${variantData.name}" already exists in filament "${filamentName}"`,
         );
       }
 
       fs.renameSync(variantDir, newVariantDir);
 
       console.log(
-        `Variant updated and renamed: ${brandName}/${materialName}/${filamentName}/${variantName} -> ${variantData.color_name}`,
+        `Variant updated and renamed: ${brandName}/${materialName}/${filamentName}/${variantName} -> ${variantData.id}`,
       );
 
       variantJsonPath = path.join(newVariantDir, 'variant.json');
@@ -141,15 +141,17 @@ type variantReturnObject = {
 
 function transformVariant(variantData: z.infer<typeof filamentVariantSchema>): variantReturnObject {
   const tempData: any = {
-    color_name: variantData.color_name,
+    id: variantData.id,
+    name: variantData.name,
     color_hex: variantData.color_hex,
   };
+
   let sizes = transformSizes(variantData.sizes);
 
   const traits: Record<string, boolean> = {};
 
   if (variantData?.traits) {
-    Object.keys(variantData.traits).forEach((key, index) => {
+    Object.keys(variantData.traits).forEach((key) => {
       if (variantData.traits[key] !== undefined) {
         traits[key] = variantData.traits[key];
       }
@@ -191,6 +193,15 @@ function transformSizes(sizeData: z.infer<typeof filamentSizesSchema>) {
 
       Array.from(value.purchase_links).forEach((link, index) => {
         let tempLink = structuredClone(link);
+
+        // If any purchase link marks spool_refill, prefer size-level spool_refill
+        if (tempLink.spool_refill) {
+          tempData.spool_refill = true;
+        }
+        // Remove deprecated link-level spool_refill
+        if ('spool_refill' in tempLink) {
+          delete tempLink.spool_refill;
+        }
 
         tempLinks[index] = tempLink;
       });

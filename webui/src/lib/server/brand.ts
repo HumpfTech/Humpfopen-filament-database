@@ -25,11 +25,12 @@ export const pseudoCreateBrand = async (brandData: z.infer<typeof brandSchema>) 
 };
 
 export const createBrand = async (brandData: z.infer<typeof brandSchema>) => {
-  let folderName = stripOfIllegalChars(brandData.brand);
+  // Prefer `id` for folder names, fall back to sanitized `name`.
+  const folderName = stripOfIllegalChars(brandData.id || brandData.name || brandData.brand);
 
   const brandDir = path.join(DATA_DIR, folderName);
   if (fs.existsSync(brandDir)) {
-    throw new Error(`Brand ${brandData.brand} already exists.`);
+    throw new Error(`Brand ${brandData.name || brandData.brand} already exists.`);
   }
 
   try {
@@ -49,8 +50,9 @@ export const createBrand = async (brandData: z.infer<typeof brandSchema>) => {
       logoUrl = `${brandData.logo.name}`;
     }
 
-    const brandJson = {
-      brand: brandData.brand,
+    const brandJson: any = {
+      id: brandData.id || folderName,
+      name: brandData.name || brandData.brand,
       website: brandData.website,
       logo: logoUrl,
       origin: brandData.origin
@@ -65,8 +67,8 @@ export const createBrand = async (brandData: z.infer<typeof brandSchema>) => {
 };
 
 export const updateBrand = async (brandData: z.infer<typeof brandSchema>) => {
-  const oldDir = path.join(DATA_DIR, stripOfIllegalChars(brandData.oldBrandName || brandData.brand));
-  const newDir = path.join(DATA_DIR, stripOfIllegalChars(brandData.brand));
+  const oldDir = path.join(DATA_DIR, stripOfIllegalChars(brandData.oldBrandName || brandData.id || brandData.name || brandData.brand));
+  const newDir = path.join(DATA_DIR, stripOfIllegalChars(brandData.id || brandData.name || brandData.brand));
 
   if (
     brandData.oldBrandName &&
@@ -93,7 +95,7 @@ export const updateBrand = async (brandData: z.infer<typeof brandSchema>) => {
     const buffer = Buffer.from(arrayBuffer);
     const logoPath = path.join(newDir, brandData.logo.name);
     fs.writeFileSync(logoPath, buffer);
-    logoUrl = `/data/${brandData.brand}/${brandData.logo.name}`;
+    logoUrl = `${brandData.logo.name}`;
   } else if (typeof brandData.logo === 'string') {
     // Existing logo URL
     logoUrl = brandData.logo;
@@ -101,19 +103,19 @@ export const updateBrand = async (brandData: z.infer<typeof brandSchema>) => {
     // Try to find existing logo in the directory
     try {
       const files = fs.readdirSync(newDir);
-      const logoFile = files.find(
-        (file) => file.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/i) && !file.startsWith('.'),
+        const logoFile = files.find(
+        (file) => file.toLowerCase().match(/\.(jpg|jpeg|png|gif|svg|avif)$/i) && !file.startsWith('.'),
       );
       if (logoFile) {
-        logoUrl = `/data/${brandData.brand}/${logoFile}`;
+        logoUrl = `${logoFile}`;
       }
     } catch (error) {
       console.warn('Could not find existing logo:', error);
     }
   }
-
-  const brandJson = {
-    brand: brandData.brand,
+  const brandJson: any = {
+    id: brandData.id || stripOfIllegalChars(brandData.name || brandData.brand),
+    name: brandData.name || brandData.brand,
     website: brandData.website,
     logo: logoUrl,
     origin: brandData.origin,
@@ -122,6 +124,6 @@ export const updateBrand = async (brandData: z.infer<typeof brandSchema>) => {
   const brandJsonPath = path.join(newDir, 'brand.json');
   fs.writeFileSync(brandJsonPath, JSON.stringify(brandJson, null, 2), 'utf-8');
 
-  console.log(`Brand updated: ${brandData.oldBrandName || brandData.brand} -> ${brandData.brand}`);
+  console.log(`Brand updated: ${brandData.oldBrandName || brandData.name || brandData.brand} -> ${brandJson.name}`);
   return newDir;
 }

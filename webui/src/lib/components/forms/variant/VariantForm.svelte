@@ -43,10 +43,13 @@
     ) {
       const isLocal = env.PUBLIC_IS_LOCAL === 'true';
 
+      // use the folder `id` when performing filesystem operations
+      const instanceId = colorData.id || colorData.name;
+
       if (isLocal) {
-        await realDelete('instance', colorData.name, stripOfIllegalChars(brandName), materialName, filamentName);
+        await realDelete('instance', instanceId, stripOfIllegalChars(brandName), materialName, filamentName);
       } else {
-        pseudoDelete('instance', colorData.name, stripOfIllegalChars(brandName), materialName, filamentName);
+        pseudoDelete('instance', instanceId, stripOfIllegalChars(brandName), materialName, filamentName);
       }
     }
   }
@@ -109,7 +112,7 @@
   });
 
   if (colorData) {
-    $form.old_name = colorData.name;
+    $form.old_id = colorData.id || colorData.name;
   }
 </script>
 
@@ -122,12 +125,22 @@
       <h3 class="text-xl font-bold mb-4">{formType === 'edit' ? 'Edit' : 'Create'} Color Variant</h3>
 
       <TextField
-        id="color_name"
+        id="name"
         title="Color name"
         description="Enter the official color name as specified by the manufacturer"
         placeholder="e.g. Galaxy Black"
-        bind:formVar={$form.color_name}
-        errorVar={$errors.color_name}
+        bind:formVar={$form.name}
+        errorVar={$errors.name}
+        required={true}
+      />
+
+      <TextField
+        id="id"
+        title="Variant ID"
+        description="Unique identifier (lowercase, underscores allowed). Example: galaxy_black"
+        placeholder="e.g. galaxy_black"
+        bind:formVar={$form.id}
+        errorVar={$errors.id}
         required={true}
       />
 

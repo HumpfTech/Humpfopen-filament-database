@@ -28,11 +28,12 @@ export const load: PageServerLoad = async ({ params, parent, cookies }) => {
   if (filamentData.brands?.[brandKey]) {
     brandData = filamentData.brands?.[brandKey] || null;
 
-    const formData = {
-      brand: brandData.brand,
+    const formData: any = {
+      id: brandData.id || stripOfIllegalChars(brandData.brand || brandData.name || ''),
+      name: brandData.name || brandData.brand,
       website: brandData.website || 'https://',
       origin: brandData.origin || '',
-      oldBrandName: brandData.brand,
+      oldBrandName: brandData.id || brandData.brand || brandData.name,
     };
 
     brandForm = await superValidate(formData, zod(brandSchema));
@@ -68,7 +69,7 @@ export const actions = {
     }
 
     setFlash({ type: 'success', message: 'Brand updated successfully!' }, cookies);
-    throw redirect(303, `/Brand/${stripOfIllegalChars(form.data.brand)}/`);
+    throw redirect(303, `/Brand/${stripOfIllegalChars(form.data.id || form.data.name)}/`);
   },
   material: async ({ request, params, cookies }) => {
     const form = await superValidate(request, zod(filamentMaterialSchema));

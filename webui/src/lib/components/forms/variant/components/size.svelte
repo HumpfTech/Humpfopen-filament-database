@@ -138,6 +138,13 @@
     errorVar={$errors?.sizes?.[sizeIndex]?.discontinued}
   />
 
+  <BigCheck
+    idPrefix="size_spool_refill_"
+    description="Indicates if this size is a refill for a reusable spool (applies to all purchase links)"
+    bind:formVar={size.spool_refill}
+    errorVar={$errors?.sizes?.[sizeIndex]?.spool_refill}
+  />
+
 
   <fieldset>
     <div class="flex items-center justify-between mb-4">

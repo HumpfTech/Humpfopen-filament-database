@@ -17,11 +17,15 @@ const formatBytes = (bytes: number, decimals = 2) => {
 };
 
 export const brandSchema = z.object({
+  // `id` is optional: generated from the brand name when creating a new brand
   id: z.string()
-    .min(1, 'Brand ID is required')
     .max(1000)
-    .regex(ID_PATTERN, 'ID must be lowercase snake_case (e.g., my_brand)'),
-  name: z.string().min(1, 'Brand name is required'),
+    .regex(ID_PATTERN, 'ID must be lowercase snake_case (e.g., my_brand)')
+    .optional(),
+  // `brand` is the input field used in forms (legacy name). `name` may be present
+  // when loading existing brand data; accept either.
+  brand: z.string().min(1, 'Brand name is required'),
+  name: z.string().optional(),
   website: z
     .string()
     .url('Please enter a valid URL')

@@ -5,11 +5,13 @@ const illegal_characters = [
 ];
 // This should at all times be the same as /data_validator.py:22
 
-export const stripOfIllegalChars = (input: string): string => {
-  let value = input;
+export const stripOfIllegalChars = (input?: string | null): string => {
+  // Defensive: coerce null/undefined to empty string
+  let value = input == null ? '' : String(input);
 
   illegal_characters.forEach((char) => {
-    value = value.replaceAll(char, "");
+    // avoid using replaceAll to be robust across runtimes
+    value = value.split(char).join('');
   })
 
   return value;
