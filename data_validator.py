@@ -30,7 +30,7 @@ ILLEGAL_CHARACTERS = [
 LOGO_MIN_SIZE = 100
 LOGO_MAX_SIZE = 400
 SNAKE_CASE_PATTERN = re.compile(r'^[a-z0-9+]+(?:_[a-z0-9+]+)*$')
-LOGO_NAME_PATTERN = re.compile(r'^logo\.(png|jpg|svg|avif)$')
+LOGO_NAME_PATTERN = re.compile(r'^logo\.(png|jpg|svg)$')
 
 
 # -------------------------
@@ -266,12 +266,12 @@ class LogoValidator(BaseValidator):
             result.add_error(ValidationError(
                 level=ValidationLevel.ERROR,
                 category="Logo",
-                message=f"Logo name '{name}' must be 'logo.png', 'logo.jpg', 'logo.svg', or 'logo.avif'",
+                message=f"Logo name '{name}' must be 'logo.png', 'logo.jpg' or 'logo.svg'",
                 path=logo_path
             ))
 
-        # Validate dimensions for raster images (skip SVG and AVIF which need special handling)
-        if not name.endswith('.svg') and not name.endswith('.avif'):
+        # Validate dimensions for raster images (skip SVG which need special handling)
+        if not name.endswith('.svg'):
             try:
                 with Image.open(logo_path) as img:
                     width, height = img.size

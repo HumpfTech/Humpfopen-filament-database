@@ -95,7 +95,7 @@ export const updateBrand = async (brandData: z.infer<typeof brandSchema>) => {
       for (const file of files) {
         if (
           !file.startsWith('.') &&
-          file.toLowerCase().match(/\.(jpg|jpeg|png|gif|svg|avif)$/)
+          file.toLowerCase().match(/\.(jpg|jpeg|png|gif|svg)$/)
         ) {
           const p = path.join(newDir, file);
           try {
@@ -120,7 +120,7 @@ export const updateBrand = async (brandData: z.infer<typeof brandSchema>) => {
     try {
       const files = fs.readdirSync(newDir);
       const logoFile = files.find(
-        (file) => file.toLowerCase().match(/\.(jpg|jpeg|png|gif|svg|avif)$/) && !file.startsWith('.'),
+        (file) => file.toLowerCase().match(/\.(jpg|jpeg|png|gif|svg)$/) && !file.startsWith('.'),
       );
       if (logoFile) {
         logoUrl = `${logoFile}`;
