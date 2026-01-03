@@ -4,7 +4,6 @@ import * as path from 'node:path';
 import { env } from "$env/dynamic/public";
 import { filamentSchema } from '$lib/validation/filament-schema';
 import { getIdFromName, removeUndefined } from '$lib/globalHelpers';
-import { id } from '$lib/components/forms/components/logoUpload.svelte';
 
 const DATA_DIR = env.PUBLIC_DATA_PATH;
 

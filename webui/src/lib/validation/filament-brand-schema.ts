@@ -4,9 +4,6 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MIN_DIMENSIONS = { width: 100, height: 100 };
 const MAX_DIMENSIONS = { width: 400, height: 400 };
 
-// Pattern for snake_case identifiers (allows + in segments per schema)
-const ID_PATTERN = /^[a-z0-9+]+(_[a-z0-9+]+)*$/;
-
 const formatBytes = (bytes: number, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;

@@ -40,7 +40,7 @@ export async function DELETE({ request }) {
       case 'filament':
         if (!brandId || !materialId) {
           return json(
-            { error: 'Brand name and material name are required for filament deletion' },
+            { error: 'Brand ID and material ID are required for filament deletion' },
             { status: 400 },
           );
         }

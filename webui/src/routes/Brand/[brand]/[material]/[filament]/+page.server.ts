@@ -10,7 +10,6 @@ import { getIdFromName, removeUndefined } from '$lib/globalHelpers';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { refreshDatabase } from '$lib/dataCacher';
 import { stripOfIllegalChars } from '$lib/globalHelpers';
-import { get } from 'http';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
   const { brand, material, filament } = params;
@@ -83,7 +82,7 @@ export const actions = {
   },
   variant: async ({ request, params, cookies }) => {
     let data = await request.formData();
-    console.log(data);
+    
     const form = await superValidate(data, zod(filamentVariantSchema));
     const { brand, material, filament } = params;
 

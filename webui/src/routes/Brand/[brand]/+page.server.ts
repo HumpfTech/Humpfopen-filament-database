@@ -10,7 +10,6 @@ import { stripOfIllegalChars } from '$lib/globalHelpers';
 import { filamentMaterialSchema } from '$lib/validation/filament-material-schema';
 import { refreshDatabase } from '$lib/dataCacher';
 import { setFlash } from 'sveltekit-flash-message/server';
-import { invalidateAll } from '$app/navigation';
 
 export const load: PageServerLoad = async ({ params, parent, cookies }) => {
   const { brand } = params;

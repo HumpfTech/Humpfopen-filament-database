@@ -102,7 +102,6 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 export const actions = {
   variant: async ({ request, params, cookies }) => {
     let data = await request.formData();
-    console.log(data);
 
     const form = await superValidate(data, zod(filamentVariantSchema));
     const { brand, material, filament, instance } = params;
@@ -117,8 +116,6 @@ export const actions = {
       if (Array.isArray(filteredData.color_hex) && filteredData.color_hex.length === 1) {
         filteredData.color_hex = filteredData.color_hex[0];
       }
-
-      console.log(filteredData);
 
       await updateVariant(brand, material, filament, instance, filteredData);
       await refreshDatabase();

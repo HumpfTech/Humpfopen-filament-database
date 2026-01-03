@@ -52,6 +52,9 @@ export const folderPassthrough = (params, directory) => {
       case '.svg':
         contentType = 'image/svg+xml';
         break;
+      case '.webp':
+        contentType = 'image/webp';
+        break;
       case '.json':
         contentType = 'application/json';
         break;

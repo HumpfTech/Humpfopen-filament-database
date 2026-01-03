@@ -4,7 +4,6 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { env } from "$env/dynamic/public";
 import { type z } from 'zod';
-import { get } from "node:http";
 
 const DATA_DIR = env.PUBLIC_DATA_PATH;
 
@@ -26,7 +25,7 @@ export const pseudoCreateBrand = async (brandData: z.infer<typeof brandSchema>) 
 };
 
 export const createBrand = async (brandData: z.infer<typeof brandSchema>) => {
-  const id = getIdFromName(brandData.name)
+  const id = getIdFromName(brandData.name);
   // Prefer `id` for folder names, fall back to sanitized `name`.
   const brandDir = path.join(DATA_DIR, id);
   if (fs.existsSync(brandDir)) {

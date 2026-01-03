@@ -4,7 +4,6 @@ import * as path from 'node:path';
 import { env } from "$env/dynamic/public";
 import type { filamentSizesSchema, filamentVariantSchema, purchaseLinksSchema } from '$lib/validation/filament-variant-schema';
 import { getIdFromName } from '$lib/globalHelpers';
-import { transform } from 'typescript';
 
 const DATA_DIR = env.PUBLIC_DATA_PATH;
 

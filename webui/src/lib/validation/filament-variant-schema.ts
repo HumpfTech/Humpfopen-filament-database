@@ -1,8 +1,5 @@
 import { z } from 'zod';
 
-// Pattern for snake_case identifiers (allows + in segments per schema)
-const ID_PATTERN = /^[a-z0-9+]+(_[a-z0-9+]+)*$/;
-
 export const purchaseLinkSchema = z.object({
   store_id: z.string(),
   url: z
