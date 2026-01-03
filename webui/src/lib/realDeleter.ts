@@ -33,7 +33,7 @@ export async function realDelete(
       pathSegments.pop(); // Remove the last segment
       const parentPath = pathSegments.length > 0 ? '/' + pathSegments.join('/') : '/';
 
-      await goto(parentPath);
+      await goto(parentPath, { invalidateAll: true });
       return true;
     } else {
       console.error('Delete failed:', result.error);

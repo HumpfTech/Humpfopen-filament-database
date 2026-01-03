@@ -50,7 +50,7 @@
       const isLocal = env.PUBLIC_IS_LOCAL === 'true';
 
       if (isLocal) {
-        await realDelete('brand', stripOfIllegalChars($form.id));
+        await realDelete('brand', $form.id);
       } else {
         pseudoDelete('brand', $form.id);
       }
