@@ -3,8 +3,6 @@
   import { filamentVariantSchema } from '$lib/validation/filament-variant-schema';
   import { realDelete } from '$lib/realDeleter';
   import { pseudoDelete } from '$lib/pseudoDeleter';
-  import { traitsSchema } from '$lib/validation/filament-variant-schema';
-  import { capitalizeFirstLetter } from '$lib/globalHelpers';
   import { writable } from 'svelte/store';
   import BigCheck from '../components/bigCheck.svelte';
   import Form from '../components/form.svelte';
@@ -13,10 +11,9 @@
   import HexesList from './components/hexesList.svelte';
   import TextField from '../components/textField.svelte';
   import Size from './components/size.svelte';
-  import Trait from './components/trait.svelte';
+  import TraitAdder from './components/traitAdder.svelte';
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { stripOfIllegalChars } from '$lib/globalHelpers';
 
   type formType = 'edit' | 'create';
   let { defaultForm, formType, brandId, materialId, filamentId, stores, colorData = null } = $props();
@@ -100,16 +97,11 @@
     form.set(structuredClone(colorData.variant));
     $form.sizes = structuredClone(colorData.sizes);
   }
-  
-  let tempTraits = writable({});
-  
-  if ($form.traits) {
-    tempTraits.set(structuredClone($form.traits));
-  }
 
-  tempTraits.subscribe((value) => {
-    $form.traits = value;
-  });
+  // Initialize traits as empty object if not present
+  if (!$form.traits) {
+    $form.traits = {};
+  }
 </script>
 
 <Form
@@ -146,20 +138,7 @@
         description="Select if this colour/variant is discontinued"
       />
 
-      <fieldset>
-        <legend class="block font-medium mb-2">Material Traits</legend>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-          Select all special properties that apply to this filament variant
-        </p>
-        <div class="grid grid-cols-2 gap-4">
-          {#each Object.keys(traitsSchema.shape) as trait}
-            <Trait
-              id={trait}
-              title={capitalizeFirstLetter(trait)}
-              bind:formVar={$tempTraits[trait]} />
-          {/each}
-        </div>
-      </fieldset>
+      <TraitAdder bind:formTraits={$form.traits} />
     </div>
 
     <fieldset class="md:w-2/5">

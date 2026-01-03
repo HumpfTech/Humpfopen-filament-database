@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { stripOfIllegalChars } from "$lib/globalHelpers";
-
   let { brandName, brandData, imgOverride = undefined } = $props();
 </script>
 
 <a
-  href={`/Brand/${brandName}`}
+  href={`/Brand/${brandData.id}`}
   class="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 space-y-4 w-48 border border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 text-gray-900">
   <img
     src={imgOverride ? imgOverride : `/data/${brandData.id}/${brandData.logo}`}

@@ -2,6 +2,7 @@
   import Fa from 'svelte-fa'
   import { faPen, faX, faCheck } from '@fortawesome/free-solid-svg-icons'
   import Tooltip from "sv-tooltip"
+  import { traitLabels } from '$lib/validation/filament-variant-schema';
   let { color, brandId, materialId, filamentId } = $props();
 
   $inspect('Color Item', color);
@@ -50,7 +51,7 @@
         {#each Object.entries(color.variant.traits) as [trait, value], i}
           <span>
             <Fa class="text-green-600 inline" icon={faCheck} />
-            {trait}{i < Object.entries(color.variant.traits).length - 1 ? ', ' : ''}
+            {traitLabels[trait] || trait}{i < Object.entries(color.variant.traits).length - 1 ? ', ' : ''}
           </span>
         {/each}
     </div>

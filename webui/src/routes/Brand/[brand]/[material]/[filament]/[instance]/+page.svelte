@@ -5,6 +5,7 @@
   import VariantForm from '$lib/components/forms/variant/VariantForm.svelte';
   import SizeItem from '$lib/components/items/sizeItem.svelte';
   import Tooltip from "sv-tooltip"
+  import { traitLabels } from '$lib/validation/filament-variant-schema';
 
   const { data } = $props();
 </script>
@@ -89,7 +90,7 @@
                 stroke-width="3">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span class="capitalize">{trait}</span>
+              <span>{traitLabels[trait] || trait}</span>
             </div>
           {/if}
         {/each}
