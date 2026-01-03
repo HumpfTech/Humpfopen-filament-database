@@ -69,7 +69,10 @@ def _derive_uuid(namespace: uuid.UUID, *args: Union[bytes, str, uuid.UUID]) -> u
             parts.append(str(arg).encode("utf-8"))
 
     name = b"".join(parts)
-    return uuid.uuid5(namespace, name)
+    # uuid.uuid5 expects a string, but we have bytes from concatenation
+    # We need to use the underlying implementation directly
+    hash_value = hashlib.sha1(namespace.bytes + name).digest()
+    return uuid.UUID(bytes=hash_value[:16], version=5)
 
 
 def generate_brand_uuid(brand_name: str) -> str:
