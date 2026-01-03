@@ -1,12 +1,6 @@
 [
   {
     "filament_weight": 1000,
-    "diameter": 1.75,
-    "purchase_links": [
-      {
-        "store_id": "microcenter",
-        "url": ""
-      }
-    ]
+    "diameter": 1.75
   }
 ]
