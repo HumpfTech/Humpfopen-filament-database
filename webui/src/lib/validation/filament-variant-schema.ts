@@ -40,7 +40,6 @@ export const traitsSchema = z.object({
   recycled: z.boolean().optional(),
   recyclable: z.boolean().optional(),
   biodegradable: z.boolean().optional(),
-  // New traits from schema update
   filtration_recommended: z.boolean().optional(),
   biocompatible: z.boolean().optional(),
   home_compostable: z.boolean().optional(),
