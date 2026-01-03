@@ -38,7 +38,7 @@ cd open-filament-database
 Either use the web editor by simply running these commands or [following the guide](docs/webui.md), if you want to do it manually you can [use this one](docs/manual.md)
 ```bash
 cd webui
-npm install
+npm ci
 npm run dev
 ```
 and access it in your browser at http://localhost:5173
