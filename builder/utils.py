@@ -177,22 +177,43 @@ def generate_size_id(variant_id: str, size_entry: dict, index: int = 0) -> str:
     """
     Generate a stable ID for a size.
 
-    Formula: NAMESPACE_SIZE + variant_uuid (bytes) + gtin/ean OR (weight + diameter + index)
+    Formula: NAMESPACE_SIZE + variant_uuid (bytes) + identifying components
+
+    The ID is constructed from multiple components to ensure uniqueness even when
+    products share the same GTIN/EAN (e.g., spool vs refill variants):
+    - variant_id (contains brand, material, filament, and color)
+    - weight + diameter
+    - gtin/ean if available
+    - spool_refill flag if true
+    - article_number if available
+    - index as last resort
     """
     weight = size_entry.get("filament_weight")
     diameter = size_entry.get("diameter", 1.75)
-
     variant_uuid = uuid.UUID(variant_id)
 
-    # Use gtin or ean if available for stable IDs
+    # Build ID components from multiple distinguishing fields
+    id_parts = [f"{weight}g", f"{diameter}mm"]
+
+    # Add GTIN/EAN if available (primary product identifier)
     if gtin := size_entry.get("gtin"):
-        return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, gtin))
+        id_parts.append(f"gtin:{gtin}")
+    elif ean := size_entry.get("ean"):
+        id_parts.append(f"ean:{ean}")
 
-    if ean := size_entry.get("ean"):
-        return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, ean))
+    # Add spool_refill flag if it's a refill (distinguishes from regular spools)
+    if size_entry.get("spool_refill"):
+        id_parts.append("refill")
 
-    # Fallback: use weight + diameter + index for uniqueness
-    id_str = f"{weight}_{diameter}_{index}"
+    # Add article_number if available (manufacturer SKU)
+    if article_number := size_entry.get("article_number"):
+        id_parts.append(f"art:{article_number}")
+
+    # Add index as final disambiguator
+    id_parts.append(f"idx:{index}")
+
+    # Join all parts with underscores
+    id_str = "_".join(id_parts)
     return str(_derive_uuid(NAMESPACE_SIZE, variant_uuid, id_str))
 
 
