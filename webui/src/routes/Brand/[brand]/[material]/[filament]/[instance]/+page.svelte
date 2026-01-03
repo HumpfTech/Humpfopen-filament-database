@@ -60,9 +60,9 @@
           >
             <VariantForm
               defaultForm={data.variantForm}
-              brandName={data.brandData.brand}
-              materialName={data.materialData.material}
-              filamentName={data.filamentData.name}
+              brandId={data.brandData.id}
+              materialId={data.materialData.material}
+              filamentId={data.filamentData.id}
               colorData={data.colorData}
               formType={'edit'}
               stores={data.stores} />

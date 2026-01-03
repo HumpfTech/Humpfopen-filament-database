@@ -1,8 +1,5 @@
 import { z } from 'zod';
 
-// Pattern for snake_case identifiers (allows + in segments per schema)
-const ID_PATTERN = /^[a-z0-9+]+(_[a-z0-9+]+)*$/;
-
 const optionalUrl = z
   .string()
   .url('Please enter a valid URL')
@@ -12,11 +9,10 @@ const optionalUrl = z
   .optional();
 
 export const filamentSchema = z.object({
-  id: z.string()
+  id: z.string().optional(),
+  name: z.string()
     .min(1, 'Filament ID is required')
-    .max(1000)
-    .regex(ID_PATTERN, 'ID must be lowercase snake_case (e.g., my_filament)'),
-  name: z.string(),
+    .max(1000),
   diameter_tolerance: z.coerce.number().positive(),
   density: z.coerce.number().positive(),
   shore_hardness_a: z.number().int().optional(),

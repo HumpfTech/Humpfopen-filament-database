@@ -23,10 +23,6 @@
           (materialKey) => !isItemDeleted('material', materialKey, brandData.id || brandData.name),
         ),
   );
-
-  $effect(() => {
-    materialKeys = Object.keys(brandData.materials ?? {});
-  });
 </script>
 
 <svelte:head>
@@ -38,7 +34,7 @@
   <div class="relative flex flex-col md:flex-row items-center md:items-start gap-6 mb-12">
     <img
       src={`/data/${brandData.id}/${brandData.logo}`}
-      alt={brandData.name ?? 'Brand logo'}
+      alt={brandData.name ? `${brandData.name} Logo` : 'Brand logo'}
       class="w-32 h-32 rounded-xl object-contain bg-white shadow-md dark:bg-gray-900" />
     
     <div class="text-center md:text-left">
@@ -74,7 +70,7 @@
     >
       <MaterialForm
         defaultForm={data.materialForm}
-        brandName={brandData.id || brandData.name}
+        brandId={brandData.id}
         formType={'create'}
       />
     </EditModal>

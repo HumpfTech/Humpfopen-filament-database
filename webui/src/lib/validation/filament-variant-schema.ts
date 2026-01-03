@@ -100,11 +100,10 @@ export const purchaseLinksSchema = z.array(purchaseLinkSchema);
 export const filamentVariantHex = z.string().regex(/^#?[a-fA-F0-9]{6}$/, 'Must be a valid hex code (#RRGGBB)');
 
 export const filamentVariantSchema = z.object({
-  id: z.string()
-    .min(1, 'Variant ID is required')
-    .max(1000)
-    .regex(ID_PATTERN, 'ID must be lowercase snake_case (e.g., my_variant)'),
-  name: z.string(),
+  id: z.string().optional(),
+  name: z.string()
+    .min(1, 'Variant Name is required')
+    .max(1000),
   color_hex: z.union([filamentVariantHex, z.array(filamentVariantHex).min(1)]).default(""),
   discontinued: z.boolean().default(false),
   traits: traitsSchema.optional(),

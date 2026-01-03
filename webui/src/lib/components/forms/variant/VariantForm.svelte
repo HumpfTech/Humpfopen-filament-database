@@ -19,7 +19,7 @@
   import { stripOfIllegalChars } from '$lib/globalHelpers';
 
   type formType = 'edit' | 'create';
-  let { defaultForm, formType, brandName, materialName, filamentName, stores, colorData = null } = $props();
+  let { defaultForm, formType, brandId, materialId, filamentId, stores, colorData = null } = $props();
 
   const {
     form,
@@ -47,9 +47,9 @@
       const instanceId = colorData.id || colorData.name;
 
       if (isLocal) {
-        await realDelete('instance', instanceId, stripOfIllegalChars(brandName), materialName, filamentName);
+        await realDelete('instance', instanceId, brandId, materialId, filamentId);
       } else {
-        pseudoDelete('instance', instanceId, stripOfIllegalChars(brandName), materialName, filamentName);
+        pseudoDelete('instance', instanceId, brandId, materialId, filamentId);
       }
     }
   }
@@ -110,10 +110,6 @@
   tempTraits.subscribe((value) => {
     $form.traits = value;
   });
-
-  if (colorData) {
-    $form.old_id = colorData.id || colorData.name;
-  }
 </script>
 
 <Form
@@ -131,16 +127,6 @@
         placeholder="e.g. Galaxy Black"
         bind:formVar={$form.name}
         errorVar={$errors.name}
-        required={true}
-      />
-
-      <TextField
-        id="id"
-        title="Variant ID"
-        description="Unique identifier (lowercase, underscores allowed). Example: galaxy_black"
-        placeholder="e.g. galaxy_black"
-        bind:formVar={$form.id}
-        errorVar={$errors.id}
         required={true}
       />
 
@@ -217,7 +203,7 @@
 
   <SubmitButton>
     {formType === 'edit' ? 'Save' : 'Create'}
-  </SubmitButton>
+  </SubmitButton>  
 
   {#if formType === 'edit'}
     <DeleteButton

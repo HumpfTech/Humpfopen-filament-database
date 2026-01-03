@@ -3,6 +3,8 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { env } from "$env/dynamic/public";
 import type { filamentSizesSchema, filamentVariantSchema, purchaseLinksSchema } from '$lib/validation/filament-variant-schema';
+import { getIdFromName } from '$lib/globalHelpers';
+import { transform } from 'typescript';
 
 const DATA_DIR = env.PUBLIC_DATA_PATH;
 
@@ -12,7 +14,8 @@ export const createVariant = async (
   filamentName: string,
   variantData: z.infer<typeof filamentVariantSchema>,
 ) => {
-  const variantDir = path.join(DATA_DIR, brandName, materialName, filamentName, variantData.id);
+  const id = getIdFromName(variantData.name);
+  const variantDir = path.join(DATA_DIR, brandName, materialName, filamentName, id);
   if (fs.existsSync(variantDir)) {
     throw new Error(`Variant "${variantData.name}" already exists in filament "${filamentName}".`);
   }
@@ -23,6 +26,7 @@ export const createVariant = async (
     const variantJsonPath = path.join(variantDir, 'variant.json');
     const sizesJsonPath = path.join(variantDir, 'sizes.json');
     const transformedData = transformVariant(variantData);
+    transformedData.variant["id"] = id;
 
     fs.writeFileSync(variantJsonPath, JSON.stringify(transformedData.variant, null, 2), 'utf-8');
     fs.writeFileSync(sizesJsonPath, JSON.stringify(transformedData.sizes, null, 2), 'utf-8');
