@@ -1147,7 +1147,7 @@ class Brand(IToFromFS):
             # An error msg will be emitted by the validate function if there is an error
             return None
         return Brand(
-            brand_name=json_data["brand"],
+            brand_name=json_data["name"],
             website=json_data["website"],
             logo=json_data["logo"],
             origin=json_data["origin"]
