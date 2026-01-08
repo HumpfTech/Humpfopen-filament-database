@@ -7,6 +7,7 @@ Follows the native data directory hierarchy:
 
 import json
 import shutil
+import uuid
 from pathlib import Path
 
 from ..models import Database
@@ -57,7 +58,122 @@ def write_json(path: Path, data: dict):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def export_api(db: Database, output_dir: str, version: str, generated_at: str, schemas_dir: str = None, base_url: str = "", **kwargs):
+def generate_logo_id(name: str, logo_filename: str) -> str:
+    """Generate a unique logo ID from name, logo filename, and UUID."""
+    # Create a deterministic UUID based on name and logo filename
+    namespace = uuid.NAMESPACE_DNS
+    unique_string = f"{name}:{logo_filename}"
+    deterministic_uuid = uuid.uuid5(namespace, unique_string)
+
+    # Get file extension
+    ext = logo_filename.split('.')[-1]
+
+    # Create logo ID: name_logofilename_uuid
+    logo_id = f"{name}_{logo_filename.replace('.', '_')}_{deterministic_uuid.hex[:8]}"
+    return logo_id, ext
+
+
+def export_brand_logos(db: Database, api_path: Path, data_dir: Path) -> int:
+    """Export brand logos to API."""
+    logos_path = api_path / "brands" / "logo"
+    logos_path.mkdir(parents=True, exist_ok=True)
+
+    logo_index = []
+    copied_count = 0
+
+    for brand in db.brands:
+        logo_id, ext = generate_logo_id(brand.name, brand.logo)
+
+        # Source logo path
+        brand_dir = data_dir / brand.slug
+        logo_source = brand_dir / brand.logo
+
+        if logo_source.exists():
+            # Copy logo file
+            logo_dest = logos_path / f"{logo_id}.{ext}"
+            shutil.copy2(logo_source, logo_dest)
+
+            # Create JSON metadata file
+            logo_json = {
+                "id": logo_id,
+                "slug": logo_id,
+                "brand_id": brand.id,
+                "brand_name": brand.name,
+                "filename": brand.logo,
+                "extension": ext,
+                "logo_file": f"{logo_id}.{ext}"
+            }
+            write_json(logos_path / f"{logo_id}.json", logo_json)
+
+            logo_index.append({
+                "id": logo_id,
+                "slug": logo_id,
+                "brand_id": brand.id,
+                "brand_name": brand.name,
+                "path": f"{logo_id}.json"
+            })
+            copied_count += 1
+
+    # Write index
+    write_json(logos_path / "index.json", {
+        "count": len(logo_index),
+        "logos": logo_index
+    })
+
+    return copied_count
+
+
+def export_store_logos(db: Database, api_path: Path, stores_dir: Path) -> int:
+    """Export store logos to API."""
+    logos_path = api_path / "stores" / "logo"
+    logos_path.mkdir(parents=True, exist_ok=True)
+
+    logo_index = []
+    copied_count = 0
+
+    for store in db.stores:
+        logo_id, ext = generate_logo_id(store.name, store.logo)
+
+        # Source logo path
+        store_dir = stores_dir / store.slug
+        logo_source = store_dir / store.logo
+
+        if logo_source.exists():
+            # Copy logo file
+            logo_dest = logos_path / f"{logo_id}.{ext}"
+            shutil.copy2(logo_source, logo_dest)
+
+            # Create JSON metadata file
+            logo_json = {
+                "id": logo_id,
+                "slug": logo_id,
+                "store_id": store.id,
+                "store_name": store.name,
+                "filename": store.logo,
+                "extension": ext,
+                "logo_file": f"{logo_id}.{ext}"
+            }
+            write_json(logos_path / f"{logo_id}.json", logo_json)
+
+            logo_index.append({
+                "id": logo_id,
+                "slug": logo_id,
+                "store_id": store.id,
+                "store_name": store.name,
+                "path": f"{logo_id}.json"
+            })
+            copied_count += 1
+
+    # Write index
+    write_json(logos_path / "index.json", {
+        "count": len(logo_index),
+        "logos": logo_index
+    })
+
+    return copied_count
+
+
+def export_api(db: Database, output_dir: str, version: str, generated_at: str, schemas_dir: str = None, base_url: str = "", data_dir: str = "data", stores_dir: str = "stores", **kwargs):
     """Export static API structure following native directory hierarchy."""
     api_path = Path(output_dir) / "api" / "v1"
     api_path.mkdir(parents=True, exist_ok=True)
@@ -68,6 +184,13 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
         schemas_path = Path(schemas_dir)
         schemas_count = export_schemas(api_path, schemas_path, version, generated_at)
         print(f"  Written: {schemas_count} schemas")
+
+    # Export brand and store logos
+    data_path = Path(data_dir)
+    stores_path = Path(stores_dir)
+    brand_logos_count = export_brand_logos(db, api_path, data_path)
+    store_logos_count = export_store_logos(db, api_path, stores_path)
+    print(f"  Written: {brand_logos_count} brand logos, {store_logos_count} store logos")
 
     # Build lookup maps for efficient access
     materials_by_brand = {}
@@ -94,6 +217,8 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
     endpoints = {
         "brands": "brands/index.json",
         "stores": "stores/index.json",
+        "brand_logos": "brands/logo/index.json",
+        "store_logos": "stores/logo/index.json",
         "all": "../json/all.json"
     }
     if schemas_count > 0:
