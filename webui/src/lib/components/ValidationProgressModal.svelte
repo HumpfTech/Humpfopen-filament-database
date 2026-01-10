@@ -55,6 +55,7 @@
 	<div
 		class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
 		onclick={onClose}
+		aria-label="validation-progress-title"
 		role="button"
 		tabindex="-1"
 	>
@@ -62,6 +63,8 @@
 			class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4"
 			onclick={(e) => e.stopPropagation()}
 			role="dialog"
+			aria-labelledby="validation-progress-title"
+			aria-modal="true"
 			tabindex="-1"
 		>
 			<h2 class="text-xl font-bold mb-4 dark:text-white">

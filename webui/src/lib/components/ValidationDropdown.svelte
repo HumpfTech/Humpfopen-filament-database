@@ -131,6 +131,7 @@
 <div class="validation-dropdown relative">
 	<button
 		onclick={toggleDropdown}
+		aria-expanded="{isOpen}"
 		class="relative px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
 	>
 		<span class="flex items-center gap-2">
@@ -170,9 +171,11 @@
 	{#if isOpen}
 		<div
 			class="absolute right-0 mt-2 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-[32rem] overflow-y-auto z-50"
+			role="menu"
+			aria-label="Validation results"
 		>
 			<!-- Run Validation Button -->
-			<div class="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+			<div class="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900" role="menuitem">
 				<button
 					onclick={runValidation}
 					disabled={$validationStore.isValidating}
@@ -211,7 +214,7 @@
 
 			<!-- Validation Results -->
 			{#if $errorCount + $warningCount === 0}
-				<div class="p-4 text-center text-green-600 dark:text-green-400">
+				<div class="p-4 text-center text-green-600 dark:text-green-400" role="menuitem">
 					<svg class="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
 						<path
 							fill-rule="evenodd"
@@ -225,7 +228,7 @@
 					</p>
 				</div>
 			{:else}
-				<div class="divide-y divide-gray-200 dark:divide-gray-700">
+				<div class="divide-y divide-gray-200 dark:divide-gray-700" role="menuitem">
 					{#each [...$errorsByCategory.entries()] as [category, errors]}
 						<div>
 							<div class="bg-gray-50 dark:bg-gray-900 px-4 py-2 sticky top-0">

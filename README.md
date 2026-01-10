@@ -66,7 +66,7 @@ python data_validator.py --store-ids     # Validates store IDs
 ### 7. Submit your changes
 Before submitting, make sure your data is sorted consistently:
 - **In the WebUI:** Click the "Sort Data" button in the top-right corner
-- **Or via command line:** Run `python sort_data.py`
+- **Or via command line:** Run `python scripts/sort_data.py`
 
 Then add your changes:
 ```bash

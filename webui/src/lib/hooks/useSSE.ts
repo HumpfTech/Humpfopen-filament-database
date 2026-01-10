@@ -31,7 +31,7 @@ export function useSSE() {
 			}
 		};
 
-			eventSource.onerror = (error) => {
+		eventSource.onerror = (error) => {
 			console.error('SSE connection error:', error);
 			handlers.onError?.(error);
 			disconnect();
