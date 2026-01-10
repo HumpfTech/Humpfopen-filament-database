@@ -5,7 +5,6 @@ Creates a separate database file containing just store information,
 making it easier to work with store data independently.
 """
 
-import json
 import lzma
 import sqlite3
 from dataclasses import fields

@@ -14,27 +14,91 @@ from ..models import Database
 from ..serialization import entity_to_dict
 
 
-def export_schemas(api_path: Path, schemas_dir: Path, version: str, generated_at: str) -> int:
-    """Export JSON schemas to the API."""
+def merge_schemas(base_schema: dict, logo_schema: dict) -> dict:
+    """
+    Merge logo schema on top of base schema.
+    Logo schema properties will be added to the base schema while preserving base properties.
+    """
+    merged = base_schema.copy()
+
+    # Add logo-specific properties to the base schema properties
+    if "properties" in logo_schema:
+        if "properties" not in merged:
+            merged["properties"] = {}
+        merged["properties"].update(logo_schema["properties"])
+
+    # Add logo-specific required fields to base required fields
+    if "required" in logo_schema:
+        if "required" not in merged:
+            merged["required"] = []
+        # Merge required fields, avoiding duplicates
+        merged["required"] = list(set(merged["required"] + logo_schema["required"]))
+
+    # Update title and description if present in logo schema
+    if "title" in logo_schema:
+        merged["title"] = logo_schema["title"]
+    if "description" in logo_schema:
+        merged["description"] = logo_schema["description"]
+
+    return merged
+
+
+def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path, version: str, generated_at: str) -> int:
+    """
+    Export JSON schemas to the API.
+    Logo schemas from builder/schemas are merged on top of general schemas from schemas/.
+    """
     schemas_path = api_path / "schemas"
     schemas_path.mkdir(parents=True, exist_ok=True)
 
     schema_files = []
 
+    # Load logo schemas from builder/schemas if they exist
+    logo_schemas = {}
+    if builder_schemas_dir and builder_schemas_dir.exists():
+        for schema_file in builder_schemas_dir.glob("*_logo_schema.json"):
+            with open(schema_file, 'r', encoding='utf-8') as f:
+                logo_schemas[schema_file.name] = json.load(f)
+
     if schemas_dir.exists():
         for schema_file in sorted(schemas_dir.glob("*.json")):
-            # Copy schema file
-            dest = schemas_path / schema_file.name
-            shutil.copy2(schema_file, dest)
+            # Check if there's a corresponding logo schema
+            logo_schema_name = schema_file.stem + "_logo_schema.json"
 
-            # Extract schema name from filename (e.g., "brand_schema.json" -> "brand")
-            name = schema_file.stem.replace("_schema", "").replace("-schema", "")
+            if logo_schema_name in logo_schemas:
+                # Load base schema
+                with open(schema_file, 'r', encoding='utf-8') as f:
+                    base_schema = json.load(f)
 
-            schema_files.append({
-                "name": name,
-                "file": schema_file.name,
-                "path": f"{schema_file.name}"
-            })
+                # Merge logo schema on top of base schema
+                merged_schema = merge_schemas(base_schema, logo_schemas[logo_schema_name])
+
+                # Write merged schema
+                dest = schemas_path / logo_schema_name
+                with open(dest, 'w', encoding='utf-8') as f:
+                    json.dump(merged_schema, f, indent=2, ensure_ascii=False)
+
+                # Extract schema name (e.g., "brand_logo_schema.json" -> "brand_logo")
+                name = schema_file.stem.replace("_schema", "") + "_logo"
+
+                schema_files.append({
+                    "name": name,
+                    "file": logo_schema_name,
+                    "path": f"{logo_schema_name}"
+                })
+            else:
+                # Copy base schema as-is
+                dest = schemas_path / schema_file.name
+                shutil.copy2(schema_file, dest)
+
+                # Extract schema name from filename (e.g., "brand_schema.json" -> "brand")
+                name = schema_file.stem.replace("_schema", "").replace("-schema", "")
+
+                schema_files.append({
+                    "name": name,
+                    "file": schema_file.name,
+                    "path": f"{schema_file.name}"
+                })
 
     # Write schemas index
     schemas_index = {
@@ -66,7 +130,7 @@ def generate_logo_id(name: str, logo_filename: str) -> str:
     deterministic_uuid = uuid.uuid5(namespace, unique_string)
 
     # Get file extension
-    ext = logo_filename.split('.')[-1]
+    ext = Path(logo_filename).suffix[1:]
 
     # Create logo ID: name_logofilename_uuid
     logo_id = f"{name}_{logo_filename.replace('.', '_')}_{deterministic_uuid.hex[:8]}"
@@ -173,7 +237,7 @@ def export_store_logos(db: Database, api_path: Path, stores_dir: Path) -> int:
     return copied_count
 
 
-def export_api(db: Database, output_dir: str, version: str, generated_at: str, schemas_dir: str = None, base_url: str = "", data_dir: str = "data", stores_dir: str = "stores", **kwargs):
+def export_api(db: Database, output_dir: str, version: str, generated_at: str, schemas_dir: str = None, builder_schemas_dir: str = None, base_url: str = "", data_dir: str = "data", stores_dir: str = "stores", **kwargs):
     """Export static API structure following native directory hierarchy."""
     api_path = Path(output_dir) / "api" / "v1"
     api_path.mkdir(parents=True, exist_ok=True)
@@ -182,7 +246,8 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
     schemas_count = 0
     if schemas_dir:
         schemas_path = Path(schemas_dir)
-        schemas_count = export_schemas(api_path, schemas_path, version, generated_at)
+        builder_schemas_path = Path(builder_schemas_dir) if builder_schemas_dir else None
+        schemas_count = export_schemas(api_path, schemas_path, builder_schemas_path, version, generated_at)
         print(f"  Written: {schemas_count} schemas")
 
     # Export brand and store logos

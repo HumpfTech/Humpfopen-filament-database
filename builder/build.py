@@ -147,6 +147,7 @@ def main():
     data_dir = project_root / args.data_dir
     stores_dir = project_root / args.stores_dir
     schemas_dir = project_root / "schemas"
+    builder_schemas_dir = project_root / "builder" / "schemas"
     output_dir = project_root / args.output_dir
 
     # Generate version if not provided
@@ -205,7 +206,7 @@ def main():
     # Step 6: Export Static API
     if not args.skip_api:
         print("\n[6/7] Exporting Static API...")
-        export_api(db, str(output_dir), version, generated_at, schemas_dir=str(schemas_dir), data_dir=str(data_dir), stores_dir=str(stores_dir))
+        export_api(db, str(output_dir), version, generated_at, schemas_dir=str(schemas_dir), builder_schemas_dir=str(builder_schemas_dir), data_dir=str(data_dir), stores_dir=str(stores_dir))
     else:
         print("\n[6/7] Skipping Static API export")
 

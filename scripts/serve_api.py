@@ -13,7 +13,6 @@ Usage:
 import argparse
 import http.server
 import socketserver
-import os
 from pathlib import Path
 
 
@@ -21,7 +20,6 @@ class CORSRequestHandler(http.server.SimpleHTTPRequestHandler):
     """HTTP request handler with CORS headers enabled."""
 
     def __init__(self, *args, directory=None, **kwargs):
-        self.directory_to_serve = directory
         super().__init__(*args, directory=directory, **kwargs)
 
     def end_headers(self):
@@ -95,12 +93,16 @@ def main():
         print(f"✓ Server address:    http://{host_display}:{args.port}")
         print(f"✓ CORS:              Enabled (all origins)")
         print(f"✓ Cache:             Disabled (development mode)")
-        print("\nEndpoints:")
-        print(f"  - API Root:   http://{host_display}:{args.port}/api/v1/index.json")
-        print(f"  - Brands:     http://{host_display}:{args.port}/api/v1/brands/index.json")
-        print(f"  - Stores:     http://{host_display}:{args.port}/api/v1/stores/index.json")
-        print(f"  - All Data:   http://{host_display}:{args.port}/json/all.json")
-        print(f"  - HTML:       http://{host_display}:{args.port}/index.html")
+        print("\nMain Endpoints:")
+        print(f"  - API Root:      http://{host_display}:{args.port}/api/v1/index.json")
+        print(f"  - Brands:        http://{host_display}:{args.port}/api/v1/brands/index.json")
+        print(f"  - Stores:        http://{host_display}:{args.port}/api/v1/stores/index.json")
+        print(f"  - Brand Logos:   http://{host_display}:{args.port}/api/v1/brands/logo/index.json")
+        print(f"  - Store Logos:   http://{host_display}:{args.port}/api/v1/stores/logo/index.json")
+        print(f"  - Schemas:       http://{host_display}:{args.port}/api/v1/schemas/index.json")
+        print(f"  - All Data:      http://{host_display}:{args.port}/json/all.json")
+        print(f"  - HTML:          http://{host_display}:{args.port}/index.html")
+        print(f"\nNote: All paths match https://api.openfilamentdatabase.org/")
         print("\nPress Ctrl+C to stop")
         print("=" * 60)
         try:

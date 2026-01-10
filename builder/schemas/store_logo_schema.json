@@ -32,7 +32,8 @@
         },
         "logo_file": {
             "type": "string",
-            "description": "The generated logo filename in the API (e.g., {logo_id}.{ext})"
+            "description": "The generated logo filename in the API (e.g., {logo}.{ext})",
+            "pattern": "^logo\\.(png|jpg|svg)$"
         }
     },
     "required": [
