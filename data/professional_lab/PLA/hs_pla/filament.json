@@ -3,5 +3,5 @@
   "diameter_tolerance": 0.03,
   "density": 1.25,
   "max_dry_temperature": 55,
-  "id": "hs-pla"
+  "id": "hs_pla"
 }
