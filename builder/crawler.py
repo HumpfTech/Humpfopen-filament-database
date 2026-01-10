@@ -144,7 +144,7 @@ class DataCrawler:
 
         brand = Brand(
             id=brand_id,
-            name=brand_data.get("brand", brand_name),
+            name=brand_data.get("name", brand_name),
             slug=slugify(brand_name),
             website=brand_data.get("website", ""),
             logo=brand_data.get("logo", ""),
