@@ -1,0 +1,61 @@
+name: Sort Data
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'stores/**'
+      - 'schemas/**'
+      - 'scripts/sort_data.py'
+      - 'data_validator.py'
+      - 'db_serializer.py'
+      - 'requirements.txt'
+
+jobs:
+  sort_data:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run sort script
+        run: python scripts/sort_data.py
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add data/ stores/
+          git commit -m "Auto-sort data files according to schema
+
+          Automated sorting performed by sort_data.py script.
+          All changes have passed validation checks."
+          git push
