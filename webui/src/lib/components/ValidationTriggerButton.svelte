@@ -1,9 +1,68 @@
 <script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
+	import { navigating } from '$app/stores';
 	import { validationStore } from '$lib/stores/validationStore';
+	import { useSSE } from '$lib/hooks/useSSE';
 	import ValidationProgressModal from './ValidationProgressModal.svelte';
 
 	let showModal = $state(false);
 	let currentJobId = $state<string | null>(null);
+	let checkInterval: NodeJS.Timeout | null = null;
+	const sse = useSSE();
+
+	// Function to check validation status and reconnect if needed
+	async function checkValidationStatus() {
+		// Don't check if already connected or modal is open
+		if ($validationStore.isValidating || showModal) {
+			return;
+		}
+
+		try {
+			const response = await fetch('/api/validate/status');
+			if (response.ok) {
+				const { running, jobId } = await response.json();
+				if (running) {
+					// Silently reconnect to existing validation
+					validationStore.setValidating(true);
+					currentJobId = jobId;
+
+					// Connect to SSE stream in background
+					sse.connect('/api/validate/stream/current', {
+						onProgress: () => {
+							// Silent progress updates
+						},
+						onComplete: (result) => {
+							if (result.errors !== undefined) {
+								validationStore.setResults(result);
+							}
+							validationStore.setValidating(false);
+						},
+						onError: (err) => {
+							console.error('Background validation error:', err);
+							validationStore.setValidating(false);
+						}
+					});
+				}
+			}
+		} catch (error) {
+			console.error('Failed to check validation status:', error);
+		}
+	}
+
+	// Check for running validation on mount
+	onMount(async () => {
+		await checkValidationStatus();
+
+		// Poll for validation status every 3 seconds
+		checkInterval = setInterval(checkValidationStatus, 3000);
+	});
+
+	// Clean up interval on unmount
+	onDestroy(() => {
+		if (checkInterval) {
+			clearInterval(checkInterval);
+		}
+	});
 
 	async function runValidation() {
 		validationStore.setValidating(true);
@@ -16,7 +75,14 @@
 			});
 
 			if (!response.ok) {
-				throw new Error('Failed to start validation');
+				if (response.status === 409) {
+					const { error } = await response.json();
+					alert(error || 'A validation is already running. Please wait for it to complete.');
+				} else {
+					alert('Failed to start validation. Please try again.');
+				}
+				validationStore.setValidating(false);
+				return;
 			}
 
 			const { jobId } = await response.json();

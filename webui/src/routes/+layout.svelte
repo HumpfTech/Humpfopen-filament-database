@@ -2,7 +2,6 @@
   import BackBtn from '$lib/components/backBtn.svelte';
   import Breadcrumb from '$lib/components/breadcrumb.svelte';
   import ValidationDropdown from '$lib/components/ValidationDropdown.svelte';
-  import ValidationTriggerButton from '$lib/components/ValidationTriggerButton.svelte';
   import SortDataButton from '$lib/components/SortDataButton.svelte';
   import { getFlash, updateFlash } from 'sveltekit-flash-message';
   import '../app.css';
@@ -87,7 +86,6 @@
       </div>
 
       <div class="flex gap-3 items-center">
-        <ValidationTriggerButton />
         <SortDataButton />
         <ValidationDropdown />
       </div>

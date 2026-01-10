@@ -1,13 +1,26 @@
 import { json } from '@sveltejs/kit';
 import { spawn } from 'node:child_process';
-import { randomUUID } from 'node:crypto';
 import path from 'node:path';
-import { activeJobs, type Job } from '$lib/server/jobManager';
+import { activeJobs, type Job, hasActiveValidationJob } from '$lib/server/jobManager';
 
 export async function POST({ request }) {
 	try {
+		// Check if validation is already running
+		if (hasActiveValidationJob()) {
+			return json(
+				{ error: 'A validation job is already running. Please wait for it to complete.' },
+				{ status: 409 }
+			);
+		}
+
 		const { type = 'full' } = await request.json();
-		const jobId = randomUUID();
+		const jobId = 'validation-current';
+
+		// Clean up old validation-current job if it exists and is complete
+		const existingJob = activeJobs.get(jobId);
+		if (existingJob && (existingJob.status === 'complete' || existingJob.status === 'error')) {
+			activeJobs.delete(jobId);
+		}
 
 		// Build Python command arguments
 		const args = ['data_validator.py', '--json', '--progress'];

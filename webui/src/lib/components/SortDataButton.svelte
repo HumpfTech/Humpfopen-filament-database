@@ -60,7 +60,7 @@
 			Sorting...
 		</span>
 	{:else}
-		Sort Data
+		Sort Data (Run before submit)
 	{/if}
 </button>
 
