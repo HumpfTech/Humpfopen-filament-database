@@ -30,6 +30,22 @@ from typing import Any, Dict, List, Optional, Set
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from data_validator import ValidationOrchestrator
 
+# Global flags for output mode
+PROGRESS_MODE = False
+JSON_MODE = False
+
+
+def emit_progress(stage: str, percent: int, message: str = '') -> None:
+    """Emit progress event as JSON to stdout for SSE streaming."""
+    if PROGRESS_MODE and hasattr(sys.stdout, 'isatty') and not sys.stdout.isatty():
+        # Only emit when stdout is piped (not terminal)
+        print(json.dumps({
+            'type': 'progress',
+            'stage': stage,
+            'percent': percent,
+            'message': message
+        }), flush=True)
+
 
 @dataclass
 class SchemaInfo:
@@ -45,6 +61,15 @@ class ProcessingStats:
     files_modified: int = 0
     files_skipped: int = 0
     extra_keys_found: int = 0
+
+    def to_dict(self) -> Dict[str, int]:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            'files_processed': self.files_processed,
+            'files_modified': self.files_modified,
+            'files_skipped': self.files_skipped,
+            'extra_keys_found': self.extra_keys_found
+        }
 
 
 def load_json(path: Path) -> Optional[Dict[str, Any]]:
@@ -407,6 +432,8 @@ def merge_stats(stats1: ProcessingStats, stats2: ProcessingStats) -> ProcessingS
 
 
 def main():
+    global PROGRESS_MODE, JSON_MODE
+
     parser = argparse.ArgumentParser(
         description='Sort JSON file keys according to schema definitions'
     )
@@ -415,7 +442,25 @@ def main():
         action='store_true',
         help='Preview changes without modifying files'
     )
+    parser.add_argument(
+        '--json',
+        action='store_true',
+        help='Output results as JSON'
+    )
+    parser.add_argument(
+        '--progress',
+        action='store_true',
+        help='Emit progress events (for SSE streaming)'
+    )
+    parser.add_argument(
+        '--validate',
+        action='store_true',
+        help='Run validation after sorting'
+    )
     args = parser.parse_args()
+
+    PROGRESS_MODE = args.progress
+    JSON_MODE = args.json
 
     # Determine paths relative to script location
     script_dir = Path(__file__).parent
@@ -425,78 +470,111 @@ def main():
     schemas_dir = repo_root / 'schemas'
 
     if args.dry_run:
-        print("=== DRY RUN MODE - No files will be modified ===\n")
+        if not JSON_MODE:
+            print("=== DRY RUN MODE - No files will be modified ===\n")
 
     # Build key order mapping from schemas
-    print("Loading schemas...")
+    emit_progress('loading_schemas', 0, 'Loading schemas...')
+    if not JSON_MODE:
+        print("Loading schemas...")
     key_order_map = build_key_order_map(schemas_dir)
-    print(f"Loaded {len(key_order_map)} schemas\n")
+    emit_progress('loading_schemas', 100, f'Loaded {len(key_order_map)} schemas')
+    if not JSON_MODE:
+        print(f"Loaded {len(key_order_map)} schemas\n")
 
     # Process data directory
     data_stats = ProcessingStats()
     if data_dir.exists():
+        emit_progress('sorting_data', 0, 'Processing data directory...')
         data_stats = process_data_directory(data_dir, key_order_map, args.dry_run)
+        emit_progress('sorting_data', 100, 'Data directory processing complete')
     else:
-        print(f"Data directory not found: {data_dir}")
+        if not JSON_MODE:
+            print(f"Data directory not found: {data_dir}")
 
     # Process stores directory
     stores_stats = ProcessingStats()
     if stores_dir.exists():
+        emit_progress('sorting_stores', 0, 'Processing stores directory...')
         stores_stats = process_stores_directory(stores_dir, key_order_map, args.dry_run)
+        emit_progress('sorting_stores', 100, 'Stores directory processing complete')
     else:
-        print(f"Stores directory not found: {stores_dir}")
+        if not JSON_MODE:
+            print(f"Stores directory not found: {stores_dir}")
 
     # Merge statistics
     total_stats = merge_stats(data_stats, stores_stats)
 
-    # Print summary
-    print(f"\n{'=' * 60}")
-    if args.dry_run:
-        print("DRY RUN SUMMARY")
-    else:
-        print("SORTING SUMMARY")
-    print('=' * 60)
-    print(f"Files processed: {total_stats.files_processed}")
-    print(f"Files modified: {total_stats.files_modified}")
-    print(f"Files skipped: {total_stats.files_skipped}")
-    if total_stats.extra_keys_found > 0:
-        print(f"Extra keys found: {total_stats.extra_keys_found}")
+    # Run validation if requested
+    validation_result = None
+    if args.validate and not args.dry_run and total_stats.files_modified > 0:
+        emit_progress('validation', 0, 'Running validation...')
+        if not JSON_MODE:
+            print(f"\n{'=' * 60}")
+            print("VALIDATING SORTED FILES")
+            print('=' * 60)
 
-    # Run validation if not in dry-run mode
-    if not args.dry_run and total_stats.files_modified > 0:
-        print(f"\n{'=' * 60}")
-        print("VALIDATING SORTED FILES")
-        print('=' * 60)
+        orchestrator = ValidationOrchestrator(data_dir, stores_dir, progress_mode=PROGRESS_MODE)
+        validation_result = orchestrator.validate_all()
+        emit_progress('validation', 100, 'Validation complete')
 
-        orchestrator = ValidationOrchestrator(data_dir, stores_dir)
-        result = orchestrator.validate_all()
+    # Output results
+    if JSON_MODE:
+        # JSON output mode
+        output = {
+            'dry_run': args.dry_run,
+            'stats': total_stats.to_dict()
+        }
+        if validation_result:
+            output['validation'] = validation_result.to_dict()
+        print(json.dumps(output, indent=2))
 
-        if result.errors:
-            print("\nValidation errors found:")
-
-            # Group errors by category
-            errors_by_category: Dict[str, List] = {}
-            for error in result.errors:
-                if error.category not in errors_by_category:
-                    errors_by_category[error.category] = []
-                errors_by_category[error.category].append(error)
-
-            # Print errors grouped by category
-            for category, errors in sorted(errors_by_category.items()):
-                print(f"\n{category} ({len(errors)}):")
-                print("-" * 80)
-                for error in errors[:10]:  # Limit to first 10 per category
-                    print(f"  {error}")
-                if len(errors) > 10:
-                    print(f"  ... and {len(errors) - 10} more")
-
-            print(f"\nValidation failed: {result.error_count} errors, {result.warning_count} warnings")
+        # Exit with error code if validation failed
+        if validation_result and not validation_result.is_valid:
             sys.exit(1)
+        sys.exit(0)
+    else:
+        # Text output mode
+        print(f"\n{'=' * 60}")
+        if args.dry_run:
+            print("DRY RUN SUMMARY")
         else:
-            print("\nAll validations passed!")
+            print("SORTING SUMMARY")
+        print('=' * 60)
+        print(f"Files processed: {total_stats.files_processed}")
+        print(f"Files modified: {total_stats.files_modified}")
+        print(f"Files skipped: {total_stats.files_skipped}")
+        if total_stats.extra_keys_found > 0:
+            print(f"Extra keys found: {total_stats.extra_keys_found}")
 
-    print("\nDone!")
-    sys.exit(0)
+        if validation_result:
+            if validation_result.errors:
+                print("\nValidation errors found:")
+
+                # Group errors by category
+                errors_by_category: Dict[str, List] = {}
+                for error in validation_result.errors:
+                    if error.category not in errors_by_category:
+                        errors_by_category[error.category] = []
+                    errors_by_category[error.category].append(error)
+
+                # Print errors grouped by category
+                for category, errors in sorted(errors_by_category.items()):
+                    print(f"\n{category} ({len(errors)}):")
+                    print("-" * 80)
+                    for error in errors[:10]:  # Limit to first 10 per category
+                        print(f"  {error}")
+                    if len(errors) > 10:
+                        print(f"  ... and {len(errors) - 10} more")
+
+                print(f"\nValidation failed: {validation_result.error_count} errors, {validation_result.warning_count} warnings")
+                print("\nDone!")
+                sys.exit(1)
+            else:
+                print("\nAll validations passed!")
+
+        print("\nDone!")
+        sys.exit(0)
 
 
 if __name__ == '__main__':
