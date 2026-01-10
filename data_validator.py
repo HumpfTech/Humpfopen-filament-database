@@ -846,34 +846,42 @@ class ValidationOrchestrator:
 
     def validate_json_files(self) -> ValidationResult:
         """Validate all JSON files against schemas."""
-        print("Collecting JSON validation tasks...")
+        if not self.progress_mode:
+            print("Collecting JSON validation tasks...")
         tasks = collect_json_validation_tasks(self.data_dir, self.stores_dir)
-        print(f"Running {len(tasks)} JSON validation tasks...")
+        if not self.progress_mode:
+            print(f"Running {len(tasks)} JSON validation tasks...")
         return self.run_tasks_parallel(tasks)
 
     def validate_logo_files(self) -> ValidationResult:
         """Validate all logo files."""
-        print("Collecting logo validation tasks...")
+        if not self.progress_mode:
+            print("Collecting logo validation tasks...")
         tasks = collect_logo_validation_tasks(self.data_dir, self.stores_dir)
-        print(f"Running {len(tasks)} logo validation tasks...")
+        if not self.progress_mode:
+            print(f"Running {len(tasks)} logo validation tasks...")
         return self.run_tasks_parallel(tasks)
 
     def validate_folder_names(self) -> ValidationResult:
         """Validate all folder names."""
-        print("Collecting folder name validation tasks...")
+        if not self.progress_mode:
+            print("Collecting folder name validation tasks...")
         tasks = collect_folder_validation_tasks(self.data_dir, self.stores_dir)
-        print(f"Running {len(tasks)} folder name validation tasks...")
+        if not self.progress_mode:
+            print(f"Running {len(tasks)} folder name validation tasks...")
         return self.run_tasks_parallel(tasks)
 
     def validate_store_ids(self) -> ValidationResult:
         """Validate store IDs."""
-        print("Validating store IDs...")
+        if not self.progress_mode:
+            print("Validating store IDs...")
         validator = StoreIdValidator(self.schema_cache)
         return validator.validate_store_ids(self.data_dir, self.stores_dir)
 
     def validate_gtin(self) -> ValidationResult:
         """Validate GTIN/EAN rules."""
-        print("Validating GTIN/EAN...")
+        if not self.progress_mode:
+            print("Validating GTIN/EAN...")
         validator = GTINValidator(self.schema_cache)
         return validator.validate_gtin_ean(self.data_dir)
 
@@ -883,7 +891,8 @@ class ValidationOrchestrator:
 
         # Check for missing files first
         self.emit_progress('missing_files', 0, 'Checking for missing required files...')
-        print("Checking for missing required files...")
+        if not self.progress_mode:
+            print("Checking for missing required files...")
         validator = MissingFileValidator(self.schema_cache)
         result.merge(validator.validate_required_files(self.data_dir, self.stores_dir))
         self.emit_progress('missing_files', 100, 'Missing files check complete')
@@ -951,7 +960,11 @@ def main():
     if args.json:
         # JSON output mode
         output = result.to_dict()
-        print(json.dumps(output, indent=2))
+        # Use compact output in progress mode for SSE compatibility, pretty output otherwise
+        if args.progress:
+            print(json.dumps(output))
+        else:
+            print(json.dumps(output, indent=2))
         sys.exit(0 if result.is_valid else 1)
     else:
         # Text output mode

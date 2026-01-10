@@ -283,7 +283,8 @@ def process_json_file(
 
     # Get schema info
     if schema_name not in key_order_map:
-        print(f"  Warning: No schema found for {schema_name}")
+        if not JSON_MODE:
+            print(f"  Warning: No schema found for {schema_name}")
         stats.files_skipped += 1
         return False
 
@@ -297,7 +298,8 @@ def process_json_file(
 
     # Warn about extra keys
     if extra_keys:
-        print(f"  Warning: Extra keys in {file_path.name}: {sorted(extra_keys)}")
+        if not JSON_MODE:
+            print(f"  Warning: Extra keys in {file_path.name}: {sorted(extra_keys)}")
         stats.extra_keys_found += len(extra_keys)
 
     # Check if anything changed
@@ -307,10 +309,11 @@ def process_json_file(
     stats.files_processed += 1
 
     if original_json != sorted_json:
-        if dry_run:
-            print(f"  Would sort: {file_path.name}")
-        else:
-            print(f"  Sorted: {file_path.name}")
+        if not JSON_MODE:
+            if dry_run:
+                print(f"  Would sort: {file_path.name}")
+            else:
+                print(f"  Sorted: {file_path.name}")
         save_json(file_path, sorted_data, dry_run)
         stats.files_modified += 1
         return True
@@ -335,14 +338,16 @@ def process_data_directory(
     """
     stats = ProcessingStats()
 
-    print("Processing data directory...")
+    if not JSON_MODE:
+        print("Processing data directory...")
 
     # Process each brand directory
     for brand_dir in sorted(data_dir.iterdir()):
         if not brand_dir.is_dir():
             continue
 
-        print(f"  Brand: {brand_dir.name}")
+        if not JSON_MODE:
+            print(f"  Brand: {brand_dir.name}")
 
         # Process brand.json
         brand_file = brand_dir / "brand.json"
@@ -404,14 +409,16 @@ def process_stores_directory(
     """
     stats = ProcessingStats()
 
-    print("\nProcessing stores directory...")
+    if not JSON_MODE:
+        print("\nProcessing stores directory...")
 
     # Process each store directory
     for store_dir in sorted(stores_dir.iterdir()):
         if not store_dir.is_dir():
             continue
 
-        print(f"  Store: {store_dir.name}")
+        if not JSON_MODE:
+            print(f"  Store: {store_dir.name}")
 
         # Process store.json
         store_file = store_dir / "store.json"
@@ -527,7 +534,12 @@ def main():
         }
         if validation_result:
             output['validation'] = validation_result.to_dict()
-        print(json.dumps(output, indent=2))
+
+        # Use compact output in progress mode for SSE compatibility, pretty output otherwise
+        if PROGRESS_MODE:
+            print(json.dumps(output))
+        else:
+            print(json.dumps(output, indent=2))
 
         # Exit with error code if validation failed
         if validation_result and not validation_result.is_valid:
