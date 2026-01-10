@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sort_data.py - Sort JSON file keys according to schema definitions
+style_data.py - Sort JSON file keys according to schema definitions
 
 This script recursively processes all JSON files in the data/ and stores/
 directories and reorders their keys to match the order defined in the
@@ -13,10 +13,12 @@ The script:
 3. Handles nested objects with their own key orderings
 4. Warns about keys found in data but not in schema
 5. Validates all files after sorting using data_validator.py
+6. Enforces 2-space indentation across all JSON files
 
 Usage:
-    python scripts/sort_data.py --dry-run  # Preview changes
-    python scripts/sort_data.py            # Apply changes
+    python scripts/style_data.py --dry-run  # Preview changes
+    python scripts/style_data.py            # Apply changes
+    python scripts/style_data.py --fix-indent-only  # Only fix indentation
 """
 
 import argparse
@@ -438,6 +440,98 @@ def merge_stats(stats1: ProcessingStats, stats2: ProcessingStats) -> ProcessingS
     )
 
 
+def fix_json_indentation(
+    file_path: Path,
+    dry_run: bool,
+    stats: ProcessingStats
+) -> bool:
+    """Fix indentation of a JSON file to use 2 spaces.
+
+    Args:
+        file_path: Path to the JSON file
+        dry_run: If True, don't save changes
+        stats: Statistics tracker
+
+    Returns:
+        True if file was modified, False otherwise
+    """
+    # Load the file
+    data = load_json(file_path)
+    if data is None:
+        stats.files_skipped += 1
+        return False
+
+    # Read original content
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            original_content = f.read()
+    except OSError as e:
+        print(f"Error reading {file_path}: {e}")
+        stats.files_skipped += 1
+        return False
+
+    # Generate properly indented content
+    new_content = json.dumps(data, indent=2, ensure_ascii=False) + '\n'
+
+    stats.files_processed += 1
+
+    # Check if anything changed
+    if original_content != new_content:
+        if not JSON_MODE:
+            if dry_run:
+                print(f"  Would fix indentation: {file_path.relative_to(file_path.parent.parent.parent)}")
+            else:
+                print(f"  Fixed indentation: {file_path.relative_to(file_path.parent.parent.parent)}")
+
+        if not dry_run:
+            try:
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+            except OSError as e:
+                print(f"Error writing {file_path}: {e}")
+                stats.files_skipped += 1
+                return False
+
+        stats.files_modified += 1
+        return True
+
+    return False
+
+
+def fix_all_json_indentation(
+    repo_root: Path,
+    dry_run: bool
+) -> ProcessingStats:
+    """Fix indentation for all JSON files in the repository.
+
+    Args:
+        repo_root: Path to the repository root
+        dry_run: If True, don't save changes
+
+    Returns:
+        Processing statistics
+    """
+    stats = ProcessingStats()
+
+    if not JSON_MODE:
+        print("Fixing indentation for all JSON files...")
+
+    # Find all JSON files in the repository
+    json_files = list(repo_root.rglob('*.json'))
+
+    # Exclude node_modules and other common directories to skip
+    excluded_dirs = {'node_modules', '.git', 'dist', 'build', '.venv', 'venv'}
+    json_files = [
+        f for f in json_files
+        if not any(part in excluded_dirs for part in f.parts)
+    ]
+
+    for json_file in sorted(json_files):
+        fix_json_indentation(json_file, dry_run, stats)
+
+    return stats
+
+
 def main():
     global PROGRESS_MODE, JSON_MODE
 
@@ -464,6 +558,11 @@ def main():
         action='store_true',
         help='Run validation after sorting'
     )
+    parser.add_argument(
+        '--fix-indent-only',
+        action='store_true',
+        help='Only fix indentation to 2 spaces across all JSON files (skip sorting)'
+    )
     args = parser.parse_args()
 
     PROGRESS_MODE = args.progress
@@ -479,6 +578,37 @@ def main():
     if args.dry_run:
         if not JSON_MODE:
             print("=== DRY RUN MODE - No files will be modified ===\n")
+
+    # Handle --fix-indent-only mode
+    if args.fix_indent_only:
+        emit_progress('fixing_indentation', 0, 'Fixing indentation for all JSON files...')
+        total_stats = fix_all_json_indentation(repo_root, args.dry_run)
+        emit_progress('fixing_indentation', 100, 'Indentation fixes complete')
+
+        # Output results
+        if JSON_MODE:
+            output = {
+                'dry_run': args.dry_run,
+                'mode': 'fix_indent_only',
+                'stats': total_stats.to_dict()
+            }
+            if PROGRESS_MODE:
+                print(json.dumps(output))
+            else:
+                print(json.dumps(output, indent=2))
+        else:
+            print(f"\n{'=' * 60}")
+            if args.dry_run:
+                print("DRY RUN SUMMARY - INDENTATION FIX")
+            else:
+                print("INDENTATION FIX SUMMARY")
+            print('=' * 60)
+            print(f"Files processed: {total_stats.files_processed}")
+            print(f"Files modified: {total_stats.files_modified}")
+            print(f"Files skipped: {total_stats.files_skipped}")
+            print("\nDone!")
+
+        sys.exit(0)
 
     # Build key order mapping from schemas
     emit_progress('loading_schemas', 0, 'Loading schemas...')
