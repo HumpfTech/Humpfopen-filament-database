@@ -1,12 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
-import { activeJobs, type Job, hasActiveValidationJob } from '$lib/server/jobManager';
+import { activeJobs, type Job, tryAcquireValidationLock, releaseValidationLock } from '$lib/server/jobManager';
 
 export async function POST({ request }) {
 	try {
-		// Check if validation is already running
-		if (hasActiveValidationJob()) {
+		// Atomically try to acquire the validation lock to prevent race conditions
+		if (!tryAcquireValidationLock()) {
 			return json(
 				{ error: 'A validation job is already running. Please wait for it to complete.' },
 				{ status: 409 }
@@ -90,6 +90,18 @@ export async function POST({ request }) {
 			stderrBuffer += data.toString();
 		});
 
+		// Handle process errors
+		pythonProcess.on('error', (error) => {
+			console.error('Validation process error:', error);
+			job.status = 'error';
+			job.events.push({
+				type: 'error',
+				message: `Failed to spawn validation process: ${error.message}`
+			});
+			job.endTime = Date.now();
+			releaseValidationLock();
+		});
+
 		// Handle process completion
 		pythonProcess.on('close', (code) => {
 			// Try to parse any remaining stdout as the final result
@@ -118,6 +130,9 @@ export async function POST({ request }) {
 				});
 			}
 			job.endTime = Date.now();
+
+			// Release the validation lock when job completes
+			releaseValidationLock();
 		});
 
 		return json({
@@ -126,6 +141,8 @@ export async function POST({ request }) {
 		});
 	} catch (error) {
 		console.error('Validation endpoint error:', error);
+		// Release lock on error
+		releaseValidationLock();
 		return json({ error: 'Internal server error' }, { status: 500 });
 	}
 }

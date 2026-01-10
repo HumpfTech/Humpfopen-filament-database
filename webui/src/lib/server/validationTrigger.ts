@@ -1,10 +1,10 @@
 import { spawn } from 'node:child_process';
 import path from 'node:path';
-import { activeJobs, type Job, hasActiveValidationJob } from './jobManager';
+import { activeJobs, type Job, tryAcquireValidationLock, releaseValidationLock } from './jobManager';
 
 export async function triggerBackgroundValidation(): Promise<boolean> {
-	// Don't trigger if already running
-	if (hasActiveValidationJob()) {
+	// Atomically try to acquire the validation lock to prevent race conditions
+	if (!tryAcquireValidationLock()) {
 		console.log('[ValidationTrigger] Validation already running, skipping');
 		return false;
 	}
@@ -69,6 +69,18 @@ export async function triggerBackgroundValidation(): Promise<boolean> {
 		stderrBuffer += data.toString();
 	});
 
+	// Handle process errors
+	pythonProcess.on('error', (error) => {
+		console.error('[ValidationTrigger] Process error:', error);
+		job.status = 'error';
+		job.events.push({
+			type: 'error',
+			message: `Failed to spawn validation process: ${error.message}`
+		});
+		job.endTime = Date.now();
+		releaseValidationLock();
+	});
+
 	// Handle process completion
 	pythonProcess.on('close', (code) => {
 		if (stdoutBuffer.trim()) {
@@ -97,6 +109,9 @@ export async function triggerBackgroundValidation(): Promise<boolean> {
 			console.error('[ValidationTrigger] Background validation failed:', stderrBuffer);
 		}
 		job.endTime = Date.now();
+
+		// Release the validation lock when job completes
+		releaseValidationLock();
 	});
 
 	return true;
