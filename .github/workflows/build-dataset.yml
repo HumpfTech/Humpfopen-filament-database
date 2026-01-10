@@ -201,9 +201,9 @@ jobs:
                   # Group changes by type
                   echo "#### Recent Updates" >> release_notes.md
                   echo "" >> release_notes.md
-                  cat commits.txt | while read line; do
+                  while read line; do
                     echo "- $line" >> release_notes.md
-                  done
+                  done < commits.txt
                 else
                   echo "- Infrastructure and maintenance updates" >> release_notes.md
                 fi

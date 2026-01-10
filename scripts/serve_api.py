@@ -19,9 +19,6 @@ from pathlib import Path
 class CORSRequestHandler(http.server.SimpleHTTPRequestHandler):
     """HTTP request handler with CORS headers enabled."""
 
-    def __init__(self, *args, directory=None, **kwargs):
-        super().__init__(*args, directory=directory, **kwargs)
-
     def end_headers(self):
         # Add CORS headers to allow requests from any origin
         self.send_header('Access-Control-Allow-Origin', '*')

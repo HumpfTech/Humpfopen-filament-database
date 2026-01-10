@@ -19,7 +19,7 @@ def merge_schemas(base_schema: dict, logo_schema: dict) -> dict:
     Merge logo schema on top of base schema.
     Logo schema properties will be added to the base schema while preserving base properties.
     """
-    merged = base_schema.copy()
+    merged = base_schema.deepcopy()
 
     # Add logo-specific properties to the base schema properties
     if "properties" in logo_schema:
@@ -122,7 +122,7 @@ def write_json(path: Path, data: dict):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def generate_logo_id(name: str, logo_filename: str) -> str:
+def generate_logo_id(name: str, logo_filename: str) -> tuple[str, str]:
     """Generate a unique logo ID from name, logo filename, and UUID."""
     # Create a deterministic UUID based on name and logo filename
     namespace = uuid.NAMESPACE_DNS

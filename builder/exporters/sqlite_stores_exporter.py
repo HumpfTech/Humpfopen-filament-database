@@ -106,7 +106,7 @@ def export_sqlite_stores(db: Database, output_dir: str, version: str, generated_
         db_path.unlink()
 
     # Create database
-    conn = sqlite3.connect(str(db_path))
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     # Create schema
