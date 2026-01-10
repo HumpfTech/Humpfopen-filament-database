@@ -224,7 +224,13 @@ def insert_entities(
     if not entities:
         return
 
-    field_names = [f.name for f in fields(entity_class)]
+    from ..models import Brand, Store
+
+    # Get field names, excluding directory_name for Brand and Store
+    field_names = [
+        f.name for f in fields(entity_class)
+        if not (entity_class in (Brand, Store) and f.name == "directory_name")
+    ]
     placeholders = ", ".join(["?"] * len(field_names))
     columns = ", ".join(field_names)
 

@@ -36,7 +36,13 @@ def export_entity_csv(
     Returns:
         Path to the written CSV file
     """
-    field_names = [f.name for f in fields(entity_class)]
+    from ..models import Brand, Store
+
+    # Get field names, excluding directory_name for Brand and Store
+    field_names = [
+        f.name for f in fields(entity_class)
+        if not (entity_class in (Brand, Store) and f.name == "directory_name")
+    ]
 
     csv_path = output_path / filename
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:

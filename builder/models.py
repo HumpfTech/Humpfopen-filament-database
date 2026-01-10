@@ -82,6 +82,7 @@ class Brand:
     id: str
     name: str
     slug: str
+    directory_name: str  # Original directory name (internal use only)
     website: str
     logo: str
     origin: str  # ISO 3166-1 alpha-2 country code
@@ -154,6 +155,7 @@ class Store:
     id: str
     name: str
     slug: str
+    directory_name: str  # Original directory name (internal use only)
     storefront_url: str
     logo: str
     ships_from: list[str]  # ISO 3166-1 alpha-2 country codes
