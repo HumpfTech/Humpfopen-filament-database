@@ -98,6 +98,7 @@ class DataCrawler:
             id=store_id,
             name=data.get("name", store_dir.name),
             slug=slugify(data.get("name", store_dir.name)),
+            directory_name=store_dir.name,
             storefront_url=data.get("storefront_url", ""),
             logo=data.get("logo", ""),
             ships_from=ships_from,
@@ -146,6 +147,7 @@ class DataCrawler:
             id=brand_id,
             name=brand_data.get("brand", brand_name),
             slug=slugify(brand_name),
+            directory_name=brand_name,
             website=brand_data.get("website", ""),
             logo=brand_data.get("logo", ""),
             origin=brand_data.get("origin", "Unknown")
