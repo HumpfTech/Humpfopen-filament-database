@@ -272,7 +272,7 @@
             <p style="margin-bottom: 0;">
                 This site serves raw JSON data for programmatic access. If you're looking for a
                 browsable interface to explore filaments, visit the
-                <a href="https://github.com/open-3d-printing/open-filament-database">main repository</a>
+                <a href="https://github.com/OpenFilamentCollective/open-filament-database">main repository</a>
                 or check for community-built frontends.
             </p>
         </div>
@@ -330,6 +330,24 @@
                     <p class="endpoint-desc">Get brand details and list of materials.</p>
                 </div>
             </div>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/api/v1/brands/logo/index.json</span>
+                </div>
+                <div class="endpoint-body">
+                    <p class="endpoint-desc">List all brand logos with IDs and paths.</p>
+                </div>
+            </div>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/api/v1/brands/logo/{logo-id}.json</span>
+                </div>
+                <div class="endpoint-body">
+                    <p class="endpoint-desc">Get brand logo metadata including brand ID, name, and logo file path.</p>
+                </div>
+            </div>
 
             <h3>Materials &amp; Filaments</h3>
             <div class="endpoint">
@@ -381,6 +399,24 @@
                     <p class="endpoint-desc">Get store details.</p>
                 </div>
             </div>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/api/v1/stores/logo/index.json</span>
+                </div>
+                <div class="endpoint-body">
+                    <p class="endpoint-desc">List all store logos with IDs and paths.</p>
+                </div>
+            </div>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/api/v1/stores/logo/{logo-id}.json</span>
+                </div>
+                <div class="endpoint-body">
+                    <p class="endpoint-desc">Get store logo metadata including store ID, name, and logo file path.</p>
+                </div>
+            </div>
 
             <h3>Schemas</h3>
             <div class="endpoint">
@@ -428,14 +464,14 @@ for brand in brands['brands']:
             <h2>Contributing</h2>
             <p>
                 This database is community-maintained. To add or update filament data,
-                visit the <a href="https://github.com/open-3d-printing/open-filament-database">GitHub repository</a>
+                visit the <a href="https://github.com/OpenFilamentCollective/open-filament-database">GitHub repository</a>
                 and submit a pull request.
             </p>
         </section>
 
         <footer>
             <p>
-                <a href="https://github.com/open-3d-printing/open-filament-database">GitHub</a> &bull;
+                <a href="https://github.com/OpenFilamentCollective/open-filament-database">GitHub</a> &bull;
                 <a href="manifest.json">Manifest</a> &bull;
                 <a href="api/v1/index.json">API Root</a>
             </p>

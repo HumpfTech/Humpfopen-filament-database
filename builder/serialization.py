@@ -25,18 +25,33 @@ def entity_to_dict(entity: Any, exclude_none: bool = True) -> Optional[dict]:
         return None
     if is_dataclass(entity) and not isinstance(entity, type):
         result = {}
+
+        # Check if this is a Brand or Store entity (special handling)
+        from .models import Brand, Store
+        is_brand_or_store = isinstance(entity, (Brand, Store))
+
         for field_info in fields(entity):
-            value = getattr(entity, field_info.name)
+            field_name = field_info.name
+            value = getattr(entity, field_name)
+
+            # Skip directory_name for Brand and Store (internal only)
+            if is_brand_or_store and field_name == "directory_name":
+                continue
+
+            # Rename 'logo' to 'logo_name' for Brand and Store
+            if is_brand_or_store and field_name == "logo":
+                field_name = "logo_name"
+
             if value is not None or not exclude_none:
                 if is_dataclass(value) and not isinstance(value, type):
-                    result[field_info.name] = entity_to_dict(value, exclude_none)
+                    result[field_name] = entity_to_dict(value, exclude_none)
                 elif isinstance(value, list):
-                    result[field_info.name] = [
+                    result[field_name] = [
                         entity_to_dict(v, exclude_none) if is_dataclass(v) and not isinstance(v, type) else v
                         for v in value
                     ]
                 else:
-                    result[field_info.name] = value
+                    result[field_name] = value
         return result
     return entity
 
