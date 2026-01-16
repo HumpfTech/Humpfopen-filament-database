@@ -6,7 +6,6 @@ the SvelteKit development server for editing the filament database.
 """
 
 import argparse
-import os
 import shutil
 import subprocess
 import sys
@@ -57,6 +56,22 @@ Examples:
     parser.set_defaults(func=run_webui)
 
 
+def get_npm_cmd() -> list[str]:
+    """Get the npm command that works on the current platform.
+
+    On Windows, npm is a .cmd file that requires either shell=True or
+    explicit path resolution. We find and return the full path to avoid
+    using shell=True for security.
+
+    Returns:
+        List containing the npm command (may be path to npm.cmd on Windows)
+    """
+    npm_path = shutil.which('npm')
+    if npm_path:
+        return [npm_path]
+    return ['npm']  # Fallback, will fail if npm not found
+
+
 def check_npm() -> bool:
     """Check if npm is available."""
     return shutil.which('npm') is not None
@@ -72,9 +87,8 @@ def run_npm_ci(webui_dir: Path) -> int:
     """Run npm ci in the webui directory."""
     print("Installing Node.js dependencies...")
     result = subprocess.run(
-        ['npm', 'ci'],
+        get_npm_cmd() + ['ci'],
         cwd=webui_dir,
-        shell=(os.name == 'nt')  # Use shell on Windows for npm
     )
     return result.returncode
 
@@ -104,8 +118,9 @@ def run_webui(args: argparse.Namespace) -> int:
         return 1
 
     # Install dependencies if requested or if node_modules doesn't exist
-    if args.install or not check_node_modules():
-        if not check_node_modules():
+    node_modules_exists = check_node_modules()
+    if args.install or not node_modules_exists:
+        if not node_modules_exists:
             print("Node modules not found, running npm ci...")
         exit_code = run_npm_ci(webui_dir)
         if exit_code != 0:
@@ -113,7 +128,8 @@ def run_webui(args: argparse.Namespace) -> int:
             return exit_code
 
     # Build the vite dev command
-    cmd = ['npm', 'run', 'dev', '--']
+    # The '--' tells npm to pass subsequent arguments to the underlying script
+    cmd = get_npm_cmd() + ['run', 'dev', '--']
 
     # Add port if not default
     if args.port != 5173:
@@ -137,7 +153,6 @@ def run_webui(args: argparse.Namespace) -> int:
         result = subprocess.run(
             cmd,
             cwd=webui_dir,
-            shell=(os.name == 'nt')  # Use shell on Windows for npm
         )
         return result.returncode
     except KeyboardInterrupt:

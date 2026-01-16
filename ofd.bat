@@ -68,7 +68,7 @@ if exist "%VENV_DIR%\Scripts\activate.bat" (
 )
 
 :: Run OFD CLI
-python -m ofd %ARGS%
+%PYTHON_CMD% -m ofd %ARGS%
 exit /b %ERRORLEVEL%
 
 :: ============================================

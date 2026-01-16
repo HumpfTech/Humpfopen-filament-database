@@ -188,10 +188,10 @@ activate_venv() {
 # Install Python dependencies
 install_python_deps() {
     info "Installing Python dependencies..."
-    pip install -q --upgrade pip
-    pip install -q -r "$REQUIREMENTS_FILE"
+    pip install --upgrade pip
+    pip install -r "$REQUIREMENTS_FILE"
     # Install the ofd package in development mode
-    pip install -q -e "$SCRIPT_DIR"
+    pip install -e "$SCRIPT_DIR"
 }
 
 # Install Node.js dependencies (only when needed for webui)
@@ -224,11 +224,20 @@ run_python_setup() {
     # Check/install Python
     if ! detect_python; then
         warn "Python 3 not found."
-        if try_install_python; then
-            detect_python || { error "Failed to install Python. See: $DOCS_URL"; exit 1; }
+        echo -n "Would you like to try installing Python? [y/N] "
+        read -r response
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            if try_install_python; then
+                detect_python || { error "Failed to install Python. See: $DOCS_URL"; exit 1; }
+            else
+                error "Could not auto-install Python. Please install manually."
+                error "See: $DOCS_URL"
+                exit 1
+            fi
         else
-            error "Could not auto-install Python. Please install manually."
-            error "See: $DOCS_URL"
+            error "Python 3 is required."
+            error "Please install Python manually from: https://www.python.org/"
+            error "Or see: $DOCS_URL"
             exit 1
         fi
     fi
@@ -286,11 +295,20 @@ run_setup() {
     # Python setup
     if ! detect_python; then
         warn "Python 3 not found."
-        if try_install_python; then
-            detect_python || { error "Failed to install Python. See: $DOCS_URL"; exit 1; }
+        echo -n "Would you like to try installing Python? [y/N] "
+        read -r response
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            if try_install_python; then
+                detect_python || { error "Failed to install Python. See: $DOCS_URL"; exit 1; }
+            else
+                error "Could not auto-install Python. Please install manually."
+                error "See: $DOCS_URL"
+                exit 1
+            fi
         else
-            error "Could not auto-install Python. Please install manually."
-            error "See: $DOCS_URL"
+            error "Python 3 is required."
+            error "Please install Python manually from: https://www.python.org/"
+            error "Or see: $DOCS_URL"
             exit 1
         fi
     fi
@@ -417,11 +435,11 @@ main() {
             info "WebUI first run. Setting up Node.js dependencies..."
             setup_webui
         fi
-        exec python -m ofd webui
+        exec "$PYTHON_CMD" -m ofd webui
     fi
 
     # Run OFD CLI
-    exec python -m ofd "${args[@]}"
+    exec "$PYTHON_CMD" -m ofd "${args[@]}"
 }
 
 main "$@"
