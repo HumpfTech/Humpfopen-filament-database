@@ -11,7 +11,7 @@ Commands:
     validate    - Validate data files against schemas
     build       - Build database exports (JSON, SQLite, CSV, API)
     serve       - Start development server with CORS
-    script      - Run utility scripts (sort_data, etc.)
+    script      - Run utility scripts (style_data, etc.)
 """
 
 __version__ = "1.0.0"

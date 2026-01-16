@@ -21,8 +21,8 @@ Example:
 """
 
 # Import all scripts to register them
-from . import sort_data
+from . import style_data
 from . import load_profiles
 from . import export_data
 
-__all__ = ['sort_data', 'load_profiles', 'export_data']
+__all__ = ['style_data', 'load_profiles', 'export_data']

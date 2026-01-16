@@ -12,14 +12,14 @@ Commands:
     validate    - Validate data files against schemas
     build       - Build database exports (JSON, SQLite, CSV, API)
     serve       - Start development server with CORS
-    script      - Run utility scripts (sort_data, etc.)
+    script      - Run utility scripts (style_data, etc.)
 
 Examples:
     uv run -m ofd validate                    # Run all validations
     uv run -m ofd validate --logos            # Only validate logos
     uv run -m ofd build                       # Build all exports
     uv run -m ofd serve                       # Start dev server on port 8000
-    uv run -m ofd script sort_data --dry-run  # Preview sort_data changes
+    uv run -m ofd script style_data --dry-run  # Preview style_data changes
 """
 
 import argparse
@@ -72,7 +72,7 @@ Examples:
   ofd serve                        Start development server on port 8000
   ofd serve -p 3000                Start server on port 3000
   ofd script --list                List available utility scripts
-  ofd script sort_data --dry-run   Preview sorting changes
+  ofd script style_data --dry-run   Preview sorting changes
         """
     )
 

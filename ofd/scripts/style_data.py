@@ -1,9 +1,18 @@
 """
-Sort Data Script - Sort JSON file keys according to schema definitions.
+Style Data Script - Sort JSON file keys according to schema definitions.
 
 This script recursively processes all JSON files in the data/ and stores/
 directories and reorders their keys to match the order defined in the
-corresponding JSON schemas.
+corresponding JSON schemas. This ensures consistent formatting across all
+data files.
+
+The script:
+1. Loads all schemas and extracts property key orderings
+2. Processes each JSON file and sorts keys according to schema
+3. Handles nested objects with their own key orderings
+4. Warns about keys found in data but not in schema
+5. Validates all files after sorting using the validation module
+6. Enforces 2-space indentation across all JSON files
 """
 
 import argparse
@@ -190,11 +199,11 @@ def sort_json_keys(
 
 
 @register_script
-class SortDataScript(BaseScript):
-    """Sort JSON file keys according to schema definitions."""
+class StyleDataScript(BaseScript):
+    """Sort and style JSON data files according to schema definitions."""
 
-    name = "sort_data"
-    description = "Sort JSON keys according to schema definitions"
+    name = "style_data"
+    description = "Sort JSON keys according to schema definitions and fix formatting"
 
     def configure_parser(self, parser: argparse.ArgumentParser) -> None:
         """Add script-specific arguments."""
@@ -208,14 +217,111 @@ class SortDataScript(BaseScript):
             action='store_true',
             help='Run validation after sorting'
         )
+        parser.add_argument(
+            '--fix-indent-only',
+            action='store_true',
+            help='Only fix indentation to 2 spaces across all JSON files (skip sorting)'
+        )
+
+    def _fix_json_indentation(
+        self,
+        file_path: Path,
+        dry_run: bool,
+        stats: ProcessingStats
+    ) -> bool:
+        """Fix indentation of a JSON file to use 2 spaces."""
+        data = load_json(file_path)
+        if data is None:
+            stats.files_skipped += 1
+            return False
+
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+        except OSError as e:
+            self.log(f"Error reading {file_path}: {e}")
+            stats.files_skipped += 1
+            return False
+
+        new_content = json.dumps(data, indent=2, ensure_ascii=False) + '\n'
+
+        stats.files_processed += 1
+
+        if original_content != new_content:
+            try:
+                rel_path = file_path.relative_to(self.project_root)
+            except ValueError:
+                rel_path = file_path
+            if dry_run:
+                self.log(f"  Would fix indentation: {rel_path}")
+            else:
+                self.log(f"  Fixed indentation: {rel_path}")
+
+            if not dry_run:
+                try:
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        f.write(new_content)
+                except OSError as e:
+                    self.log(f"Error writing {file_path}: {e}")
+                    stats.files_skipped += 1
+                    return False
+
+            stats.files_modified += 1
+            return True
+
+        return False
+
+    def _fix_all_json_indentation(self, dry_run: bool) -> ProcessingStats:
+        """Fix indentation for all JSON files in the repository."""
+        stats = ProcessingStats()
+
+        self.log("Fixing indentation for all JSON files...")
+
+        json_files = list(self.project_root.rglob('*.json'))
+
+        excluded_dirs = {'node_modules', '.git', 'dist', 'build', '.venv', 'venv'}
+        json_files = [
+            f for f in json_files
+            if not any(part in excluded_dirs for part in f.parts)
+        ]
+
+        for json_file in sorted(json_files):
+            self._fix_json_indentation(json_file, dry_run, stats)
+
+        return stats
 
     def run(self, args: argparse.Namespace) -> ScriptResult:
-        """Execute the sort_data script."""
+        """Execute the style_data script."""
         dry_run = getattr(args, 'dry_run', False)
         do_validate = getattr(args, 'validate', False)
+        fix_indent_only = getattr(args, 'fix_indent_only', False)
 
         if dry_run:
             self.log("=== DRY RUN MODE - No files will be modified ===\n")
+
+        # Handle --fix-indent-only mode
+        if fix_indent_only:
+            self.emit_progress('fixing_indentation', 0, 'Fixing indentation for all JSON files...')
+            total_stats = self._fix_all_json_indentation(dry_run)
+            self.emit_progress('fixing_indentation', 100, 'Indentation fixes complete')
+
+            self.log(f"\n{'=' * 60}")
+            self.log("DRY RUN SUMMARY - INDENTATION FIX" if dry_run else "INDENTATION FIX SUMMARY")
+            self.log('=' * 60)
+            self.log(f"Files processed: {total_stats.files_processed}")
+            self.log(f"Files modified: {total_stats.files_modified}")
+            self.log(f"Files skipped: {total_stats.files_skipped}")
+            self.log("\nDone!")
+
+            return ScriptResult(
+                success=True,
+                message="Indentation fix complete",
+                data={
+                    'dry_run': dry_run,
+                    'mode': 'fix_indent_only',
+                    'stats': total_stats.to_dict()
+                }
+            )
 
         # Build key order mapping from schemas
         self.emit_progress('loading_schemas', 0, 'Loading schemas...')
