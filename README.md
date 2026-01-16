@@ -58,15 +58,16 @@ The WebUI can validate and sort your data automatically:
 
 Alternatively, you can use the command-line validation scripts ([see guide](docs/validation.md)):
 ```bash
-python data_validator.py --folder-names  # Validates folder names
-python data_validator.py --logo-files    # Validates logo files
-python data_validator.py --json-files    # Validates JSON files
-python data_validator.py --store-ids     # Validates store IDs
+python -m ofd validate --folder-names  # Validates folder names
+python -m ofd validate --logo-files    # Validates logo files
+python -m ofd validate --json-files    # Validates JSON files
+python -m ofd validate --store-ids     # Validates store IDs
+python -m ofd validate                 # Run all validations
 ```
 ### 7. Submit your changes
 Before submitting, make sure your data is sorted consistently:
 - **In the WebUI:** Click the "Sort Data" button in the top-right corner
-- **Or via command line:** Run `python scripts/sort_data.py`
+- **Or via command line:** Run `python -m ofd script sort_data`
 
 Then add your changes:
 ```bash

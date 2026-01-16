@@ -3,7 +3,7 @@ const illegal_characters = [
   ">","*","?","/","$","!","'",
   '"',":","@","+","`","|","="
 ];
-// This should at all times be the same as /data_validator.py:22
+// This should at all times be the same as /ofd/validation/validators.py ILLEGAL_CHARACTERS
 
 export const stripOfIllegalChars = (input?: string | null, exceptions?: string[] | undefined): string => {
   // Defensive: coerce null/undefined to empty string

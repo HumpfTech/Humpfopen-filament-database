@@ -18,7 +18,7 @@ export async function triggerBackgroundValidation(): Promise<boolean> {
 	}
 
 	// Build Python command arguments
-	const args = ['data_validator.py', '--json', '--progress'];
+	const args = ['-m', 'ofd', 'validate', '--json', '--progress'];
 	const repoRoot = path.resolve(process.cwd(), '..');
 
 	// Store job info

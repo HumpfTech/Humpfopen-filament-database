@@ -24,26 +24,29 @@ Then run the validation scripts based on your platform. If any errors appear, re
 
 ### Windows
 ```bash
-python.exe data_validator.py --folder-names  # Validates folder names
-python.exe data_validator.py --logo-files    # Validates logo files
-python.exe data_validator.py --json-files    # Validates JSON files
-python.exe data_validator.py --store-ids     # Validates store IDs
+python -m ofd validate --folder-names  # Validates folder names
+python -m ofd validate --logo-files    # Validates logo files
+python -m ofd validate --json-files    # Validates JSON files
+python -m ofd validate --store-ids     # Validates store IDs
+python -m ofd validate                 # Run all validations
 ```
 
 ### Linux/macOS
 ```bash
-python data_validator.py --folder-names  # Validates folder names
-python data_validator.py --logo-files    # Validates logo files
-python data_validator.py --json-files    # Validates JSON files
-python data_validator.py --store-ids     # Validates store IDs
+python -m ofd validate --folder-names  # Validates folder names
+python -m ofd validate --logo-files    # Validates logo files
+python -m ofd validate --json-files    # Validates JSON files
+python -m ofd validate --store-ids     # Validates store IDs
+python -m ofd validate                 # Run all validations
 ```
 
 If this gives an error about `python` not being installed, try replacing `python` with `python3`:
 ```bash
-python3 data_validator.py --folder-names  # Validates folder names
-python3 data_validator.py --logo-files    # Validates logo files
-python3 data_validator.py --json-files    # Validates JSON files
-python3 data_validator.py --store-ids     # Validates store IDs
+python3 -m ofd validate --folder-names  # Validates folder names
+python3 -m ofd validate --logo-files    # Validates logo files
+python3 -m ofd validate --json-files    # Validates JSON files
+python3 -m ofd validate --store-ids     # Validates store IDs
+python3 -m ofd validate                 # Run all validations
 ```
 
 ## Understanding Validation Results
@@ -64,17 +67,17 @@ Navigate to the open-filament-database folder and run:
 
 **Windows:**
 ```bash
-python.exe scripts/sort_data.py
+python -m ofd script sort_data
 ```
 
 **Linux/macOS:**
 ```bash
-python scripts/sort_data.py
+python -m ofd script sort_data
 ```
 
 Or if you need to use `python3`:
 ```bash
-python3 scripts/sort_data.py
+python3 -m ofd script sort_data
 ```
 
 The sorting script will organize all JSON files alphabetically and format them consistently. This is an important step before creating your pull request.

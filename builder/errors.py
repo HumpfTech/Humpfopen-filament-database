@@ -2,7 +2,7 @@
 Error collection and reporting for the Open Filament Database builder.
 
 This module provides a unified error/warning collection system similar to
-data_validator.py, allowing all build stages to report issues that are
+ofd.validation, allowing all build stages to report issues that are
 collected and displayed at the end.
 """
 
