@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import Optional, Any, Union, Self
 
 from jsonschema.exceptions import ValidationError
-from jsonschema.validators import validate
+from jsonschema.validators import Draft7Validator
+from referencing import Registry, Resource
 
 PathLike = Union[str, os.PathLike[str]]
 
@@ -71,7 +72,8 @@ def validate_json(json_data, schema) -> bool:
     If not valid, returns false and emits an error message
     """
     try:
-        validate(json_data, schema)
+        validator = Draft7Validator(schema, registry=schema_registry)
+        validator.validate(json_data)
         return True
     except ValidationError as error:
         print(
@@ -86,6 +88,7 @@ MATERIAL_SCHEMA: dict
 FILAMENT_SCHEMA: dict
 VARIANT_SCHEMA: dict
 SIZE_SCHEMA: dict
+schema_registry: Registry
 
 
 # ---------------------------------
@@ -325,6 +328,7 @@ class SizePurchaseLink(IToFromJSONData):
 class FilamentSize(IToFromJSONData):
     filament_weight: float  # Required
     diameter: float  # Required
+    spool_refill: bool
     empty_spool_weight: Optional[float]
     spool_core_diameter: Optional[float]
     gtin: Optional[str]
@@ -339,6 +343,7 @@ class FilamentSize(IToFromJSONData):
     def __init__(self,
                  filament_weight: float,
                  diameter: float,
+                 spool_refill: bool = False,
                  empty_spool_weight: Optional[float] = None,
                  spool_core_diameter: Optional[float] = None,
                  gtin: Optional[str] = None,
@@ -354,6 +359,7 @@ class FilamentSize(IToFromJSONData):
 
         self.filament_weight = filament_weight
         self.diameter = diameter
+        self.spool_refill = spool_refill
         self.empty_spool_weight = empty_spool_weight
         self.spool_core_diameter = spool_core_diameter
         # Normalize and validate GTIN/EAN per rules
@@ -395,9 +401,10 @@ class FilamentSize(IToFromJSONData):
         if (ean_out is None or ean_out == "") and isinstance(self.gtin, str) and len(self.gtin) == 13:
             ean_out = self.gtin
 
-        return shallow_remove_empty({
+        result = shallow_remove_empty({
             "filament_weight": self.filament_weight,
             "diameter": self.diameter,
+            "spool_refill": self.spool_refill,
             "empty_spool_weight": self.empty_spool_weight,
             "spool_core_diameter": self.spool_core_diameter,
             "gtin": self.gtin,
@@ -410,6 +417,14 @@ class FilamentSize(IToFromJSONData):
             "purchase_links": [x.to_dict() for x in self.purchase_links]
         })
 
+        # Backward compatibility in DTO only: if size is refill, mark links as refill in the response
+        if self.spool_refill and "purchase_links" in result:
+            for link in result["purchase_links"]:
+                # do not persist; just annotate response
+                link["spool_refill"] = True
+
+        return result
+
     @staticmethod
     def from_json_data(json_data: dict[str, Any], parent: None = None) -> 'FilamentSize':
         purchase_links = []
@@ -419,6 +434,7 @@ class FilamentSize(IToFromJSONData):
         return FilamentSize(
             filament_weight=json_data["filament_weight"],
             diameter=json_data["diameter"],
+            spool_refill=json_data.get("spool_refill", False),
             empty_spool_weight=json_data.get("empty_spool_weight"),
             spool_core_diameter=json_data.get("spool_core_diameter"),
             gtin=json_data.get("gtin"),
@@ -595,7 +611,7 @@ class FilamentVariant(IToFromFS):
 
         return FilamentVariant(
             parent=parent,
-            color_name=json_data["color_name"],
+            color_name=json_data["name"],
             color_hex=json_data["color_hex"],
             discontinued=json_data.get("discontinued"),
             color_standards=ColorStandards.from_json_data(json_data.get("color_standards")),
@@ -1137,7 +1153,7 @@ class Brand(IToFromFS):
             # An error msg will be emitted by the validate function if there is an error
             return None
         return Brand(
-            brand_name=json_data["brand"],
+            brand_name=json_data["name"],
             website=json_data["website"],
             logo=json_data["logo"],
             origin=json_data["origin"]
@@ -1178,6 +1194,12 @@ MATERIAL_SCHEMA = get_json_from_file("schemas/material_schema.json")
 FILAMENT_SCHEMA = get_json_from_file("schemas/filament_schema.json")
 VARIANT_SCHEMA = get_json_from_file("schemas/variant_schema.json")
 SIZE_SCHEMA = get_json_from_file("schemas/sizes_schema.json")
+MATERIAL_TYPES_SCHEMA = get_json_from_file("schemas/material_types_schema.json")
+
+# Create registry for resolving $ref in schemas
+schema_registry = Registry().with_resources([
+    ("./material_types_schema.json", Resource.from_contents(MATERIAL_TYPES_SCHEMA)),
+])
 
 # Automatically load the stores on import/run
 load_stores()

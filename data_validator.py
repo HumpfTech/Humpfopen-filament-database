@@ -1,6 +1,7 @@
 import json
 import re
 import os
+import sys
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from enum import Enum
@@ -9,6 +10,8 @@ from typing import List, Optional, Dict, Any
 
 from PIL import Image
 from jsonschema import validate, ValidationError as JsonSchemaValidationError
+from referencing import Registry, Resource
+from referencing.exceptions import Unresolvable
 
 
 # -------------------------
@@ -22,12 +25,13 @@ class ValidationLevel(Enum):
 
 ILLEGAL_CHARACTERS = [
     "#", "%", "&", "{", "}", "\\", "<", ">", "*", "?",
-    "/", "$", "!", "'", '"', ":", "@", "+", "`", "|", "="
+    "/", "$", "!", "'", '"', ":", "@", "`", "|", "="
 ]
 
 LOGO_MIN_SIZE = 100
 LOGO_MAX_SIZE = 400
-SNAKE_CASE_PATTERN = re.compile(r'^[a-z0-9]+(?:_[a-z0-9]+)*$')
+SNAKE_CASE_PATTERN = re.compile(r'^[a-z0-9+]+(?:_[a-z0-9+]+)*$')
+LOGO_NAME_PATTERN = re.compile(r'^logo\.(png|jpg|svg)$')
 
 
 # -------------------------
@@ -45,6 +49,15 @@ class ValidationError:
     def __str__(self) -> str:
         path_str = f" [{self.path}]" if self.path else ""
         return f"{self.level.value} - {self.category}: {self.message}{path_str}"
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            'level': self.level.value,
+            'category': self.category,
+            'message': self.message,
+            'path': str(self.path) if self.path else None
+        }
 
 
 @dataclass
@@ -69,6 +82,15 @@ class ValidationResult:
     @property
     def warning_count(self) -> int:
         return len([e for e in self.errors if e.level == ValidationLevel.WARNING])
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            'errors': [e.to_dict() for e in self.errors],
+            'error_count': self.error_count,
+            'warning_count': self.warning_count,
+            'is_valid': self.is_valid
+        }
 
 
 # -------------------------
@@ -99,12 +121,13 @@ class SchemaCache:
     def __init__(self):
         self._schemas: Dict[str, Dict] = {}
         self._schema_paths = {
-            'store':    'schemas/store_schema.json',
-            'brand':    'schemas/brand_schema.json',
-            'material': 'schemas/material_schema.json',
-            'filament': 'schemas/filament_schema.json',
-            'variant':  'schemas/variant_schema.json',
-            'sizes':    'schemas/sizes_schema.json',
+            'store':          'schemas/store_schema.json',
+            'brand':          'schemas/brand_schema.json',
+            'material':       'schemas/material_schema.json',
+            'material_types': 'schemas/material_types_schema.json',
+            'filament':       'schemas/filament_schema.json',
+            'variant':        'schemas/variant_schema.json',
+            'sizes':          'schemas/sizes_schema.json',
         }
 
     def get(self, schema_name: str) -> Optional[Dict]:
@@ -114,6 +137,28 @@ class SchemaCache:
             if path.exists():
                 self._schemas[schema_name] = load_json(path)
         return self._schemas.get(schema_name)
+
+    def all_schemas(self) -> Dict[str, Optional[Dict]]:
+        """Return a mapping of schema path keys to loaded schema dicts.
+
+        Keys are the stored path (e.g. 'schemas/..') to support lookups by
+        relative filenames and full relative paths used in $ref values.
+        """
+        for name, relpath in self._schema_paths.items():
+            if name not in self._schemas:
+                p = Path(relpath)
+                if p.exists():
+                    self._schemas[name] = load_json(p)
+
+        # Build mapping of candidate keys -> schema content
+        mapping: Dict[str, Optional[Dict]] = {}
+        for name, relpath in self._schema_paths.items():
+            schema = self._schemas.get(name)
+            mapping[relpath] = schema
+            # also expose the filename with a leading './' as some $refs use that
+            mapping[f"./{Path(relpath).name}"] = schema
+
+        return mapping
 
 
 # -------------------------
@@ -159,12 +204,49 @@ class JsonValidator(BaseValidator):
             return result
 
         try:
-            validate(data, schema)
+            # Build registry for referencing library to handle external $ref
+            resources = []
+
+            # Register all known schemas under both their stored path and
+            # a './filename' key since many schemas use relative './name.json' refs.
+            all_schemas = self.schema_cache.all_schemas()
+            for key, s in all_schemas.items():
+                if s is None:
+                    continue
+                try:
+                    resources.append((key, Resource.from_contents(s)))
+                except Exception:
+                    # skip schemas that cannot be read into a Resource
+                    continue
+                sid = s.get('$id', '')
+                if sid:
+                    try:
+                        resources.append((sid, Resource.from_contents(s)))
+                    except Exception:
+                        pass
+
+            # Also ensure the main schema is registered by its $id if present
+            main_id = schema.get('$id', '')
+            if main_id:
+                try:
+                    resources.append((main_id, Resource.from_contents(schema)))
+                except Exception:
+                    pass
+
+            registry = Registry().with_resources(resources)
+            validate(data, schema, registry=registry)
         except JsonSchemaValidationError as e:
             result.add_error(ValidationError(
                 level=ValidationLevel.ERROR,
                 category="JSON",
                 message=f"Schema validation failed: {e.message} at {e.json_path}",
+                path=json_path
+            ))
+        except Unresolvable as e:
+            result.add_error(ValidationError(
+                level=ValidationLevel.ERROR,
+                category="JSON",
+                message=f"Schema reference error: {e}",
                 path=json_path
             ))
 
@@ -199,17 +281,15 @@ class LogoValidator(BaseValidator):
 
         # Validate naming convention
         name = logo_path.name
-        if not name.endswith('.svg'):
-            name_without_ext = logo_path.stem
-            if not SNAKE_CASE_PATTERN.fullmatch(name_without_ext):
-                result.add_error(ValidationError(
-                    level=ValidationLevel.ERROR,
-                    category="Logo",
-                    message=f"Logo name '{name}' must follow lowercase snake_case (e.g., sunlu.png or proteor_print.png)",
-                    path=logo_path
-                ))
+        if not LOGO_NAME_PATTERN.fullmatch(name):
+            result.add_error(ValidationError(
+                level=ValidationLevel.ERROR,
+                category="Logo",
+                message=f"Logo name '{name}' must be 'logo.png', 'logo.jpg' or 'logo.svg'",
+                path=logo_path
+            ))
 
-        # Validate dimensions for non-SVG files
+        # Validate dimensions for raster images (skip SVG which need special handling)
         if not name.endswith('.svg'):
             try:
                 with Image.open(logo_path) as img:
@@ -656,7 +736,7 @@ def collect_folder_validation_tasks(data_dir: Path, stores_dir: Path) -> List[
             task_type='folder',
             name=f"Brand Folder: {brand_dir.name}",
             path=brand_dir,
-            extra_data={'json_file': 'brand.json', 'json_key': 'brand'}
+            extra_data={'json_file': 'brand.json', 'json_key': 'id'}
         ))
 
         # Material folders
@@ -680,7 +760,7 @@ def collect_folder_validation_tasks(data_dir: Path, stores_dir: Path) -> List[
                     task_type='folder',
                     name=f"Filament Folder: {filament_dir.name}",
                     path=filament_dir,
-                    extra_data={'json_file': 'filament.json', 'json_key': 'name'}
+                    extra_data={'json_file': 'filament.json', 'json_key': 'id'}
                 ))
 
                 # Variant folders
@@ -693,7 +773,7 @@ def collect_folder_validation_tasks(data_dir: Path, stores_dir: Path) -> List[
                         name=f"Variant Folder: {variant_dir.name}",
                         path=variant_dir,
                         extra_data={'json_file': 'variant.json',
-                                    'json_key':  'color_name'}
+                                    'json_key':  'id'}
                     ))
 
     # Store folders
@@ -720,11 +800,24 @@ class ValidationOrchestrator:
 
     def __init__(self, data_dir: Path = Path("./data"),
                  stores_dir: Path = Path("./stores"),
-                 max_workers: Optional[int] = None):
+                 max_workers: Optional[int] = None,
+                 progress_mode: bool = False):
         self.data_dir = data_dir
         self.stores_dir = stores_dir
         self.max_workers = max_workers
         self.schema_cache = SchemaCache()
+        self.progress_mode = progress_mode
+
+    def emit_progress(self, stage: str, percent: int, message: str = '') -> None:
+        """Emit progress event as JSON to stdout for SSE streaming."""
+        if self.progress_mode and hasattr(sys.stdout, 'isatty') and not sys.stdout.isatty():
+            # Only emit when stdout is piped (not terminal)
+            print(json.dumps({
+                'type': 'progress',
+                'stage': stage,
+                'percent': percent,
+                'message': message
+            }), flush=True)
 
     def run_tasks_parallel(self, tasks: List[ValidationTask]) -> ValidationResult:
         """Run validation tasks in parallel using process pool."""
@@ -753,34 +846,42 @@ class ValidationOrchestrator:
 
     def validate_json_files(self) -> ValidationResult:
         """Validate all JSON files against schemas."""
-        print("Collecting JSON validation tasks...")
+        if not self.progress_mode:
+            print("Collecting JSON validation tasks...")
         tasks = collect_json_validation_tasks(self.data_dir, self.stores_dir)
-        print(f"Running {len(tasks)} JSON validation tasks...")
+        if not self.progress_mode:
+            print(f"Running {len(tasks)} JSON validation tasks...")
         return self.run_tasks_parallel(tasks)
 
     def validate_logo_files(self) -> ValidationResult:
         """Validate all logo files."""
-        print("Collecting logo validation tasks...")
+        if not self.progress_mode:
+            print("Collecting logo validation tasks...")
         tasks = collect_logo_validation_tasks(self.data_dir, self.stores_dir)
-        print(f"Running {len(tasks)} logo validation tasks...")
+        if not self.progress_mode:
+            print(f"Running {len(tasks)} logo validation tasks...")
         return self.run_tasks_parallel(tasks)
 
     def validate_folder_names(self) -> ValidationResult:
         """Validate all folder names."""
-        print("Collecting folder name validation tasks...")
+        if not self.progress_mode:
+            print("Collecting folder name validation tasks...")
         tasks = collect_folder_validation_tasks(self.data_dir, self.stores_dir)
-        print(f"Running {len(tasks)} folder name validation tasks...")
+        if not self.progress_mode:
+            print(f"Running {len(tasks)} folder name validation tasks...")
         return self.run_tasks_parallel(tasks)
 
     def validate_store_ids(self) -> ValidationResult:
         """Validate store IDs."""
-        print("Validating store IDs...")
+        if not self.progress_mode:
+            print("Validating store IDs...")
         validator = StoreIdValidator(self.schema_cache)
         return validator.validate_store_ids(self.data_dir, self.stores_dir)
 
     def validate_gtin(self) -> ValidationResult:
         """Validate GTIN/EAN rules."""
-        print("Validating GTIN/EAN...")
+        if not self.progress_mode:
+            print("Validating GTIN/EAN...")
         validator = GTINValidator(self.schema_cache)
         return validator.validate_gtin_ean(self.data_dir)
 
@@ -789,15 +890,32 @@ class ValidationOrchestrator:
         result = ValidationResult()
 
         # Check for missing files first
-        print("Checking for missing required files...")
+        self.emit_progress('missing_files', 0, 'Checking for missing required files...')
+        if not self.progress_mode:
+            print("Checking for missing required files...")
         validator = MissingFileValidator(self.schema_cache)
         result.merge(validator.validate_required_files(self.data_dir, self.stores_dir))
+        self.emit_progress('missing_files', 100, 'Missing files check complete')
 
+        self.emit_progress('json_files', 0, 'Validating JSON files...')
         result.merge(self.validate_json_files())
+        self.emit_progress('json_files', 100, 'JSON validation complete')
+
+        self.emit_progress('logo_files', 0, 'Validating logo files...')
         result.merge(self.validate_logo_files())
+        self.emit_progress('logo_files', 100, 'Logo validation complete')
+
+        self.emit_progress('folder_names', 0, 'Validating folder names...')
         result.merge(self.validate_folder_names())
+        self.emit_progress('folder_names', 100, 'Folder name validation complete')
+
+        self.emit_progress('store_ids', 0, 'Validating store IDs...')
         result.merge(self.validate_store_ids())
+        self.emit_progress('store_ids', 100, 'Store ID validation complete')
+
+        self.emit_progress('gtin', 0, 'Validating GTIN/EAN...')
         result.merge(self.validate_gtin())
+        self.emit_progress('gtin', 100, 'GTIN/EAN validation complete')
 
         return result
 
@@ -815,15 +933,18 @@ def main():
     parser.add_argument("--folder-names", action="store_true",
                         help="Validate folder names")
     parser.add_argument("--store-ids", action="store_true", help="Validate store IDs")
+    parser.add_argument("--json", action="store_true", help="Output results as JSON")
+    parser.add_argument("--progress", action="store_true", help="Emit progress events (for SSE streaming)")
 
     args = parser.parse_args()
 
-    orchestrator = ValidationOrchestrator(max_workers=os.cpu_count())
+    orchestrator = ValidationOrchestrator(max_workers=os.cpu_count(), progress_mode=args.progress)
     result = ValidationResult()
 
     # Run requested validations
-    if not any(vars(args).values()):
-        print("No args passed, validating all")
+    if not any([args.json_files, args.logo_files, args.folder_names, args.store_ids]):
+        if not args.json and not args.progress:
+            print("No args passed, validating all")
         result = orchestrator.validate_all()
     else:
         if args.json_files:
@@ -835,28 +956,39 @@ def main():
         if args.store_ids:
             result.merge(orchestrator.validate_store_ids())
 
-    # Print results
-    if result.errors:
-        # Group errors by category
-        errors_by_category: Dict[str, List[ValidationError]] = {}
-        for error in result.errors:
-            if error.category not in errors_by_category:
-                errors_by_category[error.category] = []
-            errors_by_category[error.category].append(error)
-
-        # Print errors grouped by category
-        for category, errors in sorted(errors_by_category.items()):
-            print(f"\n{category} ({len(errors)}):")
-            print("-" * 80)
-            for error in errors:
-                print(f"  {error}")
-
-        print(
-            f"\nValidation failed: {result.error_count} errors, {result.warning_count} warnings")
-        exit(1)
+    # Output results
+    if args.json:
+        # JSON output mode
+        output = result.to_dict()
+        # Use compact output in progress mode for SSE compatibility, pretty output otherwise
+        if args.progress:
+            print(json.dumps(output))
+        else:
+            print(json.dumps(output, indent=2))
+        sys.exit(0 if result.is_valid else 1)
     else:
-        print("All validations passed!")
-        exit(0)
+        # Text output mode
+        if result.errors:
+            # Group errors by category
+            errors_by_category: Dict[str, List[ValidationError]] = {}
+            for error in result.errors:
+                if error.category not in errors_by_category:
+                    errors_by_category[error.category] = []
+                errors_by_category[error.category].append(error)
+
+            # Print errors grouped by category
+            for category, errors in sorted(errors_by_category.items()):
+                print(f"\n{category} ({len(errors)}):")
+                print("-" * 80)
+                for error in errors:
+                    print(f"  {error}")
+
+            print(
+                f"\nValidation failed: {result.error_count} errors, {result.warning_count} warnings")
+            exit(1)
+        else:
+            print("All validations passed!")
+            exit(0)
 
 
 if __name__ == '__main__':
