@@ -28,7 +28,7 @@ if "%FIRST_ARG%"=="--no-setup" (
 )
 if "%FIRST_ARG%"=="-h" goto :show_help
 if "%FIRST_ARG%"=="--help" goto :show_help
-if "%FIRST_ARG%"=="" goto :show_help
+if "%FIRST_ARG%"=="" goto :default_webui
 
 :parse_args
 :: Collect all arguments and check for webui
@@ -75,6 +75,12 @@ exit /b %ERRORLEVEL%
 :: Functions
 :: ============================================
 
+:default_webui
+:: Default behavior: run webui
+set "NEEDS_WEBUI=1"
+set "ARGS=webui"
+goto :done_args
+
 :show_help
 echo OFD - Open Filament Database CLI
 echo.
@@ -92,12 +98,14 @@ echo   script      Run utility scripts
 echo   webui       Start the WebUI development server
 echo.
 echo Examples:
+echo   ofd                    # Start WebUI dev server (default)
 echo   ofd setup              # Run setup manually
 echo   ofd validate           # Validate all data
 echo   ofd webui              # Start WebUI dev server
 echo   ofd build              # Build all exports
 echo.
-echo Note: Node.js dependencies are only installed when you first use 'webui'
+echo Note: Running without arguments starts the WebUI
+echo       Node.js dependencies are only installed when you first use 'webui'
 echo.
 echo Documentation: %DOCS_URL%
 exit /b 0
@@ -111,10 +119,15 @@ echo.
 :: Check Python
 call :detect_python
 if errorlevel 1 (
-    echo [ERROR] Python 3.10+ not found.
-    echo Please install Python from: https://apps.microsoft.com/detail/9pnrbtzxmb4z
-    echo Or see: %DOCS_URL%
-    exit /b 1
+    echo [WARN] Python 3.10+ not found.
+    call :try_install_python
+    call :detect_python
+    if errorlevel 1 (
+        echo [ERROR] Could not install Python automatically.
+        echo Please install Python from: https://apps.microsoft.com/detail/9pnrbtzxmb4z
+        echo Or see: %DOCS_URL%
+        exit /b 1
+    )
 )
 echo [OK] Python found: %PYTHON_CMD%
 
@@ -162,10 +175,15 @@ exit /b 0
 :: Check Python
 call :detect_python
 if errorlevel 1 (
-    echo [ERROR] Python 3.10+ not found.
-    echo Please install Python from: https://apps.microsoft.com/detail/9pnrbtzxmb4z
-    echo Or see: %DOCS_URL%
-    exit /b 1
+    echo [WARN] Python 3.10+ not found.
+    call :try_install_python
+    call :detect_python
+    if errorlevel 1 (
+        echo [ERROR] Could not install Python automatically.
+        echo Please install Python from: https://apps.microsoft.com/detail/9pnrbtzxmb4z
+        echo Or see: %DOCS_URL%
+        exit /b 1
+    )
 )
 
 :: Check Python version
@@ -199,10 +217,15 @@ exit /b 0
 :: Check Node.js
 call :detect_npm
 if errorlevel 1 (
-    echo [ERROR] Node.js/npm not found.
-    echo Please install Node.js from: https://nodejs.org/
-    echo Or see: %DOCS_URL%
-    exit /b 1
+    echo [WARN] Node.js/npm not found.
+    call :try_install_nodejs
+    call :detect_npm
+    if errorlevel 1 (
+        echo [ERROR] Could not install Node.js automatically.
+        echo Please install Node.js manually from: https://nodejs.org/
+        echo Or see: %DOCS_URL%
+        exit /b 1
+    )
 )
 
 :: Install Node.js dependencies
@@ -219,6 +242,99 @@ popd
 :: Mark WebUI setup complete
 echo. > "%WEBUI_SETUP_MARKER%"
 echo [OK] Node.js dependencies installed
+exit /b 0
+
+:try_install_python
+:: Try to install Python using Windows package managers
+echo [INFO] Attempting to install Python...
+
+:: Try winget first (built into Windows 11 and Windows 10 22H2+)
+where winget >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Using winget to install Python...
+    winget install -e --id Python.Python.3.12 --accept-package-agreements --accept-source-agreements
+    if not errorlevel 1 (
+        echo [OK] Python installed via winget
+        :: Refresh PATH
+        call :refresh_path
+        exit /b 0
+    )
+)
+
+:: Try chocolatey
+where choco >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Using Chocolatey to install Python...
+    choco install python -y
+    if not errorlevel 1 (
+        echo [OK] Python installed via Chocolatey
+        call :refresh_path
+        exit /b 0
+    )
+)
+
+:: Try scoop
+where scoop >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Using Scoop to install Python...
+    scoop install python
+    if not errorlevel 1 (
+        echo [OK] Python installed via Scoop
+        exit /b 0
+    )
+)
+
+echo [WARN] No supported package manager found (winget, choco, scoop)
+exit /b 1
+
+:try_install_nodejs
+:: Try to install Node.js using Windows package managers
+echo [INFO] Attempting to install Node.js...
+
+:: Try winget first
+where winget >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Using winget to install Node.js...
+    winget install -e --id OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements
+    if not errorlevel 1 (
+        echo [OK] Node.js installed via winget
+        call :refresh_path
+        exit /b 0
+    )
+)
+
+:: Try chocolatey
+where choco >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Using Chocolatey to install Node.js...
+    choco install nodejs-lts -y
+    if not errorlevel 1 (
+        echo [OK] Node.js installed via Chocolatey
+        call :refresh_path
+        exit /b 0
+    )
+)
+
+:: Try scoop
+where scoop >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Using Scoop to install Node.js...
+    scoop install nodejs-lts
+    if not errorlevel 1 (
+        echo [OK] Node.js installed via Scoop
+        exit /b 0
+    )
+)
+
+echo [WARN] No supported package manager found (winget, choco, scoop)
+exit /b 1
+
+:refresh_path
+:: Refresh PATH environment variable to pick up newly installed programs
+:: This reads the current PATH from the registry
+for /f "tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path 2^>nul') do set "SYSPATH=%%b"
+for /f "tokens=2*" %%a in ('reg query "HKCU\Environment" /v Path 2^>nul') do set "USERPATH=%%b"
+set "PATH=%SYSPATH%;%USERPATH%"
 exit /b 0
 
 :detect_python

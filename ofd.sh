@@ -74,12 +74,19 @@ detect_npm() {
 
 # Detect package manager for auto-install
 detect_package_manager() {
-    if command -v apt-get &>/dev/null; then
+    # Check for NixOS or nix package manager first
+    if [ -n "$IN_NIX_SHELL" ] || [ -f /etc/NIXOS ]; then
+        echo "nix"
+    elif command -v nix-env &>/dev/null; then
+        echo "nix"
+    elif command -v apt-get &>/dev/null; then
         echo "apt"
     elif command -v dnf &>/dev/null; then
         echo "dnf"
     elif command -v pacman &>/dev/null; then
         echo "pacman"
+    elif command -v zypper &>/dev/null; then
+        echo "zypper"
     elif command -v brew &>/dev/null; then
         echo "brew"
     else
@@ -103,6 +110,18 @@ try_install_python() {
         pacman)
             info "Attempting to install Python via pacman..."
             sudo pacman -Sy --noconfirm python python-pip
+            ;;
+        zypper)
+            info "Attempting to install Python via zypper..."
+            sudo zypper install -y python3 python3-pip python3-venv
+            ;;
+        nix)
+            if [ -n "$IN_NIX_SHELL" ]; then
+                warn "Already in a nix-shell. Please add python3 to your shell.nix"
+                return 1
+            fi
+            info "Attempting to install Python via nix-env..."
+            nix-env -iA nixpkgs.python3
             ;;
         brew)
             info "Attempting to install Python via Homebrew..."
@@ -130,6 +149,18 @@ try_install_nodejs() {
         pacman)
             info "Attempting to install Node.js via pacman..."
             sudo pacman -Sy --noconfirm nodejs npm
+            ;;
+        zypper)
+            info "Attempting to install Node.js via zypper..."
+            sudo zypper install -y nodejs npm
+            ;;
+        nix)
+            if [ -n "$IN_NIX_SHELL" ]; then
+                warn "Already in a nix-shell. Please add nodejs to your shell.nix"
+                return 1
+            fi
+            info "Attempting to install Node.js via nix-env..."
+            nix-env -iA nixpkgs.nodejs
             ;;
         brew)
             info "Attempting to install Node.js via Homebrew..."
@@ -310,12 +341,14 @@ show_help() {
     echo "  webui       Start the WebUI development server"
     echo
     echo "Examples:"
+    echo "  ./ofd.sh                    # Start WebUI dev server (default)"
     echo "  ./ofd.sh setup              # Run setup manually"
     echo "  ./ofd.sh validate           # Validate all data"
     echo "  ./ofd.sh webui              # Start WebUI dev server"
     echo "  ./ofd.sh build              # Build all exports"
     echo
-    echo "Note: Node.js dependencies are only installed when you first use 'webui'"
+    echo "Note: Running without arguments starts the WebUI"
+    echo "      Node.js dependencies are only installed when you first use 'webui'"
     echo
     echo "Documentation: $DOCS_URL"
 }
@@ -377,10 +410,14 @@ main() {
         fi
     fi
 
-    # If no arguments, show help
+    # If no arguments, default to webui
     if [ ${#args[@]} -eq 0 ]; then
-        show_help
-        exit 0
+        # Setup WebUI if not yet setup
+        if ! is_webui_setup_complete; then
+            info "WebUI first run. Setting up Node.js dependencies..."
+            setup_webui
+        fi
+        exec python -m ofd webui
     fi
 
     # Run OFD CLI
