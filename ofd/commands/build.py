@@ -8,19 +8,16 @@ JSON, SQLite, CSV, API, and HTML exports.
 import argparse
 import hashlib
 import json
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict
 
-# Add project root to path for imports
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root))
+from ofd.builder.crawler import crawl_data
+from ofd.builder.errors import BuildResult
+from ofd.builder.exporters import export_json, export_sqlite, export_sqlite_stores, export_csv, export_api, export_html
+from ofd.builder.utils import get_current_timestamp
 
-from builder.crawler import crawl_data
-from builder.errors import BuildResult
-from builder.exporters import export_json, export_sqlite, export_sqlite_stores, export_csv, export_api, export_html
-from builder.utils import get_current_timestamp
+project_root = Path(__file__).parent.parent.parent
 
 
 def generate_version() -> str:
@@ -159,7 +156,7 @@ def run_build(args: argparse.Namespace) -> int:
     data_dir = project_root / args.data_dir
     stores_dir = project_root / args.stores_dir
     schemas_dir = project_root / "schemas"
-    builder_schemas_dir = project_root / "builder" / "schemas"
+    builder_schemas_dir = Path(__file__).parent.parent / "builder" / "schemas"
     output_dir = project_root / args.output_dir
 
     # Check directories exist
@@ -239,7 +236,7 @@ def run_build(args: argparse.Namespace) -> int:
     # Step 7: Export HTML landing page
     if not args.skip_html:
         print("\n[7/7] Exporting HTML landing page...")
-        templates_dir = project_root / "builder" / "templates"
+        templates_dir = Path(__file__).parent.parent / "builder" / "templates"
         export_html(db, str(output_dir), version, generated_at, templates_dir)
     else:
         print("\n[7/7] Skipping HTML export")
