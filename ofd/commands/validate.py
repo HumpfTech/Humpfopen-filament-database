@@ -48,8 +48,9 @@ Examples:
         help='Validate JSON files against schemas'
     )
     scope_group.add_argument(
-        '--logos',
+        '--logos', '--logo-files',
         action='store_true',
+        dest='logos',
         help='Validate logo files (dimensions, naming, format)'
     )
     scope_group.add_argument(
