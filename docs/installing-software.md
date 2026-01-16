@@ -1,6 +1,34 @@
 # Software Installation Guide
 This guide will walk you through installing the required software for contributing to the database.
 
+## Automatic Setup (Recommended)
+
+The OFD wrapper script can automatically detect and help install dependencies. Simply run:
+
+**Linux/macOS:**
+```bash
+./ofd.sh setup
+```
+
+**Windows:**
+```cmd
+ofd.bat setup
+```
+
+The wrapper will:
+1. Check if Python 3.10+ is installed
+2. Attempt to auto-install Python if missing (Linux/macOS only, via apt/dnf/pacman/brew)
+3. Create a Python virtual environment
+4. Install Python dependencies
+
+Node.js dependencies are installed lazily - only when you first run `./ofd.sh webui` or `ofd.bat webui`
+
+If auto-installation fails, follow the manual installation guides below.
+
+---
+
+## Manual Installation
+
 - [Git](#git)
 - [Python](#python)
 - [Python Requirements](#python-requirements)
