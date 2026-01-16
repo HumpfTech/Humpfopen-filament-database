@@ -23,7 +23,7 @@ export async function POST({ request }) {
 		}
 
 		// Build Python command arguments
-		const args = ['data_validator.py', '--json', '--progress'];
+		const args = ['-m', 'ofd', 'validate', '--json', '--progress'];
 
 		// Add specific validation type if not full
 		if (type === 'json_files') {
