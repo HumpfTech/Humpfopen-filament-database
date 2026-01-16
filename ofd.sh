@@ -183,6 +183,7 @@ setup_venv() {
 # Activate virtual environment
 activate_venv() {
     source "$VENV_DIR/bin/activate"
+    PYTHON_CMD="python"
 }
 
 # Install Python dependencies

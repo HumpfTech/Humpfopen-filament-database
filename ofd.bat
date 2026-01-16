@@ -62,6 +62,7 @@ if "%NEEDS_WEBUI%"=="1" (
 :: Activate venv and run
 if exist "%VENV_DIR%\Scripts\activate.bat" (
     call "%VENV_DIR%\Scripts\activate.bat"
+    set "PYTHON_CMD=python"
 ) else (
     echo [ERROR] Virtual environment not found. Run: ofd setup
     exit /b 1
