@@ -8,7 +8,7 @@ data files, logos, folder names, store IDs, and GTIN/EAN codes.
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 from PIL import Image
 from jsonschema import validate, ValidationError as JsonSchemaValidationError

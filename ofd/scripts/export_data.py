@@ -10,11 +10,9 @@ import argparse
 import json
 import os
 import re
-from copy import deepcopy
 from dataclasses import dataclass
-from json import JSONDecodeError
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 from jsonschema.validators import Draft7Validator
 from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
@@ -62,7 +60,7 @@ def load_json(json_path: PathLike) -> Optional[Dict[str, Any]]:
     try:
         with open(json_path, mode="r", encoding="utf8") as file:
             return json.load(file)
-    except JSONDecodeError:
+    except json.JSONDecodeError:
         print(f"Failed to parse JSON from file: {json_path}")
     except OSError:
         print(f"Failed to open JSON file: {json_path}")

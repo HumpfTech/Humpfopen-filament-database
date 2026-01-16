@@ -4,7 +4,6 @@ Validation types for OFD CLI.
 This module contains the core data types used throughout the validation system.
 """
 
-import json
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
