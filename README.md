@@ -67,7 +67,7 @@ python -m ofd validate                 # Run all validations
 ### 7. Submit your changes
 Before submitting, make sure your data is sorted consistently:
 - **In the WebUI:** Click the "Sort Data" button in the top-right corner
-- **Or via command line:** Run `python -m ofd script sort_data`
+- **Or via command line:** Run `python -m ofd script style_data`
 
 Then add your changes:
 ```bash

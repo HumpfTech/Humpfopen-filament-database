@@ -10,7 +10,7 @@ export async function POST({ request }) {
 		const jobId = randomUUID();
 
 		// Build Python command arguments
-		const args = ['-m', 'ofd', 'script', 'sort_data', '--json', '--progress'];
+		const args = ['-m', 'ofd', 'script', 'style_data', '--json', '--progress'];
 
 		if (dryRun) {
 			args.push('--dry-run');

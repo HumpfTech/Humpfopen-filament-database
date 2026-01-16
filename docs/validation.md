@@ -67,17 +67,17 @@ Navigate to the open-filament-database folder and run:
 
 **Windows:**
 ```bash
-python -m ofd script sort_data
+python -m ofd script style_data
 ```
 
 **Linux/macOS:**
 ```bash
-python -m ofd script sort_data
+python -m ofd script style_data
 ```
 
 Or if you need to use `python3`:
 ```bash
-python3 -m ofd script sort_data
+python3 -m ofd script style_data
 ```
 
 The sorting script will organize all JSON files alphabetically and format them consistently. This is an important step before creating your pull request.

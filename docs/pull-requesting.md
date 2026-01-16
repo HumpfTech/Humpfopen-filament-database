@@ -1,7 +1,7 @@
 # Creating a Pull Request
 Before creating a pull request, make sure you have:
 1. Validated your changes (no errors should remain)
-2. Sorted your data using the WebUI or `python -m ofd script sort_data`
+2. Sorted your data using the WebUI or `python -m ofd script style_data`
 3. Pushed your changes to GitHub
 
 ## Method 1: Quick Pull Request
