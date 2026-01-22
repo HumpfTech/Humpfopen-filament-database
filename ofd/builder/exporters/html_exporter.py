@@ -8,6 +8,7 @@ Uses templates/index.html and replaces placeholders:
 - <OUTPUTFILES/> - file tree with ul/li structure
 """
 
+import shutil
 from pathlib import Path
 
 from ..models import Database
@@ -133,6 +134,7 @@ def export_html(
     version: str,
     generated_at: str,
     templates_dir: str = None,
+    config_dir: str = None,
     **kwargs
 ):
     """Export index.html landing page from template."""
@@ -164,3 +166,16 @@ def export_html(
         f.write(html_content)
 
     print(f"  Written: {index_file}")
+
+    # Copy theme.css to output from config directory
+    if config_dir:
+        theme_source = Path(config_dir) / "theme.css"
+    else:
+        # Default: look for config/ relative to project root
+        project_root = Path(__file__).parent.parent.parent
+        theme_source = project_root / "config" / "theme.css"
+
+    if theme_source.exists():
+        theme_dest = output_path / "theme.css"
+        shutil.copy2(theme_source, theme_dest)
+        print(f"  Written: {theme_dest}")
