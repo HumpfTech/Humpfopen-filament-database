@@ -67,8 +67,10 @@ def export_directory_listings(
         # Calculate paths
         rel_path = "/" + str(dir_path.relative_to(output_path))
         depth = len(dir_path.relative_to(output_path).parts)
-        css_path = "../" * depth + "theme.css"
-        root_path = "../" * depth or "./"
+        base_path = "../" * depth
+        adwaita_path = base_path + "adwaita.css"
+        css_path = base_path + "theme.css"
+        root_path = base_path or "./"
 
         # Generate listing
         listing_html = generate_listing_html(dir_path, output_path)
@@ -76,6 +78,7 @@ def export_directory_listings(
         # Process template
         html = template
         html = html.replace("<PATH/>", rel_path)
+        html = html.replace("<ADWAITA_PATH/>", adwaita_path)
         html = html.replace("<CSS_PATH/>", css_path)
         html = html.replace("<ROOT_PATH/>", root_path)
         html = html.replace("<LISTING/>", listing_html)

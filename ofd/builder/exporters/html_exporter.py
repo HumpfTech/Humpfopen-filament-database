@@ -167,14 +167,22 @@ def export_html(
 
     print(f"  Written: {index_file}")
 
-    # Copy theme.css to output from config directory
+    # Copy CSS files from config directory
     if config_dir:
-        theme_source = Path(config_dir) / "theme.css"
+        config_path = Path(config_dir)
     else:
-        # Default: look for config/ relative to project root
         project_root = Path(__file__).parent.parent.parent
-        theme_source = project_root / "config" / "theme.css"
+        config_path = project_root / "config"
 
+    # Copy adwaita.css (base Adwaita theme)
+    adwaita_source = config_path / "adwaita.css"
+    if adwaita_source.exists():
+        adwaita_dest = output_path / "adwaita.css"
+        shutil.copy2(adwaita_source, adwaita_dest)
+        print(f"  Written: {adwaita_dest}")
+
+    # Copy theme.css (application-specific overrides)
+    theme_source = config_path / "theme.css"
     if theme_source.exists():
         theme_dest = output_path / "theme.css"
         shutil.copy2(theme_source, theme_dest)
