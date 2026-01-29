@@ -1,7 +1,5 @@
 {
   "id": "green",
   "name": "Green",
-  "color_hex": [
-    "#7CE326"
-  ]
+  "color_hex": "#7CE326"
 }

@@ -1,7 +1,5 @@
 {
   "id": "gold",
   "name": "Gold",
-  "color_hex": [
-    "#DFB960"
-  ]
+  "color_hex": "#DFB960"
 }
