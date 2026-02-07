@@ -1,0 +1,9 @@
+{
+  "id": "cf_dark_green",
+  "name": "CF Dark Green",
+  "color_hex": "#165158",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

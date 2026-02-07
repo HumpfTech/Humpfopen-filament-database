@@ -1,0 +1,17 @@
+{
+  "id": "forest_fantasy_green_multicolor_ht",
+  "name": "Forest Fantasy Green Multicolor HT",
+  "color_hex": [
+    "#91C500",
+    "#39B9DB",
+    "#15817B",
+    "#00A594"
+  ],
+  "traits": {
+    "glitter": true,
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true,
+    "gradual_color_change": true
+  }
+}

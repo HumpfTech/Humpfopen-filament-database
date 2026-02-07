@@ -1,0 +1,13 @@
+{
+  "id": "mystery_northern_lights",
+  "name": "mystery Northern Lights",
+  "color_hex": [
+    "#F6C500",
+    "#000000",
+    "#62E480"
+  ],
+  "traits": {
+    "coextruded": true,
+    "iridescent": true
+  }
+}

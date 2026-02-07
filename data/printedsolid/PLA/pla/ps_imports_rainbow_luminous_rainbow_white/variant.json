@@ -1,0 +1,16 @@
+{
+  "id": "ps_imports_rainbow_luminous_rainbow_white",
+  "name": "PS Imports  Rainbow Luminous Rainbow-White",
+  "color_hex": [
+    "#EBFF57",
+    "#0CCF81",
+    "#39B9DB",
+    "#F092B3",
+    "#FFFFFF"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true,
+    "translucent": true
+  }
+}

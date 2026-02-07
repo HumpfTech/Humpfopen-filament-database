@@ -1,0 +1,12 @@
+{
+  "id": "fast_nebula_purple_galaxy_shimmer",
+  "name": "Fast + Nebula Purple (Galaxy Shimmer)",
+  "color_hex": [
+    "#7F068C",
+    "#0E21AE"
+  ],
+  "traits": {
+    "glitter": true,
+    "iridescent": true
+  }
+}

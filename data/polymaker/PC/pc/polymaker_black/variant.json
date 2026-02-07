@@ -1,0 +1,8 @@
+{
+  "id": "polymaker_black",
+  "name": "Polymaker -ABS Black",
+  "color_hex": "#000000",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

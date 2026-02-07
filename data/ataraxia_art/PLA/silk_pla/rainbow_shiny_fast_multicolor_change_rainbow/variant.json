@@ -1,0 +1,15 @@
+{
+  "id": "rainbow_shiny_fast_multicolor_change_rainbow",
+  "name": "Rainbow Shiny Fast Multicolor Change  Rainbow",
+  "color_hex": [
+    "#41A840",
+    "#E72F1D",
+    "#F300EA",
+    "#0099E6"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

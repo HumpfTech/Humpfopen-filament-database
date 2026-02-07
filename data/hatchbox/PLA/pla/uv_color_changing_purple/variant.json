@@ -1,0 +1,12 @@
+{
+  "id": "uv_color_changing_purple",
+  "name": "UV Color Changing Purple",
+  "color_hex": [
+    "#CC52CF",
+    "#FFFFFF"
+  ],
+  "traits": {
+    "illuminescent_color_change": true,
+    "industrially_compostable": true
+  }
+}

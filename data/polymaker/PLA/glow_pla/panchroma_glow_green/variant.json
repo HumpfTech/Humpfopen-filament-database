@@ -1,0 +1,14 @@
+{
+  "id": "panchroma_glow_green",
+  "name": "Panchroma™ Glow  Green",
+  "color_hex": [
+    "#089A45",
+    "#EFEADF"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true,
+    "illuminescent_color_change": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "shiny_gradient_gold_shiny_purple",
+  "name": "Shiny Gradient Gold & Shiny Purple",
+  "color_hex": [
+    "#F6C500",
+    "#804996"
+  ],
+  "traits": {
+    "silk": true,
+    "gradual_color_change": true
+  }
+}

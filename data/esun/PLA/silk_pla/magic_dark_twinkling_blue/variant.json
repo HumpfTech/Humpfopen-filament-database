@@ -1,0 +1,11 @@
+{
+  "id": "magic_dark_twinkling_blue",
+  "name": "Magic  Dark Twinkling Blue",
+  "color_hex": "#3B3F6B",
+  "traits": {
+    "glitter": true,
+    "iridescent": true,
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

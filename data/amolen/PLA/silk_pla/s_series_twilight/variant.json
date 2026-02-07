@@ -1,0 +1,13 @@
+{
+  "id": "s_series_twilight",
+  "name": "S-Series Twilight",
+  "color_hex": [
+    "#E20010",
+    "#473FC9",
+    "#CEFF5C"
+  ],
+  "traits": {
+    "coextruded": true,
+    "silk": true
+  }
+}

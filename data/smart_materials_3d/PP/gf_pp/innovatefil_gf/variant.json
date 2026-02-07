@@ -1,0 +1,9 @@
+{
+  "id": "innovatefil_gf",
+  "name": "INNOVATEFIL®  GF",
+  "color_hex": "#F0EBE5",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

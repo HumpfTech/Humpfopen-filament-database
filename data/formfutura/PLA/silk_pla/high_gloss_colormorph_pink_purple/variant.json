@@ -1,0 +1,14 @@
+{
+  "id": "high_gloss_colormorph_pink_purple",
+  "name": "High Gloss  ColorMorph Pink & Purple",
+  "color_hex": [
+    "#B645A9",
+    "#7142A3"
+  ],
+  "traits": {
+    "iridescent": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

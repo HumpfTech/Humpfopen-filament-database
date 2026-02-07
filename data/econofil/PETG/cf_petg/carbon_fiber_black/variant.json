@@ -1,0 +1,9 @@
+{
+  "id": "carbon_fiber_black",
+  "name": "Carbon Fiber  Black",
+  "color_hex": "#545252",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

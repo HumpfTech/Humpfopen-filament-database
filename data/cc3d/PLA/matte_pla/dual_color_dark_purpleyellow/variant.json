@@ -1,0 +1,13 @@
+{
+  "id": "dual_color_dark_purpleyellow",
+  "name": "Dual Color Dark Purple/Yellow",
+  "color_hex": [
+    "#7142A3",
+    "#EEEA44"
+  ],
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

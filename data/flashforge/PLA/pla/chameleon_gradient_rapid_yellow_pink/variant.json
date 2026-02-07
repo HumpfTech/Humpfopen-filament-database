@@ -1,0 +1,12 @@
+{
+  "id": "chameleon_gradient_rapid_yellow_pink",
+  "name": "Chameleon Gradient Rapid  Yellow & Pink",
+  "color_hex": [
+    "#FB6066",
+    "#FBE200"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "iridescent_ice_clear_translucent_ht",
+  "name": "Iridescent Ice Clear Translucent HT",
+  "color_hex": "#EAECF5",
+  "traits": {
+    "transparent": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

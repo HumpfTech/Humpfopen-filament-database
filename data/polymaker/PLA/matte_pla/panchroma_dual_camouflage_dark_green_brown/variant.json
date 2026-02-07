@@ -1,0 +1,13 @@
+{
+  "id": "panchroma_dual_camouflage_dark_green_brown",
+  "name": "Panchroma™ Dual   Camouflage (Dark Green-Brown)",
+  "color_hex": [
+    "#5A7D5A",
+    "#926043"
+  ],
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

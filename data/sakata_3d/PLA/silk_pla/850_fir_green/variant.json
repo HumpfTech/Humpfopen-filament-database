@@ -1,0 +1,9 @@
+{
+  "id": "850_fir_green",
+  "name": "850  Fir Green",
+  "color_hex": "#4D5D4C",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true
+  }
+}

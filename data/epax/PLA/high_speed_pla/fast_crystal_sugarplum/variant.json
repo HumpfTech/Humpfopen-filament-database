@@ -1,0 +1,13 @@
+{
+  "id": "fast_crystal_sugarplum",
+  "name": "Fast + Crystal Sugarplum",
+  "color_hex": [
+    "#0353BA",
+    "#A000CA"
+  ],
+  "traits": {
+    "gradual_color_change": true,
+    "glitter": true,
+    "translucent": true
+  }
+}

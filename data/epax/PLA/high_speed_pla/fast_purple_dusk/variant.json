@@ -1,0 +1,12 @@
+{
+  "id": "fast_purple_dusk",
+  "name": "Fast + Purple Dusk",
+  "color_hex": [
+    "#D5447E",
+    "#6C47B2"
+  ],
+  "traits": {
+    "glitter": true,
+    "gradual_color_change": true
+  }
+}

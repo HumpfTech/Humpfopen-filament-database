@@ -1,0 +1,15 @@
+{
+  "id": "ps_imports_rainbow_candy_series",
+  "name": "PS Imports   Rainbow Candy Series",
+  "color_hex": [
+    "#DB3FA9",
+    "#FF7A33",
+    "#62E480",
+    "#0099E6"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

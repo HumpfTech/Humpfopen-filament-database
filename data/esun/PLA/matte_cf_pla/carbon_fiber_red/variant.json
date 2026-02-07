@@ -1,0 +1,11 @@
+{
+  "id": "carbon_fiber_red",
+  "name": "Carbon Fiber  Red",
+  "color_hex": "#4F3638",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "matte": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

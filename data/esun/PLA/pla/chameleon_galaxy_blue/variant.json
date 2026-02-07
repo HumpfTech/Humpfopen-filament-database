@@ -1,0 +1,13 @@
+{
+  "id": "chameleon_galaxy_blue",
+  "name": "Chameleon  Galaxy Blue",
+  "color_hex": [
+    "#8846AE",
+    "#0353BA"
+  ],
+  "traits": {
+    "iridescent": true,
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

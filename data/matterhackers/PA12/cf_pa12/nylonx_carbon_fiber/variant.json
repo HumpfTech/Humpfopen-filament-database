@@ -1,0 +1,9 @@
+{
+  "id": "nylonx_carbon_fiber",
+  "name": "NylonX Carbon Fiber",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

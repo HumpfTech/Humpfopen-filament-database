@@ -1,0 +1,11 @@
+{
+  "id": "black_carbon_fiber_composite_ht",
+  "name": "Black Carbon Fiber Composite HT",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "high_temperature": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

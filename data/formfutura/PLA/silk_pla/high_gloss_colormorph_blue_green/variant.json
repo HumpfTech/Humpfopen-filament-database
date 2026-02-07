@@ -1,0 +1,14 @@
+{
+  "id": "high_gloss_colormorph_blue_green",
+  "name": "High Gloss  ColorMorph Blue & Green",
+  "color_hex": [
+    "#008059",
+    "#005DA4"
+  ],
+  "traits": {
+    "iridescent": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

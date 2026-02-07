@@ -1,0 +1,13 @@
+{
+  "id": "rock_painted_hills",
+  "name": "Rock  Painted Hills",
+  "color_hex": [
+    "#D47460",
+    "#EEA061",
+    "#F27E81",
+    "#B78F86"
+  ],
+  "traits": {
+    "gradual_color_change": true
+  }
+}

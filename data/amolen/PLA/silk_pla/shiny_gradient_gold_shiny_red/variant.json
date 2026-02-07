@@ -1,0 +1,12 @@
+{
+  "id": "shiny_gradient_gold_shiny_red",
+  "name": "Shiny Gradient Gold & Shiny Red",
+  "color_hex": [
+    "#C00000",
+    "#F6C500"
+  ],
+  "traits": {
+    "silk": true,
+    "gradual_color_change": true
+  }
+}

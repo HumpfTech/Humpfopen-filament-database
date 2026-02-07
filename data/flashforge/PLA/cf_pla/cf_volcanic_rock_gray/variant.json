@@ -1,0 +1,10 @@
+{
+  "id": "cf_volcanic_rock_gray",
+  "name": "CF Volcanic Rock Gray",
+  "color_hex": "#26272B",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

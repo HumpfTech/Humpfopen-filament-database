@@ -1,0 +1,10 @@
+{
+  "id": "timberfill_redheart",
+  "name": "Timberfill® \"Redheart\"",
+  "color_hex": "#983B4E",
+  "traits": {
+    "contains_wood": true,
+    "imitates_wood": true,
+    "industrially_compostable": true
+  }
+}

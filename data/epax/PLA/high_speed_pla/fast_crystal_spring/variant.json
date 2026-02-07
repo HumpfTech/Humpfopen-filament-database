@@ -1,0 +1,13 @@
+{
+  "id": "fast_crystal_spring",
+  "name": "Fast + Crystal Spring",
+  "color_hex": [
+    "#F5E457",
+    "#0099E6"
+  ],
+  "traits": {
+    "gradual_color_change": true,
+    "glitter": true,
+    "translucent": true
+  }
+}

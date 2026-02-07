@@ -1,0 +1,9 @@
+{
+  "id": "real_wood_fiber_wood_maple",
+  "name": "Real Wood Fiber Wood  Maple",
+  "color_hex": "#ECCEA7",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

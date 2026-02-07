@@ -1,0 +1,12 @@
+{
+  "id": "bicolor_metallic_pet_g_green_brown",
+  "name": "BICOLOR METALLIC PET-G GREEN BROWN",
+  "color_hex": [
+    "#705939",
+    "#739549"
+  ],
+  "traits": {
+    "iridescent": true,
+    "coextruded": true
+  }
+}

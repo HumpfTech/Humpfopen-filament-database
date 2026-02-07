@@ -1,0 +1,10 @@
+{
+  "id": "fiber_ht_white",
+  "name": "Fiber HT - White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "matte": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

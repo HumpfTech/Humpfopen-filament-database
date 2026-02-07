@@ -1,0 +1,10 @@
+{
+  "id": "flameguard_deep_black",
+  "name": "FlameGuard  Deep Black",
+  "color_hex": "#000000",
+  "traits": {
+    "silk": true,
+    "self_extinguishing": true,
+    "industrially_compostable": true
+  }
+}

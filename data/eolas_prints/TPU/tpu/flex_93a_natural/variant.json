@@ -1,0 +1,9 @@
+{
+  "id": "flex_93a_natural",
+  "name": "Flex 93A Natural",
+  "color_hex": "#DFDFD3",
+  "traits": {
+    "without_pigments": true,
+    "transparent": true
+  }
+}

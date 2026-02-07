@@ -1,0 +1,12 @@
+{
+  "id": "magic_frozen",
+  "name": "Magic  Frozen",
+  "color_hex": [
+    "#0099E6",
+    "#F5F5F5"
+  ],
+  "traits": {
+    "coextruded": true,
+    "silk": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "shiny_gradient_azure_blue",
+  "name": "Shiny Gradient Azure Blue",
+  "color_hex": [
+    "#A5EEEE",
+    "#4921C1"
+  ],
+  "traits": {
+    "silk": true,
+    "gradual_color_change": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "hs_clear_pure_transparent",
+  "name": "HS  Clear Pure Transparent",
+  "color_hex": "#EFE8D8",
+  "traits": {
+    "translucent": true,
+    "industrially_compostable": true
+  }
+}

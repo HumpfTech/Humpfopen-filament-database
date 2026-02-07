@@ -1,0 +1,9 @@
+{
+  "id": "galaxy_andromeda_purple",
+  "name": "Galaxy  Andromeda Purple",
+  "color_hex": "#9F6979",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

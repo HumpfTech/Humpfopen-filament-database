@@ -1,0 +1,10 @@
+{
+  "id": "carbon_fiber_aquamarine_blue",
+  "name": "Carbon Fiber Aquamarine Blue",
+  "color_hex": "#2A4552",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

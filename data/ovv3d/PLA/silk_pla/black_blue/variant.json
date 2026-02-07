@@ -1,0 +1,13 @@
+{
+  "id": "black_blue",
+  "name": "Black Blue",
+  "color_hex": [
+    "#000000",
+    "#0E21AE"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

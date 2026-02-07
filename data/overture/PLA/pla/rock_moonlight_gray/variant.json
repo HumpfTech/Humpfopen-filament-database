@@ -1,0 +1,8 @@
+{
+  "id": "rock_moonlight_gray",
+  "name": "Rock  Moonlight Gray",
+  "color_hex": "#CCD6E2",
+  "traits": {
+    "imitates_stone": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "green_new_made_in_usa_premium_composite",
+  "name": "Green New Made In USA  Premium  Composite",
+  "color_hex": "#26A648",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

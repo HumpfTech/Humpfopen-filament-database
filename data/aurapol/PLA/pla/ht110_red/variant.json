@@ -1,0 +1,8 @@
+{
+  "id": "ht110_red",
+  "name": "HT110 Red",
+  "color_hex": "#EC0000",
+  "traits": {
+    "high_temperature": true
+  }
+}

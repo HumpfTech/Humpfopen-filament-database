@@ -1,0 +1,9 @@
+{
+  "id": "white_new_made_in_usa_premium_composite",
+  "name": "White New Made In USA  Premium  Composite",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

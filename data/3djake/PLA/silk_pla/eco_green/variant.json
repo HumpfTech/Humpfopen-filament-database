@@ -1,0 +1,8 @@
+{
+  "id": "eco_green",
+  "name": "eco  Green",
+  "color_hex": "#1E5A4F",
+  "traits": {
+    "silk": true
+  }
+}

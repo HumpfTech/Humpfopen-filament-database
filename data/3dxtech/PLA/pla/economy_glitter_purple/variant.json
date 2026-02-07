@@ -1,0 +1,9 @@
+{
+  "id": "economy_glitter_purple",
+  "name": "Economy Glitter  purple",
+  "color_hex": "#B645A9",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

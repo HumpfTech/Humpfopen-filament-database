@@ -1,0 +1,13 @@
+{
+  "id": "mystery_orion_nebula",
+  "name": "mystery Orion Nebula",
+  "color_hex": [
+    "#DB3FA9",
+    "#000000",
+    "#7659B5"
+  ],
+  "traits": {
+    "coextruded": true,
+    "iridescent": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "d_series_orange",
+  "name": "D-Series  Orange",
+  "color_hex": "#FF5F2E",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "easy_brown",
+  "name": "Easy  Brown",
+  "color_hex": "#503529",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "3dxstat_esd_a_black",
+  "name": "3DXSTAT ESD--A Black",
+  "color_hex": "#000000",
+  "traits": {
+    "esd_safe": true,
+    "low_outgassing": true
+  }
+}

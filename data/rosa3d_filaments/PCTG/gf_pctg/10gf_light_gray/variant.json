@@ -1,0 +1,8 @@
+{
+  "id": "10gf_light_gray",
+  "name": "10GF Light Gray",
+  "color_hex": "#ECEFED",
+  "traits": {
+    "contains_glass_fiber": true
+  }
+}

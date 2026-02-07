@@ -1,0 +1,8 @@
+{
+  "id": "easyfil_black",
+  "name": "EasyFil  Black",
+  "color_hex": "#000000",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

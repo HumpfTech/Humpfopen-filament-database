@@ -1,0 +1,8 @@
+{
+  "id": "r_semi_blossom",
+  "name": "r-Semi--Blossom",
+  "color_hex": "#FFCCCD",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

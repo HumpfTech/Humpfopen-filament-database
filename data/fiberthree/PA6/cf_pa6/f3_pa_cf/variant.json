@@ -1,0 +1,9 @@
+{
+  "id": "f3_pa_cf",
+  "name": "F3 PA-CF",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "primaselect_gradient_golddeep_greendeep_blueblue_purplecopperred",
+  "name": "PrimaSelect  Gradient Gold/Deep Green/Deep Blue/Blue Purple/Copper/Red",
+  "color_hex": [
+    "#E3B145",
+    "#3C5415",
+    "#15817B",
+    "#5C50E0",
+    "#904029"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

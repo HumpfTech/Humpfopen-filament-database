@@ -1,0 +1,14 @@
+{
+  "id": "lime_ripple_texas_twister_series_multi_color",
+  "name": "Lime Ripple Texas Twister Series Multi-color",
+  "color_hex": [
+    "#06B100",
+    "#0353BA",
+    "#EEEA44"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

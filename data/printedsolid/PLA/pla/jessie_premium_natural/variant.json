@@ -1,0 +1,9 @@
+{
+  "id": "jessie_premium_natural",
+  "name": "Jessie Premium  Natural",
+  "color_hex": "#D9D8DE",
+  "traits": {
+    "transparent": true,
+    "industrially_compostable": true
+  }
+}

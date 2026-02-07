@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_bicolor_magic_darkpurple_green",
+  "name": "PS Imports  Bicolor  Magic-DarkPurple-Green",
+  "color_hex": [
+    "#6802BC",
+    "#3D9441"
+  ],
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

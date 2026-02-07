@@ -1,0 +1,8 @@
+{
+  "id": "fr_v0_white",
+  "name": "/ABS FR V0 White",
+  "color_hex": "#EFEFEF",
+  "traits": {
+    "self_extinguishing": true
+  }
+}

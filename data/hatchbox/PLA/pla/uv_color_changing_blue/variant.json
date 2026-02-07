@@ -1,0 +1,12 @@
+{
+  "id": "uv_color_changing_blue",
+  "name": "UV Color Changing Blue",
+  "color_hex": [
+    "#FFFFFF",
+    "#617FCC"
+  ],
+  "traits": {
+    "illuminescent_color_change": true,
+    "industrially_compostable": true
+  }
+}

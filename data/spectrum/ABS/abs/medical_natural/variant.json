@@ -1,0 +1,10 @@
+{
+  "id": "medical_natural",
+  "name": "Medical Natural",
+  "color_hex": "#F1E6B2",
+  "traits": {
+    "biocompatible": true,
+    "filtration_recommended": true,
+    "without_pigments": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_bicolor_magic_purple_yellow",
+  "name": "PS Imports  Bicolor  Magic-Purple-Yellow",
+  "color_hex": [
+    "#EBFF57",
+    "#5C50E0"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

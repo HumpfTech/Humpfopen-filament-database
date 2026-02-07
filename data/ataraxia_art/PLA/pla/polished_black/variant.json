@@ -1,0 +1,9 @@
+{
+  "id": "polished_black",
+  "name": "Polished  Black",
+  "color_hex": "#000000",
+  "traits": {
+    "ipa_soluble": true,
+    "industrially_compostable": true
+  }
+}

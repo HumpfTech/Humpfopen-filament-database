@@ -1,0 +1,10 @@
+{
+  "id": "cf_midnight_blue",
+  "name": "CF Midnight Blue",
+  "color_hex": "#282D42",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

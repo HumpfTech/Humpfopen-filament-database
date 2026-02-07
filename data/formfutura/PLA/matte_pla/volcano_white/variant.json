@@ -1,0 +1,9 @@
+{
+  "id": "volcano_white",
+  "name": "Volcano  White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

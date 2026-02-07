@@ -1,0 +1,13 @@
+{
+  "id": "silky_blushing_violet",
+  "name": "Silky Blushing Violet",
+  "color_hex": [
+    "#F87FB5",
+    "#EE8881"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "kratos_clear",
+  "name": "Kratos  Clear",
+  "color_hex": "#E4E7E5",
+  "traits": {
+    "transparent": true
+  }
+}

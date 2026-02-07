@@ -1,0 +1,9 @@
+{
+  "id": "volcano_silver",
+  "name": "Volcano  Silver",
+  "color_hex": "#949597",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

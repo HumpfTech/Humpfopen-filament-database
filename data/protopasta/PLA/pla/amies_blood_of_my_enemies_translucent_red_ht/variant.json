@@ -1,0 +1,10 @@
+{
+  "id": "amies_blood_of_my_enemies_translucent_red_ht",
+  "name": "Amie's \"Blood of My Enemies\" Translucent Red HT",
+  "color_hex": "#AD0028",
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "zephyr_cf_mc_extreme_light_weight_thermal_resistance",
+  "name": "ZEPHYR  CF MC - Extreme Light Weight & Thermal Resistance",
+  "color_hex": "#000000",
+  "traits": {
+    "foaming": true,
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

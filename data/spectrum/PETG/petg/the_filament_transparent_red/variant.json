@@ -1,0 +1,8 @@
+{
+  "id": "the_filament_transparent_red",
+  "name": "The Filament  Transparent Red",
+  "color_hex": "#AC1A17",
+  "traits": {
+    "translucent": true
+  }
+}

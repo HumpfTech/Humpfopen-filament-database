@@ -1,0 +1,8 @@
+{
+  "id": "signal_yellow",
+  "name": "PLA/ Signal yellow",
+  "color_hex": "#F3B400",
+  "traits": {
+    "home_compostable": true
+  }
+}

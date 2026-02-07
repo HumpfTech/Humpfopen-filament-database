@@ -1,0 +1,15 @@
+{
+  "id": "mystic_blue_red_purple",
+  "name": "Mystic  Blue Red Purple",
+  "color_hex": [
+    "#0E21AE",
+    "#ED1536",
+    "#8846AE"
+  ],
+  "traits": {
+    "iridescent": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

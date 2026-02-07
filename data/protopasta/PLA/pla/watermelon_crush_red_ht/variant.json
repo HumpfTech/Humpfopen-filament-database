@@ -1,0 +1,10 @@
+{
+  "id": "watermelon_crush_red_ht",
+  "name": "Watermelon Crush Red HT",
+  "color_hex": "#E24749",
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

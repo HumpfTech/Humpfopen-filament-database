@@ -1,0 +1,13 @@
+{
+  "id": "panchroma_dual_chameleon_yellow_blue",
+  "name": "Panchroma™ Dual   Chameleon (Yellow / Blue)",
+  "color_hex": [
+    "#0095FF",
+    "#FFFB00"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

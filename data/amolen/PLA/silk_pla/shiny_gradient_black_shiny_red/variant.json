@@ -1,0 +1,12 @@
+{
+  "id": "shiny_gradient_black_shiny_red",
+  "name": "Shiny Gradient Black & Shiny Red",
+  "color_hex": [
+    "#000000",
+    "#AD0028"
+  ],
+  "traits": {
+    "silk": true,
+    "gradual_color_change": true
+  }
+}

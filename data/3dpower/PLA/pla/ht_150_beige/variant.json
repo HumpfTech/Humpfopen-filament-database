@@ -1,0 +1,8 @@
+{
+  "id": "ht_150_beige",
+  "name": "HT 150 Beige",
+  "color_hex": "#FBE0B1",
+  "traits": {
+    "high_temperature": true
+  }
+}

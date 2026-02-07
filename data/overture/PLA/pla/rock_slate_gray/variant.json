@@ -1,0 +1,8 @@
+{
+  "id": "rock_slate_gray",
+  "name": "Rock  Slate Gray",
+  "color_hex": "#23668C",
+  "traits": {
+    "imitates_marble": true
+  }
+}

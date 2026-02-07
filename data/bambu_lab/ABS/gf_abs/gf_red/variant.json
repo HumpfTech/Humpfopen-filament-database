@@ -1,0 +1,10 @@
+{
+  "id": "gf_red",
+  "name": "GF Red",
+  "color_hex": "#F00C00",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true,
+    "filtration_recommended": true
+  }
+}

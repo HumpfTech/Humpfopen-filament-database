@@ -1,0 +1,8 @@
+{
+  "id": "aura_ec_black_ral9011",
+  "name": "AURA  EC Black (RAL9011)",
+  "color_hex": "#000000",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

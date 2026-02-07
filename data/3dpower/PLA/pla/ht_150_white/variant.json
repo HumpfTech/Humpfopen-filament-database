@@ -1,0 +1,8 @@
+{
+  "id": "ht_150_white",
+  "name": "HT 150 White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "high_temperature": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "digilab_yel_01_yellow",
+  "name": "DigiLab -YEL-01 Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "wood_teka",
+  "name": "WOOD Teka",
+  "color_hex": "#CD5A2E",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

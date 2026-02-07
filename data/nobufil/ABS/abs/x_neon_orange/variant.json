@@ -1,0 +1,9 @@
+{
+  "id": "x_neon_orange",
+  "name": "x Neon Orange",
+  "color_hex": "#F67405",
+  "traits": {
+    "filtration_recommended": true,
+    "neon": true
+  }
+}

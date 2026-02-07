@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_goldblack",
+  "name": "Dual Color Gold&Black",
+  "color_hex": [
+    "#232323",
+    "#AF7D00"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

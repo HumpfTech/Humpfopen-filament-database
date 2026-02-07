@@ -1,0 +1,9 @@
+{
+  "id": "easy_neon_green",
+  "name": "easy  Neon Green",
+  "color_hex": "#62E480",
+  "traits": {
+    "matte": true,
+    "neon": true
+  }
+}

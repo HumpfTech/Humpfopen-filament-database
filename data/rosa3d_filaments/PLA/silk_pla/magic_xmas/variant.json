@@ -1,0 +1,12 @@
+{
+  "id": "magic_xmas",
+  "name": "Magic  XMAS",
+  "color_hex": [
+    "#206233",
+    "#E2FF4D"
+  ],
+  "traits": {
+    "coextruded": true,
+    "silk": true
+  }
+}

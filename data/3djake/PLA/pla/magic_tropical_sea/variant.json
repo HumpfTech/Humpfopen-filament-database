@@ -1,0 +1,12 @@
+{
+  "id": "magic_tropical_sea",
+  "name": "magic Tropical Sea",
+  "color_hex": [
+    "#61C680",
+    "#39B9DB"
+  ],
+  "traits": {
+    "coextruded": true,
+    "iridescent": true
+  }
+}

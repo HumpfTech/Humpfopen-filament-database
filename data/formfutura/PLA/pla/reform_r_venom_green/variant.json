@@ -1,0 +1,9 @@
+{
+  "id": "reform_r_venom_green",
+  "name": "ReForm – r Venom Green",
+  "color_hex": "#9CBF60",
+  "traits": {
+    "recycled": true,
+    "industrially_compostable": true
+  }
+}

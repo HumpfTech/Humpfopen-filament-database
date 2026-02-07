@@ -1,0 +1,12 @@
+{
+  "id": "rock_sedona_red",
+  "name": "Rock  Sedona Red",
+  "color_hex": [
+    "#CCA897",
+    "#A4615B",
+    "#C60F3E"
+  ],
+  "traits": {
+    "gradual_color_change": true
+  }
+}

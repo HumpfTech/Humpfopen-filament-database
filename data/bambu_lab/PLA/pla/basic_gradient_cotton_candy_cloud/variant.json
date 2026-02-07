@@ -1,0 +1,12 @@
+{
+  "id": "basic_gradient_cotton_candy_cloud",
+  "name": "Basic Gradient Cotton Candy Cloud",
+  "color_hex": [
+    "#FFE0E1",
+    "#5FBCDD"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

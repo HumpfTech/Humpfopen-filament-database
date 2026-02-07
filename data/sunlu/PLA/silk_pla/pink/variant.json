@@ -1,0 +1,9 @@
+{
+  "id": "pink",
+  "name": "Pink",
+  "color_hex": "#F092B3",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

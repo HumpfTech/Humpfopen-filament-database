@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_peach_orange",
+  "name": "Dual Color Peach Orange",
+  "color_hex": [
+    "#EB0075",
+    "#F47D59"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

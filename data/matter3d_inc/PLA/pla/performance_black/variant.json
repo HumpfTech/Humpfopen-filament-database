@@ -1,0 +1,8 @@
+{
+  "id": "performance_black",
+  "name": "Performance  Black",
+  "color_hex": "#000000",
+  "traits": {
+    "high_temperature": true
+  }
+}

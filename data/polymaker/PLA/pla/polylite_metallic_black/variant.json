@@ -1,0 +1,9 @@
+{
+  "id": "polylite_metallic_black",
+  "name": "PolyLite™ Metallic   Black",
+  "color_hex": "#000000",
+  "traits": {
+    "imitates_metal": true,
+    "industrially_compostable": true
+  }
+}

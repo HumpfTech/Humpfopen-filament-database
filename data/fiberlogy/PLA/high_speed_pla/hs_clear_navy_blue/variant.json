@@ -1,0 +1,9 @@
+{
+  "id": "hs_clear_navy_blue",
+  "name": "HS  Clear Navy Blue",
+  "color_hex": "#09048E",
+  "traits": {
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

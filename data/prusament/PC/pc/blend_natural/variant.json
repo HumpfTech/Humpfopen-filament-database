@@ -1,0 +1,9 @@
+{
+  "id": "blend_natural",
+  "name": "Blend Natural",
+  "color_hex": "#DFDFD3",
+  "traits": {
+    "blend": true,
+    "without_pigments": true
+  }
+}

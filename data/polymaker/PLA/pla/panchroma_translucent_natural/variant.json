@@ -1,0 +1,9 @@
+{
+  "id": "panchroma_translucent_natural",
+  "name": "Panchroma™ Translucent  Natural",
+  "color_hex": "#F2EFE9",
+  "traits": {
+    "transparent": true,
+    "industrially_compostable": true
+  }
+}

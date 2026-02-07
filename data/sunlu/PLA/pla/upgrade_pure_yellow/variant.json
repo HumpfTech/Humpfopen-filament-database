@@ -1,0 +1,8 @@
+{
+  "id": "upgrade_pure_yellow",
+  "name": "Upgrade + Pure Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

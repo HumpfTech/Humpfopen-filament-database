@@ -1,0 +1,9 @@
+{
+  "id": "gf_white",
+  "name": "GF White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "bronzefill",
+  "name": "bronzeFill",
+  "color_hex": "#95846F",
+  "traits": {
+    "contains_bronze": true,
+    "abrasive": true,
+    "home_compostable": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "dual_color_black_red",
+  "name": "Dual Color  Black Red",
+  "color_hex": [
+    "#000000",
+    "#C00000"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

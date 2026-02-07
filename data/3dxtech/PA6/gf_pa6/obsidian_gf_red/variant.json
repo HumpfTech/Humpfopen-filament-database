@@ -1,0 +1,9 @@
+{
+  "id": "obsidian_gf_red",
+  "name": "OBSIDIAN GF+ Red",
+  "color_hex": "#B7293E",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

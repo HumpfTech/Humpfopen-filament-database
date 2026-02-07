@@ -1,0 +1,9 @@
+{
+  "id": "timberfill_southern_pine",
+  "name": "Timberfill® \"Southern Pine\"",
+  "color_hex": "#BE6730",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

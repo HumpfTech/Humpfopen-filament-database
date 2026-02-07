@@ -1,0 +1,8 @@
+{
+  "id": "fast_glass_blue",
+  "name": "Fast  Glass Blue",
+  "color_hex": "#0E21AE",
+  "traits": {
+    "translucent": true
+  }
+}

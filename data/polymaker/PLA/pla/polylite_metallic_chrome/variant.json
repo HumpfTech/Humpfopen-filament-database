@@ -1,0 +1,9 @@
+{
+  "id": "polylite_metallic_chrome",
+  "name": "PolyLite™ Metallic   Chrome",
+  "color_hex": "#545F67",
+  "traits": {
+    "imitates_metal": true,
+    "industrially_compostable": true
+  }
+}

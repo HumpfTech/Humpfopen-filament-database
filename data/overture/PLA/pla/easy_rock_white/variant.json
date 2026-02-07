@@ -1,0 +1,9 @@
+{
+  "id": "easy_rock_white",
+  "name": "Easy  Rock White",
+  "color_hex": "#EDF0F2",
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true
+  }
+}

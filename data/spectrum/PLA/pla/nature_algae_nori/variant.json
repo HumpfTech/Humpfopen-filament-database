@@ -1,0 +1,9 @@
+{
+  "id": "nature_algae_nori",
+  "name": "Nature Algae Nori",
+  "color_hex": "#3D9441",
+  "traits": {
+    "contains_algae": true,
+    "industrially_compostable": true
+  }
+}

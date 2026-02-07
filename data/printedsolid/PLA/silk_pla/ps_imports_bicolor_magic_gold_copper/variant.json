@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_bicolor_magic_gold_copper",
+  "name": "PS Imports  Bicolor  Magic-Gold -Copper",
+  "color_hex": [
+    "#FFCB47",
+    "#863938"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

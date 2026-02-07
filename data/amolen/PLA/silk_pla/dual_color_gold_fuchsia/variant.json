@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_gold_fuchsia",
+  "name": "Dual Color Gold & Fuchsia",
+  "color_hex": [
+    "#E23288",
+    "#F6C500"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

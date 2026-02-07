@@ -1,0 +1,10 @@
+{
+  "id": "primaselect_carbon_dark_green",
+  "name": "PrimaSelect  Carbon Dark Green",
+  "color_hex": "#165158",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

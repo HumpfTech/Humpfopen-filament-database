@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_greenblack",
+  "name": "Dual Color Green&Black",
+  "color_hex": [
+    "#232323",
+    "#26A648"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

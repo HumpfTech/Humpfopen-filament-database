@@ -1,0 +1,9 @@
+{
+  "id": "pa_cfjet_black",
+  "name": "PA-CFJet - Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

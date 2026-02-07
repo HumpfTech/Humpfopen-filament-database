@@ -1,0 +1,8 @@
+{
+  "id": "fibersmooth_grey",
+  "name": "FiberSmooth Grey",
+  "color_hex": "#ECEFED",
+  "traits": {
+    "ipa_soluble": true
+  }
+}

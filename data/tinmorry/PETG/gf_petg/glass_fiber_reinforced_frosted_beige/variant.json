@@ -1,0 +1,8 @@
+{
+  "id": "glass_fiber_reinforced_frosted_beige",
+  "name": "Glass Fiber Reinforced  Frosted Beige",
+  "color_hex": "#D8CF8C",
+  "traits": {
+    "contains_glass_fiber": true
+  }
+}

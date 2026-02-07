@@ -1,0 +1,16 @@
+{
+  "id": "galaxy_sparkle_shiny_galaxy_red_yellow_green_blue_purple",
+  "name": "Galaxy / Sparkle & Shiny Galaxy-Red Yellow Green Blue Purple",
+  "color_hex": [
+    "#11784F",
+    "#FF8400",
+    "#8B3A3A",
+    "#0095FF"
+  ],
+  "traits": {
+    "glitter": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

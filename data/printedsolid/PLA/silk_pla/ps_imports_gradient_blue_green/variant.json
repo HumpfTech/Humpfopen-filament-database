@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_gradient_blue_green",
+  "name": "PS Imports   Gradient-Blue-Green",
+  "color_hex": [
+    "#005DA4",
+    "#1E5A4F"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

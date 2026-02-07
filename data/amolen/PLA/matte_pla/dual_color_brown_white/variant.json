@@ -1,0 +1,13 @@
+{
+  "id": "dual_color_brown_white",
+  "name": "Dual Color Brown White",
+  "color_hex": [
+    "#FFFFFF",
+    "#C37C4F"
+  ],
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

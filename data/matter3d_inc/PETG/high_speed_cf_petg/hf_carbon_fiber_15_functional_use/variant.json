@@ -1,0 +1,8 @@
+{
+  "id": "hf_carbon_fiber_15_functional_use",
+  "name": "HF Carbon Fiber 15% - Functional Use",
+  "color_hex": "#545252",
+  "traits": {
+    "contains_carbon_fiber": true
+  }
+}

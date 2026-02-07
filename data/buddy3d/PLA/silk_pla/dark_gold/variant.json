@@ -1,0 +1,9 @@
+{
+  "id": "dark_gold",
+  "name": "Dark gold",
+  "color_hex": "#F3B400",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

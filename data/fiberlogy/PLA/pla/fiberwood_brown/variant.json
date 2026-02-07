@@ -1,0 +1,10 @@
+{
+  "id": "fiberwood_brown",
+  "name": "FiberWood Brown",
+  "color_hex": "#503529",
+  "traits": {
+    "imitates_wood": true,
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

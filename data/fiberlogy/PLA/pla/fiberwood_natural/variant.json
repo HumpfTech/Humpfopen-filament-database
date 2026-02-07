@@ -1,0 +1,10 @@
+{
+  "id": "fiberwood_natural",
+  "name": "FiberWood Natural",
+  "color_hex": "#BA8960",
+  "traits": {
+    "imitates_wood": true,
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

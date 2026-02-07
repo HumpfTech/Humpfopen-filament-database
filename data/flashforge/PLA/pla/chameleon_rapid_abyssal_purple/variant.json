@@ -1,0 +1,13 @@
+{
+  "id": "chameleon_rapid_abyssal_purple",
+  "name": "Chameleon Rapid  Abyssal Purple",
+  "color_hex": [
+    "#332120",
+    "#663D7E"
+  ],
+  "traits": {
+    "iridescent": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

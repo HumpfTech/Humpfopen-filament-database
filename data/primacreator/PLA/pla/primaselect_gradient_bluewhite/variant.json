@@ -1,0 +1,12 @@
+{
+  "id": "primaselect_gradient_bluewhite",
+  "name": "PrimaSelect  Gradient Blue/White",
+  "color_hex": [
+    "#FFFFFF",
+    "#9AE0DD"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

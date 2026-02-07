@@ -1,0 +1,9 @@
+{
+  "id": "air_wood",
+  "name": "Air  Wood",
+  "color_hex": "#CAAC78",
+  "traits": {
+    "industrially_compostable": true,
+    "foaming": true
+  }
+}

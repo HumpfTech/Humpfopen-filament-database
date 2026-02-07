@@ -1,0 +1,9 @@
+{
+  "id": "high_gloss_brass",
+  "name": "High Gloss  Brass",
+  "color_hex": "#998D58",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

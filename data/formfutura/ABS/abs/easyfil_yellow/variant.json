@@ -1,0 +1,8 @@
+{
+  "id": "easyfil_yellow",
+  "name": "EasyFil  Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

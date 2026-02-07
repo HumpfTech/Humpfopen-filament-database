@@ -1,0 +1,16 @@
+{
+  "id": "nebula_rainbow_multicolor_ht",
+  "name": "Nebula Rainbow Multicolor HT",
+  "color_hex": [
+    "#4E6A84",
+    "#7C5577",
+    "#7B4D64"
+  ],
+  "traits": {
+    "glitter": true,
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true,
+    "gradual_color_change": true
+  }
+}

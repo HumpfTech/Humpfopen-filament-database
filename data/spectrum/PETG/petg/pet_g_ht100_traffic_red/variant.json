@@ -1,0 +1,8 @@
+{
+  "id": "pet_g_ht100_traffic_red",
+  "name": "PET-G HT100™ Traffic Red",
+  "color_hex": "#EC0000",
+  "traits": {
+    "high_temperature": true
+  }
+}

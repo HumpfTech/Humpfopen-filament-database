@@ -1,0 +1,9 @@
+{
+  "id": "innovatefil_medical_natural",
+  "name": "INNOVATEFIL®  MEDICAL Natural",
+  "color_hex": "#F1E6B2",
+  "traits": {
+    "biocompatible": true,
+    "filtration_recommended": true
+  }
+}

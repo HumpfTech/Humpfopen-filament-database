@@ -1,0 +1,9 @@
+{
+  "id": "cf_matt_stone_cold_gray",
+  "name": "CF Matt Stone Cold Gray",
+  "color_hex": "#A2AAAD",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "matte": true
+  }
+}

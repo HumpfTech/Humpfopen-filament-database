@@ -1,0 +1,12 @@
+{
+  "id": "basic_gradient_blueberry_bubblegum",
+  "name": "Basic Gradient Blueberry Bubblegum",
+  "color_hex": [
+    "#8CC6E4",
+    "#AE96D4"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

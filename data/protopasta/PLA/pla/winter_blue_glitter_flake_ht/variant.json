@@ -1,0 +1,10 @@
+{
+  "id": "winter_blue_glitter_flake_ht",
+  "name": "Winter Blue Glitter Flake HT",
+  "color_hex": "#0099E6",
+  "traits": {
+    "glitter": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "nx2_matt",
+  "name": "NX2 MATT",
+  "color_hex": "#E4FF33",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

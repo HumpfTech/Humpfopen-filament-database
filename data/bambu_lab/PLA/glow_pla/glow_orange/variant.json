@@ -1,0 +1,13 @@
+{
+  "id": "glow_orange",
+  "name": "Glow Orange",
+  "color_hex": [
+    "#FF9C66",
+    "#FCE575"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

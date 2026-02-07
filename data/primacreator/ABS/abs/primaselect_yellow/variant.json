@@ -1,0 +1,8 @@
+{
+  "id": "primaselect_yellow",
+  "name": "PrimaSelect  Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

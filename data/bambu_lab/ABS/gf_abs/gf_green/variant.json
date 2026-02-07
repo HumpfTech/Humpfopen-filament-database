@@ -1,0 +1,10 @@
+{
+  "id": "gf_green",
+  "name": "GF Green",
+  "color_hex": "#06B100",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true,
+    "filtration_recommended": true
+  }
+}

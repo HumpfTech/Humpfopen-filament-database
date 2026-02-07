@@ -1,0 +1,9 @@
+{
+  "id": "panchroma_starlight_mars",
+  "name": "Panchroma™ Starlight  Mars",
+  "color_hex": "#D33D3D",
+  "traits": {
+    "iridescent": true,
+    "industrially_compostable": true
+  }
+}

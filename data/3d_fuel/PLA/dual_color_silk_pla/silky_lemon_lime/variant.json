@@ -1,0 +1,10 @@
+{
+  "id": "silky_lemon_lime",
+  "name": "Silky Lemon Lime",
+  "color_hex": "#000000",
+  "traits": {
+    "silk": true,
+    "gradual_color_change": true,
+    "industrially_compostable": true
+  }
+}

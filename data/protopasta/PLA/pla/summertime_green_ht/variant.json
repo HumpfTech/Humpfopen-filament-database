@@ -1,0 +1,10 @@
+{
+  "id": "summertime_green_ht",
+  "name": "Summertime Green HT",
+  "color_hex": "#62E480",
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

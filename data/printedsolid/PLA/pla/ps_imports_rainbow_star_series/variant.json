@@ -1,0 +1,15 @@
+{
+  "id": "ps_imports_rainbow_star_series",
+  "name": "PS Imports  Rainbow Star Series",
+  "color_hex": [
+    "#41A840",
+    "#DB3FA9",
+    "#FBE200",
+    "#0099E6"
+  ],
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "crystal_transparent_haze_blue",
+  "name": "Crystal-Transparent Haze Blue",
+  "color_hex": [
+    "#B5A7AA",
+    "#B9CAD0",
+    "#CAAAC2"
+  ],
+  "traits": {
+    "translucent": true,
+    "gradual_color_change": true
+  }
+}

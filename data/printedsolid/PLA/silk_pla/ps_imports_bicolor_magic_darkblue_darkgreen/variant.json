@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_bicolor_magic_darkblue_darkgreen",
+  "name": "PS Imports  Bicolor  Magic-DarkBlue-DarkGreen",
+  "color_hex": [
+    "#0E21AE",
+    "#206233"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

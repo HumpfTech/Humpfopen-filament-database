@@ -1,0 +1,13 @@
+{
+  "id": "black_purple",
+  "name": "Black Purple",
+  "color_hex": [
+    "#000000",
+    "#6000B0"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

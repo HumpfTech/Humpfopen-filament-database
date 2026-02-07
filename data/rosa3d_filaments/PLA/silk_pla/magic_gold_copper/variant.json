@@ -1,0 +1,11 @@
+{
+  "id": "magic_gold_copper",
+  "name": "Magic  Gold-Copper",
+  "color_hex": [
+    "#F6C500",
+    "#C06341"
+  ],
+  "traits": {
+    "silk": true
+  }
+}

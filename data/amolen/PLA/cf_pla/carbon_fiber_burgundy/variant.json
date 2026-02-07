@@ -1,0 +1,10 @@
+{
+  "id": "carbon_fiber_burgundy",
+  "name": "Carbon Fiber Burgundy",
+  "color_hex": "#833F4D",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

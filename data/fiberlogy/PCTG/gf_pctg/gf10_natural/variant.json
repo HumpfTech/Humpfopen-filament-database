@@ -1,0 +1,9 @@
+{
+  "id": "gf10_natural",
+  "name": "GF10 Natural",
+  "color_hex": "#EFE8D8",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

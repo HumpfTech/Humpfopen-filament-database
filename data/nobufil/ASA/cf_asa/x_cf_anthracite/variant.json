@@ -1,0 +1,9 @@
+{
+  "id": "x_cf_anthracite",
+  "name": "x CF Anthracite",
+  "color_hex": "#55555E",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "cf_matt_blue_jeans",
+  "name": "CF Matt Blue Jeans",
+  "color_hex": "#9DB6D4",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "matte": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "panchroma_temp_shift_purple_pink_translucent",
+  "name": "Panchroma™ Temp Shift  Purple-Pink-Translucent",
+  "color_hex": [
+    "#FF5786",
+    "#9761B5",
+    "#F2EFE9"
+  ],
+  "traits": {
+    "temperature_color_change": true,
+    "industrially_compostable": true,
+    "translucent": true,
+    "gradual_color_change": true
+  }
+}

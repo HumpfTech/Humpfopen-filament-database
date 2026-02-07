@@ -1,0 +1,14 @@
+{
+  "id": "magic_dark_twinkling_gold",
+  "name": "Magic  Dark Twinkling Gold",
+  "color_hex": [
+    "#1C393D",
+    "#AF7D00"
+  ],
+  "traits": {
+    "glitter": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "iridescent": true
+  }
+}

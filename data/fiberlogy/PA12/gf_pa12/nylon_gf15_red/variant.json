@@ -1,0 +1,9 @@
+{
+  "id": "nylon_gf15_red",
+  "name": "Nylon +GF15 Red",
+  "color_hex": "#C01616",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

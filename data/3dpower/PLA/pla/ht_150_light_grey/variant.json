@@ -1,0 +1,8 @@
+{
+  "id": "ht_150_light_grey",
+  "name": "HT 150 Light Grey",
+  "color_hex": "#6F727E",
+  "traits": {
+    "high_temperature": true
+  }
+}

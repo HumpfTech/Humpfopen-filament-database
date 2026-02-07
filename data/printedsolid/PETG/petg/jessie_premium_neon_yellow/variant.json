@@ -1,0 +1,8 @@
+{
+  "id": "jessie_premium_neon_yellow",
+  "name": "Jessie Premium  Neon Yellow",
+  "color_hex": "#E4FF33",
+  "traits": {
+    "neon": true
+  }
+}

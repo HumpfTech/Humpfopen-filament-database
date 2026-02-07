@@ -1,0 +1,13 @@
+{
+  "id": "multicolour_jungle",
+  "name": "Multicolour Jungle",
+  "color_hex": [
+    "#3D9441",
+    "#70FA00",
+    "#F6FB38"
+  ],
+  "traits": {
+    "gradual_color_change": true,
+    "silk": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "glow_in_the_dark_series",
+  "name": "Glow in the Dark  Series",
+  "color_hex": "#F2EFE9",
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

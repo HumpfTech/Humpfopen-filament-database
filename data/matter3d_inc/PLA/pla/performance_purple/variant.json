@@ -1,0 +1,8 @@
+{
+  "id": "performance_purple",
+  "name": "Performance  Purple",
+  "color_hex": "#C00698",
+  "traits": {
+    "high_temperature": true
+  }
+}

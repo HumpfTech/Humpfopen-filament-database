@@ -1,0 +1,13 @@
+{
+  "id": "panchroma_dual_jadeite_green_chrome",
+  "name": "Panchroma™ Dual   Jadeite (Green / Chrome)",
+  "color_hex": [
+    "#00A594",
+    "#545F67"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

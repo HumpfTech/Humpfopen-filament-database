@@ -1,0 +1,8 @@
+{
+  "id": "economy_silver",
+  "name": "Economy  silver",
+  "color_hex": "#818FA0",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

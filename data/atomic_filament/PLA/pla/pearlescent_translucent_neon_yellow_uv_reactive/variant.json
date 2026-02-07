@@ -1,0 +1,11 @@
+{
+  "id": "pearlescent_translucent_neon_yellow_uv_reactive",
+  "name": "Pearlescent Translucent Neon Yellow  - UV REACTIVE",
+  "color_hex": "#EBFF57",
+  "traits": {
+    "pearlescent": true,
+    "neon": true,
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

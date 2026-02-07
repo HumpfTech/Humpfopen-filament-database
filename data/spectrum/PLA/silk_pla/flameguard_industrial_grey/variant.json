@@ -1,0 +1,10 @@
+{
+  "id": "flameguard_industrial_grey",
+  "name": "FlameGuard  Industrial Grey",
+  "color_hex": "#5A696C",
+  "traits": {
+    "silk": true,
+    "self_extinguishing": true,
+    "industrially_compostable": true
+  }
+}

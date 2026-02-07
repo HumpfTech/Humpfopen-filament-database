@@ -1,0 +1,12 @@
+{
+  "id": "luminous_green",
+  "name": "Luminous Green",
+  "color_hex": [
+    "#00FA9A",
+    "#E4E7E5"
+  ],
+  "traits": {
+    "glow": true,
+    "illuminescent_color_change": true
+  }
+}

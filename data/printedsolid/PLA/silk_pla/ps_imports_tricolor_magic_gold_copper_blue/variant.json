@@ -1,0 +1,14 @@
+{
+  "id": "ps_imports_tricolor_magic_gold_copper_blue",
+  "name": "PS Imports  TriColor  Magic-Gold-Copper-Blue",
+  "color_hex": [
+    "#FFCB47",
+    "#0353BA",
+    "#904029"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

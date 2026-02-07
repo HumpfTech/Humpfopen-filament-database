@@ -1,0 +1,14 @@
+{
+  "id": "high_gloss_colormorph_magenta_silver",
+  "name": "High Gloss  ColorMorph Magenta & Silver",
+  "color_hex": [
+    "#C80181",
+    "#ABACB0"
+  ],
+  "traits": {
+    "iridescent": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

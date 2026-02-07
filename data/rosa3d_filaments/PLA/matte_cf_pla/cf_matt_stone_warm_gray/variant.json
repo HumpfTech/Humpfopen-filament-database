@@ -1,0 +1,9 @@
+{
+  "id": "cf_matt_stone_warm_gray",
+  "name": "CF Matt Stone warm gray",
+  "color_hex": "#A8B39B",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "matte": true
+  }
+}

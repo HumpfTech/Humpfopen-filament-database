@@ -1,0 +1,9 @@
+{
+  "id": "metal_copper_brown_metallic",
+  "name": "Metal Copper Brown Metallic",
+  "color_hex": "#503A2F",
+  "traits": {
+    "imitates_metal": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "easyfil_e_matt_polar_blue",
+  "name": "EasyFil e Matt Polar Blue",
+  "color_hex": "#BFDFEF",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "primaselect_marble_chocolate_sprinkle_brown",
+  "name": "PrimaSelect  Marble Chocolate Sprinkle Brown",
+  "color_hex": "#EFEFEF",
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true
+  }
+}

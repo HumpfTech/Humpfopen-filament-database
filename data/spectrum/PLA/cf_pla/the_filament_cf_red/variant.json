@@ -1,0 +1,10 @@
+{
+  "id": "the_filament_cf_red",
+  "name": "The Filament  CF Red",
+  "color_hex": "#AD312D",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

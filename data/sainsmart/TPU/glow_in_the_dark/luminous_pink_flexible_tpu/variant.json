@@ -1,0 +1,12 @@
+{
+  "id": "luminous_pink_flexible_tpu",
+  "name": "Luminous Pink, Flexible TPU",
+  "color_hex": [
+    "#EE8881",
+    "#FFCCCD"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "rock_rock_white",
+  "name": "Rock  Rock White",
+  "color_hex": [
+    "#000000",
+    "#F0EBE5"
+  ],
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true
+  }
+}

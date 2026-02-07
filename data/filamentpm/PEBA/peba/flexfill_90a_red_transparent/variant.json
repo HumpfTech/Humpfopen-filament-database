@@ -1,0 +1,8 @@
+{
+  "id": "flexfill_90a_red_transparent",
+  "name": "Flexfill  90A \"Red Transparent\"",
+  "color_hex": "#E20010",
+  "traits": {
+    "translucent": true
+  }
+}

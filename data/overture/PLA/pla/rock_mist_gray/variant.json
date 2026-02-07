@@ -1,0 +1,8 @@
+{
+  "id": "rock_mist_gray",
+  "name": "Rock  Mist Gray",
+  "color_hex": "#E6EAEF",
+  "traits": {
+    "imitates_stone": true
+  }
+}

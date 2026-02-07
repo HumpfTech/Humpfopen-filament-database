@@ -1,0 +1,8 @@
+{
+  "id": "performance_brown",
+  "name": "Performance  Brown",
+  "color_hex": "#883800",
+  "traits": {
+    "high_temperature": true
+  }
+}
