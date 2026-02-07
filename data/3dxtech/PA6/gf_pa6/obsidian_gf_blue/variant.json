@@ -3,7 +3,7 @@
   "name": "OBSIDIAN GF+ Blue",
   "color_hex": "#2E56F1",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

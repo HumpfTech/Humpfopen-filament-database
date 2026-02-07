@@ -6,8 +6,8 @@
     "#C00000"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "coextruded": true
   }
 }

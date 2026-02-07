@@ -3,7 +3,7 @@
   "name": "X GF10 Natural",
   "color_hex": "#DFDFD3",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Fluorescent Yellow (Black Light Reactive)",
   "color_hex": "#FFFB00",
   "traits": {
-    "neon": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "neon": true
   }
 }

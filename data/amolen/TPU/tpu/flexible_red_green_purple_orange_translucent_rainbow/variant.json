@@ -8,7 +8,7 @@
     "#7F068C"
   ],
   "traits": {
-    "gradual_color_change": true,
-    "translucent": true
+    "translucent": true,
+    "gradual_color_change": true
   }
 }

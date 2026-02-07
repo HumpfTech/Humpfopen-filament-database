@@ -1,0 +1,13 @@
+{
+  "id": "dual_glacier_ice_blue",
+  "name": "Dual Glacier Ice Blue",
+  "color_hex": [
+    "#0095FF",
+    "#9BCBEB"
+  ],
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

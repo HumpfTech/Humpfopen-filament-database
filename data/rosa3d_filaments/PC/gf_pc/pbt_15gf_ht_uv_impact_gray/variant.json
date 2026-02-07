@@ -3,7 +3,7 @@
   "name": "/PBT + 15GF (HT-UV-IMPACT) Gray",
   "color_hex": "#A2AAAD",
   "traits": {
-    "contains_glass_fiber": true,
-    "high_temperature": true
+    "high_temperature": true,
+    "contains_glass_fiber": true
   }
 }

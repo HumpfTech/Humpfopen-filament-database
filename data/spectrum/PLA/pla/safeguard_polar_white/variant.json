@@ -3,7 +3,7 @@
   "name": "Safeguard  Polar White",
   "color_hex": "#EFEFEF",
   "traits": {
-    "antibacterial": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "antibacterial": true
   }
 }

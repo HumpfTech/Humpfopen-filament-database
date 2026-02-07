@@ -9,8 +9,8 @@
     "#5FBCDD"
   ],
   "traits": {
+    "industrially_compostable": true,
     "silk": true,
-    "gradual_color_change": true,
-    "industrially_compostable": true
+    "gradual_color_change": true
   }
 }

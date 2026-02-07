@@ -1,0 +1,9 @@
+{
+  "id": "sparkle_deep_space_black",
+  "name": "Sparkle Deep Space Black",
+  "color_hex": "#000000",
+  "traits": {
+    "industrially_compostable": true,
+    "glitter": true
+  }
+}

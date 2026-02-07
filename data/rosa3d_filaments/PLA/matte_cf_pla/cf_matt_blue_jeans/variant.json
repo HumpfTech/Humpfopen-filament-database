@@ -3,7 +3,7 @@
   "name": "CF Matt Blue Jeans",
   "color_hex": "#9DB6D4",
   "traits": {
-    "contains_carbon_fiber": true,
-    "matte": true
+    "matte": true,
+    "contains_carbon_fiber": true
   }
 }

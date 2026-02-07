@@ -3,8 +3,8 @@
   "name": "Artobot \"Electric Lemonade\" Metallic Yellow HT",
   "color_hex": "#FBE200",
   "traits": {
+    "industrially_compostable": true,
     "high_temperature": true,
-    "silk": true,
-    "industrially_compostable": true
+    "silk": true
   }
 }

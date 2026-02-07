@@ -3,7 +3,7 @@
   "name": "Conductive Black",
   "color_hex": "#000000",
   "traits": {
-    "conductive": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "conductive": true
   }
 }

@@ -9,9 +9,9 @@
     "#C1648E"
   ],
   "traits": {
-    "gradual_color_change": true,
-    "iridescent": true,
+    "industrially_compostable": true,
     "silk": true,
-    "industrially_compostable": true
+    "iridescent": true,
+    "gradual_color_change": true
   }
 }

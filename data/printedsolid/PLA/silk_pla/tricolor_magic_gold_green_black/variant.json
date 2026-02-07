@@ -1,0 +1,14 @@
+{
+  "id": "tricolor_magic_gold_green_black",
+  "name": "TriColor  Magic-Gold-Green-Black",
+  "color_hex": [
+    "#FFCB47",
+    "#00C26B",
+    "#000000"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "coextruded": true
+  }
+}

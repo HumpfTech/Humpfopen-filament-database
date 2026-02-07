@@ -3,7 +3,7 @@
   "name": "ATAR FST1 Flame Retardant & Low Smoke Black",
   "color_hex": "#000000",
   "traits": {
-    "blend": true,
-    "self_extinguishing": true
+    "self_extinguishing": true,
+    "blend": true
   }
 }

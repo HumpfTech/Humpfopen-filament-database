@@ -7,8 +7,8 @@
     "#BB264D"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "coextruded": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "GF Lime",
   "color_hex": "#BBDB4B",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

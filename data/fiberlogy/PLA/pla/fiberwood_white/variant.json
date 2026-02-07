@@ -3,8 +3,8 @@
   "name": "FiberWood White",
   "color_hex": "#DBC9AD",
   "traits": {
-    "imitates_wood": true,
+    "industrially_compostable": true,
     "contains_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

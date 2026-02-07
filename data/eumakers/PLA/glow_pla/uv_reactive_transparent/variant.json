@@ -6,8 +6,8 @@
     "#F9F3E5"
   ],
   "traits": {
+    "translucent": true,
     "glow": true,
-    "illuminescent_color_change": true,
-    "translucent": true
+    "illuminescent_color_change": true
   }
 }

@@ -8,7 +8,7 @@
     "#6E8451"
   ],
   "traits": {
-    "coextruded": true,
-    "translucent": true
+    "translucent": true,
+    "coextruded": true
   }
 }

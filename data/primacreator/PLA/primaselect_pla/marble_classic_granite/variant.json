@@ -1,0 +1,9 @@
+{
+  "id": "marble_classic_granite",
+  "name": "Marble Classic Granite",
+  "color_hex": "#E0E0DC",
+  "traits": {
+    "industrially_compostable": true,
+    "imitates_marble": true
+  }
+}

@@ -3,7 +3,7 @@
   "name": "GF Gray",
   "color_hex": "#55555E",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Fluorescent Green (Black Light Reactive)",
   "color_hex": "#9FEC41",
   "traits": {
-    "neon": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "neon": true
   }
 }

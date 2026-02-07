@@ -6,7 +6,7 @@
     "#FF4F4D"
   ],
   "traits": {
-    "coextruded": true,
-    "neon": true
+    "neon": true,
+    "coextruded": true
   }
 }

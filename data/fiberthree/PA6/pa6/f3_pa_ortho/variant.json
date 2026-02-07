@@ -3,7 +3,7 @@
   "name": "F3 PA Ortho",
   "color_hex": "#F2EFE9",
   "traits": {
-    "transparent": true,
-    "biocompatible": true
+    "biocompatible": true,
+    "transparent": true
   }
 }

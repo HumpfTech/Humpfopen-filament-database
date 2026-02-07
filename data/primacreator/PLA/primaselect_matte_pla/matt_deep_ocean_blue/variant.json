@@ -1,0 +1,9 @@
+{
+  "id": "matt_deep_ocean_blue",
+  "name": "Matt Deep Ocean Blue",
+  "color_hex": "#375680",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

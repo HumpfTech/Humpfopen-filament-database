@@ -3,7 +3,7 @@
   "name": "Recycled  Translucent Grape",
   "color_hex": "#663D7E",
   "traits": {
-    "recycled": true,
-    "translucent": true
+    "translucent": true,
+    "recycled": true
   }
 }

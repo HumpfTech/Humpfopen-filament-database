@@ -6,7 +6,7 @@
     "#7AB352"
   ],
   "traits": {
-    "temperature_color_change": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "temperature_color_change": true
   }
 }

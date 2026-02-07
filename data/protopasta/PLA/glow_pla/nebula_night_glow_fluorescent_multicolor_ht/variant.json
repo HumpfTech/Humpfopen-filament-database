@@ -7,11 +7,11 @@
     "#B33174"
   ],
   "traits": {
+    "translucent": true,
+    "industrially_compostable": true,
+    "high_temperature": true,
     "glitter": true,
     "neon": true,
-    "high_temperature": true,
-    "industrially_compostable": true,
-    "translucent": true,
     "gradual_color_change": true
   }
 }

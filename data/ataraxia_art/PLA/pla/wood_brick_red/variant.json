@@ -3,8 +3,8 @@
   "name": "Wood  Brick Red",
   "color_hex": "#B54230",
   "traits": {
+    "industrially_compostable": true,
     "contains_wood": true,
-    "imitates_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

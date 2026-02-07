@@ -7,7 +7,7 @@
     "#F6C500"
   ],
   "traits": {
-    "coextruded": true,
-    "iridescent": true
+    "iridescent": true,
+    "coextruded": true
   }
 }

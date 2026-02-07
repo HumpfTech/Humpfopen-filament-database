@@ -7,7 +7,7 @@
     "#B894E2"
   ],
   "traits": {
-    "high_temperature": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "high_temperature": true
   }
 }

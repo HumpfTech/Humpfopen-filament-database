@@ -1,0 +1,9 @@
+{
+  "id": "matt_mud_brown",
+  "name": "Matt Mud Brown",
+  "color_hex": "#918358",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

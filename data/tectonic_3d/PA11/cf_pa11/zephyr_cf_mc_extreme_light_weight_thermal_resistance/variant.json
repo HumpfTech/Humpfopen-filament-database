@@ -3,8 +3,8 @@
   "name": "ZEPHYR  CF MC - Extreme Light Weight & Thermal Resistance",
   "color_hex": "#000000",
   "traits": {
+    "abrasive": true,
     "foaming": true,
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "contains_carbon_fiber": true
   }
 }

@@ -1,0 +1,10 @@
+{
+  "id": "metal_shine_storm_cloud_grey",
+  "name": "Metal Shine Storm Cloud Grey",
+  "color_hex": "#436176",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "imitates_metal": true
+  }
+}

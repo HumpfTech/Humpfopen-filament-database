@@ -3,8 +3,8 @@
   "name": "Stainless Steel Metal Composite  - Burgundy color",
   "color_hex": "#863938",
   "traits": {
-    "contains_metal": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_metal": true
   }
 }

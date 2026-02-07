@@ -3,7 +3,7 @@
   "name": "Metallic Finish Beige",
   "color_hex": "#F0DDC2",
   "traits": {
-    "imitates_metal": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "imitates_metal": true
   }
 }

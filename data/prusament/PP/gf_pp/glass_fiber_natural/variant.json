@@ -3,8 +3,8 @@
   "name": "Glass Fiber Natural",
   "color_hex": "#FFFFFF",
   "traits": {
-    "contains_glass_fiber": true,
+    "abrasive": true,
     "without_pigments": true,
-    "abrasive": true
+    "contains_glass_fiber": true
   }
 }

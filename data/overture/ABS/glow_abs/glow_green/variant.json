@@ -7,8 +7,8 @@
   ],
   "traits": {
     "glow": true,
-    "abrasive": true,
     "filtration_recommended": true,
+    "abrasive": true,
     "illuminescent_color_change": true
   }
 }

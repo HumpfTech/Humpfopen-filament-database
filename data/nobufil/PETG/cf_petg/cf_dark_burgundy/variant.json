@@ -3,7 +3,7 @@
   "name": "CF Dark Burgundy",
   "color_hex": "#4B3140",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

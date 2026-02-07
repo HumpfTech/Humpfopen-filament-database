@@ -3,8 +3,8 @@
   "name": "Dragonfruit Smoothie HT",
   "color_hex": "#DA445A",
   "traits": {
-    "imitates_marble": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "imitates_marble": true
   }
 }

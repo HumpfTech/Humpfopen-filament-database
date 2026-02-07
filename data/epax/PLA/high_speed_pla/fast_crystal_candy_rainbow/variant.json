@@ -11,8 +11,8 @@
     "#6C47B2"
   ],
   "traits": {
+    "translucent": true,
     "glitter": true,
-    "gradual_color_change": true,
-    "translucent": true
+    "gradual_color_change": true
   }
 }

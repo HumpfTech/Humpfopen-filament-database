@@ -3,8 +3,8 @@
   "name": "MetalFil – Classic Copper Natural",
   "color_hex": "#8D5D4F",
   "traits": {
-    "contains_copper": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_copper": true
   }
 }

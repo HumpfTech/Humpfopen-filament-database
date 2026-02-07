@@ -1,0 +1,9 @@
+{
+  "id": "lw_bright_orange",
+  "name": "Lw Bright Orange",
+  "color_hex": "#FA8423",
+  "traits": {
+    "industrially_compostable": true,
+    "foaming": true
+  }
+}

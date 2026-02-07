@@ -3,8 +3,8 @@
   "name": "EasyWood Cedar",
   "color_hex": "#C37C4F",
   "traits": {
-    "imitates_wood": true,
+    "industrially_compostable": true,
     "contains_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

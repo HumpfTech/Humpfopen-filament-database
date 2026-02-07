@@ -6,7 +6,7 @@
     "#76797D"
   ],
   "traits": {
-    "temperature_color_change": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "temperature_color_change": true
   }
 }

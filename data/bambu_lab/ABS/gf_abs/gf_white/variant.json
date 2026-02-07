@@ -3,8 +3,8 @@
   "name": "GF White",
   "color_hex": "#FFFFFF",
   "traits": {
-    "contains_glass_fiber": true,
+    "filtration_recommended": true,
     "abrasive": true,
-    "filtration_recommended": true
+    "contains_glass_fiber": true
   }
 }

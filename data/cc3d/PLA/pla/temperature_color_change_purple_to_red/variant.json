@@ -5,7 +5,7 @@
     "#963877"
   ],
   "traits": {
-    "temperature_color_change": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "temperature_color_change": true
   }
 }

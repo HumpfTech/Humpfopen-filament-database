@@ -3,7 +3,7 @@
   "name": "3DXTECH  Natural",
   "color_hex": "#F2EFE9",
   "traits": {
-    "without_pigments": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "without_pigments": true
   }
 }

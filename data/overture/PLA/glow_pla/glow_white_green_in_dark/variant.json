@@ -6,8 +6,8 @@
     "#EFEADF"
   ],
   "traits": {
-    "industrially_compostable": true,
     "glow": true,
+    "industrially_compostable": true,
     "illuminescent_color_change": true
   }
 }

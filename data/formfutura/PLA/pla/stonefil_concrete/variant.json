@@ -3,7 +3,7 @@
   "name": "StoneFil Concrete",
   "color_hex": "#B6B9BD",
   "traits": {
-    "contains_stone": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_stone": true
   }
 }

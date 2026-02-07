@@ -3,8 +3,8 @@
   "name": "copperFill",
   "color_hex": "#904029",
   "traits": {
-    "contains_copper": true,
+    "home_compostable": true,
     "abrasive": true,
-    "home_compostable": true
+    "contains_copper": true
   }
 }

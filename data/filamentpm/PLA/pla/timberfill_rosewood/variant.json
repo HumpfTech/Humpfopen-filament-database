@@ -3,8 +3,8 @@
   "name": "Timberfill® \"Rosewood\"",
   "color_hex": "#6A5346",
   "traits": {
-    "imitates_wood": true,
+    "industrially_compostable": true,
     "contains_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

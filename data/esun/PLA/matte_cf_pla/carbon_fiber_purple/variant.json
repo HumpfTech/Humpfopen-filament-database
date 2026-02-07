@@ -3,9 +3,9 @@
   "name": "Carbon Fiber  Purple",
   "color_hex": "#2F2936",
   "traits": {
-    "contains_carbon_fiber": true,
     "matte": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_carbon_fiber": true
   }
 }

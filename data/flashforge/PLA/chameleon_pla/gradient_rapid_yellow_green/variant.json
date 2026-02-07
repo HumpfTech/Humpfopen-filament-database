@@ -1,0 +1,12 @@
+{
+  "id": "gradient_rapid_yellow_green",
+  "name": "Gradient Rapid Yellow Green",
+  "color_hex": [
+    "#FBE200",
+    "#41A840"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

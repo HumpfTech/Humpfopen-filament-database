@@ -3,8 +3,8 @@
   "name": "Pearlescent Translucent Neon Green   v2 - UV Reactive",
   "color_hex": "#58C91B",
   "traits": {
+    "translucent": true,
     "pearlescent": true,
-    "neon": true,
-    "translucent": true
+    "neon": true
   }
 }

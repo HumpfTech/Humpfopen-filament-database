@@ -3,8 +3,8 @@
   "name": "Stainless Steel Metal Composite  - Blue color",
   "color_hex": "#23668C",
   "traits": {
-    "contains_metal": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_metal": true
   }
 }

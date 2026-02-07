@@ -3,8 +3,8 @@
   "name": "WOOD dark wood | RAL 8007",
   "color_hex": "#6E4325",
   "traits": {
+    "industrially_compostable": true,
     "contains_wood": true,
-    "imitates_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

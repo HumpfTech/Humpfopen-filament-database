@@ -6,7 +6,7 @@
     "#E4E7E5"
   ],
   "traits": {
-    "illuminescent_color_change": true,
-    "glow": true
+    "glow": true,
+    "illuminescent_color_change": true
   }
 }

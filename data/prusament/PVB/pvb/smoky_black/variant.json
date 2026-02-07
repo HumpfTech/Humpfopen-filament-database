@@ -3,7 +3,7 @@
   "name": "Smoky Black",
   "color_hex": "#7B7B7B",
   "traits": {
-    "transparent": true,
-    "ipa_soluble": true
+    "ipa_soluble": true,
+    "transparent": true
   }
 }

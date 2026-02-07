@@ -6,7 +6,7 @@
     "#FBF942"
   ],
   "traits": {
-    "coextruded": true,
-    "silk": true
+    "silk": true,
+    "coextruded": true
   }
 }

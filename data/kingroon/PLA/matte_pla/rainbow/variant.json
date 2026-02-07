@@ -8,7 +8,7 @@
     "#FADB24"
   ],
   "traits": {
-    "gradual_color_change": true,
-    "matte": true
+    "matte": true,
+    "gradual_color_change": true
   }
 }

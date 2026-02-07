@@ -7,7 +7,7 @@
     "#62E480"
   ],
   "traits": {
-    "coextruded": true,
-    "iridescent": true
+    "iridescent": true,
+    "coextruded": true
   }
 }

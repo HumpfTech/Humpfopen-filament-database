@@ -3,8 +3,8 @@
   "name": "Kevlar Natural",
   "color_hex": "#F1E6B2",
   "traits": {
-    "contains_kevlar": true,
     "abrasive": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "contains_kevlar": true
   }
 }

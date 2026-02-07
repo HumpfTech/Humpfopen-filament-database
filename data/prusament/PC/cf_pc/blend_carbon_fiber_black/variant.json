@@ -3,8 +3,8 @@
   "name": "Blend Carbon Fiber Black",
   "color_hex": "#262727",
   "traits": {
-    "contains_carbon_fiber": true,
+    "abrasive": true,
     "blend": true,
-    "abrasive": true
+    "contains_carbon_fiber": true
   }
 }

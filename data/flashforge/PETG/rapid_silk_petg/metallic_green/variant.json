@@ -1,0 +1,11 @@
+{
+  "id": "metallic_green",
+  "name": "Metallic Green",
+  "color_hex": [
+    "#4E7642",
+    "#4F7B57"
+  ],
+  "traits": {
+    "silk": true
+  }
+}

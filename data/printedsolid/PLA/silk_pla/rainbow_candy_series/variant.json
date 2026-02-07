@@ -1,0 +1,15 @@
+{
+  "id": "rainbow_candy_series",
+  "name": "Rainbow Candy Series",
+  "color_hex": [
+    "#DB3FA9",
+    "#FF7A33",
+    "#62E480",
+    "#0099E6"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "gradual_color_change": true
+  }
+}

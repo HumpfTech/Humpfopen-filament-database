@@ -3,7 +3,7 @@
   "name": "Recycled  Natural (Clear)",
   "color_hex": "#D9D8DE",
   "traits": {
-    "recycled": true,
-    "translucent": true
+    "translucent": true,
+    "recycled": true
   }
 }

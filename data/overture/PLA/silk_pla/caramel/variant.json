@@ -7,7 +7,7 @@
     "#F3CEA6"
   ],
   "traits": {
-    "gradual_color_change": true,
-    "silk": true
+    "silk": true,
+    "gradual_color_change": true
   }
 }

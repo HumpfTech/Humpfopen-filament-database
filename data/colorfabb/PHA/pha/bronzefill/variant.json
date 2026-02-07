@@ -3,8 +3,8 @@
   "name": "bronzeFill",
   "color_hex": "#95846F",
   "traits": {
-    "contains_bronze": true,
+    "home_compostable": true,
     "abrasive": true,
-    "home_compostable": true
+    "contains_bronze": true
   }
 }

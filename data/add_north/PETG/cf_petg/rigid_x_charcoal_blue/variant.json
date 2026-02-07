@@ -3,7 +3,7 @@
   "name": "Rigid X Charcoal Blue",
   "color_hex": "#003B80",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

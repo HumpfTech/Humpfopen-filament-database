@@ -3,7 +3,7 @@
   "name": "Extreme Translucent Fluorescent Neon Green  - UV REACTIVE",
   "color_hex": "#7FE200",
   "traits": {
-    "neon": true,
-    "translucent": true
+    "translucent": true,
+    "neon": true
   }
 }

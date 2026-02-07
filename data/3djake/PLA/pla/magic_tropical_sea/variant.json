@@ -6,7 +6,7 @@
     "#39B9DB"
   ],
   "traits": {
-    "coextruded": true,
-    "iridescent": true
+    "iridescent": true,
+    "coextruded": true
   }
 }

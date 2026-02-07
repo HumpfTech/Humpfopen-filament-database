@@ -1,0 +1,10 @@
+{
+  "id": "glow_white",
+  "name": "Glow-in-the-Dark Glow White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "glow": true,
+    "industrially_compostable": true,
+    "abrasive": true
+  }
+}

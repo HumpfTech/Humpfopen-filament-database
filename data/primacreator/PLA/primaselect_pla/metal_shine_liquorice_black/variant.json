@@ -1,0 +1,9 @@
+{
+  "id": "metal_shine_liquorice_black",
+  "name": "Metal Shine Liquorice Black",
+  "color_hex": "#000000",
+  "traits": {
+    "industrially_compostable": true,
+    "imitates_metal": true
+  }
+}

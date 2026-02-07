@@ -6,9 +6,9 @@
     "#7142A3"
   ],
   "traits": {
-    "iridescent": true,
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
+    "iridescent": true,
     "coextruded": true
   }
 }

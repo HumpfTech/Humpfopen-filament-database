@@ -1,0 +1,9 @@
+{
+  "id": "elixir_natural",
+  "name": "Elixir Natural",
+  "color_hex": "#DFDFD3",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true
+  }
+}

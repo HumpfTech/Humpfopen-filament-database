@@ -7,7 +7,7 @@
     "#F5F5F5"
   ],
   "traits": {
-    "coextruded": true,
-    "silk": true
+    "silk": true,
+    "coextruded": true
   }
 }

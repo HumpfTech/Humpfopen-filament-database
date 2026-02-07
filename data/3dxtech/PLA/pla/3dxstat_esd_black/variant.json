@@ -3,7 +3,7 @@
   "name": "3DXSTAT ESD- Black",
   "color_hex": "#000000",
   "traits": {
-    "esd_safe": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "esd_safe": true
   }
 }

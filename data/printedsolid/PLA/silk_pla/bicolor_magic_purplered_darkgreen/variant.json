@@ -1,0 +1,13 @@
+{
+  "id": "bicolor_magic_purplered_darkgreen",
+  "name": "Bicolor  Magic PurpleRed-DarkGreen",
+  "color_hex": [
+    "#1E5A4F",
+    "#C80181"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "coextruded": true
+  }
+}

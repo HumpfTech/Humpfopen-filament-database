@@ -1,0 +1,9 @@
+{
+  "id": "elixir_abyss",
+  "name": "Elixir Abyss",
+  "color_hex": "#282D42",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "bicolor_magic_silver_black",
+  "name": "Bicolor  Magic-Silver-Black",
+  "color_hex": [
+    "#A8B0BD",
+    "#000000"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "coextruded": true
+  }
+}

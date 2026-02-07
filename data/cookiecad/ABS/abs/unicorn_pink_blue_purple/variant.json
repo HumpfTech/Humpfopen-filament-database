@@ -7,7 +7,7 @@
     "#8ED9F9"
   ],
   "traits": {
-    "gradual_color_change": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "gradual_color_change": true
   }
 }

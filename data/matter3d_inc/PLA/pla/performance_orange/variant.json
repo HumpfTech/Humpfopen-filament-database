@@ -1,8 +1,0 @@
-{
-  "id": "performance_orange",
-  "name": "Performance  Orange",
-  "color_hex": "#FF8400",
-  "traits": {
-    "high_temperature": true
-  }
-}

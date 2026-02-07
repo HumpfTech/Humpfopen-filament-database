@@ -3,7 +3,7 @@
   "name": "Fluorescent Hot Pink (Black Light Reactive)",
   "color_hex": "#ED1536",
   "traits": {
-    "neon": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "neon": true
   }
 }

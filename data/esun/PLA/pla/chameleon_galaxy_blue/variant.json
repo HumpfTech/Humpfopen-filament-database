@@ -6,8 +6,8 @@
     "#0353BA"
   ],
   "traits": {
+    "industrially_compostable": true,
     "iridescent": true,
-    "glitter": true,
-    "industrially_compostable": true
+    "glitter": true
   }
 }

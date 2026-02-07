@@ -3,7 +3,7 @@
   "name": "ThermaX  9085 Natural",
   "color_hex": "#F1E6B2",
   "traits": {
-    "without_pigments": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "without_pigments": true
   }
 }

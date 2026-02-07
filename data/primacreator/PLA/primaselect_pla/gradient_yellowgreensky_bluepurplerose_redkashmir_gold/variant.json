@@ -1,0 +1,15 @@
+{
+  "id": "gradient_yellowgreensky_bluepurplerose_redkashmir_gold",
+  "name": "Gradient Yellowgreensky Bluepurplerose Redkashmir Gold",
+  "color_hex": [
+    "#E3B145",
+    "#77A54B",
+    "#9761B5",
+    "#F06E92",
+    "#C6F3FD"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

@@ -3,9 +3,9 @@
   "name": "LW- Natural",
   "color_hex": "#F2EFE9",
   "traits": {
-    "foaming": true,
     "matte": true,
     "industrially_compostable": true,
+    "foaming": true,
     "without_pigments": true
   }
 }

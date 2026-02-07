@@ -3,7 +3,7 @@
   "name": "Flame Retardant White",
   "color_hex": "#FFFFFF",
   "traits": {
-    "self_extinguishing": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "self_extinguishing": true
   }
 }

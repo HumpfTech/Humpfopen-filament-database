@@ -1,0 +1,13 @@
+{
+  "id": "bicolor_magic_darkblue_darkgreen",
+  "name": "Bicolor  Magic-DarkBlue-DarkGreen",
+  "color_hex": [
+    "#0E21AE",
+    "#206233"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "bicolor_magic_blue_redwine",
+  "name": "Bicolor  Magic-Blue-Redwine",
+  "color_hex": [
+    "#0099E6",
+    "#ED1536"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "coextruded": true
+  }
+}

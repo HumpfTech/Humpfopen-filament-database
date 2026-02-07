@@ -1,0 +1,9 @@
+{
+  "id": "metal_shine_champagne_gold",
+  "name": "Metal Shine Champagne Gold",
+  "color_hex": "#ACA078",
+  "traits": {
+    "industrially_compostable": true,
+    "imitates_metal": true
+  }
+}

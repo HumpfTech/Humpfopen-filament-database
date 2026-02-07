@@ -1,0 +1,13 @@
+{
+  "id": "bicolor_magic_purple_yellow",
+  "name": "Bicolor  Magic-Purple-Yellow",
+  "color_hex": [
+    "#EBFF57",
+    "#5C50E0"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true,
+    "coextruded": true
+  }
+}

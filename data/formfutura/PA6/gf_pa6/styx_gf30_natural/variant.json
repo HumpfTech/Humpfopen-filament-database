@@ -3,8 +3,8 @@
   "name": "STYX -GF30 Natural",
   "color_hex": "#DFDFD3",
   "traits": {
-    "contains_glass_fiber": true,
     "abrasive": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "contains_glass_fiber": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "CF Grass Green",
   "color_hex": "#4E7642",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

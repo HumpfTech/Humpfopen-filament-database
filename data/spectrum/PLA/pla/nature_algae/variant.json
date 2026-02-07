@@ -3,7 +3,7 @@
   "name": "Nature Algae",
   "color_hex": "#EFE8D8",
   "traits": {
-    "contains_algae": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_algae": true
   }
 }

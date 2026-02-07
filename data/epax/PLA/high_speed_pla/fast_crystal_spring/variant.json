@@ -6,8 +6,8 @@
     "#0099E6"
   ],
   "traits": {
-    "gradual_color_change": true,
+    "translucent": true,
     "glitter": true,
-    "translucent": true
+    "gradual_color_change": true
   }
 }

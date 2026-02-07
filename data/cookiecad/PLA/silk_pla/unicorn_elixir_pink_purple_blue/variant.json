@@ -7,9 +7,9 @@
     "#6299DF"
   ],
   "traits": {
-    "iridescent": true,
+    "industrially_compostable": true,
     "silk": true,
-    "gradual_color_change": true,
-    "industrially_compostable": true
+    "iridescent": true,
+    "gradual_color_change": true
   }
 }

@@ -6,9 +6,9 @@
     "#AF7D00"
   ],
   "traits": {
-    "glitter": true,
-    "silk": true,
     "industrially_compostable": true,
-    "iridescent": true
+    "silk": true,
+    "iridescent": true,
+    "glitter": true
   }
 }

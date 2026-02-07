@@ -3,7 +3,7 @@
   "name": "GF Orange",
   "color_hex": "#FF5F2E",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

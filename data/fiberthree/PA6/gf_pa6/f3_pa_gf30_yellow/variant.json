@@ -3,7 +3,7 @@
   "name": "F3 PA-GF30  Yellow",
   "color_hex": "#EA9E3F",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

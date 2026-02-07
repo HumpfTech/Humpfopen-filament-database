@@ -7,7 +7,7 @@
   ],
   "traits": {
     "industrially_compostable": true,
-    "iridescent": true,
-    "silk": true
+    "silk": true,
+    "iridescent": true
   }
 }

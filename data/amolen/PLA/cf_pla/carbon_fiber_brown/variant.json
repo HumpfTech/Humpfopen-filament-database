@@ -3,8 +3,8 @@
   "name": "Carbon Fiber Brown",
   "color_hex": "#AE9D7E",
   "traits": {
-    "contains_carbon_fiber": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_carbon_fiber": true
   }
 }

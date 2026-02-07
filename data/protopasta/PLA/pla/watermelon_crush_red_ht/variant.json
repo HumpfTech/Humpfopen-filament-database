@@ -3,8 +3,8 @@
   "name": "Watermelon Crush Red HT",
   "color_hex": "#E24749",
   "traits": {
-    "high_temperature": true,
+    "translucent": true,
     "industrially_compostable": true,
-    "translucent": true
+    "high_temperature": true
   }
 }

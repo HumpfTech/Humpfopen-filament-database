@@ -6,8 +6,8 @@
     "#A000CA"
   ],
   "traits": {
-    "gradual_color_change": true,
+    "translucent": true,
     "glitter": true,
-    "translucent": true
+    "gradual_color_change": true
   }
 }

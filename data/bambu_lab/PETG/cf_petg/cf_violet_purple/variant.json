@@ -3,7 +3,7 @@
   "name": "CF Violet Purple",
   "color_hex": "#583061",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

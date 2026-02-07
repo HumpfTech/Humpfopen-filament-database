@@ -3,8 +3,8 @@
   "name": "Economy  - Master Reels Natural Transparent",
   "color_hex": "#EADAC2",
   "traits": {
+    "industrially_compostable": true,
     "transparent": true,
-    "without_pigments": true,
-    "industrially_compostable": true
+    "without_pigments": true
   }
 }

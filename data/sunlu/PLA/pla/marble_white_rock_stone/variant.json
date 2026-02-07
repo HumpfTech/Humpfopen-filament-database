@@ -3,7 +3,7 @@
   "name": "Marble  White Rock Stone",
   "color_hex": "#F5F5F4",
   "traits": {
-    "imitates_marble": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "imitates_marble": true
   }
 }

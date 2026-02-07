@@ -3,7 +3,7 @@
   "name": "Dark gold",
   "color_hex": "#F3B400",
   "traits": {
-    "silk": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "silk": true
   }
 }

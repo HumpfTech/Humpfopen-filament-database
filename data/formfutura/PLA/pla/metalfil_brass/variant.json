@@ -3,8 +3,8 @@
   "name": "MetalFil – Brass",
   "color_hex": "#998D58",
   "traits": {
-    "contains_metal": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_metal": true
   }
 }

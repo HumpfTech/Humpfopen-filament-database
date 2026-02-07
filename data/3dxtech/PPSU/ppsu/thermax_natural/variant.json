@@ -3,7 +3,7 @@
   "name": "ThermaX  Natural",
   "color_hex": "#FADCA4",
   "traits": {
-    "without_pigments": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "without_pigments": true
   }
 }

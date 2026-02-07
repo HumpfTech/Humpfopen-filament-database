@@ -1,0 +1,9 @@
+{
+  "id": "translucent_magenta",
+  "name": "Translucent Magenta",
+  "color_hex": "#F2306E",
+  "traits": {
+    "translucent": true,
+    "industrially_compostable": true
+  }
+}

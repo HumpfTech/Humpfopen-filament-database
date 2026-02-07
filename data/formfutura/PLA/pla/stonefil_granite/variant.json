@@ -3,7 +3,7 @@
   "name": "StoneFil Granite",
   "color_hex": "#ACB1BA",
   "traits": {
-    "contains_stone": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_stone": true
   }
 }

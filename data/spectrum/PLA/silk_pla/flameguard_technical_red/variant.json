@@ -3,8 +3,8 @@
   "name": "FlameGuard  Technical Red",
   "color_hex": "#FF2C29",
   "traits": {
-    "silk": true,
+    "industrially_compostable": true,
     "self_extinguishing": true,
-    "industrially_compostable": true
+    "silk": true
   }
 }

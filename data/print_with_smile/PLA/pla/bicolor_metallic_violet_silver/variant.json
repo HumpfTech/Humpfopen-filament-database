@@ -6,8 +6,8 @@
     "#55657C"
   ],
   "traits": {
-    "iridescent": true,
     "industrially_compostable": true,
+    "iridescent": true,
     "coextruded": true
   }
 }

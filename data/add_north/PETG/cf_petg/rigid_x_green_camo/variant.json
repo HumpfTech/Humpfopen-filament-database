@@ -3,7 +3,7 @@
   "name": "Rigid X Green Camo",
   "color_hex": "#4D5D4C",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

@@ -1,0 +1,9 @@
+{
+  "id": "metal_shine_velvet_green",
+  "name": "Metal Shine Velvet Green",
+  "color_hex": "#217165",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true
+  }
+}

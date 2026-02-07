@@ -3,7 +3,7 @@
   "name": "Centaur  White",
   "color_hex": "#FFFFFF",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

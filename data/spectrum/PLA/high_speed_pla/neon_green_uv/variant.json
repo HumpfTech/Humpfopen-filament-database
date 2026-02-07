@@ -6,8 +6,8 @@
     "#386DFF"
   ],
   "traits": {
-    "illuminescent_color_change": true,
     "industrially_compostable": true,
-    "neon": true
+    "neon": true,
+    "illuminescent_color_change": true
   }
 }

@@ -1,0 +1,9 @@
+{
+  "id": "translucent_natural",
+  "name": "Translucent Natural",
+  "color_hex": "#F2EFE9",
+  "traits": {
+    "industrially_compostable": true,
+    "transparent": true
+  }
+}

@@ -3,8 +3,8 @@
   "name": "Pineapple Banana Smoothie HT",
   "color_hex": "#FAD61B",
   "traits": {
-    "imitates_marble": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "imitates_marble": true
   }
 }

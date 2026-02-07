@@ -3,8 +3,8 @@
   "name": "Carbon Fiber Dark Grey",
   "color_hex": "#5A696C",
   "traits": {
-    "contains_carbon_fiber": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_carbon_fiber": true
   }
 }

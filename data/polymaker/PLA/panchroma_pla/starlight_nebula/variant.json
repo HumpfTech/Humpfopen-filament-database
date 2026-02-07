@@ -1,0 +1,9 @@
+{
+  "id": "starlight_nebula",
+  "name": "Starlight Nebula",
+  "color_hex": "#A36A96",
+  "traits": {
+    "industrially_compostable": true,
+    "iridescent": true
+  }
+}

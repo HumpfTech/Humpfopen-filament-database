@@ -3,7 +3,7 @@
   "name": "CF Matt Olive Brown",
   "color_hex": "#837E68",
   "traits": {
-    "contains_carbon_fiber": true,
-    "matte": true
+    "matte": true,
+    "contains_carbon_fiber": true
   }
 }

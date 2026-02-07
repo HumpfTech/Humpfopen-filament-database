@@ -3,7 +3,7 @@
   "name": "MAHAGON Wood",
   "color_hex": "#A6464E",
   "traits": {
-    "contains_wood": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_wood": true
   }
 }

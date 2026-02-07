@@ -7,9 +7,9 @@
     "#000000"
   ],
   "traits": {
-    "glitter": true,
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
+    "glitter": true,
     "coextruded": true
   }
 }

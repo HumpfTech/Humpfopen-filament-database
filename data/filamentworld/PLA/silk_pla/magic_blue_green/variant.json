@@ -6,8 +6,8 @@
     "#1DAF5E"
   ],
   "traits": {
-    "coextruded": true,
     "silk": true,
-    "iridescent": true
+    "iridescent": true,
+    "coextruded": true
   }
 }

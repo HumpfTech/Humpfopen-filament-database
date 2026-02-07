@@ -3,7 +3,7 @@
   "name": "Prusa Orange",
   "color_hex": "#FF6600",
   "traits": {
-    "transparent": true,
-    "ipa_soluble": true
+    "ipa_soluble": true,
+    "transparent": true
   }
 }

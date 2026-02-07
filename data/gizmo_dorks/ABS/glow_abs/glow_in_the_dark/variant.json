@@ -7,7 +7,7 @@
   ],
   "traits": {
     "glow": true,
-    "abrasive": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "abrasive": true
   }
 }

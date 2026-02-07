@@ -3,8 +3,8 @@
   "name": "LUVOCOM 3F PAHT CF 9891 Black",
   "color_hex": "#000000",
   "traits": {
-    "contains_carbon_fiber": true,
     "abrasive": true,
-    "high_temperature": true
+    "high_temperature": true,
+    "contains_carbon_fiber": true
   }
 }

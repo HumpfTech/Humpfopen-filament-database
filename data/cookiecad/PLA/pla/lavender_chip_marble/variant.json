@@ -3,7 +3,7 @@
   "name": "Lavender Chip Marble",
   "color_hex": "#E65FE2",
   "traits": {
-    "imitates_marble": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "imitates_marble": true
   }
 }

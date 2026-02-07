@@ -3,10 +3,10 @@
   "name": "For the Lulz Metallic Green HT",
   "color_hex": "#FBE200",
   "traits": {
-    "glitter": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "iridescent": true,
     "silk": true,
-    "industrially_compostable": true
+    "iridescent": true,
+    "glitter": true
   }
 }

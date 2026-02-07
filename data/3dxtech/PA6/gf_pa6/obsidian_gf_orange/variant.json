@@ -3,7 +3,7 @@
   "name": "OBSIDIAN GF+ Orange",
   "color_hex": "#E03F26",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

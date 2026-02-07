@@ -6,7 +6,7 @@
     "#FFFFFF"
   ],
   "traits": {
-    "illuminescent_color_change": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "illuminescent_color_change": true
   }
 }

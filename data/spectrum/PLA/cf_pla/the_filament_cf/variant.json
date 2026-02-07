@@ -3,8 +3,8 @@
   "name": "The Filament  CF",
   "color_hex": "#11784F",
   "traits": {
-    "contains_carbon_fiber": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_carbon_fiber": true
   }
 }

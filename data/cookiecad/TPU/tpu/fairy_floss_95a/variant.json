@@ -7,8 +7,8 @@
     "#8ED9F9"
   ],
   "traits": {
+    "translucent": true,
     "glitter": true,
-    "gradual_color_change": true,
-    "translucent": true
+    "gradual_color_change": true
   }
 }

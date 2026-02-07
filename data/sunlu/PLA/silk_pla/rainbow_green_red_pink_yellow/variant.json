@@ -8,8 +8,8 @@
     "#91C500"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "gradual_color_change": true
   }
 }

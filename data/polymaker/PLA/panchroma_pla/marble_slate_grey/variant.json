@@ -1,0 +1,9 @@
+{
+  "id": "marble_slate_grey",
+  "name": "Marble Slate Grey",
+  "color_hex": "#91C2CC",
+  "traits": {
+    "industrially_compostable": true,
+    "imitates_marble": true
+  }
+}

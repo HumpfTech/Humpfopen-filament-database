@@ -3,7 +3,7 @@
   "name": "CarbonFil Green",
   "color_hex": "#5E6345",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

@@ -3,9 +3,9 @@
   "name": "Metal Copper",
   "color_hex": "#96511A",
   "traits": {
-    "contains_copper": true,
-    "silk": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "silk": true,
+    "contains_copper": true
   }
 }
