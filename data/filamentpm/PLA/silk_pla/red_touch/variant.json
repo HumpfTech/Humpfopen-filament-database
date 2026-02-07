@@ -1,0 +1,9 @@
+{
+  "id": "red_touch",
+  "name": "Red Touch",
+  "color_hex": "#E60000",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

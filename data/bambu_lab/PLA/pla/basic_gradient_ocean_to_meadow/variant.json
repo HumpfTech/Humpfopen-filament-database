@@ -1,0 +1,12 @@
+{
+  "id": "basic_gradient_ocean_to_meadow",
+  "name": "Basic Gradient Ocean to Meadow",
+  "color_hex": [
+    "#0078BF",
+    "#00A594"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

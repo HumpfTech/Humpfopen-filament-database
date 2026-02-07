@@ -1,0 +1,11 @@
+{
+  "id": "stardust_silver_glitter_ht",
+  "name": "Stardust Silver Glitter HT",
+  "color_hex": "#C9D0D4",
+  "traits": {
+    "glitter": true,
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "rapid_abyssal_red",
+  "name": "Rapid  Abyssal Red",
+  "color_hex": "#751A39",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

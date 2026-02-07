@@ -1,0 +1,14 @@
+{
+  "id": "ps_imports_tricolor_magic_darkred_green_blue",
+  "name": "PS Imports  TriColor  Magic-DarkRed-Green-Blue",
+  "color_hex": [
+    "#41A840",
+    "#0378D0",
+    "#C60F3E"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

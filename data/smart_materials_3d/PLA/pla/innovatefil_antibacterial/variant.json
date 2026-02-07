@@ -1,0 +1,9 @@
+{
+  "id": "innovatefil_antibacterial",
+  "name": "INNOVATEFIL® ANTIBACTERIAL",
+  "color_hex": "#EFEFEF",
+  "traits": {
+    "antibacterial": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "triple_color_blue_purple_orange",
+  "name": "Triple Color Blue Purple Orange",
+  "color_hex": [
+    "#E96A43",
+    "#D200A5",
+    "#4921C1"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "chameleon_nebula_purple",
+  "name": "Chameleon  Nebula Purple",
+  "color_hex": [
+    "#6C47B2",
+    "#8846AE"
+  ],
+  "traits": {
+    "iridescent": true,
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

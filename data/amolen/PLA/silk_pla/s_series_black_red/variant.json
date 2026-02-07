@@ -1,0 +1,12 @@
+{
+  "id": "s_series_black_red",
+  "name": "S-Series Black Red",
+  "color_hex": [
+    "#FF0505",
+    "#000000"
+  ],
+  "traits": {
+    "coextruded": true,
+    "silk": true
+  }
+}

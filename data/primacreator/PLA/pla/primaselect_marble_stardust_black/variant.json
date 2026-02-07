@@ -1,0 +1,9 @@
+{
+  "id": "primaselect_marble_stardust_black",
+  "name": "PrimaSelect  Marble Stardust Black",
+  "color_hex": "#EAECF5",
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true
+  }
+}

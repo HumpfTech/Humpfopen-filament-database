@@ -1,0 +1,13 @@
+{
+  "id": "candy_blue_green",
+  "name": "Candy  Blue Green",
+  "color_hex": [
+    "#0078BF",
+    "#06924D"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

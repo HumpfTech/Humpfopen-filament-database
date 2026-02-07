@@ -1,0 +1,8 @@
+{
+  "id": "upgrade_grey",
+  "name": "Upgrade + Grey",
+  "color_hex": "#8C9099",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

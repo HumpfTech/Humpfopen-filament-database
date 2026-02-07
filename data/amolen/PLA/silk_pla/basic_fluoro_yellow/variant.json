@@ -1,0 +1,8 @@
+{
+  "id": "basic_fluoro_yellow",
+  "name": "Basic Fluoro Yellow",
+  "color_hex": "#EEEA44",
+  "traits": {
+    "silk": true
+  }
+}

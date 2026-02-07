@@ -1,0 +1,9 @@
+{
+  "id": "easy_onyx",
+  "name": "Easy  Onyx",
+  "color_hex": "#000000",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

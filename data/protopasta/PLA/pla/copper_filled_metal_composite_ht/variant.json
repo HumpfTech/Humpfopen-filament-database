@@ -1,0 +1,12 @@
+{
+  "id": "copper_filled_metal_composite_ht",
+  "name": "Copper-filled Metal Composite HT",
+  "color_hex": "#C06341",
+  "traits": {
+    "contains_metal": true,
+    "contains_copper": true,
+    "high_temperature": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "easywood_birch",
+  "name": "EasyWood Birch",
+  "color_hex": "#C9C6A7",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

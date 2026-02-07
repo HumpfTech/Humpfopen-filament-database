@@ -1,0 +1,8 @@
+{
+  "id": "r_traffic_black",
+  "name": "r Traffic Black",
+  "color_hex": "#000000",
+  "traits": {
+    "recycled": true
+  }
+}

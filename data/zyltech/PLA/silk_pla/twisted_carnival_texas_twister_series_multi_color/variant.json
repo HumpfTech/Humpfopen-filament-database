@@ -1,0 +1,14 @@
+{
+  "id": "twisted_carnival_texas_twister_series_multi_color",
+  "name": "Twisted Carnival Texas Twister Series Multi-color",
+  "color_hex": [
+    "#E72F1D",
+    "#0353BA",
+    "#F3C102"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

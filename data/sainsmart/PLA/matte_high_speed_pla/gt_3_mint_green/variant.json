@@ -1,0 +1,9 @@
+{
+  "id": "gt_3_mint_green",
+  "name": "GT-3    Mint Green",
+  "color_hex": "#98FBCB",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

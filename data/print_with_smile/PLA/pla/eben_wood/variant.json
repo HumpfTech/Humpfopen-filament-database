@@ -1,0 +1,9 @@
+{
+  "id": "eben_wood",
+  "name": "EBEN Wood",
+  "color_hex": "#613B3A",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

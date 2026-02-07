@@ -1,0 +1,9 @@
+{
+  "id": "gt_3_rose_red",
+  "name": "GT-3    Rose Red",
+  "color_hex": "#FF2C29",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "metal_iridium_gold_metallic",
+  "name": "Metal Iridium Gold Metallic",
+  "color_hex": "#8E8677",
+  "traits": {
+    "imitates_metal": true,
+    "industrially_compostable": true
+  }
+}

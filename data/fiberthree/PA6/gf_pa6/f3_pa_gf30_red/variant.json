@@ -1,0 +1,9 @@
+{
+  "id": "f3_pa_gf30_red",
+  "name": "F3 PA-GF30  Red",
+  "color_hex": "#AC1A17",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

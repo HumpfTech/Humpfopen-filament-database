@@ -1,0 +1,8 @@
+{
+  "id": "titanx_black",
+  "name": "TitanX Black",
+  "color_hex": "#000000",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

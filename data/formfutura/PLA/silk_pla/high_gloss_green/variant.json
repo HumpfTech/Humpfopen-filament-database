@@ -1,0 +1,9 @@
+{
+  "id": "high_gloss_green",
+  "name": "High Gloss  Green",
+  "color_hex": "#11784F",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

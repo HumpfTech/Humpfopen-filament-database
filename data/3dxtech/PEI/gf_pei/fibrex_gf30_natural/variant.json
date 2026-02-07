@@ -1,0 +1,11 @@
+{
+  "id": "fibrex_gf30_natural",
+  "name": "FIBREX +GF30 Natural",
+  "color_hex": "#FADCA4",
+  "traits": {
+    "contains_glass_fiber": true,
+    "without_pigments": true,
+    "abrasive": true,
+    "low_outgassing": true
+  }
+}

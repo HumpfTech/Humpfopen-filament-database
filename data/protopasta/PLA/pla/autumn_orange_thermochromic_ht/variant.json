@@ -1,0 +1,13 @@
+{
+  "id": "autumn_orange_thermochromic_ht",
+  "name": "Autumn Orange Thermochromic HT",
+  "color_hex": [
+    "#FFC946",
+    "#FF5F2E"
+  ],
+  "traits": {
+    "temperature_color_change": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

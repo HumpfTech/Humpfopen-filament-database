@@ -1,0 +1,12 @@
+{
+  "id": "panchroma_starlight_mercury",
+  "name": "Panchroma™ Starlight  Mercury",
+  "color_hex": [
+    "#94A7B7"
+  ],
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true,
+    "iridescent": true
+  }
+}

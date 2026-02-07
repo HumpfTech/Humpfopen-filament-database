@@ -1,0 +1,9 @@
+{
+  "id": "candy_red",
+  "name": "Candy Red",
+  "color_hex": "#DF3303",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

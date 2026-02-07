@@ -1,0 +1,8 @@
+{
+  "id": "the_filament_technical_red",
+  "name": "The Filament  Technical Red",
+  "color_hex": "#E31A1F",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

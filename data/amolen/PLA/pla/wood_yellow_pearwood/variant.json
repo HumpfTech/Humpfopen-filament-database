@@ -1,0 +1,9 @@
+{
+  "id": "wood_yellow_pearwood",
+  "name": "Wood Yellow Pearwood",
+  "color_hex": "#A6662E",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

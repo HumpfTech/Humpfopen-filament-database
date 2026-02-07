@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_bicolor_magic_silver_bronze",
+  "name": "PS Imports  Bicolor  Magic-Silver-Bronze",
+  "color_hex": [
+    "#A8B0BD",
+    "#99A45F"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "real_wood_fiber_wood_walnut",
+  "name": "Real Wood Fiber Wood  Walnut",
+  "color_hex": "#5B4C49",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

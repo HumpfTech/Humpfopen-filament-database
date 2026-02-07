@@ -1,0 +1,9 @@
+{
+  "id": "gf_yellow",
+  "name": "GF Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

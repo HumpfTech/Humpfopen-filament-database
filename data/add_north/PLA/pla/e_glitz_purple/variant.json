@@ -1,0 +1,9 @@
+{
+  "id": "e_glitz_purple",
+  "name": "E- Glitz Purple",
+  "color_hex": "#492972",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

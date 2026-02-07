@@ -1,0 +1,14 @@
+{
+  "id": "ps_imports_tricolor_magic_green_purple_copper",
+  "name": "PS Imports  TriColor  Magic-Green-Purple-Copper",
+  "color_hex": [
+    "#11784F",
+    "#6C47B2",
+    "#641501"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

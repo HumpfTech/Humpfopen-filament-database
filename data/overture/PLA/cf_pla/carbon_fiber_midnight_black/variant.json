@@ -1,0 +1,10 @@
+{
+  "id": "carbon_fiber_midnight_black",
+  "name": "Carbon Fiber Midnight Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "triple_color_red_gold_purple",
+  "name": "Triple Color Red Gold Purple",
+  "color_hex": [
+    "#D21B31",
+    "#CE9F2E",
+    "#C00698"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

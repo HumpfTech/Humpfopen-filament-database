@@ -1,0 +1,9 @@
+{
+  "id": "x_cf10",
+  "name": "X CF10™",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "f3_gf",
+  "name": "F3  GF",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "e_glitz_grey",
+  "name": "E- Glitz Grey",
+  "color_hex": "#45444A",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

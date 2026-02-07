@@ -1,0 +1,9 @@
+{
+  "id": "nylon_gf15_black",
+  "name": "Nylon  + GF15 Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

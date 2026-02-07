@@ -1,0 +1,10 @@
+{
+  "id": "panchroma_metallic_silver",
+  "name": "Panchroma™ Metallic  Silver",
+  "color_hex": "#959FA1",
+  "traits": {
+    "glitter": true,
+    "imitates_metal": true,
+    "industrially_compostable": true
+  }
+}

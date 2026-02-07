@@ -1,0 +1,9 @@
+{
+  "id": "wood_rose_wood",
+  "name": "Wood Rose Wood",
+  "color_hex": "#613B3A",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

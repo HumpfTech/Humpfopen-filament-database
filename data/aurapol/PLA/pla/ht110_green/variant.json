@@ -1,0 +1,8 @@
+{
+  "id": "ht110_green",
+  "name": "HT110 Green",
+  "color_hex": "#58C91B",
+  "traits": {
+    "high_temperature": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "steelfill",
+  "name": "steelFill",
+  "color_hex": "#6A6C6E",
+  "traits": {
+    "contains_steel": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

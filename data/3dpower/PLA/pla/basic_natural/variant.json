@@ -1,0 +1,9 @@
+{
+  "id": "basic_natural",
+  "name": "Basic  Natural",
+  "color_hex": "#DFDFD3",
+  "traits": {
+    "without_pigments": true,
+    "transparent": true
+  }
+}

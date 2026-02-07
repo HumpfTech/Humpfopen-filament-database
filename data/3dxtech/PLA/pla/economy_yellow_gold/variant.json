@@ -1,0 +1,8 @@
+{
+  "id": "economy_yellow_gold",
+  "name": "Economy  yellow-gold",
+  "color_hex": "#E3B145",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

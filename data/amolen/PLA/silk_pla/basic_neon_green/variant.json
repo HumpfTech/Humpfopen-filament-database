@@ -1,0 +1,9 @@
+{
+  "id": "basic_neon_green",
+  "name": "Basic Neon Green",
+  "color_hex": "#A6EC5F",
+  "traits": {
+    "silk": true,
+    "neon": true
+  }
+}

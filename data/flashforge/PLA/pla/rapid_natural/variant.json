@@ -1,0 +1,9 @@
+{
+  "id": "rapid_natural",
+  "name": "Rapid  Natural",
+  "color_hex": "#F2EFE9",
+  "traits": {
+    "transparent": true,
+    "industrially_compostable": true
+  }
+}

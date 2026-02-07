@@ -1,0 +1,11 @@
+{
+  "id": "fast_deep_space",
+  "name": "Fast  Deep Space",
+  "color_hex": [
+    "#2C365E",
+    "#7F068C"
+  ],
+  "traits": {
+    "iridescent": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "silver_shiny_blue",
+  "name": "Silver Shiny Blue",
+  "color_hex": [
+    "#C9D0D4",
+    "#0066D9"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

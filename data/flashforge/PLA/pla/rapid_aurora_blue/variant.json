@@ -1,0 +1,9 @@
+{
+  "id": "rapid_aurora_blue",
+  "name": "Rapid  Aurora Blue",
+  "color_hex": "#2E56F1",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

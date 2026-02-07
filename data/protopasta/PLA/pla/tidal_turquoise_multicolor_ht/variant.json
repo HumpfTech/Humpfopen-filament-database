@@ -1,0 +1,13 @@
+{
+  "id": "tidal_turquoise_multicolor_ht",
+  "name": "Tidal Turquoise Multicolor HT",
+  "color_hex": [
+    "#0378D0",
+    "#39B9DB"
+  ],
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "matt_pet_g_white",
+  "name": "Matt PET-G White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "matte": true
+  }
+}

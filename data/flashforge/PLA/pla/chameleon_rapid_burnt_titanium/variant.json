@@ -1,0 +1,12 @@
+{
+  "id": "chameleon_rapid_burnt_titanium",
+  "name": "Chameleon Rapid  Burnt Titanium",
+  "color_hex": [
+    "#663D7E",
+    "#003287"
+  ],
+  "traits": {
+    "iridescent": true,
+    "industrially_compostable": true
+  }
+}

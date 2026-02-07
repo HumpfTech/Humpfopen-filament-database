@@ -1,0 +1,9 @@
+{
+  "id": "r_signal_red",
+  "name": "r Signal Red",
+  "color_hex": "#E72F1D",
+  "traits": {
+    "recycled": true,
+    "industrially_compostable": true
+  }
+}

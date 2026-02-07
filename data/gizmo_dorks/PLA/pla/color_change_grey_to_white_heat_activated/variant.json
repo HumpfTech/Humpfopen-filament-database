@@ -1,0 +1,12 @@
+{
+  "id": "color_change_grey_to_white_heat_activated",
+  "name": "Color Change Grey to White (Heat Activated)",
+  "color_hex": [
+    "#FFFFFF",
+    "#9FA4A8"
+  ],
+  "traits": {
+    "temperature_color_change": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "rock_barrier_reef",
+  "name": "Rock  Barrier Reef",
+  "color_hex": [
+    "#2FBABC",
+    "#0353BA",
+    "#0085CA"
+  ],
+  "traits": {
+    "gradual_color_change": true
+  }
+}

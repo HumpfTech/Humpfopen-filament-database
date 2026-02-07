@@ -1,0 +1,11 @@
+{
+  "id": "metal_copper",
+  "name": "Metal Copper",
+  "color_hex": "#96511A",
+  "traits": {
+    "contains_copper": true,
+    "silk": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

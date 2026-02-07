@@ -1,0 +1,13 @@
+{
+  "id": "rapid_burnt_titanium",
+  "name": "Rapid  Burnt Titanium",
+  "color_hex": [
+    "#492972",
+    "#1E2F5A"
+  ],
+  "traits": {
+    "iridescent": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

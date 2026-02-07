@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_sky_blue_pink",
+  "name": "Dual Color Sky Blue & Pink",
+  "color_hex": [
+    "#40B6E4",
+    "#D91AC3"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

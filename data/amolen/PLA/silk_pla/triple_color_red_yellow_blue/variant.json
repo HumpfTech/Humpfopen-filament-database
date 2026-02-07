@@ -1,0 +1,13 @@
+{
+  "id": "triple_color_red_yellow_blue",
+  "name": "Triple Color Red Yellow Blue",
+  "color_hex": [
+    "#4921C1",
+    "#FF0078",
+    "#E4E46D"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

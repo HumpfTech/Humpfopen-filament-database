@@ -1,0 +1,8 @@
+{
+  "id": "economy_yellow",
+  "name": "Economy  yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

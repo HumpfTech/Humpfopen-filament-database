@@ -1,0 +1,10 @@
+{
+  "id": "cf_marsala",
+  "name": "CF Marsala",
+  "color_hex": "#6E485F",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "magic_army",
+  "name": "Magic Army",
+  "color_hex": [
+    "#6E8451",
+    "#D8BA64",
+    "#6E4325"
+  ],
+  "traits": {
+    "coextruded": true
+  }
+}

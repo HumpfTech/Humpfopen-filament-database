@@ -1,0 +1,15 @@
+{
+  "id": "mystic_red_yellow_blue",
+  "name": "Mystic  Red Yellow Blue",
+  "color_hex": [
+    "#386DFF",
+    "#C01616",
+    "#FBE200"
+  ],
+  "traits": {
+    "silk": true,
+    "iridescent": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "crystal_transparent_aurora_purple",
+  "name": "Crystal-Transparent Aurora Purple",
+  "color_hex": [
+    "#FD3DB5",
+    "#C63DBA"
+  ],
+  "traits": {
+    "translucent": true,
+    "gradual_color_change": true
+  }
+}

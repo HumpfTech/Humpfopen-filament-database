@@ -1,0 +1,9 @@
+{
+  "id": "hs_clear_green",
+  "name": "HS  Clear Green",
+  "color_hex": "#06B100",
+  "traits": {
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

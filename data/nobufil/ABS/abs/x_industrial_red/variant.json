@@ -1,0 +1,8 @@
+{
+  "id": "x_industrial_red",
+  "name": "x Industrial Red",
+  "color_hex": "#E72F1D",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

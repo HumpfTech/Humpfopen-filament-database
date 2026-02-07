@@ -1,0 +1,9 @@
+{
+  "id": "carbonx_ezcf",
+  "name": "CarbonX ez+CF",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

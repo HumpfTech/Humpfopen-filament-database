@@ -1,0 +1,10 @@
+{
+  "id": "blue_ice_translucent_ht",
+  "name": "Blue Ice Translucent HT",
+  "color_hex": "#39B9DB",
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

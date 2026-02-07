@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_gradient_gold_red",
+  "name": "PS Imports   Gradient-Gold-Red",
+  "color_hex": [
+    "#FFCB47",
+    "#E72F1D"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

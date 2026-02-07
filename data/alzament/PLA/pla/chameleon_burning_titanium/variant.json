@@ -1,0 +1,12 @@
+{
+  "id": "chameleon_burning_titanium",
+  "name": "Chameleon Burning Titanium",
+  "color_hex": [
+    "#45444A",
+    "#641501"
+  ],
+  "traits": {
+    "coextruded": true,
+    "industrially_compostable": true
+  }
+}

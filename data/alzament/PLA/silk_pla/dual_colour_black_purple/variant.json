@@ -1,0 +1,13 @@
+{
+  "id": "dual_colour_black_purple",
+  "name": "Dual colour Black-Purple",
+  "color_hex": [
+    "#000000",
+    "#BE2ED6"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

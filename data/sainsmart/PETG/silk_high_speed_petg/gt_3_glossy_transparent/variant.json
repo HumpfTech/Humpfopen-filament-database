@@ -1,0 +1,9 @@
+{
+  "id": "gt_3_glossy_transparent",
+  "name": "GT-3   Glossy Transparent",
+  "color_hex": "#E4E7E5",
+  "traits": {
+    "translucent": true,
+    "silk": true
+  }
+}

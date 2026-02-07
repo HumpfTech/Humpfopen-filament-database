@@ -1,0 +1,12 @@
+{
+  "id": "rapid_pink_white_gradient",
+  "name": "Rapid  Pink White Gradient",
+  "color_hex": [
+    "#FF67F5",
+    "#FFFFFF"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

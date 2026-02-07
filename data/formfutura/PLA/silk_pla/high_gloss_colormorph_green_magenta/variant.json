@@ -1,0 +1,14 @@
+{
+  "id": "high_gloss_colormorph_green_magenta",
+  "name": "High Gloss  ColorMorph Green & Magenta",
+  "color_hex": [
+    "#008059",
+    "#C80181"
+  ],
+  "traits": {
+    "iridescent": true,
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

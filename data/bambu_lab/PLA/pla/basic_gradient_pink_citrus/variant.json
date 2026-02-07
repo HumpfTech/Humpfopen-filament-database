@@ -1,0 +1,12 @@
+{
+  "id": "basic_gradient_pink_citrus",
+  "name": "Basic Gradient Pink Citrus",
+  "color_hex": [
+    "#F7A7A1",
+    "#D33D3D"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

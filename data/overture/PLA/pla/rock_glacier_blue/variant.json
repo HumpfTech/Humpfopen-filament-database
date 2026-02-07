@@ -1,0 +1,12 @@
+{
+  "id": "rock_glacier_blue",
+  "name": "Rock  Glacier Blue",
+  "color_hex": [
+    "#39B9DB",
+    "#CBE4ED"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

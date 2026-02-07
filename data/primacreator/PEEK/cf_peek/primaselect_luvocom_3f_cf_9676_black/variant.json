@@ -1,0 +1,10 @@
+{
+  "id": "primaselect_luvocom_3f_cf_9676_black",
+  "name": "PrimaSelect Luvocom 3F  CF 9676 Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "low_outgassing": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "economy_glitter_cactus_green",
+  "name": "Economy Glitter  cactus-green",
+  "color_hex": "#0B6A2F",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

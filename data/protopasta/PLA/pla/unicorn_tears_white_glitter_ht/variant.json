@@ -1,0 +1,10 @@
+{
+  "id": "unicorn_tears_white_glitter_ht",
+  "name": "Unicorn Tears White Glitter HT",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "glitter": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

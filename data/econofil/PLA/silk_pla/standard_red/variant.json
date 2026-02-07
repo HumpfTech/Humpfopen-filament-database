@@ -1,0 +1,8 @@
+{
+  "id": "standard_red",
+  "name": "Standard   Red",
+  "color_hex": "#FB0046",
+  "traits": {
+    "silk": true
+  }
+}

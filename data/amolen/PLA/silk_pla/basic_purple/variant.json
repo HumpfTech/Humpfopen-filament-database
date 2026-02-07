@@ -1,0 +1,8 @@
+{
+  "id": "basic_purple",
+  "name": "Basic Purple",
+  "color_hex": "#A000CA",
+  "traits": {
+    "silk": true
+  }
+}

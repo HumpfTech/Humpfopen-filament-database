@@ -1,0 +1,13 @@
+{
+  "id": "panchroma_gradient_summer",
+  "name": "Panchroma™ Gradient   Summer",
+  "color_hex": [
+    "#9AEE6C",
+    "#60AB61"
+  ],
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

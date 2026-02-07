@@ -1,0 +1,17 @@
+{
+  "id": "rapid_luminous_melody",
+  "name": "Rapid  Luminous Melody",
+  "color_hex": [
+    "#62E480",
+    "#FCE575",
+    "#AE96D4",
+    "#F7A7A1",
+    "#9AE0DD"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

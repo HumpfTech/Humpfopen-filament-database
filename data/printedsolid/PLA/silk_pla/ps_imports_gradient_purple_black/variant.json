@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_gradient_purple_black",
+  "name": "PS Imports   Gradient-Purple-Black",
+  "color_hex": [
+    "#372B74",
+    "#000000"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

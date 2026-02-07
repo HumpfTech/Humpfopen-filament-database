@@ -1,0 +1,9 @@
+{
+  "id": "vulcan_a_natural_flame_retardant_chemical_resistance",
+  "name": "VULCAN -A Natural - Flame Retardant & Chemical Resistance",
+  "color_hex": "#DFDFD3",
+  "traits": {
+    "self_extinguishing": true,
+    "low_outgassing": true
+  }
+}

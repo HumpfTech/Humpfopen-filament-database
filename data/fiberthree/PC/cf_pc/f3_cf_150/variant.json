@@ -1,0 +1,9 @@
+{
+  "id": "f3_cf_150",
+  "name": "F3  CF 150",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

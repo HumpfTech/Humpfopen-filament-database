@@ -1,0 +1,9 @@
+{
+  "id": "recycled_silver",
+  "name": "RECYCLED Silver",
+  "color_hex": "#ABACB0",
+  "traits": {
+    "recycled": true,
+    "industrially_compostable": true
+  }
+}

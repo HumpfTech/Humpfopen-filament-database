@@ -1,0 +1,8 @@
+{
+  "id": "pet_g_standard_hs_red_transparent",
+  "name": "PET-G Standard HS Red Transparent",
+  "color_hex": "#EC0000",
+  "traits": {
+    "translucent": true
+  }
+}

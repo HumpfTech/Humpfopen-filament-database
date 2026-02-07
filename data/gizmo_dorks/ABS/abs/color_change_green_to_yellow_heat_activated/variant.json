@@ -1,0 +1,12 @@
+{
+  "id": "color_change_green_to_yellow_heat_activated",
+  "name": "Color Change Green to Yellow (Heat Activated)",
+  "color_hex": [
+    "#FBE200",
+    "#7AB352"
+  ],
+  "traits": {
+    "temperature_color_change": true,
+    "filtration_recommended": true
+  }
+}

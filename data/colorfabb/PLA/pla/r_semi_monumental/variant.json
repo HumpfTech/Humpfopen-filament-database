@@ -1,0 +1,8 @@
+{
+  "id": "r_semi_monumental",
+  "name": "r-Semi--Monumental",
+  "color_hex": "#9F9F9F",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

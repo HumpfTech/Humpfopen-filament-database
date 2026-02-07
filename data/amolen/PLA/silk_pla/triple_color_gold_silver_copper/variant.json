@@ -1,0 +1,13 @@
+{
+  "id": "triple_color_gold_silver_copper",
+  "name": "Triple Color Gold Silver Copper",
+  "color_hex": [
+    "#F6C500",
+    "#ABACB0",
+    "#96511A"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

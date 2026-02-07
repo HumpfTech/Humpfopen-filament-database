@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_gold_purple",
+  "name": "Dual Color Gold & Purple",
+  "color_hex": [
+    "#F6C500",
+    "#A048F2"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

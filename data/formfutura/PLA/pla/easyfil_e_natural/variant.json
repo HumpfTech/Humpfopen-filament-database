@@ -1,0 +1,9 @@
+{
+  "id": "easyfil_e_natural",
+  "name": "EasyFil e Natural",
+  "color_hex": "#DFDFD3",
+  "traits": {
+    "industrially_compostable": true,
+    "without_pigments": true
+  }
+}

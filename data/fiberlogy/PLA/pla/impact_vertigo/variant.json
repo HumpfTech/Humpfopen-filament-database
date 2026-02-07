@@ -1,0 +1,9 @@
+{
+  "id": "impact_vertigo",
+  "name": "Impact  Vertigo",
+  "color_hex": "#55555E",
+  "traits": {
+    "glitter": true,
+    "industrially_compostable": true
+  }
+}

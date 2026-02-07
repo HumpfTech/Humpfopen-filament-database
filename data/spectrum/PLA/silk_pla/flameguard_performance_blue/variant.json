@@ -1,0 +1,10 @@
+{
+  "id": "flameguard_performance_blue",
+  "name": "FlameGuard  Performance Blue",
+  "color_hex": "#0066D9",
+  "traits": {
+    "silk": true,
+    "self_extinguishing": true,
+    "industrially_compostable": true
+  }
+}

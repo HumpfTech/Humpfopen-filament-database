@@ -1,0 +1,8 @@
+{
+  "id": "hyper_blue",
+  "name": "Hyper + Blue",
+  "color_hex": "#0353BA",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

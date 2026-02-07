@@ -1,0 +1,9 @@
+{
+  "id": "primaselect_marble_concrete_grey",
+  "name": "PrimaSelect  Marble Concrete Grey",
+  "color_hex": "#949A9E",
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true
+  }
+}

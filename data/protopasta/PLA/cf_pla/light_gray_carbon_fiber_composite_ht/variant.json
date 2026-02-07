@@ -1,0 +1,11 @@
+{
+  "id": "light_gray_carbon_fiber_composite_ht",
+  "name": "Light Gray Carbon Fiber Composite HT",
+  "color_hex": "#BAC4C4",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "high_temperature": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

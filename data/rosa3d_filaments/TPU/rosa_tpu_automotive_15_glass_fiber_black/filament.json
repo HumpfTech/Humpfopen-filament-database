@@ -1,0 +1,10 @@
+{
+  "id": "rosa_tpu_automotive_15_glass_fiber_black",
+  "name": "ROSA TPU Automotive 15 Glass Fiber Black",
+  "density": 1.21,
+  "diameter_tolerance": 0.02,
+  "min_print_temperature": 210,
+  "max_print_temperature": 240,
+  "min_bed_temperature": 30,
+  "max_bed_temperature": 60
+}

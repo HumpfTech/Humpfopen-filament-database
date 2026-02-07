@@ -1,0 +1,12 @@
+{
+  "id": "rock_tropical_jungle",
+  "name": "Rock  Tropical Jungle",
+  "color_hex": [
+    "#0CCF81",
+    "#9AEE6C",
+    "#02A76B"
+  ],
+  "traits": {
+    "gradual_color_change": true
+  }
+}

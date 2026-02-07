@@ -1,0 +1,9 @@
+{
+  "id": "safeguard_dark_blue",
+  "name": "Safeguard  Dark Blue",
+  "color_hex": "#4921C1",
+  "traits": {
+    "antibacterial": true,
+    "industrially_compostable": true
+  }
+}

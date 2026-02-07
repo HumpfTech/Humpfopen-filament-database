@@ -1,0 +1,8 @@
+{
+  "id": "pet_g_ht100_silver_steel",
+  "name": "PET-G HT100™ Silver Steel",
+  "color_hex": "#808080",
+  "traits": {
+    "high_temperature": true
+  }
+}

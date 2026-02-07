@@ -1,0 +1,9 @@
+{
+  "id": "1010_natural",
+  "name": "1010 Natural",
+  "color_hex": "#E8CA51",
+  "traits": {
+    "without_pigments": true,
+    "low_outgassing": true
+  }
+}

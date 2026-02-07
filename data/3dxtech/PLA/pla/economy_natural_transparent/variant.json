@@ -1,0 +1,10 @@
+{
+  "id": "economy_natural_transparent",
+  "name": "Economy  natural-transparent",
+  "color_hex": "#F2EFE9",
+  "traits": {
+    "transparent": true,
+    "without_pigments": true,
+    "industrially_compostable": true
+  }
+}

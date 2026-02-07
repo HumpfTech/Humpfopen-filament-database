@@ -1,0 +1,12 @@
+{
+  "id": "temperature_color_change_blue_to_white",
+  "name": "Temperature Color Change Blue to White",
+  "color_hex": [
+    "#FFFFFF",
+    "#2E56F1"
+  ],
+  "traits": {
+    "temperature_color_change": true,
+    "industrially_compostable": true
+  }
+}

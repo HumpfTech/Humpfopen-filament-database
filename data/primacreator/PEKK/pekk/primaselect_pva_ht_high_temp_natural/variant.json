@@ -1,0 +1,9 @@
+{
+  "id": "primaselect_pva_ht_high_temp_natural",
+  "name": "PrimaSelect PVA HT (High Temp) Natural",
+  "color_hex": "#F1E6B2",
+  "traits": {
+    "water_soluble": true,
+    "low_outgassing": true
+  }
+}

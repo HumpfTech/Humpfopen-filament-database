@@ -1,0 +1,9 @@
+{
+  "id": "pha_fluorescent_pink",
+  "name": "/PHA Fluorescent pink",
+  "color_hex": "#E23288",
+  "traits": {
+    "neon": true,
+    "industrially_compostable": true
+  }
+}

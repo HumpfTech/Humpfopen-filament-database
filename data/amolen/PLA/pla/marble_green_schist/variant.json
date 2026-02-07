@@ -1,0 +1,15 @@
+{
+  "id": "marble_green_schist",
+  "name": "Marble Green Schist",
+  "color_hex": [
+    "#E6B0A2",
+    "#E2C077",
+    "#C3CCD5",
+    "#C4BCB3"
+  ],
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

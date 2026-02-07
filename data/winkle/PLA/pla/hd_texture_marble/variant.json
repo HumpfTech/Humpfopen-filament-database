@@ -1,0 +1,8 @@
+{
+  "id": "hd_texture_marble",
+  "name": "HD Texture Marble",
+  "color_hex": "#ECEFED",
+  "traits": {
+    "imitates_marble": true
+  }
+}

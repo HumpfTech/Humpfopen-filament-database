@@ -1,0 +1,12 @@
+{
+  "id": "rapid_gradient_yellow_blue",
+  "name": "Rapid  Gradient Yellow & Blue",
+  "color_hex": [
+    "#0099E6",
+    "#E4E46D"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "bicolor_metallic_pet_g_violet_sparkle",
+  "name": "BICOLOR METALLIC PET-G VIOLET SPARKLE",
+  "color_hex": [
+    "#4E486A",
+    "#705939"
+  ],
+  "traits": {
+    "iridescent": true,
+    "coextruded": true
+  }
+}

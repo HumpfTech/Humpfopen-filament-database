@@ -1,0 +1,13 @@
+{
+  "id": "panchroma_dual_aubergine_lime_magenta",
+  "name": "Panchroma™ Dual   Aubergine ( Lime /  Magenta)",
+  "color_hex": [
+    "#DEDE00",
+    "#B1407F"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

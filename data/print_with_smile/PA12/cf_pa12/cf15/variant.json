@@ -1,0 +1,9 @@
+{
+  "id": "cf15",
+  "name": "CF15",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

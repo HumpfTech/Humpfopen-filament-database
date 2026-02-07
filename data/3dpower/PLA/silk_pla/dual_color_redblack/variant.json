@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_redblack",
+  "name": "Dual Color Red&Black",
+  "color_hex": [
+    "#232323",
+    "#C01616"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

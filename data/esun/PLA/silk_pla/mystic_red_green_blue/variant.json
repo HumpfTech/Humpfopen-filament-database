@@ -1,0 +1,15 @@
+{
+  "id": "mystic_red_green_blue",
+  "name": "Mystic  Red Green Blue",
+  "color_hex": [
+    "#206233",
+    "#386DFF",
+    "#E34A94"
+  ],
+  "traits": {
+    "silk": true,
+    "iridescent": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf_blue",
+  "name": "GF Blue",
+  "color_hex": "#0378D0",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true,
+    "filtration_recommended": true
+  }
+}

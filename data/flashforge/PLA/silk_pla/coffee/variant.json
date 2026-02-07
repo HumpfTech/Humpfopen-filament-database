@@ -1,0 +1,9 @@
+{
+  "id": "coffee",
+  "name": "Coffee",
+  "color_hex": "#877674",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

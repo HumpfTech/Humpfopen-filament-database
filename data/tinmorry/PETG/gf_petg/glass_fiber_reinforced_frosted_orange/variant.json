@@ -1,0 +1,8 @@
+{
+  "id": "glass_fiber_reinforced_frosted_orange",
+  "name": "Glass Fiber Reinforced  Frosted Orange",
+  "color_hex": "#F78E0E",
+  "traits": {
+    "contains_glass_fiber": true
+  }
+}

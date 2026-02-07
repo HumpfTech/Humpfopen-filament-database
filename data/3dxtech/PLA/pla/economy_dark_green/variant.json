@@ -1,0 +1,8 @@
+{
+  "id": "economy_dark_green",
+  "name": "Economy  dark-green",
+  "color_hex": "#267F67",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

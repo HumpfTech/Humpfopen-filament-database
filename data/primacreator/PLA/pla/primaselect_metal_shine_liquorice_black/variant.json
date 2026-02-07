@@ -1,0 +1,9 @@
+{
+  "id": "primaselect_metal_shine_liquorice_black",
+  "name": "PrimaSelect  Metal-Shine Liquorice Black",
+  "color_hex": "#000000",
+  "traits": {
+    "imitates_metal": true,
+    "industrially_compostable": true
+  }
+}

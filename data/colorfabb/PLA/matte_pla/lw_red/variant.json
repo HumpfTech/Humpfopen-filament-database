@@ -1,0 +1,10 @@
+{
+  "id": "lw_red",
+  "name": "LW- Red",
+  "color_hex": "#E20010",
+  "traits": {
+    "matte": true,
+    "foaming": true,
+    "industrially_compostable": true
+  }
+}

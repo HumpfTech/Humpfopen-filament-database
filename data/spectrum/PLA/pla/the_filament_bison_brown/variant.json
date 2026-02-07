@@ -1,0 +1,8 @@
+{
+  "id": "the_filament_bison_brown",
+  "name": "The Filament  Bison Brown",
+  "color_hex": "#694D3F",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

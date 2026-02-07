@@ -1,0 +1,13 @@
+{
+  "id": "candy_red_gold",
+  "name": "Candy  Red Gold",
+  "color_hex": [
+    "#ED1536",
+    "#F6C500"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

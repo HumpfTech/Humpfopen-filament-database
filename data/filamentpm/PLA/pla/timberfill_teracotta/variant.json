@@ -1,0 +1,10 @@
+{
+  "id": "timberfill_teracotta",
+  "name": "Timberfill® \"Teracotta\"",
+  "color_hex": "#CD5A2E",
+  "traits": {
+    "contains_wood": true,
+    "imitates_wood": true,
+    "industrially_compostable": true
+  }
+}

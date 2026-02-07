@@ -1,0 +1,8 @@
+{
+  "id": "x_power_tool_yellow",
+  "name": "X- Power Tool Yellow",
+  "color_hex": "#FFC946",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

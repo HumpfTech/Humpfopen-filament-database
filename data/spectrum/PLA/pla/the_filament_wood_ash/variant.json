@@ -1,0 +1,8 @@
+{
+  "id": "the_filament_wood_ash",
+  "name": "The Filament  Wood Ash",
+  "color_hex": "#DAC7A0",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

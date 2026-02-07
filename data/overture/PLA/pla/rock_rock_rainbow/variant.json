@@ -1,0 +1,14 @@
+{
+  "id": "rock_rock_rainbow",
+  "name": "Rock  Rock Rainbow",
+  "color_hex": [
+    "#00A594",
+    "#F3C102",
+    "#519F61",
+    "#F00C00"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

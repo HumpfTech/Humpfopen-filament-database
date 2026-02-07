@@ -1,0 +1,10 @@
+{
+  "id": "primaselect_carbon_blue",
+  "name": "PrimaSelect  Carbon Blue",
+  "color_hex": "#033877",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

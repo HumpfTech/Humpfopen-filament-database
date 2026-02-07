@@ -1,0 +1,9 @@
+{
+  "id": "marble_cool_white",
+  "name": "Marble  Cool White",
+  "color_hex": "#EFEFEF",
+  "traits": {
+    "imitates_marble": true,
+    "industrially_compostable": true
+  }
+}

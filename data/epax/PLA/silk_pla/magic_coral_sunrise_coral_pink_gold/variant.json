@@ -1,0 +1,12 @@
+{
+  "id": "magic_coral_sunrise_coral_pink_gold",
+  "name": "Magic   Coral Sunrise (Coral Pink / Gold)",
+  "color_hex": [
+    "#D85165",
+    "#DDB95D"
+  ],
+  "traits": {
+    "silk": true,
+    "coextruded": true
+  }
+}

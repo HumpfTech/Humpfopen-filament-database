@@ -1,0 +1,12 @@
+{
+  "id": "fast_luminous_green_glows_in_the_dark",
+  "name": "Fast + Luminous Green (glows in the dark)",
+  "color_hex": [
+    "#70FA00",
+    "#DEE2DA"
+  ],
+  "traits": {
+    "glow": true,
+    "illuminescent_color_change": true
+  }
+}

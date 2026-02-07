@@ -1,0 +1,10 @@
+{
+  "id": "carbon_fiber_ultra_black",
+  "name": "Carbon Fiber Ultra Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "filtration_recommended": true
+  }
+}

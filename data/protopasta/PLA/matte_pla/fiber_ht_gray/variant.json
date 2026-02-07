@@ -1,0 +1,10 @@
+{
+  "id": "fiber_ht_gray",
+  "name": "Fiber HT - Gray",
+  "color_hex": "#949A9E",
+  "traits": {
+    "matte": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

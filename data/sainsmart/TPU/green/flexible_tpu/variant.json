@@ -1,0 +1,8 @@
+{
+  "id": "flexible_tpu",
+  "name": "Flexible TPU",
+  "color_hex": "#4DFF64",
+  "traits": {
+    "translucent": true
+  }
+}

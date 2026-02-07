@@ -1,0 +1,9 @@
+{
+  "id": "nx2_matt_emerald_green_ral_6001",
+  "name": "NX2 MATT emerald green | RAL 6001",
+  "color_hex": "#41A840",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "pha_intense_green",
+  "name": "/PHA Intense green",
+  "color_hex": "#9FEC41",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

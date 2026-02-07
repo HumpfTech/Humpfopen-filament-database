@@ -1,0 +1,9 @@
+{
+  "id": "off_white",
+  "name": "Off White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

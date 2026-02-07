@@ -1,0 +1,10 @@
+{
+  "id": "fiberwood_white",
+  "name": "FiberWood White",
+  "color_hex": "#DBC9AD",
+  "traits": {
+    "imitates_wood": true,
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

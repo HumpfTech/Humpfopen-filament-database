@@ -1,0 +1,8 @@
+{
+  "id": "low_odor_red",
+  "name": "Low Odor  Red",
+  "color_hex": "#E20010",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

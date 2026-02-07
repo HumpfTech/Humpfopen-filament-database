@@ -1,0 +1,9 @@
+{
+  "id": "ps_imports_yellow",
+  "name": "PS Imports   Yellow",
+  "color_hex": "#EA9E3F",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

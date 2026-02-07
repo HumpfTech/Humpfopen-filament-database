@@ -1,0 +1,8 @@
+{
+  "id": "easy_brick",
+  "name": "Easy  Brick",
+  "color_hex": "#BF4427",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "crystal_transparent_blue_white",
+  "name": "Crystal-Transparent Blue White",
+  "color_hex": [
+    "#FFFFFF",
+    "#1ADAFB"
+  ],
+  "traits": {
+    "translucent": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

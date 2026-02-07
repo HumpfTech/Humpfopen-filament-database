@@ -1,0 +1,9 @@
+{
+  "id": "gt_3_white",
+  "name": "GT-3    White",
+  "color_hex": "#FFFFFF",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

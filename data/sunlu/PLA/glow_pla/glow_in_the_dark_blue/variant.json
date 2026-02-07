@@ -1,0 +1,10 @@
+{
+  "id": "glow_in_the_dark_blue",
+  "name": "Glow in The Dark  Blue",
+  "color_hex": "#0099E6",
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

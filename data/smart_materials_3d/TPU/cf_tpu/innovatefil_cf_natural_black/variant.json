@@ -1,0 +1,9 @@
+{
+  "id": "innovatefil_cf_natural_black",
+  "name": "INNOVATEFIL®  CF Natural (Black)",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true
+  }
+}

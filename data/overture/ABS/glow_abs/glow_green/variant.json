@@ -1,0 +1,14 @@
+{
+  "id": "glow_green",
+  "name": "Glow Green",
+  "color_hex": [
+    "#4DFF64",
+    "#F5F5F5"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "filtration_recommended": true,
+    "illuminescent_color_change": true
+  }
+}

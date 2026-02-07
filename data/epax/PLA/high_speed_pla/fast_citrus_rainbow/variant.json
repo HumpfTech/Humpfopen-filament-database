@@ -1,0 +1,13 @@
+{
+  "id": "fast_citrus_rainbow",
+  "name": "Fast + Citrus Rainbow",
+  "color_hex": [
+    "#91DB01",
+    "#EC0000",
+    "#FFB031",
+    "#F8CC00"
+  ],
+  "traits": {
+    "gradual_color_change": true
+  }
+}

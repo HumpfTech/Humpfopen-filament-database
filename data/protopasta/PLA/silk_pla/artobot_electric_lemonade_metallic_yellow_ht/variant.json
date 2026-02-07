@@ -1,0 +1,10 @@
+{
+  "id": "artobot_electric_lemonade_metallic_yellow_ht",
+  "name": "Artobot \"Electric Lemonade\" Metallic Yellow HT",
+  "color_hex": "#FBE200",
+  "traits": {
+    "high_temperature": true,
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

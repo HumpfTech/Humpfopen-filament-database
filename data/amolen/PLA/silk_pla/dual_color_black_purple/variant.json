@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_black_purple",
+  "name": "Dual Color Black & Purple",
+  "color_hex": [
+    "#000000",
+    "#BA06AE"
+  ],
+  "traits": {
+    "coextruded": true,
+    "silk": true
+  }
+}

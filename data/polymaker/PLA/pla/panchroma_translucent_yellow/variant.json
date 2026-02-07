@@ -1,0 +1,9 @@
+{
+  "id": "panchroma_translucent_yellow",
+  "name": "Panchroma™ Translucent  Yellow",
+  "color_hex": "#FFD342",
+  "traits": {
+    "industrially_compostable": true,
+    "translucent": true
+  }
+}

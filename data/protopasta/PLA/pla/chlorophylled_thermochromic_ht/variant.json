@@ -1,0 +1,13 @@
+{
+  "id": "chlorophylled_thermochromic_ht",
+  "name": "Chlorophylled Thermochromic HT",
+  "color_hex": [
+    "#FFD342",
+    "#206233"
+  ],
+  "traits": {
+    "temperature_color_change": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}

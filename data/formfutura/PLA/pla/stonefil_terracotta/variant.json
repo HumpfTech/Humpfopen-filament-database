@@ -1,0 +1,9 @@
+{
+  "id": "stonefil_terracotta",
+  "name": "StoneFil Terracotta",
+  "color_hex": "#CD5A2E",
+  "traits": {
+    "contains_stone": true,
+    "industrially_compostable": true
+  }
+}

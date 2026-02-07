@@ -1,0 +1,8 @@
+{
+  "id": "basic_purple",
+  "name": "Basic Purple",
+  "color_hex": "#7F068C",
+  "traits": {
+    "matte": true
+  }
+}

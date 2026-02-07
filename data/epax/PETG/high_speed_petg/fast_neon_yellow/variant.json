@@ -1,0 +1,8 @@
+{
+  "id": "fast_neon_yellow",
+  "name": "Fast  Neon Yellow",
+  "color_hex": "#D7F988",
+  "traits": {
+    "neon": true
+  }
+}

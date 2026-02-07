@@ -1,0 +1,8 @@
+{
+  "id": "pet_g_v0_white",
+  "name": "PET-G V0 WHITE",
+  "color_hex": "#EFEFEF",
+  "traits": {
+    "self_extinguishing": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "paht_cf_black",
+  "name": "PAHT-CF Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "high_temperature": true,
+    "abrasive": true
+  }
+}

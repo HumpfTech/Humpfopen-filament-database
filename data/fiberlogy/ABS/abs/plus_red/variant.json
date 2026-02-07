@@ -1,0 +1,8 @@
+{
+  "id": "plus_red",
+  "name": "PLUS Red",
+  "color_hex": "#E20010",
+  "traits": {
+    "filtration_recommended": true
+  }
+}

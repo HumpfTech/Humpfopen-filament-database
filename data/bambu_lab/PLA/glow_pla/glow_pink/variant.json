@@ -1,0 +1,13 @@
+{
+  "id": "glow_pink",
+  "name": "Glow Pink",
+  "color_hex": [
+    "#F5B797",
+    "#F09BB5"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

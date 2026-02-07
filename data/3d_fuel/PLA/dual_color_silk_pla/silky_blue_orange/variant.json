@@ -1,0 +1,13 @@
+{
+  "id": "silky_blue_orange",
+  "name": "Silky Blue Orange",
+  "color_hex": [
+    "#F4AC23",
+    "#2E56F1"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ps_imports_bicolor_magic_silver_green",
+  "name": "PS Imports  Bicolor  Magic-Silver-Green",
+  "color_hex": [
+    "#A8B0BD",
+    "#1E5A4F"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "easy_glow_red",
+  "name": "Easy  Glow Red",
+  "color_hex": [
+    "#FF7D7A",
+    "#FFB031"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true,
+    "illuminescent_color_change": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "luminous_glow_in_the_dark_white_to_glow_green",
+  "name": "Luminous  Glow in the Dark White to Glow Green",
+  "color_hex": [
+    "#46DF55",
+    "#FFFFFF"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "illuminescent_color_change": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ps_imports_tricolor_magic_red_yellow_blue",
+  "name": "PS Imports  TriColor  Magic-Red-Yellow-Blue",
+  "color_hex": [
+    "#E72F1D",
+    "#FBE200",
+    "#0353BA"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

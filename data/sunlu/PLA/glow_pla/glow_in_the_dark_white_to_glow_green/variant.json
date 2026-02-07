@@ -1,0 +1,14 @@
+{
+  "id": "glow_in_the_dark_white_to_glow_green",
+  "name": "Glow in The Dark  White to Glow Green",
+  "color_hex": [
+    "#00CC00",
+    "#F5F5F5"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true,
+    "industrially_compostable": true,
+    "illuminescent_color_change": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "gradient_metal_rainbow",
+  "name": "Gradient Metal Rainbow",
+  "color_hex": [
+    "#ABACB0",
+    "#FFCB47",
+    "#C88582"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "hs_fire_orange",
+  "name": "HS () Fire Orange",
+  "color_hex": "#F67405",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

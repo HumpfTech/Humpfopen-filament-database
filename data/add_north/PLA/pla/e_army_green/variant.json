@@ -1,0 +1,8 @@
+{
+  "id": "e_army_green",
+  "name": "E- Army Green",
+  "color_hex": "#99A45F",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

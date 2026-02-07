@@ -1,0 +1,8 @@
+{
+  "id": "high_precision_traffic_yellow",
+  "name": "High Precision  Traffic Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

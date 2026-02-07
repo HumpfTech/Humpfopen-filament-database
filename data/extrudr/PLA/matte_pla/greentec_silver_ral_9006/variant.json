@@ -1,0 +1,9 @@
+{
+  "id": "greentec_silver_ral_9006",
+  "name": "GreenTEC silver | RAL 9006",
+  "color_hex": "#949597",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

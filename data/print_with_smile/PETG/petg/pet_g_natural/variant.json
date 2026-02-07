@@ -1,0 +1,8 @@
+{
+  "id": "pet_g_natural",
+  "name": "PET-G Natural",
+  "color_hex": "#D9D8DE",
+  "traits": {
+    "without_pigments": true
+  }
+}

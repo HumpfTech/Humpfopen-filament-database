@@ -1,0 +1,11 @@
+{
+  "id": "ctive_red",
+  "name": "ctive Red",
+  "color_hex": "#98282F",
+  "traits": {
+    "contains_copper": true,
+    "antibacterial": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

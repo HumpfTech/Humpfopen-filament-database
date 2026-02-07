@@ -1,0 +1,9 @@
+{
+  "id": "ps_imports_black",
+  "name": "PS Imports   Black",
+  "color_hex": "#000000",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

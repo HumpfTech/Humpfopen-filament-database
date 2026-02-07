@@ -1,0 +1,10 @@
+{
+  "id": "cf_matcha_green",
+  "name": "CF Matcha Green",
+  "color_hex": "#68844E",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "abrasive": true,
+    "industrially_compostable": true
+  }
+}

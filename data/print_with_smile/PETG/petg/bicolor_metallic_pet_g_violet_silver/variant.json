@@ -1,0 +1,12 @@
+{
+  "id": "bicolor_metallic_pet_g_violet_silver",
+  "name": "BICOLOR METALLIC PET-G VIOLET SILVER",
+  "color_hex": [
+    "#4E486A",
+    "#A8B0BD"
+  ],
+  "traits": {
+    "iridescent": true,
+    "coextruded": true
+  }
+}

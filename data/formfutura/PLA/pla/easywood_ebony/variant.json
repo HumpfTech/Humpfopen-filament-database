@@ -1,0 +1,9 @@
+{
+  "id": "easywood_ebony",
+  "name": "EasyWood Ebony",
+  "color_hex": "#50483D",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

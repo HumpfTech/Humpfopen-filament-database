@@ -1,0 +1,9 @@
+{
+  "id": "cf_matt_lava_gray",
+  "name": "CF Matt Lava Gray",
+  "color_hex": "#595959",
+  "traits": {
+    "contains_carbon_fiber": true,
+    "matte": true
+  }
+}

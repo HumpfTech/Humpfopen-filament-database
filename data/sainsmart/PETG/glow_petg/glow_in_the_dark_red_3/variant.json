@@ -1,0 +1,12 @@
+{
+  "id": "glow_in_the_dark_red_3",
+  "name": "Glow-in-the-dark Red -3",
+  "color_hex": [
+    "#E72F1D",
+    "#FF7D7A"
+  ],
+  "traits": {
+    "glow": true,
+    "abrasive": true
+  }
+}

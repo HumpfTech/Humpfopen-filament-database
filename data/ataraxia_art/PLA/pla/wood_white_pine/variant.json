@@ -1,0 +1,9 @@
+{
+  "id": "wood_white_pine",
+  "name": "Wood  White Pine",
+  "color_hex": "#E6D1BD",
+  "traits": {
+    "contains_wood": true,
+    "industrially_compostable": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "impact_army_green",
+  "name": "Impact  Army Green",
+  "color_hex": "#404720",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

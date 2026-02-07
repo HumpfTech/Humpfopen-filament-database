@@ -1,0 +1,9 @@
+{
+  "id": "ps_imports_green",
+  "name": "PS Imports   Green",
+  "color_hex": "#206233",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

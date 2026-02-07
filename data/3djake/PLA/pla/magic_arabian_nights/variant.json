@@ -1,0 +1,12 @@
+{
+  "id": "magic_arabian_nights",
+  "name": "magic Arabian Nights",
+  "color_hex": [
+    "#6C47B2",
+    "#9C7320"
+  ],
+  "traits": {
+    "coextruded": true,
+    "iridescent": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "easyfil_e_transparent_blue",
+  "name": "EasyFil e Transparent Blue",
+  "color_hex": "#09048E",
+  "traits": {
+    "translucent": true
+  }
+}

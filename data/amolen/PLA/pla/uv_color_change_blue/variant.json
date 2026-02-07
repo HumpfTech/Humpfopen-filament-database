@@ -1,0 +1,11 @@
+{
+  "id": "uv_color_change_blue",
+  "name": "UV Color Change Blue",
+  "color_hex": [
+    "#617FCC",
+    "#E5E0E3"
+  ],
+  "traits": {
+    "illuminescent_color_change": true
+  }
+}

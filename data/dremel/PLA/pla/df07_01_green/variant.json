@@ -1,0 +1,8 @@
+{
+  "id": "df07_01_green",
+  "name": "DF07-01  Green",
+  "color_hex": "#06924D",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

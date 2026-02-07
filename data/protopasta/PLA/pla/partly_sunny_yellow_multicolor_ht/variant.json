@@ -1,0 +1,13 @@
+{
+  "id": "partly_sunny_yellow_multicolor_ht",
+  "name": "Partly Sunny Yellow Multicolor HT",
+  "color_hex": [
+    "#FBE200",
+    "#EEEA44"
+  ],
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "gradual_color_change": true
+  }
+}

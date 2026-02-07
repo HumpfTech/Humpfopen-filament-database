@@ -1,0 +1,8 @@
+{
+  "id": "hs_yellow",
+  "name": "HS () Yellow",
+  "color_hex": "#FBE200",
+  "traits": {
+    "industrially_compostable": true
+  }
+}

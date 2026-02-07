@@ -1,0 +1,8 @@
+{
+  "id": "fast_marble",
+  "name": "Fast + Marble",
+  "color_hex": "#ECEFED",
+  "traits": {
+    "imitates_marble": true
+  }
+}

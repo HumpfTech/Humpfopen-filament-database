@@ -1,0 +1,12 @@
+{
+  "id": "dual_color_black_silver",
+  "name": "Dual Color Black & Silver",
+  "color_hex": [
+    "#000000",
+    "#818184"
+  ],
+  "traits": {
+    "coextruded": true,
+    "silk": true
+  }
+}

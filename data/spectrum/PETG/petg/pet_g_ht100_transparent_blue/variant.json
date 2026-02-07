@@ -1,0 +1,9 @@
+{
+  "id": "pet_g_ht100_transparent_blue",
+  "name": "PET-G HT100™ Transparent Blue",
+  "color_hex": "#0066D9",
+  "traits": {
+    "high_temperature": true,
+    "translucent": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "timberfill_cinnamon",
+  "name": "Timberfill® \"Cinnamon\"",
+  "color_hex": "#C38C7B",
+  "traits": {
+    "contains_wood": true,
+    "imitates_wood": true,
+    "industrially_compostable": true
+  }
+}

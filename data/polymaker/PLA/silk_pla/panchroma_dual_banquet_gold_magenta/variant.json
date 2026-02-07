@@ -1,0 +1,13 @@
+{
+  "id": "panchroma_dual_banquet_gold_magenta",
+  "name": "Panchroma™ Dual   Banquet (Gold / Magenta)",
+  "color_hex": [
+    "#FFCB47",
+    "#F2306E"
+  ],
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true,
+    "coextruded": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "primaselect_nylonpower_glass_fibre_black",
+  "name": "PrimaSelect NylonPower Glass Fibre Black",
+  "color_hex": "#000000",
+  "traits": {
+    "contains_glass_fiber": true,
+    "abrasive": true
+  }
+}

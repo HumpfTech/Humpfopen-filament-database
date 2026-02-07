@@ -1,0 +1,9 @@
+{
+  "id": "light_gold",
+  "name": "Light Gold",
+  "color_hex": "#FFCB47",
+  "traits": {
+    "silk": true,
+    "industrially_compostable": true
+  }
+}

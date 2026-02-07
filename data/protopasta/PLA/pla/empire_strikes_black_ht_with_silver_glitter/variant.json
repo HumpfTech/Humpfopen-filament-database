@@ -1,0 +1,10 @@
+{
+  "id": "empire_strikes_black_ht_with_silver_glitter",
+  "name": "Empire Strikes Black HT with Silver Glitter",
+  "color_hex": "#000000",
+  "traits": {
+    "glitter": true,
+    "high_temperature": true,
+    "industrially_compostable": true
+  }
+}
