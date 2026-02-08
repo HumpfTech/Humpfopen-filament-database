@@ -1,9 +1,0 @@
-{
-  "id": "f3_pa_gf",
-  "name": "F3 PA-GF",
-  "color_hex": "#F2EFE9",
-  "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
-  }
-}

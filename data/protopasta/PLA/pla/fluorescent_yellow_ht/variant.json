@@ -3,8 +3,8 @@
   "name": "Fluorescent Yellow HT",
   "color_hex": "#EBFF57",
   "traits": {
-    "neon": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "neon": true
   }
 }

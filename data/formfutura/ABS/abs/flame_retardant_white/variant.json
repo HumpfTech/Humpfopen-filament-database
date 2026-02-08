@@ -1,9 +1,0 @@
-{
-  "id": "flame_retardant_white",
-  "name": "Flame Retardant White",
-  "color_hex": "#FFFFFF",
-  "traits": {
-    "self_extinguishing": true,
-    "filtration_recommended": true
-  }
-}

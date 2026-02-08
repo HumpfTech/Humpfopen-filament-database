@@ -3,7 +3,7 @@
   "name": "OBSIDIAN GF+ OD GREEN",
   "color_hex": "#5D6844",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

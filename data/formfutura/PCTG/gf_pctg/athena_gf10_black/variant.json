@@ -1,8 +1,0 @@
-{
-  "id": "athena_gf10_black",
-  "name": "Athena GF10 Black",
-  "color_hex": "#000000",
-  "traits": {
-    "contains_glass_fiber": true
-  }
-}

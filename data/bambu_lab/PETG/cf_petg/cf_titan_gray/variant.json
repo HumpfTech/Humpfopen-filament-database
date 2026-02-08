@@ -1,9 +1,0 @@
-{
-  "id": "cf_titan_gray",
-  "name": "CF Titan Gray",
-  "color_hex": "#3B3E3F",
-  "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
-  }
-}

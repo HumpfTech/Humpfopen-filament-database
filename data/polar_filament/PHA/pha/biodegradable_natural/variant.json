@@ -1,8 +1,0 @@
-{
-  "id": "biodegradable_natural",
-  "name": "Biodegradable Natural",
-  "color_hex": "#F1E6B2",
-  "traits": {
-    "home_compostable": true
-  }
-}

@@ -3,7 +3,7 @@
   "name": "x Marble White",
   "color_hex": "#EDF0F2",
   "traits": {
-    "imitates_marble": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "imitates_marble": true
   }
 }

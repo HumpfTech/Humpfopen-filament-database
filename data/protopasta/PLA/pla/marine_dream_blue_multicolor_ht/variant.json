@@ -7,9 +7,9 @@
     "#0378D0"
   ],
   "traits": {
-    "high_temperature": true,
+    "translucent": true,
     "industrially_compostable": true,
-    "gradual_color_change": true,
-    "translucent": true
+    "high_temperature": true,
+    "gradual_color_change": true
   }
 }

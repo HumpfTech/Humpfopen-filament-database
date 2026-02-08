@@ -1,8 +1,0 @@
-{
-  "id": "fil_bleu_nacr_alumine",
-  "name": "Fil  Bleu Nacré Alumine",
-  "color_hex": "#2941BD",
-  "traits": {
-    "contains_aluminium": true
-  }
-}

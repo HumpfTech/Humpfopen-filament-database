@@ -1,8 +1,0 @@
-{
-  "id": "economy_sulfur_yellow",
-  "name": "Economy  sulfur-yellow",
-  "color_hex": "#FFFB00",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

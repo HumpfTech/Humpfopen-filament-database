@@ -1,9 +1,0 @@
-{
-  "id": "recycled_yellow",
-  "name": "RECYCLED Yellow",
-  "color_hex": "#FBE200",
-  "traits": {
-    "recycled": true,
-    "industrially_compostable": true
-  }
-}

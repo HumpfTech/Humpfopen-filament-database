@@ -7,8 +7,8 @@
     "#F2306E"
   ],
   "traits": {
-    "temperature_color_change": true,
     "industrially_compostable": true,
+    "temperature_color_change": true,
     "gradual_color_change": true
   }
 }

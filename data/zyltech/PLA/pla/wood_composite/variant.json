@@ -1,10 +1,10 @@
 {
   "id": "wood_composite",
-  "name": "Wood+  Composite",
+  "name": "Wood+ Composite",
   "color_hex": "#CAAC78",
   "traits": {
+    "industrially_compostable": true,
     "contains_wood": true,
-    "imitates_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

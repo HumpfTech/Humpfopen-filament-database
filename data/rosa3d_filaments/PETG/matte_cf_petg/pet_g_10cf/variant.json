@@ -3,7 +3,7 @@
   "name": "PET-G + 10CF",
   "color_hex": "#292B2B",
   "traits": {
-    "contains_carbon_fiber": true,
-    "matte": true
+    "matte": true,
+    "contains_carbon_fiber": true
   }
 }

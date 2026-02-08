@@ -1,8 +1,0 @@
-{
-  "id": "mineral_white",
-  "name": "Mineral White",
-  "color_hex": "#E6DDDB",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

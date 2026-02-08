@@ -1,9 +1,0 @@
-{
-  "id": "recycled_cold_white",
-  "name": "RECYCLED Cold White",
-  "color_hex": "#EAECF5",
-  "traits": {
-    "recycled": true,
-    "industrially_compostable": true
-  }
-}

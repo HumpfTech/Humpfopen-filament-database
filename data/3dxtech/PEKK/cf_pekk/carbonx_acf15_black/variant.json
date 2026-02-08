@@ -3,8 +3,8 @@
   "name": "CARBONX -A+CF15 Black",
   "color_hex": "#000000",
   "traits": {
-    "contains_carbon_fiber": true,
     "abrasive": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "contains_carbon_fiber": true
   }
 }

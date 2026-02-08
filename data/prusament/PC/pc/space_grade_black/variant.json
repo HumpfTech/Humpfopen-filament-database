@@ -3,8 +3,8 @@
   "name": "Space Grade Black",
   "color_hex": "#000000",
   "traits": {
-    "low_outgassing": true,
+    "abrasive": true,
     "esd_safe": true,
-    "abrasive": true
+    "low_outgassing": true
   }
 }

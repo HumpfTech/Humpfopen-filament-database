@@ -1,10 +1,10 @@
 {
   "id": "centaur_natural",
-  "name": "Centaur  Natural",
+  "name": "Centaur Natural",
   "color_hex": "#D9D8DE",
   "traits": {
-    "contains_carbon_fiber": true,
     "abrasive": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "contains_carbon_fiber": true
   }
 }

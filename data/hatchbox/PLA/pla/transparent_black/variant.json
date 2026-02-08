@@ -1,9 +1,0 @@
-{
-  "id": "transparent_black",
-  "name": "Transparent Black",
-  "color_hex": "#373737",
-  "traits": {
-    "translucent": true,
-    "industrially_compostable": true
-  }
-}

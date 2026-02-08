@@ -3,9 +3,9 @@
   "name": "ctive Apple Green",
   "color_hex": "#739549",
   "traits": {
-    "contains_copper": true,
+    "industrially_compostable": true,
     "antibacterial": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "contains_copper": true
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "new_rainbow_2024_rainbow_series",
-  "name": "New Rainbow 2024 Rainbow  Series",
+  "name": "New Rainbow 2024 Rainbow Series",
   "color_hex": [
     "#AE96D4",
     "#39B9DB",
@@ -8,8 +8,8 @@
     "#EEEA44"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "gradual_color_change": true
   }
 }

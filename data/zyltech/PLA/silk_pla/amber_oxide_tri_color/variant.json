@@ -7,8 +7,8 @@
     "#FEC8A4"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "coextruded": true
   }
 }

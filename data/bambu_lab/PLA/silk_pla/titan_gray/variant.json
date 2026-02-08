@@ -3,7 +3,7 @@
   "name": "Titan Gray",
   "color_hex": "#63646B",
   "traits": {
-    "silk": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "silk": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "FIBREX™ Nylon +GF30 Flat Dark Earth",
   "color_hex": "#B38F6E",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

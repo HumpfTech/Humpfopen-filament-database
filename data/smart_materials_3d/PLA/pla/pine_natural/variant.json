@@ -3,7 +3,7 @@
   "name": "PINE Natural",
   "color_hex": "#7C594A",
   "traits": {
-    "contains_pine": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_pine": true
   }
 }

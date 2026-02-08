@@ -3,8 +3,8 @@
   "name": "Wood Cherry",
   "color_hex": "#8E5850",
   "traits": {
-    "contains_wood": true,
     "matte": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_wood": true
   }
 }

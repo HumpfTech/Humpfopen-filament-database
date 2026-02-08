@@ -1,9 +1,0 @@
-{
-  "id": "basic_quartz_white",
-  "name": "Basic Quartz White",
-  "color_hex": "#FFFFFF",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

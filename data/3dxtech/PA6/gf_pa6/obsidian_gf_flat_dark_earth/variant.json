@@ -3,7 +3,7 @@
   "name": "OBSIDIAN GF+ Flat Dark Earth",
   "color_hex": "#90785E",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

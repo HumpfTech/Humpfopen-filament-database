@@ -1,8 +1,0 @@
-{
-  "id": "eco_wood_dark_brown",
-  "name": "eco Wood Dark Brown",
-  "color_hex": "#CCA482",
-  "traits": {
-    "contains_wood": true
-  }
-}

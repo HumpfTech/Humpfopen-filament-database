@@ -1,8 +1,0 @@
-{
-  "id": "performance_red",
-  "name": "Performance  Red",
-  "color_hex": "#FF0000",
-  "traits": {
-    "high_temperature": true
-  }
-}

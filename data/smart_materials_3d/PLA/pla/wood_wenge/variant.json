@@ -1,9 +1,0 @@
-{
-  "id": "wood_wenge",
-  "name": "WOOD Wenge",
-  "color_hex": "#332120",
-  "traits": {
-    "contains_wood": true,
-    "industrially_compostable": true
-  }
-}

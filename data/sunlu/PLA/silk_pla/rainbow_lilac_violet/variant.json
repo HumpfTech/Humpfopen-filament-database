@@ -1,6 +1,6 @@
 {
   "id": "rainbow_lilac_violet",
-  "name": "Rainbow  (Lilac-Violet)",
+  "name": "Rainbow (Lilac-Violet)",
   "color_hex": [
     "#FFC8C9",
     "#F297DA",
@@ -8,8 +8,8 @@
     "#A67DFF"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "gradual_color_change": true
   }
 }

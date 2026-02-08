@@ -3,10 +3,10 @@
   "name": "Bronze-filled Metal Composite HT",
   "color_hex": "#8C7354",
   "traits": {
-    "contains_bronze": true,
-    "high_temperature": true,
-    "imitates_metal": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "high_temperature": true,
+    "contains_bronze": true,
+    "imitates_metal": true
   }
 }

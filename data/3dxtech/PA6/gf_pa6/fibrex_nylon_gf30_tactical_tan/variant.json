@@ -3,7 +3,7 @@
   "name": "FIBREX™ Nylon +GF30 Tactical Tan",
   "color_hex": "#E6D1BD",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

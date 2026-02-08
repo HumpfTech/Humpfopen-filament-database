@@ -1,0 +1,11 @@
+{
+  "id": "neon_red",
+  "name": "Neon Red",
+  "color_hex": "#E72F1D",
+  "traits": {
+    "neon": true
+  },
+  "color_standards": {
+    "ral": "3024"
+  }
+}

@@ -3,8 +3,8 @@
   "name": "Bobbi's Purple Iris HT",
   "color_hex": "#7142A3",
   "traits": {
-    "high_temperature": true,
+    "translucent": true,
     "industrially_compostable": true,
-    "translucent": true
+    "high_temperature": true
   }
 }

@@ -1,9 +1,0 @@
-{
-  "id": "luminous_glow_in_the_dark_yellow_to_glow_yellow",
-  "name": "Luminous  Glow in the Dark Yellow to Glow Yellow",
-  "color_hex": "#E4FF33",
-  "traits": {
-    "glow": true,
-    "abrasive": true
-  }
-}

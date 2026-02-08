@@ -3,7 +3,7 @@
   "name": "Desert Tan NylonG Glass Fiber",
   "color_hex": "#E2C077",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

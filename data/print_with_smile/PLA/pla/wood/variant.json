@@ -3,7 +3,7 @@
   "name": "Wood",
   "color_hex": "#D2A273",
   "traits": {
-    "contains_wood": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_wood": true
   }
 }

@@ -1,9 +1,0 @@
-{
-  "id": "extrafill_turkey_egg",
-  "name": "Extrafill \"Turkey Egg\"",
-  "color_hex": "#C3CCD5",
-  "traits": {
-    "imitates_marble": true,
-    "industrially_compostable": true
-  }
-}

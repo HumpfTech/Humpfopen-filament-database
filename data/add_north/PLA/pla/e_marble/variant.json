@@ -1,9 +1,0 @@
-{
-  "id": "e_marble",
-  "name": "E- Marble",
-  "color_hex": "#C5C5BF",
-  "traits": {
-    "imitates_marble": true,
-    "industrially_compostable": true
-  }
-}

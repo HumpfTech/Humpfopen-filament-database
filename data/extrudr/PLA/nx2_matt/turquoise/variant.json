@@ -1,0 +1,12 @@
+{
+  "id": "turquoise",
+  "name": "Turquoise",
+  "color_hex": "#6AC4CD",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  },
+  "color_standards": {
+    "ral": "5018"
+  }
+}

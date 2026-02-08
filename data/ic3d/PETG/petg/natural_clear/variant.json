@@ -3,7 +3,7 @@
   "name": "Natural (Clear)",
   "color_hex": "#D9D8DE",
   "traits": {
-    "without_pigments": true,
-    "transparent": true
+    "transparent": true,
+    "without_pigments": true
   }
 }

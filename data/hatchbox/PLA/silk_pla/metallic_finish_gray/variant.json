@@ -3,8 +3,8 @@
   "name": "Metallic Finish Gray",
   "color_hex": "#ACB1BA",
   "traits": {
-    "imitates_metal": true,
+    "industrially_compostable": true,
     "silk": true,
-    "industrially_compostable": true
+    "imitates_metal": true
   }
 }

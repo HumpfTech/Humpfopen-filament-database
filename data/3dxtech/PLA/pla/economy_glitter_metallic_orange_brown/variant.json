@@ -1,9 +1,0 @@
-{
-  "id": "economy_glitter_metallic_orange_brown",
-  "name": "Economy Glitter  metallic-orange-brown",
-  "color_hex": "#BE6730",
-  "traits": {
-    "glitter": true,
-    "industrially_compostable": true
-  }
-}

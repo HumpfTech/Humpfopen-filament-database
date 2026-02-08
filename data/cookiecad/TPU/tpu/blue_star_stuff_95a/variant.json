@@ -1,9 +1,9 @@
 {
   "id": "blue_star_stuff_95a",
-  "name": "Blue Star Stuff  95A",
+  "name": "Blue Star Stuff 95A",
   "color_hex": "#178B9F",
   "traits": {
-    "glitter": true,
-    "translucent": true
+    "translucent": true,
+    "glitter": true
   }
 }

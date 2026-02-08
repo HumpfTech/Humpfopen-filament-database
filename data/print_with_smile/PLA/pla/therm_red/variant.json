@@ -1,12 +1,12 @@
 {
   "id": "therm_red",
-  "name": "THERM  RED",
+  "name": "THERM RED",
   "color_hex": [
     "#FF7D7A",
     "#DFDFD3"
   ],
   "traits": {
-    "temperature_color_change": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "temperature_color_change": true
   }
 }

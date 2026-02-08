@@ -1,9 +1,0 @@
-{
-  "id": "recycled_orange",
-  "name": "RECYCLED Orange",
-  "color_hex": "#F67405",
-  "traits": {
-    "recycled": true,
-    "industrially_compostable": true
-  }
-}

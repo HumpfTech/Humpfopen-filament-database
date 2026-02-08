@@ -1,8 +1,0 @@
-{
-  "id": "upgrade_orange",
-  "name": "Upgrade + Orange",
-  "color_hex": "#FF8400",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

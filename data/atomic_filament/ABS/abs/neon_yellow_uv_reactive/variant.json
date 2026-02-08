@@ -3,7 +3,7 @@
   "name": "Neon Yellow UV Reactive",
   "color_hex": "#FFFB00",
   "traits": {
-    "neon": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "neon": true
   }
 }

@@ -1,8 +1,0 @@
-{
-  "id": "basic_green",
-  "name": "Basic Green",
-  "color_hex": "#00CC00",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

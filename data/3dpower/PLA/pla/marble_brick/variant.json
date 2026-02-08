@@ -1,8 +1,0 @@
-{
-  "id": "marble_brick",
-  "name": "Marble Brick",
-  "color_hex": "#CD563B",
-  "traits": {
-    "imitates_stone": true
-  }
-}

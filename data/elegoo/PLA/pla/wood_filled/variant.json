@@ -3,7 +3,7 @@
   "name": "Wood filled",
   "color_hex": "#9d8058",
   "traits": {
-    "contains_wood": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "contains_wood": true
   }
 }

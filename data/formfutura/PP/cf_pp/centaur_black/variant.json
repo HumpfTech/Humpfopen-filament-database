@@ -1,9 +1,9 @@
 {
   "id": "centaur_black",
-  "name": "Centaur  Black",
+  "name": "Centaur Black",
   "color_hex": "#000000",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

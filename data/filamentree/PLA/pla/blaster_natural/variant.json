@@ -1,9 +1,0 @@
-{
-  "id": "blaster_natural",
-  "name": "Blaster Natural",
-  "color_hex": "#EFEFEF",
-  "traits": {
-    "without_pigments": true,
-    "transparent": true
-  }
-}

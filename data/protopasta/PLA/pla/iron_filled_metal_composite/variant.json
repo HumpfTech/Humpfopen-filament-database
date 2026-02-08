@@ -3,9 +3,9 @@
   "name": "Iron-filled Metal Composite",
   "color_hex": "#000000",
   "traits": {
-    "paramagnetic": true,
-    "contains_iron": true,
+    "industrially_compostable": true,
     "abrasive": true,
-    "industrially_compostable": true
+    "paramagnetic": true,
+    "contains_iron": true
   }
 }

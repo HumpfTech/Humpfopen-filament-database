@@ -3,8 +3,8 @@
   "name": "corkFill",
   "color_hex": "#774B3F",
   "traits": {
-    "contains_cork": true,
+    "home_compostable": true,
     "foaming": true,
-    "home_compostable": true
+    "contains_cork": true
   }
 }

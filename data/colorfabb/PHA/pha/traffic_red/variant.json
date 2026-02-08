@@ -1,6 +1,6 @@
 {
   "id": "traffic_red",
-  "name": "PLA/ Traffic Red",
+  "name": "Traffic Red",
   "color_hex": "#B81B0E",
   "traits": {
     "home_compostable": true

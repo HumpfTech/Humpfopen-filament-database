@@ -1,9 +1,0 @@
-{
-  "id": "premium_fluo_green",
-  "name": "Premium Fluo Green",
-  "color_hex": "#B4E657",
-  "traits": {
-    "industrially_compostable": true,
-    "neon": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "primaselect_nylonpower_carbon_fibre_natural",
-  "name": "PrimaSelect NylonPower Carbon Fibre Natural",
-  "color_hex": "#000000",
-  "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
-  }
-}

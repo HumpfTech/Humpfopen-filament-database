@@ -3,7 +3,7 @@
   "name": "OBSIDIAN GF+ Yellow",
   "color_hex": "#FFFB00",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

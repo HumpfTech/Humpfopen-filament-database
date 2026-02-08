@@ -3,7 +3,7 @@
   "name": "woodFill",
   "color_hex": "#F0DDC2",
   "traits": {
-    "contains_wood": true,
-    "home_compostable": true
+    "home_compostable": true,
+    "contains_wood": true
   }
 }

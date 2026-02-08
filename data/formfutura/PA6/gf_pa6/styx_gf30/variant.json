@@ -1,9 +1,0 @@
-{
-  "id": "styx_gf30",
-  "name": "STYX -GF30",
-  "color_hex": "#000000",
-  "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
-  }
-}

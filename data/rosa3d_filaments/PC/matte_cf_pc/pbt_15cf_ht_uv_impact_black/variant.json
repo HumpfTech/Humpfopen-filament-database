@@ -3,7 +3,7 @@
   "name": "/PBT + 15CF (HT-UV-IMPACT) Black",
   "color_hex": "#292824",
   "traits": {
-    "contains_carbon_fiber": true,
-    "matte": true
+    "matte": true,
+    "contains_carbon_fiber": true
   }
 }

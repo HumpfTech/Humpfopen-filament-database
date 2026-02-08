@@ -1,8 +1,0 @@
-{
-  "id": "upgrade_blue",
-  "name": "Upgrade  Blue",
-  "color_hex": "#2E56F1",
-  "traits": {
-    "filtration_recommended": true
-  }
-}

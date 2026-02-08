@@ -3,9 +3,9 @@
   "name": "Joel's Highfive Blue HT Metallic Blue",
   "color_hex": "#2E56F1",
   "traits": {
+    "industrially_compostable": true,
     "high_temperature": true,
     "silk": true,
-    "glitter": true,
-    "industrially_compostable": true
+    "glitter": true
   }
 }

@@ -7,7 +7,7 @@
   ],
   "traits": {
     "industrially_compostable": true,
-    "coextruded": true,
-    "iridescent": true
+    "iridescent": true,
+    "coextruded": true
   }
 }

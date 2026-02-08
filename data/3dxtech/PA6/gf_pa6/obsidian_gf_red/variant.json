@@ -3,7 +3,7 @@
   "name": "OBSIDIAN GF+ Red",
   "color_hex": "#B7293E",
   "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_glass_fiber": true
   }
 }

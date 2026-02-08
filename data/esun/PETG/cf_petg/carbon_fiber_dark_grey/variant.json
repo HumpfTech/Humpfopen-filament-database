@@ -1,9 +1,0 @@
-{
-  "id": "carbon_fiber_dark_grey",
-  "name": "Carbon Fiber  Dark Grey",
-  "color_hex": "#6A6C6E",
-  "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
-  }
-}

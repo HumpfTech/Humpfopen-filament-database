@@ -1,9 +1,0 @@
-{
-  "id": "primaselect_marble_lunar_surface",
-  "name": "PrimaSelect  Marble Lunar Surface",
-  "color_hex": "#CCD6E2",
-  "traits": {
-    "imitates_marble": true,
-    "industrially_compostable": true
-  }
-}

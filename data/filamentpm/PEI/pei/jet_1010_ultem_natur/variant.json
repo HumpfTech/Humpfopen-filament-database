@@ -3,8 +3,8 @@
   "name": "Jet 1010 Ultem - Natur",
   "color_hex": "#DC9C43",
   "traits": {
+    "translucent": true,
     "low_outgassing": true,
-    "without_pigments": true,
-    "translucent": true
+    "without_pigments": true
   }
 }

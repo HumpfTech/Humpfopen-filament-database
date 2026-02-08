@@ -1,9 +1,0 @@
-{
-  "id": "luminous_glow_in_the_dark_red_to_glow_red",
-  "name": "Luminous  Glow in the Dark Red to Glow Red",
-  "color_hex": "#F00C00",
-  "traits": {
-    "glow": true,
-    "abrasive": true
-  }
-}
