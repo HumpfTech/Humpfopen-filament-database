@@ -1,0 +1,12 @@
+{
+  "id": "color_change_green_to_yellow",
+  "name": "Color Change Green to Yellow",
+  "color_hex": [
+    "#FBE200",
+    "#91C500"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "temperature_color_change": true
+  }
+}

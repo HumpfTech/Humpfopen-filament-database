@@ -1,0 +1,10 @@
+{
+  "id": "translucent_fluorescent_neon_green",
+  "name": "Translucent Fluorescent Neon Green",
+  "color_hex": "#7FE200",
+  "traits": {
+    "translucent": true,
+    "neon": true,
+    "uv_reactive": true
+  }
+}

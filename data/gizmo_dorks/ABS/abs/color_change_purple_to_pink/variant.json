@@ -1,0 +1,12 @@
+{
+  "id": "color_change_purple_to_pink",
+  "name": "Color Change Purple to Pink",
+  "color_hex": [
+    "#C80181",
+    "#6C47B2"
+  ],
+  "traits": {
+    "filtration_recommended": true,
+    "temperature_color_change": true
+  }
+}
