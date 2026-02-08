@@ -1,9 +1,9 @@
 {
   "id": "the_filament_cf_green",
-  "name": "The Filament  CF Green",
+  "name": "The Filament CF Green",
   "color_hex": "#11784F",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

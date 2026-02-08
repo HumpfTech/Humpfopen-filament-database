@@ -1,8 +1,0 @@
-{
-  "id": "economy_purple",
-  "name": "Economy  purple",
-  "color_hex": "#A67DFF",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

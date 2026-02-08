@@ -1,0 +1,11 @@
+{
+  "id": "grey",
+  "name": "Grey",
+  "color_hex": "#C5C5BF",
+  "traits": {
+    "matte": true
+  },
+  "color_standards": {
+    "ral": "7044"
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "id": "huracan_traffic_black",
-  "name": "Huracan  Traffic Black",
-  "color_hex": "#000000",
-  "traits": {
-    "silk": true,
-    "industrially_compostable": true
-  }
-}

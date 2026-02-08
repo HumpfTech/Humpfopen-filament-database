@@ -1,10 +1,10 @@
 {
   "id": "0rca_nylon_cf10",
-  "name": "0rCA® | Nylon  + CF10",
+  "name": "0rCA® | Nylon + CF10",
   "color_hex": "#000000",
   "traits": {
-    "contains_carbon_fiber": true,
     "recycled": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

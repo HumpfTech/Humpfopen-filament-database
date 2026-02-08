@@ -1,9 +1,0 @@
-{
-  "id": "fluorescent_purple",
-  "name": "Fluorescent  Purple",
-  "color_hex": "#6C47B2",
-  "traits": {
-    "neon": true,
-    "industrially_compostable": true
-  }
-}

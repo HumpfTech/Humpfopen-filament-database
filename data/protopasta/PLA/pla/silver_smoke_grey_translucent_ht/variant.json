@@ -3,8 +3,8 @@
   "name": "Silver Smoke Grey Translucent HT",
   "color_hex": "#C5C5BF",
   "traits": {
-    "high_temperature": true,
+    "translucent": true,
     "industrially_compostable": true,
-    "translucent": true
+    "high_temperature": true
   }
 }

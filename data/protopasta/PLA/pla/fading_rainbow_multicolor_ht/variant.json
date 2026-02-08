@@ -8,9 +8,9 @@
     "#8ED9F9"
   ],
   "traits": {
-    "high_temperature": true,
-    "industrially_compostable": true,
     "translucent": true,
+    "industrially_compostable": true,
+    "high_temperature": true,
     "gradual_color_change": true
   }
 }

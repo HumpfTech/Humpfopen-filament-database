@@ -1,8 +1,0 @@
-{
-  "id": "economy_orange",
-  "name": "Economy  orange",
-  "color_hex": "#FF8133",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

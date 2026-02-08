@@ -1,8 +1,0 @@
-{
-  "id": "pet_g_v0_black",
-  "name": "PET-G V0 Black",
-  "color_hex": "#000000",
-  "traits": {
-    "self_extinguishing": true
-  }
-}

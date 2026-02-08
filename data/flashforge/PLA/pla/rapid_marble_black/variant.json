@@ -1,9 +1,0 @@
-{
-  "id": "rapid_marble_black",
-  "name": "Rapid  Marble Black",
-  "color_hex": "#D6D7D8",
-  "traits": {
-    "imitates_marble": true,
-    "industrially_compostable": true
-  }
-}

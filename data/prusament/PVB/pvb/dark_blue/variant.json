@@ -3,7 +3,7 @@
   "name": "Dark Blue",
   "color_hex": "#2941BD",
   "traits": {
-    "transparent": true,
-    "ipa_soluble": true
+    "ipa_soluble": true,
+    "transparent": true
   }
 }

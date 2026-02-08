@@ -6,8 +6,8 @@
     "#FF5F2E"
   ],
   "traits": {
-    "temperature_color_change": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "temperature_color_change": true
   }
 }

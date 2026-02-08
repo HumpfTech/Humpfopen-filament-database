@@ -1,8 +1,0 @@
-{
-  "id": "glass_fiber_reinforced_frosted_white",
-  "name": "Glass Fiber Reinforced  Frosted White",
-  "color_hex": "#EFEFEF",
-  "traits": {
-    "contains_glass_fiber": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "5kevlar_natural",
-  "name": "5Kevlar Natural",
-  "color_hex": "#F9F3E5",
-  "traits": {
-    "without_pigments": true,
-    "contains_kevlar": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "economy_glitter_lemon_gold",
-  "name": "Economy Glitter  lemon-gold",
-  "color_hex": "#90903B",
-  "traits": {
-    "glitter": true,
-    "industrially_compostable": true
-  }
-}

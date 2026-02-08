@@ -1,6 +1,6 @@
 {
   "id": "virgin_esd",
-  "name": "Virgin  ESD",
+  "name": "Virgin ESD",
   "color_hex": "#F2EFE9",
   "traits": {
     "esd_safe": true

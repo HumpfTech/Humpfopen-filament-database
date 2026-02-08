@@ -1,8 +1,0 @@
-{
-  "id": "hs_voxel_grey",
-  "name": "HS () Voxel Grey",
-  "color_hex": "#C3CCD5",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

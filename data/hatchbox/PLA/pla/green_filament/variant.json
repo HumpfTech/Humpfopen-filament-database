@@ -1,6 +1,6 @@
 {
   "id": "green_filament",
-  "name": "Green  Filament",
+  "name": "Green Filament",
   "color_hex": "#089A45",
   "traits": {
     "industrially_compostable": true

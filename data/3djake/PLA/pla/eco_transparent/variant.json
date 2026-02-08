@@ -1,8 +1,0 @@
-{
-  "id": "eco_transparent",
-  "name": "eco Transparent",
-  "color_hex": "#F2ECE9",
-  "traits": {
-    "transparent": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "eco_neon_orange",
-  "name": "eco Neon Orange",
-  "color_hex": "#FF520E",
-  "traits": {
-    "translucent": true,
-    "neon": true
-  }
-}

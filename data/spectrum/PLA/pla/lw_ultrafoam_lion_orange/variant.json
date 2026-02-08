@@ -1,9 +1,0 @@
-{
-  "id": "lw_ultrafoam_lion_orange",
-  "name": "LW- UltraFoam Lion Orange",
-  "color_hex": "#FA8423",
-  "traits": {
-    "foaming": true,
-    "industrially_compostable": true
-  }
-}

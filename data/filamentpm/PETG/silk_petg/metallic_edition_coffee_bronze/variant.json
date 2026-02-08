@@ -3,7 +3,7 @@
   "name": "metallic edition - Coffee Bronze",
   "color_hex": "#675F4F",
   "traits": {
-    "imitates_metal": true,
-    "silk": true
+    "silk": true,
+    "imitates_metal": true
   }
 }

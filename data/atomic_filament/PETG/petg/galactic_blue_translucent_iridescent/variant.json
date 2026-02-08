@@ -3,7 +3,7 @@
   "name": "Galactic Blue Translucent Iridescent",
   "color_hex": "#565670",
   "traits": {
-    "iridescent": true,
-    "translucent": true
+    "translucent": true,
+    "iridescent": true
   }
 }

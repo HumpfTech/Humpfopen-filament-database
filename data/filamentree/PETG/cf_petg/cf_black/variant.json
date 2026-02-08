@@ -1,8 +1,0 @@
-{
-  "id": "cf_black",
-  "name": "CF Black",
-  "color_hex": "#000000",
-  "traits": {
-    "contains_carbon_fiber": true
-  }
-}

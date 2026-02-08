@@ -8,7 +8,7 @@
   ],
   "traits": {
     "industrially_compostable": true,
-    "gradual_color_change": true,
-    "iridescent": true
+    "iridescent": true,
+    "gradual_color_change": true
   }
 }

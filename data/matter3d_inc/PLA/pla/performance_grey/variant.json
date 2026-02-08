@@ -1,8 +1,0 @@
-{
-  "id": "performance_grey",
-  "name": "Performance  Grey",
-  "color_hex": "#808080",
-  "traits": {
-    "high_temperature": true
-  }
-}

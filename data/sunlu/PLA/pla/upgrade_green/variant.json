@@ -1,8 +1,0 @@
-{
-  "id": "upgrade_green",
-  "name": "Upgrade + Green",
-  "color_hex": "#00CC00",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

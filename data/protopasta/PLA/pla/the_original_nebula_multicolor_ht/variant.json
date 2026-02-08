@@ -8,9 +8,9 @@
     "#C80181"
   ],
   "traits": {
-    "glitter": true,
-    "high_temperature": true,
     "industrially_compostable": true,
+    "high_temperature": true,
+    "glitter": true,
     "gradual_color_change": true
   }
 }

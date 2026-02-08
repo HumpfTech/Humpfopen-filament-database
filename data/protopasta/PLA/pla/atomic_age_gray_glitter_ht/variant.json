@@ -3,8 +3,8 @@
   "name": "Atomic Age Gray Glitter HT",
   "color_hex": "#C5C5BF",
   "traits": {
-    "glitter": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "glitter": true
   }
 }

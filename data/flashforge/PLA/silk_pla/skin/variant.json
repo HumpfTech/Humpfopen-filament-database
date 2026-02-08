@@ -3,7 +3,7 @@
   "name": "Skin",
   "color_hex": "#FEC8A4",
   "traits": {
-    "silk": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "silk": true
   }
 }

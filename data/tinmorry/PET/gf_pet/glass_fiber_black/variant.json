@@ -1,8 +1,0 @@
-{
-  "id": "glass_fiber_black",
-  "name": "Glass Fiber  Black",
-  "color_hex": "#3E413F",
-  "traits": {
-    "contains_glass_fiber": true
-  }
-}

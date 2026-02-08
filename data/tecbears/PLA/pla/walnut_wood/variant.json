@@ -3,8 +3,8 @@
   "name": "Walnut Wood",
   "color_hex": "#503529",
   "traits": {
+    "industrially_compostable": true,
     "contains_wood": true,
-    "imitates_wood": true,
-    "industrially_compostable": true
+    "imitates_wood": true
   }
 }

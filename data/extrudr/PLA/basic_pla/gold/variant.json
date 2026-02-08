@@ -1,0 +1,11 @@
+{
+  "id": "gold",
+  "name": "Gold",
+  "color_hex": "#E3B145",
+  "traits": {
+    "industrially_compostable": true
+  },
+  "color_standards": {
+    "ral": "1036"
+  }
+}

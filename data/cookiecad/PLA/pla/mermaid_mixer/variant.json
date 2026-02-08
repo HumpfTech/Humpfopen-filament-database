@@ -6,7 +6,7 @@
     "#97D7D0"
   ],
   "traits": {
-    "coextruded": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "coextruded": true
   }
 }

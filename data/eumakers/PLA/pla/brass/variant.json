@@ -3,7 +3,7 @@
   "name": "Brass",
   "color_hex": "#998D58",
   "traits": {
-    "imitates_metal": true,
-    "glitter": true
+    "glitter": true,
+    "imitates_metal": true
   }
 }

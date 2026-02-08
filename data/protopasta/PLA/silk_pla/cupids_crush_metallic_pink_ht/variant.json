@@ -3,9 +3,9 @@
   "name": "Cupid's Crush Metallic Pink HT",
   "color_hex": "#FF72B6",
   "traits": {
+    "industrially_compostable": true,
     "high_temperature": true,
-    "glitter": true,
     "silk": true,
-    "industrially_compostable": true
+    "glitter": true
   }
 }

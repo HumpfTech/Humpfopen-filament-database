@@ -1,9 +1,0 @@
-{
-  "id": "basic_terracotta",
-  "name": "Basic Terracotta",
-  "color_hex": "#B47D6C",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

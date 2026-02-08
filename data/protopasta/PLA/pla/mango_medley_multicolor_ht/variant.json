@@ -6,8 +6,8 @@
     "#FA8423"
   ],
   "traits": {
-    "high_temperature": true,
     "industrially_compostable": true,
+    "high_temperature": true,
     "gradual_color_change": true
   }
 }

@@ -1,9 +1,0 @@
-{
-  "id": "carbon_fiber_pbt_black",
-  "name": "Carbon Fiber +PBT Black",
-  "color_hex": "#000000",
-  "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
-  }
-}

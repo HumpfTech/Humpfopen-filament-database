@@ -1,6 +1,6 @@
 {
   "id": "ppe",
   "name": "PPE",
-  "density": 1.11,
-  "diameter_tolerance": 0.02
+  "diameter_tolerance": 0.02,
+  "density": 1.11
 }

@@ -1,9 +1,9 @@
 {
   "id": "thermax_a_natural",
-  "name": "THERMAX  A Natural",
+  "name": "THERMAX A Natural",
   "color_hex": "#EADAC2",
   "traits": {
-    "without_pigments": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "without_pigments": true
   }
 }

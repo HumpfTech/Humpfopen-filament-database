@@ -3,8 +3,8 @@
   "name": "White Marble HT",
   "color_hex": "#EDF0F2",
   "traits": {
-    "imitates_marble": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "imitates_marble": true
   }
 }

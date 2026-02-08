@@ -3,8 +3,8 @@
   "name": "Juliette's Raspberry Jam HT",
   "color_hex": "#DA445A",
   "traits": {
-    "high_temperature": true,
+    "translucent": true,
     "industrially_compostable": true,
-    "translucent": true
+    "high_temperature": true
   }
 }

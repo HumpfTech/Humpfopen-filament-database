@@ -3,9 +3,9 @@
   "name": "Blend HT LCF Black",
   "color_hex": "#000000",
   "traits": {
-    "contains_carbon_fiber": true,
     "abrasive": true,
+    "high_temperature": true,
     "blend": true,
-    "high_temperature": true
+    "contains_carbon_fiber": true
   }
 }

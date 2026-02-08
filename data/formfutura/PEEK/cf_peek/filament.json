@@ -1,8 +1,8 @@
 {
   "id": "cf_peek",
-  "name": "PEEK",
-  "density": 1.3,
+  "name": "CF PEEK",
   "diameter_tolerance": 0.02,
+  "density": 1.3,
   "min_print_temperature": 360,
   "max_print_temperature": 420,
   "min_bed_temperature": 120,

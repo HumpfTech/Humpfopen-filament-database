@@ -1,13 +1,13 @@
 {
   "id": "magic_blue_green",
-  "name": "Magic  Blue-Green",
+  "name": "Magic Blue-Green",
   "color_hex": [
     "#0066D9",
     "#1DAF5E"
   ],
   "traits": {
-    "coextruded": true,
     "silk": true,
-    "iridescent": true
+    "iridescent": true,
+    "coextruded": true
   }
 }

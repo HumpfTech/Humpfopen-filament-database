@@ -1,9 +1,0 @@
-{
-  "id": "cf_dark_blue",
-  "name": "CF Dark Blue",
-  "color_hex": "#375680",
-  "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
-  }
-}

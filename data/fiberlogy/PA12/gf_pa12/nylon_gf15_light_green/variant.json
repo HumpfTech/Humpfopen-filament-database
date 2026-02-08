@@ -1,9 +1,0 @@
-{
-  "id": "nylon_gf15_light_green",
-  "name": "Nylon +GF15 Light Green",
-  "color_hex": "#B3DF3A",
-  "traits": {
-    "contains_glass_fiber": true,
-    "abrasive": true
-  }
-}

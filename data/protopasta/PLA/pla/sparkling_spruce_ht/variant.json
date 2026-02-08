@@ -3,8 +3,8 @@
   "name": "Sparkling Spruce HT",
   "color_hex": "#0B6A2F",
   "traits": {
-    "glitter": true,
+    "industrially_compostable": true,
     "high_temperature": true,
-    "industrially_compostable": true
+    "glitter": true
   }
 }

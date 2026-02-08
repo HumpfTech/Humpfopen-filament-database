@@ -1,9 +1,0 @@
-{
-  "id": "yellow",
-  "name": "Yellow",
-  "color_hex": "#FBE200",
-  "traits": {
-    "silk": true,
-    "industrially_compostable": true
-  }
-}

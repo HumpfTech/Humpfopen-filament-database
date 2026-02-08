@@ -6,7 +6,7 @@
     "#99A45F"
   ],
   "traits": {
-    "gradual_color_change": true,
-    "silk": true
+    "silk": true,
+    "gradual_color_change": true
   }
 }

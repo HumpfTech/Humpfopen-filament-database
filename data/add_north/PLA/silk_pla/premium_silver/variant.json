@@ -1,9 +1,9 @@
 {
   "id": "premium_silver",
-  "name": "Premium  Silver",
+  "name": "Premium Silver",
   "color_hex": "#A8B0BD",
   "traits": {
-    "silk": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "silk": true
   }
 }

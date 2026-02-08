@@ -3,8 +3,8 @@
   "name": "Wood Rosewood",
   "color_hex": "#68453B",
   "traits": {
-    "imitates_wood": true,
     "matte": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "imitates_wood": true
   }
 }

@@ -3,8 +3,8 @@
   "name": "Natural",
   "color_hex": "#FFFFFF",
   "traits": {
-    "without_pigments": true,
+    "ipa_soluble": true,
     "transparent": true,
-    "ipa_soluble": true
+    "without_pigments": true
   }
 }

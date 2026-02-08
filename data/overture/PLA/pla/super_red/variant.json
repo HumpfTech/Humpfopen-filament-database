@@ -1,8 +1,0 @@
-{
-  "id": "super_red",
-  "name": "Super + Red",
-  "color_hex": "#E60000",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

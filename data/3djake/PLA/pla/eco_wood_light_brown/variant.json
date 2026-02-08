@@ -1,8 +1,0 @@
-{
-  "id": "eco_wood_light_brown",
-  "name": "eco Wood Light Brown",
-  "color_hex": "#D8C094",
-  "traits": {
-    "contains_wood": true
-  }
-}

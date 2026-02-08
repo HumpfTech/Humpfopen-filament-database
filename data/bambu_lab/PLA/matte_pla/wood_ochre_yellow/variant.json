@@ -3,8 +3,8 @@
   "name": "Wood Ochre Yellow",
   "color_hex": "#EA9E3F",
   "traits": {
-    "imitates_wood": true,
     "matte": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "imitates_wood": true
   }
 }

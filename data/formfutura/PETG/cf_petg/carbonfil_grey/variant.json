@@ -1,9 +1,0 @@
-{
-  "id": "carbonfil_grey",
-  "name": "CarbonFil Grey",
-  "color_hex": "#727376",
-  "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
-  }
-}

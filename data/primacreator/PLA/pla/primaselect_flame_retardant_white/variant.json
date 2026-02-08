@@ -1,9 +1,0 @@
-{
-  "id": "primaselect_flame_retardant_white",
-  "name": "PrimaSelect  Flame Retardant White",
-  "color_hex": "#FFFFFF",
-  "traits": {
-    "self_extinguishing": true,
-    "industrially_compostable": true
-  }
-}

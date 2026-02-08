@@ -3,7 +3,7 @@
   "name": "Metallic Purple",
   "color_hex": "#8846AE",
   "traits": {
-    "silk": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "silk": true
   }
 }

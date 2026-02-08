@@ -21,6 +21,15 @@ import requests
 import yaml
 
 from ofd.base import BaseScript, ScriptResult, register_script
+from ofd.scripts.opt_naming_rules import (
+    KNOWN_COLORS, MATERIAL_KEYWORDS, PREFIX_RULES,
+    PRODUCT_LINE_PREFIXES, PRODUCT_LINE_SKU_PATTERNS,
+    PRODUCT_LINE_SUFFIXES, SUFFIX_STRIP_RULES, TECH_SPEC_PATTERNS,
+    MAX_VARIANT_LENGTH, MOVE_RULES, GENERIC_RENAME_RULES,
+    slugify, clean_display_name, is_color_like, has_material_keyword,
+    id_to_display_name, compute_common_prefix, prefix_implied_by_filament,
+    strip_name_prefix,
+)
 
 # OpenPrintTag repository URL
 OPENPRINTTAG_REPO = "https://github.com/OpenPrintTag/openprinttag-database.git"
@@ -200,6 +209,14 @@ IGNORED_BRANDS: set[str] = {
     "generic",
 }
 
+# Brand slug aliases: maps OPT brand slugs to curated brand directory names
+BRAND_ALIASES: dict[str, str] = {
+    "addnorth": "add_north",
+    "bambulab": "bambu_lab",
+    "esun": "esun_3d",
+    "fillamentum": "filamentpm",
+}
+
 # Tag to trait mapping (OPT tags -> internal traits)
 TAG_TO_TRAIT_MAP: dict[str, str] = {
     # Visual properties
@@ -297,6 +314,10 @@ class ImportReport:
     errors: list[str] = field(default_factory=list)
     fuzzy_matches: list[str] = field(default_factory=list)
 
+    naming_fixes: list[str] = field(default_factory=list)
+    tech_spec_warnings: list[str] = field(default_factory=list)
+    long_name_warnings: list[str] = field(default_factory=list)
+
     def generate_report(self) -> str:
         """Generate a human-readable report showing only issues."""
         lines = [
@@ -350,6 +371,20 @@ class ImportReport:
                 lines.append(f"   - {match}")
             lines.append("")
 
+        if self.tech_spec_warnings:
+            has_issues = True
+            lines.append(f"TECH SPEC WARNINGS ({len(self.tech_spec_warnings)}):")
+            for warn in self.tech_spec_warnings:
+                lines.append(f"   - {warn}")
+            lines.append("")
+
+        if self.long_name_warnings:
+            has_issues = True
+            lines.append(f"LONG NAME WARNINGS ({len(self.long_name_warnings)}):")
+            for warn in self.long_name_warnings:
+                lines.append(f"   - {warn}")
+            lines.append("")
+
         if not has_issues:
             lines.append("No issues found!")
             lines.append("")
@@ -362,21 +397,6 @@ class ImportReport:
         )
 
         return "\n".join(lines)
-
-
-def slugify(text: str) -> str:
-    """Convert text to a valid ID (lowercase, underscores)."""
-    # Convert to lowercase
-    text = text.lower()
-    # Replace hyphens and spaces with underscores
-    text = re.sub(r"[-\s]+", "_", text)
-    # Remove invalid characters (keep only alphanumeric and underscore)
-    text = re.sub(r"[^a-z0-9_]", "", text)
-    # Remove leading/trailing underscores
-    text = text.strip("_")
-    # Collapse multiple underscores
-    text = re.sub(r"_+", "_", text)
-    return text or "default"
 
 
 def convert_rgba_to_rgb(rgba: Optional[str]) -> str:
@@ -411,7 +431,8 @@ class ImportOpenPrintTagScript(BaseScript):
         super().__init__(project_root)
         self.report = ImportReport()
         self.brandfetch_client_id: Optional[str] = None
-        self.brand_aliases: dict[str, str] = {}
+        self.output_dir: Path = self.data_dir
+        self.merge_mode: bool = True
 
     def configure_parser(self, parser: argparse.ArgumentParser) -> None:
         """Add script-specific arguments."""
@@ -440,6 +461,16 @@ class ImportOpenPrintTagScript(BaseScript):
             help="Only import specific brand (by slug)",
         )
         parser.add_argument(
+            "--output-dir",
+            default=None,
+            help="Write to this directory instead of data/",
+        )
+        parser.add_argument(
+            "--no-merge",
+            action="store_true",
+            help="Don't merge with existing data (fresh write)",
+        )
+        parser.add_argument(
             "--report-path",
             default=".cache/openprinttag-import-report.txt",
             help="Path to save import report",
@@ -454,21 +485,21 @@ class ImportOpenPrintTagScript(BaseScript):
         brand_filter = args.brand
         report_path = self.project_root / args.report_path
 
+        # Output directory: --output-dir overrides data_dir
+        if args.output_dir:
+            self.output_dir = Path(args.output_dir)
+        else:
+            self.output_dir = self.data_dir
+
+        # Merge mode: merge with existing data when writing to data_dir
+        # (unless --no-merge is set), never merge when using --output-dir
+        self.merge_mode = not args.no_merge and args.output_dir is None
+
         # Get Brandfetch client ID from environment
         self.brandfetch_client_id = os.environ.get("BRANDFETCH_CLIENT_ID")
         if not self.brandfetch_client_id and not skip_brandfetch:
             self.log("Note: BRANDFETCH_CLIENT_ID not set, skipping logo/website discovery")
             skip_brandfetch = True
-
-        # Load brand aliases for fuzzy matching
-        aliases_path = self.data_dir / "brand_aliases.json"
-        if aliases_path.exists():
-            try:
-                with open(aliases_path, encoding="utf-8") as f:
-                    self.brand_aliases = json.load(f)
-                self.log(f"Loaded {len(self.brand_aliases)} brand aliases")
-            except Exception as e:
-                self.log(f"Warning: Could not load brand aliases: {e}")
 
         if dry_run:
             self.log("=== DRY RUN MODE ===\n")
@@ -500,7 +531,7 @@ class ImportOpenPrintTagScript(BaseScript):
         self.emit_progress("processing", 0, "Processing brands...")
         total_brands = len(brands)
 
-        for i, (brand_slug, brand_data) in enumerate(brands.items()):
+        for i, (brand_slug, brand_data) in enumerate(sorted(brands.items())):
             if brand_filter and brand_slug != brand_filter:
                 continue
 
@@ -578,7 +609,7 @@ class ImportOpenPrintTagScript(BaseScript):
         if not brands_dir.exists():
             return brands
 
-        for yaml_file in brands_dir.glob("*.yaml"):
+        for yaml_file in sorted(brands_dir.glob("*.yaml")):
             data = self._load_yaml(yaml_file)
             if data and "slug" in data:
                 brands[data["slug"]] = data
@@ -593,10 +624,10 @@ class ImportOpenPrintTagScript(BaseScript):
         if not materials_dir.exists():
             return materials
 
-        for brand_dir in materials_dir.iterdir():
+        for brand_dir in sorted(materials_dir.iterdir()):
             if not brand_dir.is_dir():
                 continue
-            for yaml_file in brand_dir.glob("*.yaml"):
+            for yaml_file in sorted(brand_dir.glob("*.yaml")):
                 data = self._load_yaml(yaml_file)
                 if data:
                     materials.append(data)
@@ -611,10 +642,10 @@ class ImportOpenPrintTagScript(BaseScript):
         if not packages_dir.exists():
             return packages
 
-        for brand_dir in packages_dir.iterdir():
+        for brand_dir in sorted(packages_dir.iterdir()):
             if not brand_dir.is_dir():
                 continue
-            for yaml_file in brand_dir.glob("*.yaml"):
+            for yaml_file in sorted(brand_dir.glob("*.yaml")):
                 data = self._load_yaml(yaml_file)
                 if data:
                     packages.append(data)
@@ -661,14 +692,25 @@ class ImportOpenPrintTagScript(BaseScript):
             return
         brand_name = brand_data.get("name", brand_slug)
 
-        # Try to find existing folder using fuzzy matching
-        existing_folder = self._find_existing_brand_folder(brand_id, brand_name)
-        if existing_folder:
-            # Use the existing folder's ID instead of generating new one
-            brand_id = existing_folder.name
-            brand_dir = existing_folder
+        # Apply brand aliases (always, regardless of merge mode)
+        if brand_id in BRAND_ALIASES:
+            alias_target = BRAND_ALIASES[brand_id]
+            self.report.fuzzy_matches.append(
+                f"'{brand_id}' -> '{alias_target}' (alias)"
+            )
+            brand_id = alias_target
+
+        # Try to find existing folder using fuzzy matching (only in merge mode)
+        if self.merge_mode:
+            existing_folder = self._find_existing_brand_folder(brand_id, brand_name)
+            if existing_folder:
+                # Use the existing folder's ID instead of generating new one
+                brand_id = existing_folder.name
+                brand_dir = existing_folder
+            else:
+                brand_dir = self.output_dir / brand_id
         else:
-            brand_dir = self.data_dir / brand_id
+            brand_dir = self.output_dir / brand_id
 
         # Check for existing brand data
         existing_brand: Optional[dict] = None
@@ -749,7 +791,7 @@ class ImportOpenPrintTagScript(BaseScript):
         Find an existing brand folder using aliases and fuzzy matching.
 
         Priority order:
-        1. Alias from brand_aliases.json (takes precedence, for consolidation)
+        1. Alias from BRAND_ALIASES (takes precedence, for consolidation)
         2. Exact match
         3. Prefix match (e.g., "prusament_resin" -> "prusament")
         4. Fuzzy match via SequenceMatcher
@@ -757,8 +799,8 @@ class ImportOpenPrintTagScript(BaseScript):
         Returns the path to the existing folder, or None if no match found.
         """
         # Check for explicit alias mapping FIRST (takes precedence for consolidation)
-        if brand_id in self.brand_aliases:
-            alias_target = self.brand_aliases[brand_id]
+        if brand_id in BRAND_ALIASES:
+            alias_target = BRAND_ALIASES[brand_id]
             alias_path = self.data_dir / alias_target
             if alias_path.exists():
                 match_info = f"'{brand_id}' -> '{alias_target}' (alias)"
@@ -782,7 +824,7 @@ class ImportOpenPrintTagScript(BaseScript):
         best_fuzzy_match: Optional[Path] = None
         best_fuzzy_score: float = 0.0
 
-        for folder in self.data_dir.iterdir():
+        for folder in sorted(self.data_dir.iterdir()):
             if not folder.is_dir():
                 continue
 
@@ -1072,7 +1114,10 @@ class ImportOpenPrintTagScript(BaseScript):
 
             self.report.materials_imported += 1
 
-        # Write the hierarchy to disk
+        # Phase 2: Apply all cleanup transformations to in-memory dict
+        hierarchy = self._apply_naming_cleanup(brand_id, hierarchy)
+
+        # Phase 3: Write cleaned hierarchy to disk
         self._write_hierarchy(brand_dir, hierarchy, dry_run)
 
     def _parse_material_name(
@@ -1188,6 +1233,625 @@ class ImportOpenPrintTagScript(BaseScript):
                 traits[TAG_TO_TRAIT_MAP[tag]] = True
         return traits
 
+    # ------------------------------------------------------------------
+    # Naming cleanup pipeline
+    # ------------------------------------------------------------------
+
+    def _apply_naming_cleanup(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Apply all naming cleanup rules to the in-memory hierarchy."""
+        # A. MOVE_RULES — move variants to correct filament dirs
+        hierarchy = self._apply_move_rules(brand_id, hierarchy)
+
+        # B. GENERIC_RENAME_RULES — strip cf_/gf_/silk_/glow_ prefixes
+        hierarchy = self._apply_generic_renames(hierarchy)
+
+        # C. Category 1: Swapped filament/variant layers
+        hierarchy = self._apply_layer_swap_fix(hierarchy)
+
+        # D. Categories 2/3: Brand-specific prefix stripping
+        hierarchy = self._apply_prefix_rules(brand_id, hierarchy)
+
+        # E. Category 7: Product line prefix/suffix reorganization
+        hierarchy = self._apply_product_line_prefixes(brand_id, hierarchy)
+        hierarchy = self._apply_product_line_suffixes(brand_id, hierarchy)
+
+        # F. Suffix stripping (in-place)
+        hierarchy = self._apply_suffix_strip_rules(brand_id, hierarchy)
+
+        # G. Category 5: Color split from filament names
+        hierarchy = self._apply_color_split(hierarchy)
+
+        # H. Category 8: Universal common-prefix detection
+        hierarchy = self._apply_common_prefix(brand_id, hierarchy)
+
+        # H2. MOVE_RULES — second pass after structural transforms
+        # Some rules target filament dirs created by PRODUCT_LINE_PREFIXES
+        # or common-prefix extraction (e.g. panchroma_matte_pla, vulcan_pekk).
+        hierarchy = self._apply_move_rules(brand_id, hierarchy)
+
+        # I. Category 9: Display name fixes
+        hierarchy = self._apply_display_name_fixes(hierarchy)
+
+        # J. Categories 4 & 6: Report-only warnings
+        self._emit_naming_warnings(brand_id, hierarchy)
+
+        return hierarchy
+
+    def _apply_move_rules(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Apply MOVE_RULES to relocate variants into correct filament dirs."""
+        if brand_id not in MOVE_RULES:
+            return hierarchy
+
+        for material_type, filament_rules in MOVE_RULES[brand_id].items():
+            if material_type not in hierarchy:
+                continue
+            filaments = hierarchy[material_type]
+
+            for source_filament, rules in filament_rules.items():
+                if source_filament not in filaments:
+                    continue
+                colors = filaments[source_filament]
+
+                to_move: list[tuple[str, str, str, str, list[str]]] = []
+                for color_id in sorted(colors.keys()):
+                    for id_prefix, target_filament, target_display, name_prefixes in rules:
+                        if color_id.startswith(id_prefix):
+                            new_color_id = color_id[len(id_prefix):]
+                            if new_color_id:
+                                to_move.append((
+                                    color_id, new_color_id,
+                                    target_filament, target_display,
+                                    name_prefixes,
+                                ))
+                            break
+
+                for color_id, new_color_id, target_filament, target_display, name_prefixes in to_move:
+                    entry = colors.pop(color_id)
+                    entry["variant"]["id"] = new_color_id
+                    old_name = entry["variant"].get("name", "")
+                    entry["variant"]["name"] = strip_name_prefix(old_name, name_prefixes)
+
+                    # Update filament data for the new target
+                    new_filament_data = entry["filament"].copy()
+                    new_filament_data["id"] = target_filament
+                    new_filament_data["name"] = target_display
+                    entry["filament"] = new_filament_data
+
+                    if target_filament not in filaments:
+                        filaments[target_filament] = {}
+                    filaments[target_filament][new_color_id] = entry
+
+                    self.report.naming_fixes.append(
+                        f"move_rule: {brand_id}/{material_type}/"
+                        f"{source_filament}/{color_id} -> "
+                        f"{target_filament}/{new_color_id}"
+                    )
+
+                # Clean up empty source filament
+                if source_filament in filaments and not filaments[source_filament]:
+                    del filaments[source_filament]
+
+        return hierarchy
+
+    def _apply_generic_renames(
+        self,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Strip redundant cf_/gf_/silk_/glow_ prefixes from variant IDs."""
+        for material_type, filaments in hierarchy.items():
+            for filament_id, colors in filaments.items():
+                for rule in GENERIC_RENAME_RULES:
+                    if rule["subtype_contains"] not in filament_id:
+                        continue
+
+                    to_rename: list[tuple[str, str, list[str]]] = []
+                    for color_id in sorted(colors.keys()):
+                        for id_prefix in rule["id_prefixes"]:
+                            if color_id.startswith(id_prefix):
+                                new_id = color_id[len(id_prefix):]
+                                if new_id and new_id not in colors:
+                                    to_rename.append((
+                                        color_id, new_id,
+                                        rule["name_prefixes"],
+                                    ))
+                                break
+
+                    for old_id, new_id, name_prefixes in to_rename:
+                        entry = colors.pop(old_id)
+                        entry["variant"]["id"] = new_id
+                        old_name = entry["variant"].get("name", "")
+                        entry["variant"]["name"] = strip_name_prefix(
+                            old_name, name_prefixes
+                        )
+                        colors[new_id] = entry
+
+        return hierarchy
+
+    def _apply_layer_swap_fix(
+        self,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Fix swapped filament/variant layers (colors at filament level)."""
+        for material_type, filaments in hierarchy.items():
+            to_swap: list[tuple[str, str]] = []
+            for filament_id in sorted(filaments.keys()):
+                if not is_color_like(filament_id):
+                    continue
+                colors = filaments[filament_id]
+                product_colors = [
+                    cid for cid in colors if has_material_keyword(cid)
+                ]
+                if not product_colors:
+                    continue
+                for product_id in product_colors:
+                    to_swap.append((filament_id, product_id))
+
+            for color_name, product_name in to_swap:
+                if color_name not in filaments:
+                    continue
+                if product_name not in filaments[color_name]:
+                    continue
+
+                entry = filaments[color_name].pop(product_name)
+
+                # Update entry: product becomes filament, color becomes variant
+                new_filament_data = entry["filament"].copy()
+                new_filament_data["id"] = product_name
+                new_filament_data["name"] = clean_display_name(product_name)
+                entry["filament"] = new_filament_data
+                entry["variant"]["id"] = color_name
+                entry["variant"]["name"] = clean_display_name(color_name)
+
+                if product_name not in filaments:
+                    filaments[product_name] = {}
+                filaments[product_name][color_name] = entry
+
+                # Clean up empty source
+                if not filaments[color_name]:
+                    del filaments[color_name]
+
+        return hierarchy
+
+    def _apply_prefix_rules(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Strip brand-specific prefixes from variant IDs (Categories 2/3)."""
+        if brand_id not in PREFIX_RULES:
+            return hierarchy
+
+        rules = PREFIX_RULES[brand_id]
+
+        for material_type, filaments in hierarchy.items():
+            for filament_id, colors in filaments.items():
+                to_rename: list[tuple[str, str, dict]] = []
+                existing = set(colors.keys())
+
+                for color_id in sorted(colors.keys()):
+                    for prefix, rule in rules.items():
+                        if not color_id.startswith(prefix):
+                            continue
+                        new_id = color_id[len(prefix):]
+                        if not new_id:
+                            continue
+                        if new_id in existing and new_id != color_id:
+                            continue
+                        to_rename.append((color_id, new_id, rule))
+                        existing.discard(color_id)
+                        existing.add(new_id)
+                        break
+
+                for old_id, new_id, rule in to_rename:
+                    entry = colors.pop(old_id)
+                    entry["variant"]["id"] = new_id
+                    old_name = entry["variant"].get("name", "")
+                    name_pattern = rule.get("name_pattern", "")
+                    if name_pattern and old_name:
+                        new_name = re.sub(name_pattern, "", old_name).strip()
+                        new_name = re.sub(
+                            r"^\s*[-\u2013\u2014]\s*", "", new_name
+                        ).strip()
+                        if new_name:
+                            entry["variant"]["name"] = new_name
+                        else:
+                            entry["variant"]["name"] = clean_display_name(new_id)
+                    else:
+                        entry["variant"]["name"] = clean_display_name(new_id)
+                    colors[new_id] = entry
+
+        return hierarchy
+
+    def _apply_product_line_prefixes(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Move variants with product-line prefixes into new filament dirs (Cat 7)."""
+        if brand_id not in PRODUCT_LINE_PREFIXES:
+            return hierarchy
+
+        prefixes = PRODUCT_LINE_PREFIXES[brand_id]
+        sku_pattern = PRODUCT_LINE_SKU_PATTERNS.get(brand_id)
+        sku_re = re.compile(sku_pattern) if sku_pattern else None
+
+        for material_type, filaments in hierarchy.items():
+            for filament_id in list(filaments.keys()):
+                colors = filaments[filament_id]
+                to_move: list[tuple[str, str, str, str]] = []
+
+                for color_id in sorted(colors.keys()):
+                    for prefix in prefixes:
+                        if not color_id.startswith(prefix):
+                            continue
+                        remainder = color_id[len(prefix):]
+                        if sku_re:
+                            m = sku_re.match(remainder)
+                            if m:
+                                remainder = remainder[m.end():]
+                        if not remainder:
+                            break
+                        product_line = prefix.rstrip("_") or prefix
+                        new_filament_id = f"{product_line}_{filament_id}"
+                        to_move.append((
+                            color_id, remainder,
+                            new_filament_id, product_line,
+                        ))
+                        break
+
+                for old_id, new_id, new_filament_id, product_line in to_move:
+                    entry = colors.pop(old_id)
+
+                    # Update filament data
+                    new_filament_data = entry["filament"].copy()
+                    source_name = new_filament_data.get(
+                        "name", clean_display_name(filament_id)
+                    )
+                    new_filament_data["id"] = new_filament_id
+                    new_filament_data["name"] = (
+                        f"{clean_display_name(product_line)} {source_name}"
+                    )
+                    entry["filament"] = new_filament_data
+                    entry["variant"]["id"] = new_id
+                    entry["variant"]["name"] = clean_display_name(new_id)
+
+                    if new_filament_id not in filaments:
+                        filaments[new_filament_id] = {}
+                    filaments[new_filament_id][new_id] = entry
+
+                # Clean up empty source
+                if filament_id in filaments and not filaments[filament_id]:
+                    del filaments[filament_id]
+
+        return hierarchy
+
+    def _apply_product_line_suffixes(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Move variants with product-line suffixes into new filament dirs."""
+        if brand_id not in PRODUCT_LINE_SUFFIXES:
+            return hierarchy
+
+        suffixes = PRODUCT_LINE_SUFFIXES[brand_id]
+
+        for material_type, filaments in hierarchy.items():
+            for filament_id in list(filaments.keys()):
+                colors = filaments[filament_id]
+                to_move: list[tuple[str, str, str, str]] = []
+
+                for color_id in sorted(colors.keys()):
+                    for suffix in suffixes:
+                        if not color_id.endswith(suffix):
+                            continue
+                        remainder = color_id[: -len(suffix)]
+                        if not remainder:
+                            break
+                        product_line = suffix.lstrip("_") or suffix
+                        new_filament_id = f"{product_line}_{filament_id}"
+                        to_move.append((
+                            color_id, remainder,
+                            new_filament_id, product_line,
+                        ))
+                        break
+
+                for old_id, new_id, new_filament_id, product_line in to_move:
+                    entry = colors.pop(old_id)
+
+                    new_filament_data = entry["filament"].copy()
+                    source_name = new_filament_data.get(
+                        "name", clean_display_name(filament_id)
+                    )
+                    new_filament_data["id"] = new_filament_id
+                    new_filament_data["name"] = (
+                        f"{clean_display_name(product_line)} {source_name}"
+                    )
+                    entry["filament"] = new_filament_data
+                    entry["variant"]["id"] = new_id
+                    entry["variant"]["name"] = clean_display_name(new_id)
+
+                    if new_filament_id not in filaments:
+                        filaments[new_filament_id] = {}
+                    filaments[new_filament_id][new_id] = entry
+
+                if filament_id in filaments and not filaments[filament_id]:
+                    del filaments[filament_id]
+
+        return hierarchy
+
+    def _apply_suffix_strip_rules(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Strip noise suffixes from variant names in-place."""
+        if brand_id not in SUFFIX_STRIP_RULES:
+            return hierarchy
+
+        rules = SUFFIX_STRIP_RULES[brand_id]
+
+        for material_type, filaments in hierarchy.items():
+            for filament_id, colors in filaments.items():
+                to_rename: list[tuple[str, str, dict]] = []
+                existing = set(colors.keys())
+
+                for color_id in sorted(colors.keys()):
+                    for suffix, rule in rules.items():
+                        if not color_id.endswith(suffix):
+                            continue
+                        new_id = color_id[: -len(suffix)]
+                        if not new_id:
+                            continue
+                        if new_id in existing and new_id != color_id:
+                            continue
+                        to_rename.append((color_id, new_id, rule))
+                        existing.discard(color_id)
+                        existing.add(new_id)
+                        break
+
+                for old_id, new_id, rule in to_rename:
+                    entry = colors.pop(old_id)
+                    entry["variant"]["id"] = new_id
+                    old_name = entry["variant"].get("name", "")
+                    name_pattern = rule.get("name_pattern", "")
+                    if name_pattern and old_name:
+                        new_name = re.sub(name_pattern, "", old_name).strip()
+                        if new_name:
+                            entry["variant"]["name"] = new_name
+                        else:
+                            entry["variant"]["name"] = clean_display_name(new_id)
+                    else:
+                        entry["variant"]["name"] = clean_display_name(new_id)
+                    colors[new_id] = entry
+
+        return hierarchy
+
+    def _apply_color_split(
+        self,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Split filament names containing both a product type and a color (Cat 5).
+
+        E.g. hierarchy[PLA][silk_pla_red][default] -> hierarchy[PLA][silk_pla][red]
+        """
+        for material_type, filaments in hierarchy.items():
+            to_split: list[tuple[str, str, str]] = []
+
+            for filament_id in sorted(filaments.keys()):
+                parts = filament_id.split("_")
+                for i in range(1, min(3, len(parts))):
+                    tail = "_".join(parts[-i:])
+                    head = "_".join(parts[:-i])
+                    if (
+                        tail in KNOWN_COLORS
+                        and head
+                        and has_material_keyword(head)
+                    ):
+                        to_split.append((filament_id, head, tail))
+                        break
+
+            for old_filament_id, new_filament_id, color_name in to_split:
+                if old_filament_id not in filaments:
+                    continue
+                entries = filaments.pop(old_filament_id)
+
+                if new_filament_id not in filaments:
+                    filaments[new_filament_id] = {}
+                target = filaments[new_filament_id]
+
+                for color_id, entry in entries.items():
+                    # Update filament data
+                    new_filament_data = entry["filament"].copy()
+                    new_filament_data["id"] = new_filament_id
+                    new_filament_data["name"] = id_to_display_name(
+                        new_filament_id
+                    )
+                    entry["filament"] = new_filament_data
+
+                    # Use the split-off color as the variant ID if current
+                    # variant is "default" or same as old filament
+                    if color_id == "default" or color_id == old_filament_id:
+                        new_variant_id = color_name
+                    else:
+                        new_variant_id = color_id
+
+                    entry["variant"]["id"] = new_variant_id
+                    entry["variant"]["name"] = clean_display_name(
+                        new_variant_id
+                    )
+
+                    if new_variant_id not in target:
+                        target[new_variant_id] = entry
+
+        return hierarchy
+
+    def _apply_common_prefix(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Detect and fix common prefixes across all variants in a filament (Cat 8)."""
+        for material_type, filaments in hierarchy.items():
+            for filament_id in list(filaments.keys()):
+                colors = filaments[filament_id]
+                if len(colors) < 2:
+                    continue
+
+                variant_names = sorted(colors.keys())
+                cp = compute_common_prefix(variant_names)
+                if not cp or len(cp) < 3:
+                    continue
+
+                if not all(v.startswith(cp) for v in variant_names):
+                    continue
+
+                implied = prefix_implied_by_filament(cp, filament_id, brand_id)
+
+                if implied:
+                    # Strip in-place
+                    to_rename: list[tuple[str, str]] = []
+                    existing = set(colors.keys())
+                    for old_id in sorted(colors.keys()):
+                        new_id = old_id[len(cp):]
+                        if not new_id:
+                            continue
+                        if new_id in existing and new_id != old_id:
+                            continue
+                        to_rename.append((old_id, new_id))
+                        existing.discard(old_id)
+                        existing.add(new_id)
+
+                    for old_id, new_id in to_rename:
+                        entry = colors.pop(old_id)
+                        entry["variant"]["id"] = new_id
+                        entry["variant"]["name"] = self._clean_variant_name(
+                            entry["variant"].get("name", ""), cp, new_id
+                        )
+                        colors[new_id] = entry
+                else:
+                    # Structural move to new filament type
+                    product_line = cp.rstrip("_")
+                    new_filament_id = f"{product_line}_{filament_id}"
+
+                    to_move: list[tuple[str, str]] = []
+                    for old_id in sorted(colors.keys()):
+                        new_id = old_id[len(cp):]
+                        if not new_id:
+                            continue
+                        to_move.append((old_id, new_id))
+
+                    if new_filament_id not in filaments:
+                        filaments[new_filament_id] = {}
+
+                    for old_id, new_id in to_move:
+                        entry = colors.pop(old_id)
+                        new_filament_data = entry["filament"].copy()
+                        new_filament_data["id"] = new_filament_id
+                        new_filament_data["name"] = id_to_display_name(
+                            new_filament_id
+                        )
+                        entry["filament"] = new_filament_data
+                        entry["variant"]["id"] = new_id
+                        entry["variant"]["name"] = self._clean_variant_name(
+                            entry["variant"].get("name", ""), cp, new_id
+                        )
+                        filaments[new_filament_id][new_id] = entry
+
+                    # Clean up empty source
+                    if not colors:
+                        del filaments[filament_id]
+
+        return hierarchy
+
+    @staticmethod
+    def _clean_variant_name(old_name: str, prefix: str, new_id: str) -> str:
+        """Derive a clean display name for a variant after prefix stripping."""
+        cleaned = re.sub(r"\(\s*\)", "", old_name).strip()
+
+        # Build a regex from the prefix slug
+        sep = r"[\s_+\-.*]*"
+        parts = prefix.rstrip("_").split("_")
+        pattern_str = r"^" + sep.join(re.escape(p) for p in parts) + sep
+        cleaned = re.sub(pattern_str, "", cleaned, flags=re.IGNORECASE).strip()
+        cleaned = re.sub(r"\s{2,}", " ", cleaned).strip()
+
+        if cleaned:
+            return cleaned
+        return clean_display_name(new_id)
+
+    def _apply_display_name_fixes(
+        self,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> dict[str, dict[str, dict[str, dict]]]:
+        """Fix broken display names: empty parens, double spaces, etc. (Cat 9)."""
+        for material_type, filaments in hierarchy.items():
+            for filament_id, colors in filaments.items():
+                for color_id, entry in colors.items():
+                    variant = entry.get("variant", {})
+                    name = variant.get("name", "")
+                    if not name:
+                        continue
+
+                    new_name = name
+                    new_name = re.sub(r"\(\s*\)", "", new_name)
+                    new_name = re.sub(r"\s{2,}", " ", new_name)
+                    new_name = new_name.strip()
+
+                    if not new_name:
+                        new_name = clean_display_name(color_id)
+
+                    # Strip leftover prefix content
+                    expected = clean_display_name(color_id)
+                    if (
+                        new_name != expected
+                        and new_name.lower().endswith(expected.lower())
+                        and len(new_name) > len(expected) + 2
+                    ):
+                        new_name = expected
+
+                    if new_name != name:
+                        variant["name"] = new_name
+
+        return hierarchy
+
+    def _emit_naming_warnings(
+        self,
+        brand_id: str,
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> None:
+        """Emit report-only warnings for tech specs and long names (Cats 4 & 6)."""
+        compiled_patterns = [re.compile(p) for p in TECH_SPEC_PATTERNS]
+
+        for material_type, filaments in hierarchy.items():
+            for filament_id, colors in filaments.items():
+                for color_id in sorted(colors.keys()):
+                    # Cat 4: Technical specs
+                    for pattern in compiled_patterns:
+                        if pattern.search(color_id):
+                            self.report.tech_spec_warnings.append(
+                                f"{brand_id}/{material_type}/"
+                                f"{filament_id}/{color_id} "
+                                f"(matched: {pattern.pattern})"
+                            )
+                            break
+
+                    # Cat 6: Long names
+                    if len(color_id) > MAX_VARIANT_LENGTH:
+                        self.report.long_name_warnings.append(
+                            f"{brand_id}/{material_type}/"
+                            f"{filament_id}/{color_id} "
+                            f"({len(color_id)} chars)"
+                        )
+
     def _write_hierarchy(
         self,
         brand_dir: Path,
@@ -1195,7 +1859,8 @@ class ImportOpenPrintTagScript(BaseScript):
         dry_run: bool,
     ) -> None:
         """Write the material hierarchy to disk."""
-        for material_type, filaments in hierarchy.items():
+        for material_type in sorted(hierarchy.keys()):
+            filaments = hierarchy[material_type]
             material_dir = brand_dir / material_type
 
             if not dry_run:
@@ -1203,10 +1868,11 @@ class ImportOpenPrintTagScript(BaseScript):
 
                 # Write material.json
                 material_json = material_dir / "material.json"
-                if not material_json.exists():
+                if not material_json.exists() or not self.merge_mode:
                     self._save_json(material_json, {"material": material_type})
 
-            for filament_id, colors in filaments.items():
+            for filament_id in sorted(filaments.keys()):
+                colors = filaments[filament_id]
                 filament_dir = material_dir / filament_id
 
                 # Get filament data from first color (they share filament data)
@@ -1216,9 +1882,9 @@ class ImportOpenPrintTagScript(BaseScript):
                 if not dry_run:
                     filament_dir.mkdir(parents=True, exist_ok=True)
 
-                    # Write filament.json (merge with existing)
+                    # Write filament.json
                     filament_json = filament_dir / "filament.json"
-                    if filament_json.exists():
+                    if self.merge_mode and filament_json.exists():
                         try:
                             with open(filament_json, encoding="utf-8") as f:
                                 existing = json.load(f)
@@ -1229,7 +1895,8 @@ class ImportOpenPrintTagScript(BaseScript):
 
                 self.report.filaments_created += 1
 
-                for color_id, color_data in colors.items():
+                for color_id in sorted(colors.keys()):
+                    color_data = colors[color_id]
                     variant_dir = filament_dir / color_id
                     variant_data = color_data.get("variant", {})
                     sizes_data = color_data.get("sizes", [])
@@ -1237,9 +1904,9 @@ class ImportOpenPrintTagScript(BaseScript):
                     if not dry_run:
                         variant_dir.mkdir(parents=True, exist_ok=True)
 
-                        # Write variant.json (merge with existing)
+                        # Write variant.json
                         variant_json = variant_dir / "variant.json"
-                        if variant_json.exists():
+                        if self.merge_mode and variant_json.exists():
                             try:
                                 with open(variant_json, encoding="utf-8") as f:
                                     existing = json.load(f)
@@ -1248,20 +1915,22 @@ class ImportOpenPrintTagScript(BaseScript):
                                 pass
                         self._save_json(variant_json, variant_data)
 
-                        # Write sizes.json (merge with existing, create default if needed)
+                        # Write sizes.json
                         sizes_json = variant_dir / "sizes.json"
-                        if sizes_json.exists():
+                        if self.merge_mode and sizes_json.exists():
                             try:
                                 with open(sizes_json, encoding="utf-8") as f:
                                     existing_sizes = json.load(f)
                                 if sizes_data:
-                                    # Merge sizes by weight+diameter
                                     existing_keys = {
                                         (s.get("filament_weight"), s.get("diameter"))
                                         for s in existing_sizes
                                     }
                                     for size in sizes_data:
-                                        key = (size.get("filament_weight"), size.get("diameter"))
+                                        key = (
+                                            size.get("filament_weight"),
+                                            size.get("diameter"),
+                                        )
                                         if key not in existing_keys:
                                             existing_sizes.append(size)
                                 sizes_data = existing_sizes

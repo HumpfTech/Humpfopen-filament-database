@@ -6,8 +6,8 @@
     "#B3DF3A"
   ],
   "traits": {
-    "high_temperature": true,
     "industrially_compostable": true,
+    "high_temperature": true,
     "gradual_color_change": true
   }
 }

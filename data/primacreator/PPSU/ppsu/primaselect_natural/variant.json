@@ -1,9 +1,0 @@
-{
-  "id": "primaselect_natural",
-  "name": "PrimaSelect  Natural",
-  "color_hex": "#EADAC2",
-  "traits": {
-    "translucent": true,
-    "low_outgassing": true
-  }
-}

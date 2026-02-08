@@ -3,9 +3,9 @@
   "name": "Good as Gold HT",
   "color_hex": "#E3B145",
   "traits": {
-    "glitter": true,
+    "industrially_compostable": true,
     "high_temperature": true,
     "silk": true,
-    "industrially_compostable": true
+    "glitter": true
   }
 }

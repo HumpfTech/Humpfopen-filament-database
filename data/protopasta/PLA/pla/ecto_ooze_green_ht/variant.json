@@ -3,9 +3,9 @@
   "name": "Ecto Ooze Green HT",
   "color_hex": "#95D05C",
   "traits": {
-    "glitter": true,
-    "high_temperature": true,
+    "translucent": true,
     "industrially_compostable": true,
-    "translucent": true
+    "high_temperature": true,
+    "glitter": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Metallic Silver",
   "color_hex": "#ABACB0",
   "traits": {
-    "imitates_metal": true,
-    "filtration_recommended": true
+    "filtration_recommended": true,
+    "imitates_metal": true
   }
 }

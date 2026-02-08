@@ -1,9 +1,0 @@
-{
-  "id": "fluorescent_red",
-  "name": "Fluorescent  Red",
-  "color_hex": "#E03F26",
-  "traits": {
-    "neon": true,
-    "industrially_compostable": true
-  }
-}

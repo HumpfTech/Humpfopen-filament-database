@@ -1,9 +1,0 @@
-{
-  "id": "volcano_light_grey",
-  "name": "Volcano  Light Grey",
-  "color_hex": "#C3CCD5",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

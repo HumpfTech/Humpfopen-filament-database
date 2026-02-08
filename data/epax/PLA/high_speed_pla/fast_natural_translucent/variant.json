@@ -1,9 +1,0 @@
-{
-  "id": "fast_natural_translucent",
-  "name": "Fast + Natural Translucent",
-  "color_hex": "#DEE2DA",
-  "traits": {
-    "translucent": true,
-    "without_pigments": true
-  }
-}

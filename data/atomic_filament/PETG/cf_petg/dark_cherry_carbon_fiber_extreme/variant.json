@@ -3,7 +3,7 @@
   "name": "Dark Cherry CARBON FIBER Extreme",
   "color_hex": "#520B0F",
   "traits": {
-    "contains_carbon_fiber": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "technicolor_twist_2024_rainbow_series",
-  "name": "Technicolor Twist 2024 Rainbow  Series",
+  "name": "Technicolor Twist 2024 Rainbow Series",
   "color_hex": [
     "#9FEC41",
     "#BE6730",
@@ -9,8 +9,8 @@
     "#8873C7"
   ],
   "traits": {
-    "silk": true,
     "industrially_compostable": true,
+    "silk": true,
     "gradual_color_change": true
   }
 }

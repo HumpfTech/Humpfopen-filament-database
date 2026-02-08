@@ -3,8 +3,8 @@
   "name": "Metallic Gunmetal Silver",
   "color_hex": "#494C56",
   "traits": {
-    "imitates_metal": true,
+    "industrially_compostable": true,
     "silk": true,
-    "industrially_compostable": true
+    "imitates_metal": true
   }
 }

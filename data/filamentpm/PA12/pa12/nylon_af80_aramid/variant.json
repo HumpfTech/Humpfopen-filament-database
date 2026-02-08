@@ -3,7 +3,7 @@
   "name": "Nylon AF80 Aramid",
   "color_hex": "#F1E6B2",
   "traits": {
-    "contains_kevlar": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_kevlar": true
   }
 }

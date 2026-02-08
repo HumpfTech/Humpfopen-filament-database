@@ -1,9 +1,0 @@
-{
-  "id": "vulcan_9085_natural_flame_retardant_low_smoke",
-  "name": "VULCAN  9085 Natural - Flame Retardant & Low Smoke",
-  "color_hex": "#DFDFD3",
-  "traits": {
-    "self_extinguishing": true,
-    "low_outgassing": true
-  }
-}

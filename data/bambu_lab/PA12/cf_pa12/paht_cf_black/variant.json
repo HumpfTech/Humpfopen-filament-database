@@ -3,8 +3,8 @@
   "name": "PAHT-CF Black",
   "color_hex": "#000000",
   "traits": {
-    "contains_carbon_fiber": true,
+    "abrasive": true,
     "high_temperature": true,
-    "abrasive": true
+    "contains_carbon_fiber": true
   }
 }

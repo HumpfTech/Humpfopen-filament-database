@@ -1,9 +1,9 @@
 {
   "id": "biofil_natural",
-  "name": "BioFil –  Natural",
+  "name": "BioFil – Natural",
   "color_hex": "#D9D8DE",
   "traits": {
-    "without_pigments": true,
-    "home_compostable": true
+    "home_compostable": true,
+    "without_pigments": true
   }
 }

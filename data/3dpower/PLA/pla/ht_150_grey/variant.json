@@ -1,8 +1,0 @@
-{
-  "id": "ht_150_grey",
-  "name": "HT 150 Grey",
-  "color_hex": "#808080",
-  "traits": {
-    "high_temperature": true
-  }
-}

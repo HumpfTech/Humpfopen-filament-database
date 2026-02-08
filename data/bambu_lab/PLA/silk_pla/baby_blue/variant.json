@@ -3,7 +3,7 @@
   "name": "Baby Blue",
   "color_hex": "#9BCBEB",
   "traits": {
-    "silk": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "silk": true
   }
 }

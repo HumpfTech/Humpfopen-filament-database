@@ -1,9 +1,0 @@
-{
-  "id": "fluorescent_yellow_black_light_reactive",
-  "name": "Fluorescent Yellow (Black Light Reactive)",
-  "color_hex": "#FFFB00",
-  "traits": {
-    "neon": true,
-    "filtration_recommended": true
-  }
-}
