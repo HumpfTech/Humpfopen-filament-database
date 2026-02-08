@@ -6,8 +6,6 @@ ValidationOrchestrator class that preserves the existing API while
 delegating all validation logic to ofd-validator.
 """
 
-import json
-import sys
 from pathlib import Path
 from typing import Optional
 
@@ -30,32 +28,25 @@ class ValidationOrchestrator:
     def __init__(self, data_dir: Path = Path("./data"),
                  stores_dir: Path = Path("./stores"),
                  max_workers: Optional[int] = None,
-                 progress_mode: bool = False):
+                 **_kwargs):
         self.data_dir = str(data_dir)
         self.stores_dir = str(stores_dir)
-        self.progress_mode = progress_mode
-
-    def emit_progress(self, stage: str, percent: int, message: str = '') -> None:
-        """Emit progress event as JSON to stdout for SSE streaming."""
-        if self.progress_mode and hasattr(sys.stdout, 'isatty') and not sys.stdout.isatty():
-            print(json.dumps({
-                'type': 'progress',
-                'stage': stage,
-                'percent': percent,
-                'message': message
-            }), flush=True)
+        self.max_workers = max_workers
 
     def validate_json_files(self) -> ValidationResult:
         """Validate all JSON files against schemas."""
-        return _validate_json_files(self.data_dir, self.stores_dir)
+        return _validate_json_files(self.data_dir, self.stores_dir,
+                                    max_workers=self.max_workers)
 
     def validate_logo_files(self) -> ValidationResult:
         """Validate all logo files."""
-        return _validate_logo_files(self.data_dir, self.stores_dir)
+        return _validate_logo_files(self.data_dir, self.stores_dir,
+                                    max_workers=self.max_workers)
 
     def validate_folder_names(self) -> ValidationResult:
         """Validate all folder names."""
-        return _validate_folder_names(self.data_dir, self.stores_dir)
+        return _validate_folder_names(self.data_dir, self.stores_dir,
+                                      max_workers=self.max_workers)
 
     def validate_store_ids(self) -> ValidationResult:
         """Validate store IDs."""
@@ -67,10 +58,8 @@ class ValidationOrchestrator:
 
     def validate_all(self) -> ValidationResult:
         """Run all validations."""
-        self.emit_progress('validation', 0, 'Running all validations...')
-        result = _validate_all(self.data_dir, self.stores_dir)
-        self.emit_progress('validation', 100, 'Validation complete')
-        return result
+        return _validate_all(self.data_dir, self.stores_dir,
+                             max_workers=self.max_workers)
 
 
 __all__ = [
