@@ -47,6 +47,17 @@ if not defined SKIP_SETUP (
         echo [INFO] First run detected. Setting up Python environment...
         call :run_python_setup
         if errorlevel 1 exit /b 1
+    ) else (
+        call :deps_need_update
+        if not errorlevel 1 (
+            echo [INFO] Dependencies have changed. Updating...
+            call "%VENV_DIR%\Scripts\activate.bat"
+            pip install -q --upgrade pip
+            pip install -q -r "%REQUIREMENTS_FILE%"
+            pip install -q -e "%SCRIPT_DIR%"
+            echo. > "%SETUP_MARKER%"
+            echo [OK] Dependencies updated
+        )
     )
 )
 
@@ -368,6 +379,13 @@ for /f "tokens=1,2 delims=." %%a in ("!PY_VERSION!") do (
 if !PY_MAJOR! LSS 3 exit /b 1
 if !PY_MAJOR! EQU 3 if !PY_MINOR! LSS 10 exit /b 1
 exit /b 0
+
+:deps_need_update
+:: Check if requirements.txt or pyproject.toml are newer than setup marker
+:: Uses PowerShell for reliable file timestamp comparison
+if not exist "%SETUP_MARKER%" exit /b 1
+powershell -NoProfile -Command "$m=(Get-Item '%SETUP_MARKER%').LastWriteTime; if (((Test-Path '%REQUIREMENTS_FILE%') -and (Get-Item '%REQUIREMENTS_FILE%').LastWriteTime -gt $m) -or ((Test-Path '%SCRIPT_DIR%\pyproject.toml') -and (Get-Item '%SCRIPT_DIR%\pyproject.toml').LastWriteTime -gt $m)) { exit 0 } else { exit 1 }"
+exit /b %ERRORLEVEL%
 
 :detect_npm
 where npm >nul 2>&1
