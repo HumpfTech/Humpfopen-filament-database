@@ -1,9 +1,0 @@
-{
-  "id": "recycled_green",
-  "name": "RECYCLED Green",
-  "color_hex": "#06B100",
-  "traits": {
-    "recycled": true,
-    "industrially_compostable": true
-  }
-}

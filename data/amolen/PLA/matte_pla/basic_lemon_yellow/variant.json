@@ -1,9 +1,0 @@
-{
-  "id": "basic_lemon_yellow",
-  "name": "Basic Lemon Yellow",
-  "color_hex": "#FADB24",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

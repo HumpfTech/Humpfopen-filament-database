@@ -1,8 +1,0 @@
-{
-  "id": "ht110_machine_blue",
-  "name": "HT110 Machine Blue",
-  "color_hex": "#5CADBF",
-  "traits": {
-    "high_temperature": true
-  }
-}

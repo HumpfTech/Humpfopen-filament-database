@@ -1,9 +1,0 @@
-{
-  "id": "recycled_grenade",
-  "name": "RECYCLED Grenade",
-  "color_hex": "#932721",
-  "traits": {
-    "recycled": true,
-    "industrially_compostable": true
-  }
-}

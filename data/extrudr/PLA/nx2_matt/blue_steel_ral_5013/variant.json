@@ -1,0 +1,9 @@
+{
+  "id": "blue_steel_ral_5013",
+  "name": "Blue Steel RAL 5013",
+  "color_hex": "#033877",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

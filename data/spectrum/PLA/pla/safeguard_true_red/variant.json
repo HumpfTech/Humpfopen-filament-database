@@ -1,9 +1,0 @@
-{
-  "id": "safeguard_true_red",
-  "name": "Safeguard  True Red",
-  "color_hex": "#E72F1D",
-  "traits": {
-    "industrially_compostable": true,
-    "antibacterial": true
-  }
-}

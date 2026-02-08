@@ -1,9 +1,0 @@
-{
-  "id": "basic_sunny_orange",
-  "name": "Basic Sunny Orange",
-  "color_hex": "#FA7F1B",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

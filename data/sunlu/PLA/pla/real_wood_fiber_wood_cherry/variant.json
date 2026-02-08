@@ -1,9 +1,0 @@
-{
-  "id": "real_wood_fiber_wood_cherry",
-  "name": "Real Wood Fiber Wood  Cherry",
-  "color_hex": "#BF8C81",
-  "traits": {
-    "industrially_compostable": true,
-    "contains_wood": true
-  }
-}

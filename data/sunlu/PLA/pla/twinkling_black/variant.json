@@ -1,9 +1,0 @@
-{
-  "id": "twinkling_black",
-  "name": "Twinkling  Black",
-  "color_hex": "#000000",
-  "traits": {
-    "industrially_compostable": true,
-    "glitter": true
-  }
-}

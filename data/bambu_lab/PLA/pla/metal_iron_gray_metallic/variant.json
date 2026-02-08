@@ -1,9 +1,0 @@
-{
-  "id": "metal_iron_gray_metallic",
-  "name": "Metal Iron Gray Metallic",
-  "color_hex": "#616469",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_metal": true
-  }
-}

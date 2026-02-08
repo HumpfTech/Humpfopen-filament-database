@@ -1,9 +1,0 @@
-{
-  "id": "rock_mars_red",
-  "name": "Rock  Mars Red",
-  "color_hex": "#FF5A00",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
-  }
-}

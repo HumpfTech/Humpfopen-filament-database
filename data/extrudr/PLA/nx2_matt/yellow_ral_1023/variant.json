@@ -1,0 +1,9 @@
+{
+  "id": "yellow_ral_1023",
+  "name": "Yellow RAL 1023",
+  "color_hex": "#FBE200",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

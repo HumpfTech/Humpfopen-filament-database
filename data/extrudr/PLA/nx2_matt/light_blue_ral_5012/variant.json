@@ -1,0 +1,9 @@
+{
+  "id": "light_blue_ral_5012",
+  "name": "Light Blue RAL 5012",
+  "color_hex": "#0099E6",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  }
+}

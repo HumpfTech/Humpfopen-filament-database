@@ -1,9 +1,0 @@
-{
-  "id": "wood_cherry_wood",
-  "name": "Wood Cherry Wood",
-  "color_hex": "#AD7032",
-  "traits": {
-    "industrially_compostable": true,
-    "contains_wood": true
-  }
-}

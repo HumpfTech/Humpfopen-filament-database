@@ -1,9 +1,0 @@
-{
-  "id": "recycled_dark_blue",
-  "name": "RECYCLED Dark Blue",
-  "color_hex": "#2C3294",
-  "traits": {
-    "recycled": true,
-    "industrially_compostable": true
-  }
-}

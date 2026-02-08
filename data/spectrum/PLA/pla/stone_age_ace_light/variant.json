@@ -1,9 +1,0 @@
-{
-  "id": "stone_age_ace_light",
-  "name": "Stone Age™ Ace Light",
-  "color_hex": "#E3E0D3",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_stone": true
-  }
-}

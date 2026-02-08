@@ -1,9 +1,0 @@
-{
-  "id": "lw_ultrafoam_dark_grey",
-  "name": "LW- UltraFoam Dark Grey",
-  "color_hex": "#5A696C",
-  "traits": {
-    "industrially_compostable": true,
-    "foaming": true
-  }
-}

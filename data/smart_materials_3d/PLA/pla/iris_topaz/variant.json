@@ -1,9 +1,0 @@
-{
-  "id": "iris_topaz",
-  "name": "IRIS Topaz",
-  "color_hex": "#144F3B",
-  "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "id": "ht110_body_color",
-  "name": "HT110 Body color",
-  "color_hex": "#CEB378",
-  "traits": {
-    "high_temperature": true
-  }
-}

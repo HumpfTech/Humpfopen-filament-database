@@ -1,8 +1,0 @@
-{
-  "id": "upgrade_coffee",
-  "name": "Upgrade + Coffee",
-  "color_hex": "#A47C48",
-  "traits": {
-    "industrially_compostable": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "stone_age_dark",
-  "name": "Stone Age™ Dark",
-  "color_hex": "#A2AAAD",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_stone": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "lw_ultrafoam_pure_white",
-  "name": "LW- UltraFoam Pure White",
-  "color_hex": "#FFFFFF",
-  "traits": {
-    "industrially_compostable": true,
-    "foaming": true
-  }
-}

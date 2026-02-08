@@ -1,8 +1,0 @@
-{
-  "id": "ht110_black",
-  "name": "HT110 Black",
-  "color_hex": "#000000",
-  "traits": {
-    "high_temperature": true
-  }
-}

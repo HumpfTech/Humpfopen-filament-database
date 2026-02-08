@@ -1,9 +1,0 @@
-{
-  "id": "marble_brick_red",
-  "name": "Marble Brick Red",
-  "color_hex": "#ED2602",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
-  }
-}

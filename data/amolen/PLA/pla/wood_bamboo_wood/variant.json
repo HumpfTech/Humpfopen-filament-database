@@ -1,9 +1,0 @@
-{
-  "id": "wood_bamboo_wood",
-  "name": "Wood Bamboo Wood",
-  "color_hex": "#BAA679",
-  "traits": {
-    "industrially_compostable": true,
-    "contains_wood": true
-  }
-}

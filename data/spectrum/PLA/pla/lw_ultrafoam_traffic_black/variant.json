@@ -1,9 +1,0 @@
-{
-  "id": "lw_ultrafoam_traffic_black",
-  "name": "LW- UltraFoam Traffic Black",
-  "color_hex": "#000000",
-  "traits": {
-    "industrially_compostable": true,
-    "foaming": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "eco_neon_yellow",
-  "name": "eco Neon Yellow",
-  "color_hex": "#FFFC25",
-  "traits": {
-    "translucent": true,
-    "neon": true
-  }
-}
