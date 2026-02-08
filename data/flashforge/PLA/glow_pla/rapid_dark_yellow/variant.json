@@ -1,0 +1,10 @@
+{
+  "id": "rapid_dark_yellow",
+  "name": "Rapid  Dark Yellow",
+  "color_hex": "#EEEA44",
+  "traits": {
+    "glow": true,
+    "industrially_compostable": true,
+    "abrasive": true
+  }
+}

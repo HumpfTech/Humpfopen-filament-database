@@ -1999,6 +1999,382 @@ MOVE_RULES = [
         "target_subtype": "galaxy_petg",
         "target_display_name": "Galaxy PETG",
     },
+
+    # =========================================================================
+    # Aurapol PETG/petg - ALL variants have redundant pet_g_ prefix
+    # NOTE: pet_g_army_ MUST come before pet_g_ (longer prefix first)
+    # =========================================================================
+    {
+        "manufacturer": "aurapol",
+        "material": "PETG",
+        "source_subtype": "petg",
+        "id_prefix": "pet_g_army_",
+        "name_prefix": ["PET-G ARMY "],
+        "target_subtype": "army_petg",
+        "target_display_name": "ARMY PETG",
+    },
+    {
+        "manufacturer": "aurapol",
+        "material": "PETG",
+        "source_subtype": "petg",
+        "id_prefix": "pet_g_",
+        "name_prefix": ["PET-G "],
+        "target_subtype": "petg",
+        "target_display_name": "PETG",
+    },
+
+    # =========================================================================
+    # Aurapol PLA/pla - product line mixing
+    # =========================================================================
+    {
+        "manufacturer": "aurapol",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "l_ego_",
+        "name_prefix": ["L-EGO "],
+        "target_subtype": "l_ego_pla",
+        "target_display_name": "L-EGO PLA",
+    },
+    {
+        "manufacturer": "aurapol",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "metallic_",
+        "name_prefix": ["Metallic "],
+        "target_subtype": "metallic_pla",
+        "target_display_name": "Metallic PLA",
+    },
+    {
+        "manufacturer": "aurapol",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "wood_",
+        "name_prefix": ["Wood "],
+        "target_subtype": "wood_pla",
+        "target_display_name": "Wood PLA",
+    },
+
+    # =========================================================================
+    # Verbatim PETG/petg - ALL variants have redundant pet_g_ prefix
+    # =========================================================================
+    {
+        "manufacturer": "verbatim",
+        "material": "PETG",
+        "source_subtype": "petg",
+        "id_prefix": "pet_g_",
+        "name_prefix": ["PET-G "],
+        "target_subtype": "petg",
+        "target_display_name": "PETG",
+    },
+
+    # =========================================================================
+    # Gizmo Dorks - material name redundancy (in-place renames)
+    # =========================================================================
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "PC",
+        "source_subtype": "pc",
+        "id_prefix": "polycarbonate_",
+        "name_prefix": ["Polycarbonate "],
+        "target_subtype": "pc",
+        "target_display_name": "PC",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "TPU",
+        "source_subtype": "tpu",
+        "id_prefix": "flexible_",
+        "name_prefix": ["Flexible  ", "Flexible "],
+        "target_subtype": "tpu",
+        "target_display_name": "TPU",
+    },
+
+    # =========================================================================
+    # Gizmo Dorks ABS/abs - product line mixing
+    # =========================================================================
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "ABS",
+        "source_subtype": "abs",
+        "id_prefix": "low_odor_",
+        "name_prefix": ["Low Odor  ", "Low Odor "],
+        "target_subtype": "low_odor_abs",
+        "target_display_name": "Low Odor ABS",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "ABS",
+        "source_subtype": "abs",
+        "id_prefix": "color_change_",
+        "name_prefix": ["Color Change "],
+        "target_subtype": "color_change_abs",
+        "target_display_name": "Color Change ABS",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "ABS",
+        "source_subtype": "abs",
+        "id_prefix": "thermochromic_",
+        "name_prefix": ["Thermochromic "],
+        "target_subtype": "thermochromic_abs",
+        "target_display_name": "Thermochromic ABS",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "ABS",
+        "source_subtype": "abs",
+        "id_prefix": "fluorescent_",
+        "name_prefix": ["Fluorescent "],
+        "target_subtype": "fluorescent_abs",
+        "target_display_name": "Fluorescent ABS",
+    },
+
+    # =========================================================================
+    # Gizmo Dorks PLA/pla - product line mixing
+    # =========================================================================
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "glitter_sparkle_",
+        "name_prefix": ["Glitter Sparkle  ", "Glitter Sparkle "],
+        "target_subtype": "glitter_sparkle_pla",
+        "target_display_name": "Glitter Sparkle PLA",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "fluorescent_",
+        "name_prefix": ["Fluorescent "],
+        "target_subtype": "fluorescent_pla",
+        "target_display_name": "Fluorescent PLA",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "color_change_",
+        "name_prefix": ["Color Change "],
+        "target_subtype": "color_change_pla",
+        "target_display_name": "Color Change PLA",
+    },
+    {
+        "manufacturer": "gizmo_dorks",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "thermochromic_",
+        "name_prefix": ["Thermochromic "],
+        "target_subtype": "thermochromic_pla",
+        "target_display_name": "Thermochromic PLA",
+    },
+
+    # =========================================================================
+    # Devil Design PA12/pa12 - redundant nylon_ prefix
+    # =========================================================================
+    {
+        "manufacturer": "devil_design",
+        "material": "PA12",
+        "source_subtype": "pa12",
+        "id_prefix": "nylon_",
+        "name_prefix": ["NYLON  ", "NYLON "],
+        "target_subtype": "pa12",
+        "target_display_name": "PA12",
+    },
+
+    # =========================================================================
+    # Protopasta PLA/pla - product line mixing
+    # =========================================================================
+    {
+        "manufacturer": "protopasta",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "still_colorful_recycled_",
+        "name_prefix": ["Still Colorful Recycled  ", "Still Colorful Recycled "],
+        "target_subtype": "still_colorful_recycled_pla",
+        "target_display_name": "Still Colorful Recycled PLA",
+    },
+    {
+        "manufacturer": "protopasta",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "nebula_",
+        "name_prefix": ["Nebula "],
+        "target_subtype": "nebula_pla",
+        "target_display_name": "Nebula PLA",
+    },
+
+    # =========================================================================
+    # Protopasta PLA/matte_pla - fiber_ht_ product line
+    # =========================================================================
+    {
+        "manufacturer": "protopasta",
+        "material": "PLA",
+        "source_subtype": "matte_pla",
+        "id_prefix": "fiber_ht_",
+        "name_prefix": ["Fiber HT - ", "Fiber HT "],
+        "target_subtype": "fiber_ht_matte_pla",
+        "target_display_name": "Fiber HT Matte PLA",
+    },
+
+    # =========================================================================
+    # Eumakers PLA/silk_pla - glossy_ is redundant with silk subtype
+    # =========================================================================
+    {
+        "manufacturer": "eumakers",
+        "material": "PLA",
+        "source_subtype": "silk_pla",
+        "id_prefix": "glossy_",
+        "name_prefix": ["Glossy "],
+        "target_subtype": "silk_pla",
+        "target_display_name": "Silk PLA",
+    },
+
+    # =========================================================================
+    # Eumakers PLA/pla - product line mixing
+    # NOTE: silver_glitter_on_ MUST come before other shorter prefixes
+    # =========================================================================
+    {
+        "manufacturer": "eumakers",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "silver_glitter_on_",
+        "name_prefix": ["Silver Glitter on "],
+        "target_subtype": "silver_glitter_pla",
+        "target_display_name": "Silver Glitter PLA",
+    },
+    {
+        "manufacturer": "eumakers",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "fluorescent_",
+        "name_prefix": ["Fluorescent "],
+        "target_subtype": "fluorescent_pla",
+        "target_display_name": "Fluorescent PLA",
+    },
+    {
+        "manufacturer": "eumakers",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "metallic_",
+        "name_prefix": ["Metallic "],
+        "target_subtype": "metallic_pla",
+        "target_display_name": "Metallic PLA",
+    },
+    {
+        "manufacturer": "eumakers",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "iridescent_",
+        "name_prefix": ["Iridescent "],
+        "target_subtype": "iridescent_pla",
+        "target_display_name": "Iridescent PLA",
+    },
+    {
+        "manufacturer": "eumakers",
+        "material": "PLA",
+        "source_subtype": "pla",
+        "id_prefix": "pearl_",
+        "name_prefix": ["Pearl "],
+        "target_subtype": "pearl_pla",
+        "target_display_name": "Pearl PLA",
+    },
+
+    # =========================================================================
+    # Francofil TPU/tpu - hardness-based product lines
+    # =========================================================================
+    {
+        "manufacturer": "francofil",
+        "material": "TPU",
+        "source_subtype": "tpu",
+        "id_prefix": "95a_",
+        "name_prefix": ["95A "],
+        "target_subtype": "95a_tpu",
+        "target_display_name": "95A TPU",
+    },
+    {
+        "manufacturer": "francofil",
+        "material": "TPU",
+        "source_subtype": "tpu",
+        "id_prefix": "98a_",
+        "name_prefix": ["98A "],
+        "target_subtype": "98a_tpu",
+        "target_display_name": "98A TPU",
+    },
+
+    # =========================================================================
+    # Epax PLA/high_speed_pla - ALL variants have redundant fast_ prefix
+    # =========================================================================
+    {
+        "manufacturer": "epax",
+        "material": "PLA",
+        "source_subtype": "high_speed_pla",
+        "id_prefix": "fast_",
+        "name_prefix": ["Fast + ", "Fast "],
+        "target_subtype": "high_speed_pla",
+        "target_display_name": "High Speed PLA",
+    },
+
+    # =========================================================================
+    # Epax PLA/silk_pla - ALL variants have redundant magic_ prefix
+    # =========================================================================
+    {
+        "manufacturer": "epax",
+        "material": "PLA",
+        "source_subtype": "silk_pla",
+        "id_prefix": "magic_",
+        "name_prefix": ["Magic   ", "Magic  ", "Magic "],
+        "target_subtype": "silk_pla",
+        "target_display_name": "Silk PLA",
+    },
+]
+
+# Generic rename rules for subtype-wide prefix redundancy.
+# These scan ALL manufacturers automatically.
+# "subtype_contains": keyword that must appear in the subtype folder name
+# "id_prefixes": id prefixes to strip (longest first!)
+# "name_prefixes": display-name prefixes to strip (longest first!)
+GENERIC_RENAME_RULES = [
+    # === Carbon Fiber subtypes (cf_pla, matte_cf_pla, pla_cf, etc.) ===
+    {
+        "subtype_contains": "cf",
+        "id_prefixes": ["carbon_fiber_", "cf_"],
+        "name_prefixes": [
+            "Carbon Fiber  ", "Carbon Fiber ", "CARBON FIBER ",
+            "CF ",
+        ],
+    },
+    # === Glass Fiber subtypes (gf_abs, gf_pla, gf_petg, etc.) ===
+    {
+        "subtype_contains": "gf",
+        "id_prefixes": ["glass_fiber_reinforced_", "glass_fiber_", "gf_"],
+        "name_prefixes": [
+            "Glass Fiber Reinforced  ", "Glass Fiber Reinforced ",
+            "Glass Fiber  ", "Glass Fiber ",
+            "GF ",
+        ],
+    },
+    # === Silk subtypes (silk_pla, dual_color_silk_pla, etc.) ===
+    {
+        "subtype_contains": "silk",
+        "id_prefixes": ["silky_", "silk_"],
+        "name_prefixes": [
+            "Silky ", "Silk ",
+        ],
+    },
+    # === Glow subtypes (glow_pla, eco_glow_pla, etc.) ===
+    {
+        "subtype_contains": "glow",
+        "id_prefixes": ["glow_in_the_dark_", "glow_in_dark_", "glow_"],
+        "name_prefixes": [
+            "Glow-in-the-Dark Glow ",
+            "Glow-in-the-Dark ",
+            "Glow in The Dark  ", "Glow in The Dark ",
+            "Glow in the Dark  ", "Glow in the Dark ",
+            "Glow in dark ",
+            "Glow ",
+        ],
+    },
 ]
 
 
@@ -2171,6 +2547,84 @@ def process_rule(rule: dict, dry_run: bool = False, delete_dupes: bool = False) 
     return stats
 
 
+def process_generic_rule(rule: dict, dry_run: bool = False,
+                         delete_dupes: bool = False) -> dict:
+    """Process a generic rename rule across all manufacturers.
+
+    Scans every subtype directory containing the keyword and renames
+    matching variants in-place (no new subtype or filament.json created).
+    """
+    stats = {"renamed": 0, "skipped": 0, "conflicts": 0, "deleted_dupes": 0}
+
+    keyword = rule["subtype_contains"]
+    id_prefixes = rule["id_prefixes"]  # already longest-first
+    name_prefixes = rule["name_prefixes"]
+
+    for mfg_dir in sorted(DATA_DIR.iterdir()):
+        if not mfg_dir.is_dir() or mfg_dir.name.startswith("."):
+            continue
+        for material_dir in sorted(mfg_dir.iterdir()):
+            if not material_dir.is_dir():
+                continue
+            for subtype_dir in sorted(material_dir.iterdir()):
+                if not subtype_dir.is_dir():
+                    continue
+                if keyword not in subtype_dir.name:
+                    continue
+
+                # Collect matching variants first (avoid mutating while iterating)
+                to_process = []
+                for variant_dir in sorted(subtype_dir.iterdir()):
+                    if not variant_dir.is_dir():
+                        continue
+                    old_id = variant_dir.name
+                    # Try each id prefix (longest first)
+                    for prefix in id_prefixes:
+                        if old_id.startswith(prefix):
+                            new_id = old_id[len(prefix):]
+                            if new_id:
+                                to_process.append((variant_dir, old_id, new_id, prefix))
+                            break
+
+                if not to_process:
+                    continue
+
+                rel_sub = subtype_dir.relative_to(DATA_DIR)
+                for variant_dir, old_id, new_id, matched_prefix in to_process:
+                    new_path = subtype_dir / new_id
+
+                    if new_path.exists():
+                        if delete_dupes:
+                            if not dry_run:
+                                shutil.rmtree(str(variant_dir))
+                            print(f"  DUPE-DEL: {rel_sub}/{old_id} (target {new_id} exists)")
+                            stats["deleted_dupes"] += 1
+                        else:
+                            print(f"  CONFLICT: {rel_sub}/{new_id} already exists, skipping {old_id}")
+                            stats["conflicts"] += 1
+                        continue
+
+                    # Update variant.json
+                    variant_json = variant_dir / "variant.json"
+                    if variant_json.exists():
+                        data = load_json(variant_json)
+                        old_name = data.get("name", "")
+                        new_name = strip_name_prefix(old_name, name_prefixes)
+                        data["id"] = new_id
+                        data["name"] = new_name
+                        if not dry_run:
+                            save_json(variant_json, data)
+
+                    # Rename directory
+                    if not dry_run:
+                        shutil.move(str(variant_dir), str(new_path))
+
+                    print(f"  RENAME: {rel_sub}/{old_id} → {new_id}")
+                    stats["renamed"] += 1
+
+    return stats
+
+
 def cleanup_empty_dirs(dry_run: bool = False) -> int:
     """Report subtype directories with no variant subdirectories."""
     count = 0
@@ -2224,6 +2678,24 @@ def main():
         if stats["created"]:
             total_created += 1
 
+    # Process generic rename rules (subtype-wide prefix stripping)
+    total_renamed = 0
+    total_generic_conflicts = 0
+    total_generic_deleted = 0
+
+    print(f"\n{'='*60}")
+    print(f" Generic Rename Rules (subtype-wide)")
+    print(f"{'='*60}")
+
+    for rule in GENERIC_RENAME_RULES:
+        keyword = rule["subtype_contains"]
+        prefixes = ", ".join(rule["id_prefixes"])
+        print(f"\n  Scanning subtypes containing '{keyword}' for [{prefixes}]...")
+        stats = process_generic_rule(rule, dry_run=dry_run, delete_dupes=delete_dupes)
+        total_renamed += stats["renamed"]
+        total_generic_conflicts += stats["conflicts"]
+        total_generic_deleted += stats["deleted_dupes"]
+
     print(f"\n{'='*60}")
     print(f" Checking for empty directories")
     print(f"{'='*60}")
@@ -2234,13 +2706,14 @@ def main():
     print(f"{'='*60}")
     print(f"  New subtypes created:  {total_created}")
     print(f"  Variants moved:        {total_moved}")
-    print(f"  Conflicts (skipped):   {total_conflicts}")
-    print(f"  Duplicates deleted:    {total_deleted}")
+    print(f"  Generic renames:       {total_renamed}")
+    print(f"  Conflicts (skipped):   {total_conflicts + total_generic_conflicts}")
+    print(f"  Duplicates deleted:    {total_deleted + total_generic_deleted}")
     print(f"  Empty dirs found:      {empty_count}")
 
     if dry_run:
         print("\nRun without --dry-run to apply changes.")
-    if total_conflicts > 0 and not delete_dupes:
+    if (total_conflicts + total_generic_conflicts) > 0 and not delete_dupes:
         print("Run with --delete-dupes to remove source variants when target already exists.")
 
 

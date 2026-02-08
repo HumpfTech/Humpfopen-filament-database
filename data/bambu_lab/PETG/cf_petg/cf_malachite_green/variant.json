@@ -1,9 +1,0 @@
-{
-  "id": "cf_malachite_green",
-  "name": "CF Malachite Green",
-  "color_hex": "#02776F",
-  "traits": {
-    "abrasive": true,
-    "contains_carbon_fiber": true
-  }
-}

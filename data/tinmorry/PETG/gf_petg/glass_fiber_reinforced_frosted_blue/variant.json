@@ -1,8 +1,0 @@
-{
-  "id": "glass_fiber_reinforced_frosted_blue",
-  "name": "Glass Fiber Reinforced  Frosted Blue",
-  "color_hex": "#6299DF",
-  "traits": {
-    "contains_glass_fiber": true
-  }
-}

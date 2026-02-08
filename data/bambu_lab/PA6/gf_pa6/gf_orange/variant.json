@@ -1,9 +1,0 @@
-{
-  "id": "gf_orange",
-  "name": "GF Orange",
-  "color_hex": "#FF5F2E",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

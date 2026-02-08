@@ -1,9 +1,0 @@
-{
-  "id": "silky_silverbell",
-  "name": "Silky Silverbell",
-  "color_hex": "#ECEFED",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

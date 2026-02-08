@@ -1,0 +1,8 @@
+{
+  "id": "frosted_red",
+  "name": "Frosted Red",
+  "color_hex": "#D33D3D",
+  "traits": {
+    "contains_glass_fiber": true
+  }
+}

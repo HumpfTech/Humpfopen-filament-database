@@ -1,8 +1,0 @@
-{
-  "id": "pet_g_green_transparent",
-  "name": "PET-G Green Transparent",
-  "color_hex": "#58C91B",
-  "traits": {
-    "translucent": true
-  }
-}

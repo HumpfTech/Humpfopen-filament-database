@@ -1,9 +1,0 @@
-{
-  "id": "cf_grass_green",
-  "name": "CF Grass Green",
-  "color_hex": "#4E7642",
-  "traits": {
-    "abrasive": true,
-    "contains_carbon_fiber": true
-  }
-}

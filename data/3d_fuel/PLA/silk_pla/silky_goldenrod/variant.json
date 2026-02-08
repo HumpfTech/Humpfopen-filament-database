@@ -1,9 +1,0 @@
-{
-  "id": "silky_goldenrod",
-  "name": "Silky Goldenrod",
-  "color_hex": "#FFCB47",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

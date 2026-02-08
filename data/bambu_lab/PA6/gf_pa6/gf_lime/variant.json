@@ -1,9 +1,0 @@
-{
-  "id": "gf_lime",
-  "name": "GF Lime",
-  "color_hex": "#BBDB4B",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

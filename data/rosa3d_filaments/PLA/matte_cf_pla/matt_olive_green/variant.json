@@ -1,0 +1,9 @@
+{
+  "id": "matt_olive_green",
+  "name": "Matt Olive Green",
+  "color_hex": "#748C45",
+  "traits": {
+    "matte": true,
+    "contains_carbon_fiber": true
+  }
+}

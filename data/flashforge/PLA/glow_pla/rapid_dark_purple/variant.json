@@ -1,0 +1,10 @@
+{
+  "id": "rapid_dark_purple",
+  "name": "Rapid  Dark Purple",
+  "color_hex": "#8A68B5",
+  "traits": {
+    "glow": true,
+    "industrially_compostable": true,
+    "abrasive": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "matt_stone_cold_gray",
+  "name": "Matt Stone Cold Gray",
+  "color_hex": "#A2AAAD",
+  "traits": {
+    "matte": true,
+    "contains_carbon_fiber": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "matt_lava_gray",
+  "name": "Matt Lava Gray",
+  "color_hex": "#595959",
+  "traits": {
+    "matte": true,
+    "contains_carbon_fiber": true
+  }
+}

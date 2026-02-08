@@ -1,9 +1,0 @@
-{
-  "id": "gf_black",
-  "name": "GF Black",
-  "color_hex": "#000000",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

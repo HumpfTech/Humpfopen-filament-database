@@ -1,8 +1,0 @@
-{
-  "id": "glass_fiber_reinforced_frosted_grey",
-  "name": "Glass Fiber Reinforced  Frosted Grey",
-  "color_hex": "#7A838E",
-  "traits": {
-    "contains_glass_fiber": true
-  }
-}
