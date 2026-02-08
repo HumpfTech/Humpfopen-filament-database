@@ -21,7 +21,6 @@ from ofd_validator import (
     validate_folder_names as _validate_folder_names,
     validate_store_ids as _validate_store_ids,
     validate_gtin_ean as _validate_gtin_ean,
-    validate_required_files as _validate_required_files,
 )
 
 

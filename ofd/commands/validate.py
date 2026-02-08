@@ -179,7 +179,7 @@ def run_validate(args: argparse.Namespace) -> int:
             print(json.dumps(output, indent=2))
         return 0 if result.is_valid else 1
 
-    # Text output mode
+    # Text output mode — print all findings, but only fail on errors
     if result.errors:
         # Group errors by category
         errors_by_category: Dict[str, List[ValidationError]] = {}
@@ -207,6 +207,7 @@ def run_validate(args: argparse.Namespace) -> int:
                 path_str = f" {_dim(str(error.path))}" if error.path else ""
                 print(f"  {tag}  {error.message}{path_str}")
 
+    if not result.is_valid:
         # Summary
         parts = []
         if result.error_count:
@@ -216,5 +217,8 @@ def run_validate(args: argparse.Namespace) -> int:
         print(f"\n{_red('x')} Validation failed: {', '.join(parts)}")
         return 1
     else:
-        print(f"\n{_green('+')} All validations passed!")
+        if result.warning_count:
+            print(f"\n{_green('+')} All validations passed ({_yellow(f'{result.warning_count} warnings')})")
+        else:
+            print(f"\n{_green('+')} All validations passed!")
         return 0
