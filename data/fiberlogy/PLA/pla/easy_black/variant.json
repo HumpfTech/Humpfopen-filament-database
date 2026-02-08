@@ -1,9 +1,0 @@
-{
-  "id": "easy_black",
-  "name": "Easy  Black",
-  "color_hex": "#808080",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
-  }
-}

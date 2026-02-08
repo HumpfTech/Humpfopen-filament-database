@@ -1,9 +1,0 @@
-{
-  "id": "economy_green_fluorescent",
-  "name": "Economy  green-fluorescent",
-  "color_hex": "#4DFF64",
-  "traits": {
-    "industrially_compostable": true,
-    "neon": true
-  }
-}

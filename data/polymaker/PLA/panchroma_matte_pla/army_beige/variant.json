@@ -1,9 +1,0 @@
-{
-  "id": "army_beige",
-  "name": "Army Beige",
-  "color_hex": "#CCA897",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

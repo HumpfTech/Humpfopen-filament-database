@@ -1,9 +1,0 @@
-{
-  "id": "easywood_olive",
-  "name": "EasyWood Olive",
-  "color_hex": "#8C7547",
-  "traits": {
-    "industrially_compostable": true,
-    "contains_wood": true
-  }
-}

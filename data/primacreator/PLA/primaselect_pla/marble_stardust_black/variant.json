@@ -1,9 +1,0 @@
-{
-  "id": "marble_stardust_black",
-  "name": "Marble Stardust Black",
-  "color_hex": "#EAECF5",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
-  }
-}

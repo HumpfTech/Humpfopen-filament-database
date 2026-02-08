@@ -1,9 +1,0 @@
-{
-  "id": "pastel_banana",
-  "name": "Pastel Banana",
-  "color_hex": "#F5CF6F",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "easywood_coconut",
-  "name": "EasyWood Coconut",
-  "color_hex": "#503529",
-  "traits": {
-    "industrially_compostable": true,
-    "contains_wood": true
-  }
-}

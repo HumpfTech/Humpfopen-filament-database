@@ -1,9 +1,0 @@
-{
-  "id": "lw_grey",
-  "name": "Lw Grey",
-  "color_hex": "#A2AAAD",
-  "traits": {
-    "industrially_compostable": true,
-    "foaming": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "huracan_light_grey",
-  "name": "Huracan  Light Grey",
-  "color_hex": "#000000",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

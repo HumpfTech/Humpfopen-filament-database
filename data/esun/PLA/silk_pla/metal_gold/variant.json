@@ -1,9 +1,0 @@
-{
-  "id": "metal_gold",
-  "name": "Metal  Gold",
-  "color_hex": "#F6C500",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

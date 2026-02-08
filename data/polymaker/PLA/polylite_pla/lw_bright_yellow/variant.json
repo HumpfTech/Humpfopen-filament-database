@@ -1,9 +1,0 @@
-{
-  "id": "lw_bright_yellow",
-  "name": "Lw Bright Yellow",
-  "color_hex": "#FAD61B",
-  "traits": {
-    "industrially_compostable": true,
-    "foaming": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "neon_magenta",
-  "name": "Neon Magenta",
-  "color_hex": "#F2306E",
-  "traits": {
-    "industrially_compostable": true,
-    "neon": true
-  }
-}

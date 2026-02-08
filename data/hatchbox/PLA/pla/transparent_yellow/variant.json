@@ -1,9 +1,0 @@
-{
-  "id": "transparent_yellow",
-  "name": "Transparent Yellow",
-  "color_hex": "#FBE200",
-  "traits": {
-    "translucent": true,
-    "industrially_compostable": true
-  }
-}

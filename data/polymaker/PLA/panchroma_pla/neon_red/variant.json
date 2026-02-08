@@ -1,9 +1,0 @@
-{
-  "id": "neon_red",
-  "name": "Neon Red",
-  "color_hex": "#FF4F4D",
-  "traits": {
-    "industrially_compostable": true,
-    "neon": true
-  }
-}

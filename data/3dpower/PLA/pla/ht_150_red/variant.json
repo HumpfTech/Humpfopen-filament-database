@@ -1,8 +1,0 @@
-{
-  "id": "ht_150_red",
-  "name": "HT 150 Red",
-  "color_hex": "#EC0000",
-  "traits": {
-    "high_temperature": true
-  }
-}

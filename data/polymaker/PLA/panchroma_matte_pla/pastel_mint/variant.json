@@ -1,9 +1,0 @@
-{
-  "id": "pastel_mint",
-  "name": "Pastel Mint",
-  "color_hex": "#BEC9A5",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "starlight_meteor",
-  "name": "Starlight Meteor",
-  "color_hex": "#4E7642",
-  "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
-  }
-}

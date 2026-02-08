@@ -1,9 +1,0 @@
-{
-  "id": "galaxy_orion_blue",
-  "name": "Galaxy  Orion Blue",
-  "color_hex": "#626D9B",
-  "traits": {
-    "industrially_compostable": true,
-    "glitter": true
-  }
-}

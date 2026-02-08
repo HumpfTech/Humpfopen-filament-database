@@ -1,9 +1,0 @@
-{
-  "id": "translucent_grey",
-  "name": "Translucent Grey",
-  "color_hex": "#9F9F9F",
-  "traits": {
-    "translucent": true,
-    "industrially_compostable": true
-  }
-}

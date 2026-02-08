@@ -1,0 +1,13 @@
+{
+  "id": "polaris",
+  "name": "Polaris",
+  "color_hex": [
+    "#15817B",
+    "#8846AE"
+  ],
+  "traits": {
+    "industrially_compostable": true,
+    "iridescent": true,
+    "glitter": true
+  }
+}

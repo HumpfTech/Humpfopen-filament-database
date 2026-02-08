@@ -1,9 +1,0 @@
-{
-  "id": "marble_limestone",
-  "name": "Marble Limestone",
-  "color_hex": "#E8DFD4",
-  "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
-  }
-}

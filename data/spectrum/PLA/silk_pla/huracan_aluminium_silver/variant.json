@@ -1,9 +1,0 @@
-{
-  "id": "huracan_aluminium_silver",
-  "name": "Huracan  Aluminium Silver",
-  "color_hex": "#ABACB0",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

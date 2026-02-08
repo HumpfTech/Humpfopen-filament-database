@@ -1,9 +1,0 @@
-{
-  "id": "lw_bright_green",
-  "name": "Lw Bright Green",
-  "color_hex": "#D0ED03",
-  "traits": {
-    "industrially_compostable": true,
-    "foaming": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "muted_red",
-  "name": "Muted Red",
-  "color_hex": "#DB3E14",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}
