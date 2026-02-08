@@ -1,6 +1,6 @@
 {
   "id": "natural",
-  "name": "+ Natural",
+  "name": "Natural",
   "color_hex": "#DFDFD3",
   "traits": {
     "industrially_compostable": true
