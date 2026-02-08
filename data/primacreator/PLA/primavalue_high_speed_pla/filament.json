@@ -1,6 +1,6 @@
 {
   "id": "primavalue_high_speed_pla",
-  "name": "Primavalue PLA",
+  "name": "Primavalue High Speed PLA",
   "diameter_tolerance": 0.02,
   "density": 1.24,
   "min_print_temperature": 190,

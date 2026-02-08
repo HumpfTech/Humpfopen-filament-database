@@ -1,9 +1,0 @@
-{
-  "id": "elixir_electric_lemonade",
-  "name": "Elixir Electric Lemonade",
-  "color_hex": "#C2BD5A",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

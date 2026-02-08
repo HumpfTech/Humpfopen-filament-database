@@ -1,8 +1,0 @@
-{
-  "id": "fil_noir_alumine",
-  "name": "Fil  Noir alumine",
-  "color_hex": "#000000",
-  "traits": {
-    "contains_aluminium": true
-  }
-}

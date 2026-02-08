@@ -1,9 +1,0 @@
-{
-  "id": "fibersilk_metallic_red",
-  "name": "FiberSilk Metallic Red",
-  "color_hex": "#BF1D2D",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

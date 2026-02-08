@@ -1,6 +1,6 @@
 {
   "id": "high_speed_pla",
-  "name": "PLA",
+  "name": "High Speed PLA",
   "diameter_tolerance": 0.02,
   "density": 1.24,
   "min_print_temperature": 190,

@@ -1,0 +1,12 @@
+{
+  "id": "anthracite",
+  "name": "Anthracite",
+  "color_hex": "#697272",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  },
+  "color_standards": {
+    "ral": "7016"
+  }
+}

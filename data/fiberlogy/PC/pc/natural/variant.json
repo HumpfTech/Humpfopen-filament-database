@@ -1,6 +1,6 @@
 {
   "id": "natural",
-  "name": "/ABS Natural",
+  "name": "Natural",
   "color_hex": "#EFE8D8",
   "traits": {
     "without_pigments": true

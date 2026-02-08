@@ -1,6 +1,6 @@
 {
   "id": "green",
-  "name": "Glow-in-the-Dark Green",
+  "name": "Green",
   "color_hex": "#00CC00",
   "traits": {
     "glow": true,

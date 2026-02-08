@@ -1,6 +1,6 @@
 {
   "id": "glow_abs",
-  "name": "ABS",
+  "name": "Glow ABS",
   "diameter_tolerance": 0.02,
   "density": 1.04,
   "min_print_temperature": 230,

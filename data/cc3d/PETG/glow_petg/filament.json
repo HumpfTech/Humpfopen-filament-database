@@ -1,6 +1,6 @@
 {
   "id": "glow_petg",
-  "name": "PETG",
+  "name": "Glow PETG",
   "diameter_tolerance": 0.02,
   "density": 1.27,
   "min_print_temperature": 220,

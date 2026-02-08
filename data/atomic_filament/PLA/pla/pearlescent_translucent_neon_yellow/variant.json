@@ -6,7 +6,6 @@
     "translucent": true,
     "industrially_compostable": true,
     "pearlescent": true,
-    "neon": true,
-    "uv_reactive": true
+    "neon": true
   }
 }

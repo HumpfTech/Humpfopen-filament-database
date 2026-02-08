@@ -1,8 +1,0 @@
-{
-  "id": "red",
-  "name": "Red",
-  "color_hex": "#E03F26",
-  "traits": {
-    "filtration_recommended": true
-  }
-}

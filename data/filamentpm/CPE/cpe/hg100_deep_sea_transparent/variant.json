@@ -1,8 +1,0 @@
-{
-  "id": "hg100_deep_sea_transparent",
-  "name": "HG100 \"Deep Sea Transparent\"",
-  "color_hex": "#0099E6",
-  "traits": {
-    "translucent": true
-  }
-}

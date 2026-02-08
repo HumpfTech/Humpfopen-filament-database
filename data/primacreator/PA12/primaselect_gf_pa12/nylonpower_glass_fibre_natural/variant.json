@@ -1,9 +1,0 @@
-{
-  "id": "nylonpower_glass_fibre_natural",
-  "name": "Nylonpower Glass Fibre Natural",
-  "color_hex": "#DFDFD3",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

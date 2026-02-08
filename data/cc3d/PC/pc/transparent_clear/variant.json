@@ -1,6 +1,6 @@
 {
   "id": "transparent_clear",
-  "name": "Transparent  Clear",
+  "name": "Transparent Clear",
   "color_hex": "#EFE8D8",
   "traits": {
     "translucent": true

@@ -1,8 +1,0 @@
-{
-  "id": "fil_vert_nacr_alumine",
-  "name": "Fil  Vert Nacré Alumine",
-  "color_hex": "#23668C",
-  "traits": {
-    "contains_aluminium": true
-  }
-}

@@ -9,6 +9,8 @@ Detects and fixes several categories of naming problems in the data/ hierarchy:
   Category 5: Colors merged into filament names (auto-fix via color split)
   Category 6: Overly long variant names (report only for leftovers)
   Category 7: Product line prefix/suffix at variant level (auto-fix)
+  Category 8: Universal common-prefix detection (auto-fix)
+  Category 9: Broken display names (auto-fix)
 
 Usage:
   ofd script cleanup_opt_naming              # dry-run, prints report
@@ -1177,6 +1179,406 @@ def detect_and_apply_color_split(data_dir: Path, brand: str,
 
 
 # ---------------------------------------------------------------------------
+# Helpers for Category 8
+# ---------------------------------------------------------------------------
+
+# Material keywords that should be UPPERCASED in display names.
+_MATERIAL_UPPER = {
+    "pla", "petg", "abs", "asa", "tpu", "tpe", "pa", "pa6", "pa12",
+    "pc", "pva", "hips", "pctg", "pvdf", "pom", "peek", "pei", "pet",
+    "pps", "ppa", "pvb", "pbt", "cf", "gf", "ht", "uv", "hs",
+}
+
+
+def id_to_display_name(slug: str) -> str:
+    """Convert a filament/variant slug to a proper display name.
+
+    Material keywords are uppercased; everything else is title-cased.
+    E.g. ``95a_tpu`` -> ``95A TPU``, ``high_speed_pla`` -> ``High Speed PLA``.
+    """
+    parts = slug.split("_")
+    result = []
+    for p in parts:
+        if p.lower() in _MATERIAL_UPPER:
+            result.append(p.upper())
+        else:
+            result.append(p.title())
+    return " ".join(result)
+
+
+def compute_common_prefix(names: list[str]) -> str:
+    """Return the longest common prefix ending in ``_`` shared by all *names*.
+
+    Returns an empty string when no qualifying prefix exists.
+    """
+    if not names:
+        return ""
+    prefix = names[0]
+    for name in names[1:]:
+        while not name.startswith(prefix):
+            prefix = prefix[:-1]
+            if not prefix:
+                return ""
+    # Truncate to the last underscore so the prefix is a complete "word_"
+    idx = prefix.rfind("_")
+    if idx > 0:
+        return prefix[: idx + 1]
+    return ""
+
+
+def prefix_implied_by_filament(prefix: str, filament_id: str, brand: str) -> bool:
+    """Return True if the prefix information is already captured by the hierarchy.
+
+    When True the fix is a simple in-place rename (strip); when False the fix
+    is a structural move to a new filament directory.
+    """
+    p = prefix.rstrip("_")
+
+    # Direct containment: "metallic" in "metallic_pla"
+    if p in filament_id:
+        return True
+
+    # Abbreviation: "hs" for "high_speed"
+    if p == "hs" and "high_speed" in filament_id:
+        return True
+    if p == "high_speed" and "high_speed" in filament_id:
+        return True
+
+    # Material re-spelling: "pet_g" for "petg", "matt_pet_g" for "matte_petg"
+    if p.replace("_", "") in filament_id.replace("_", ""):
+        return True
+
+    # Glow patterns: "glow_in_the_dark" or "starter_glow_in_the_dark" for "glow_*"
+    if "glow_in_the_dark" in prefix and "glow" in filament_id:
+        return True
+
+    # Brand name present in prefix: "voxel_hs" contains "voxel" from "voxel_pla"
+    brand_parts = set(brand.split("_"))
+    prefix_parts = set(p.split("_"))
+    if brand_parts & prefix_parts:
+        return True
+
+    return False
+
+
+# ---------------------------------------------------------------------------
+# Detection + Apply: Category 8 — Universal common-prefix detection
+# ---------------------------------------------------------------------------
+
+def detect_and_apply_common_prefix(data_dir: Path, brand: str,
+                                    report: CleanupReport,
+                                    dry_run: bool) -> None:
+    """Detect filament types where ALL variants share a common prefix.
+
+    * If the prefix is already implied by the filament type name (or brand
+      name), the variants are renamed in-place (prefix stripped).
+    * Otherwise, a new filament directory is created incorporating the prefix,
+      and the variants are moved into it.
+    """
+    brand_dir = data_dir / brand
+    if not brand_dir.is_dir():
+        return
+
+    for material_dir in sorted(brand_dir.iterdir()):
+        if not material_dir.is_dir() or material_dir.name.startswith("."):
+            continue
+
+        # Snapshot filament dirs (we may add new ones during iteration).
+        filament_dirs = sorted([
+            d for d in material_dir.iterdir()
+            if d.is_dir() and not d.name.startswith(".")
+        ])
+
+        for filament_dir in filament_dirs:
+            variant_dirs = sorted([
+                d for d in filament_dir.iterdir()
+                if d.is_dir() and not d.name.startswith(".")
+            ])
+
+            if len(variant_dirs) < 2:
+                continue
+
+            variant_names = [d.name for d in variant_dirs]
+            cp = compute_common_prefix(variant_names)
+
+            if not cp or len(cp) < 3:
+                continue
+
+            # Verify ALL variants truly share the prefix.
+            if not all(v.startswith(cp) for v in variant_names):
+                continue
+
+            filament_id = filament_dir.name
+            implied = prefix_implied_by_filament(cp, filament_id, brand)
+
+            if implied:
+                # --- Strip in-place ---
+                _apply_strip(data_dir, brand, material_dir, filament_dir,
+                             variant_dirs, cp, report, dry_run)
+            else:
+                # --- Structural move to new filament type ---
+                _apply_move(data_dir, brand, material_dir, filament_dir,
+                            variant_dirs, cp, report, dry_run)
+
+
+def _apply_strip(data_dir: Path, brand: str, material_dir: Path,
+                  filament_dir: Path, variant_dirs: list[Path],
+                  prefix: str, report: CleanupReport, dry_run: bool) -> None:
+    """Strip *prefix* from all variant dirs under *filament_dir* in-place."""
+    existing = {d.name for d in variant_dirs}
+
+    for variant_dir in variant_dirs:
+        old_id = variant_dir.name
+        new_id = old_id[len(prefix):]
+        if not new_id:
+            continue
+
+        rel_old = (f"{brand}/{material_dir.name}/"
+                   f"{filament_dir.name}/{old_id}")
+        rel_new = (f"{brand}/{material_dir.name}/"
+                   f"{filament_dir.name}/{new_id}")
+
+        # Collision check
+        if new_id in existing and new_id != old_id:
+            report.skipped.append(
+                f"Cat 8: {rel_old} -> {new_id} would collide"
+            )
+            continue
+
+        report.actions.append(CleanupAction(
+            category=8,
+            brand=brand,
+            old_path=rel_old,
+            new_path=rel_new,
+            description=f"Strip common prefix '{prefix}'",
+            confidence="auto",
+        ))
+
+        existing.discard(old_id)
+        existing.add(new_id)
+
+        if dry_run:
+            continue
+
+        new_variant_dir = filament_dir / new_id
+        shutil.move(str(variant_dir), str(new_variant_dir))
+
+        # Update variant.json
+        variant_json = new_variant_dir / "variant.json"
+        if variant_json.exists():
+            data = load_json(variant_json)
+            if data:
+                data["id"] = new_id
+                data["name"] = _clean_variant_name(
+                    data.get("name", ""), prefix, new_id)
+                save_json(variant_json, data)
+
+
+def _apply_move(data_dir: Path, brand: str, material_dir: Path,
+                 filament_dir: Path, variant_dirs: list[Path],
+                 prefix: str, report: CleanupReport, dry_run: bool) -> None:
+    """Move variants into a new filament dir named ``{prefix}{filament_id}``."""
+    filament_id = filament_dir.name
+    product_line = prefix.rstrip("_")
+    new_filament_id = f"{product_line}_{filament_id}"
+    new_filament_dir = material_dir / new_filament_id
+
+    # Track proposed targets for collision detection.
+    proposed: set[str] = set()
+
+    for variant_dir in variant_dirs:
+        old_id = variant_dir.name
+        new_id = old_id[len(prefix):]
+        if not new_id:
+            report.skipped.append(
+                f"Cat 8: {brand}/{material_dir.name}/"
+                f"{filament_id}/{old_id} -> empty after stripping '{prefix}'"
+            )
+            continue
+
+        target_variant_dir = new_filament_dir / new_id
+
+        rel_old = (f"{brand}/{material_dir.name}/"
+                   f"{filament_id}/{old_id}")
+        rel_new = (f"{brand}/{material_dir.name}/"
+                   f"{new_filament_id}/{new_id}")
+
+        target_key = str(target_variant_dir)
+        if target_variant_dir.exists() or target_key in proposed:
+            report.skipped.append(
+                f"Cat 8: {rel_old} -> {rel_new} would collide"
+            )
+            continue
+
+        report.actions.append(CleanupAction(
+            category=8,
+            brand=brand,
+            old_path=rel_old,
+            new_path=rel_new,
+            description=(f"Move to new filament '{new_filament_id}', "
+                         f"strip prefix '{prefix}'"),
+            confidence="auto",
+        ))
+
+        proposed.add(target_key)
+
+        if dry_run:
+            continue
+
+        # Create new filament dir + filament.json on first encounter.
+        new_filament_dir.mkdir(parents=True, exist_ok=True)
+        new_filament_json = new_filament_dir / "filament.json"
+        if not new_filament_json.exists():
+            filament_data: dict[str, Any] = {}
+            source_fj = filament_dir / "filament.json"
+            if source_fj.exists():
+                loaded = load_json(source_fj)
+                if loaded:
+                    filament_data = loaded.copy()
+            filament_data["id"] = new_filament_id
+            filament_data["name"] = id_to_display_name(new_filament_id)
+            save_json(new_filament_json, filament_data)
+
+        # Move variant directory.
+        shutil.move(str(variant_dir), str(target_variant_dir))
+
+        # Update variant.json
+        variant_json = target_variant_dir / "variant.json"
+        if variant_json.exists():
+            data = load_json(variant_json)
+            if data:
+                data["id"] = new_id
+                data["name"] = _clean_variant_name(
+                    data.get("name", ""), prefix, new_id)
+                save_json(variant_json, data)
+
+    if dry_run:
+        return
+
+    # If the original filament dir lost ALL its variant subdirs, clean it up.
+    remaining_variants = [
+        d for d in filament_dir.iterdir()
+        if d.is_dir() and not d.name.startswith(".")
+    ]
+    if not remaining_variants and filament_dir.exists():
+        shutil.rmtree(str(filament_dir))
+
+
+def _clean_variant_name(old_name: str, prefix: str, new_id: str) -> str:
+    """Derive a clean display name for a variant after prefix stripping.
+
+    Tries to intelligently clean the old name first; falls back to generating
+    from the new ID slug.
+    """
+    # Remove empty parentheses left by OPT import first.
+    cleaned = re.sub(r"\(\s*\)", "", old_name).strip()
+
+    # Build a regex from the prefix slug.  Each underscore becomes a flexible
+    # separator matching whitespace, underscores, hyphens, and stray
+    # non-alphanumeric chars (like "+").
+    sep = r"[\s_+\-.*]*"
+    parts = prefix.rstrip("_").split("_")
+    pattern_str = r"^" + sep.join(re.escape(p) for p in parts) + sep
+    cleaned = re.sub(pattern_str, "", cleaned, flags=re.IGNORECASE).strip()
+
+    # Collapse multiple spaces.
+    cleaned = re.sub(r"\s{2,}", " ", cleaned).strip()
+
+    if cleaned:
+        return cleaned
+
+    # Fallback: generate from slug.
+    return clean_display_name(new_id)
+
+
+# ---------------------------------------------------------------------------
+# Detection + Apply: Category 9 — Broken display names
+# ---------------------------------------------------------------------------
+
+def detect_and_apply_name_fixes(data_dir: Path, brand: str,
+                                 report: CleanupReport,
+                                 dry_run: bool) -> None:
+    """Fix broken display names in variant.json files.
+
+    Targets:
+    * Empty parentheses ``()``
+    * Double/triple spaces
+    * Leading/trailing whitespace
+    """
+    brand_dir = data_dir / brand
+    if not brand_dir.is_dir():
+        return
+
+    for material_dir in sorted(brand_dir.iterdir()):
+        if not material_dir.is_dir() or material_dir.name.startswith("."):
+            continue
+
+        for filament_dir in sorted(material_dir.iterdir()):
+            if not filament_dir.is_dir() or filament_dir.name.startswith("."):
+                continue
+
+            for variant_dir in sorted(filament_dir.iterdir()):
+                if not variant_dir.is_dir() or variant_dir.name.startswith("."):
+                    continue
+
+                variant_json = variant_dir / "variant.json"
+                if not variant_json.exists():
+                    continue
+
+                data = load_json(variant_json)
+                if not data:
+                    continue
+
+                name = data.get("name", "")
+                if not name:
+                    continue
+
+                new_name = name
+
+                # Remove empty parentheses.
+                new_name = re.sub(r"\(\s*\)", "", new_name)
+
+                # Collapse multiple spaces.
+                new_name = re.sub(r"\s{2,}", " ", new_name)
+
+                # Strip leading/trailing whitespace.
+                new_name = new_name.strip()
+
+                if not new_name:
+                    new_name = clean_display_name(variant_dir.name)
+
+                # Detect leftover prefix content: if the name is
+                # significantly longer than what the ID would produce
+                # and ends with the ID-based name, strip the extra.
+                expected = clean_display_name(variant_dir.name)
+                if (new_name != expected
+                        and new_name.lower().endswith(expected.lower())
+                        and len(new_name) > len(expected) + 2):
+                    new_name = expected
+
+                if new_name == name:
+                    continue
+
+                rel = (f"{brand}/{material_dir.name}/"
+                       f"{filament_dir.name}/{variant_dir.name}")
+
+                report.actions.append(CleanupAction(
+                    category=9,
+                    brand=brand,
+                    old_path=rel,
+                    new_path="",
+                    description=f"Fix display name: '{name}' -> '{new_name}'",
+                    confidence="auto",
+                ))
+
+                if dry_run:
+                    continue
+
+                data["name"] = new_name
+                save_json(variant_json, data)
+
+
+# ---------------------------------------------------------------------------
 # Report formatting
 # ---------------------------------------------------------------------------
 
@@ -1209,6 +1611,8 @@ def format_report(report: CleanupReport, applied: bool) -> str:
                 3: "Import prefix stripped",
                 5: "Color split from filament name",
                 7: "Product line moved to filament dir",
+                8: "Common prefix stripped/moved",
+                9: "Display name fixed",
             }
             label = cat_labels.get(cat, f"Category {cat}")
             lines.append(f"\n  Category {cat} - {label} ({len(cat_actions)}):")
@@ -1290,7 +1694,7 @@ class CleanupOptNamingScript(BaseScript):
             help="Only process a specific brand (by folder name)",
         )
         parser.add_argument(
-            "--category", type=int, choices=[1, 2, 3, 4, 5, 6, 7], default=None,
+            "--category", type=int, choices=[1, 2, 3, 4, 5, 6, 7, 8, 9], default=None,
             help="Only process a specific category of issues",
         )
         parser.add_argument(
@@ -1350,6 +1754,18 @@ class CleanupOptNamingScript(BaseScript):
             # Category 5: Color split from filament names (auto-fix)
             if category_filter is None or category_filter == 5:
                 detect_and_apply_color_split(
+                    self.data_dir, brand, report, dry_run
+                )
+
+            # Category 8: Universal common-prefix detection (auto-fix)
+            if category_filter is None or category_filter == 8:
+                detect_and_apply_common_prefix(
+                    self.data_dir, brand, report, dry_run
+                )
+
+            # Category 9: Broken display names (auto-fix)
+            if category_filter is None or category_filter == 9:
+                detect_and_apply_name_fixes(
                     self.data_dir, brand, report, dry_run
                 )
 

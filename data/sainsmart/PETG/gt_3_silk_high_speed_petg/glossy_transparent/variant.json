@@ -1,9 +1,0 @@
-{
-  "id": "glossy_transparent",
-  "name": "Glossy Transparent",
-  "color_hex": "#E4E7E5",
-  "traits": {
-    "translucent": true,
-    "silk": true
-  }
-}

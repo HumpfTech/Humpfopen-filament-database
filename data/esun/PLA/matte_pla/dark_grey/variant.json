@@ -1,9 +1,0 @@
-{
-  "id": "dark_grey",
-  "name": "Dark Grey",
-  "color_hex": "#94A7B7",
-  "traits": {
-    "matte": true,
-    "industrially_compostable": true
-  }
-}

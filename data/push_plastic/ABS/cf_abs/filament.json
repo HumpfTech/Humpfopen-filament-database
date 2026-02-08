@@ -1,6 +1,6 @@
 {
   "id": "cf_abs",
-  "name": "ABS",
+  "name": "CF ABS",
   "diameter_tolerance": 0.02,
   "density": 1.04,
   "min_print_temperature": 230,

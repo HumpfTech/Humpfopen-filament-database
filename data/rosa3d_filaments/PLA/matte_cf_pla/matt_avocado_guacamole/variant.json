@@ -1,9 +1,0 @@
-{
-  "id": "matt_avocado_guacamole",
-  "name": "Matt Avocado Guacamole",
-  "color_hex": "#70A641",
-  "traits": {
-    "matte": true,
-    "contains_carbon_fiber": true
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "id": "hs_clear_orange",
-  "name": "HS  Clear Orange",
-  "color_hex": "#E03F26",
-  "traits": {
-    "translucent": true,
-    "industrially_compostable": true
-  }
-}

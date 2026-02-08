@@ -1,9 +1,0 @@
-{
-  "id": "fibersilk_metallic_bronze",
-  "name": "FiberSilk Metallic Bronze",
-  "color_hex": "#C79114",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

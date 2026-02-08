@@ -5,7 +5,6 @@
   "traits": {
     "translucent": true,
     "industrially_compostable": true,
-    "neon": true,
-    "uv_reactive": true
+    "neon": true
   }
 }

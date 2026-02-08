@@ -1,9 +1,0 @@
-{
-  "id": "nylon_gf15_natural",
-  "name": "Nylon  + GF15 Natural",
-  "color_hex": "#EFE8D8",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

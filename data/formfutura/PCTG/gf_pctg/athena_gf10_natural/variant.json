@@ -1,9 +1,0 @@
-{
-  "id": "athena_gf10_natural",
-  "name": "Athena GF10 Natural",
-  "color_hex": "#F2EFE9",
-  "traits": {
-    "without_pigments": true,
-    "contains_glass_fiber": true
-  }
-}

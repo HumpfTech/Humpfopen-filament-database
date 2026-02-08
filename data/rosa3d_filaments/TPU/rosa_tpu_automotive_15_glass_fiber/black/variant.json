@@ -1,4 +1,8 @@
 {
   "id": "black",
-  "name": "Black"
+  "name": "Black",
+  "color_hex": "#1A1A1A",
+  "traits": {
+    "contains_glass_fiber": true
+  }
 }

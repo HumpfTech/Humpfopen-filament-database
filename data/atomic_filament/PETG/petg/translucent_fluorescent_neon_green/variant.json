@@ -4,7 +4,6 @@
   "color_hex": "#7FE200",
   "traits": {
     "translucent": true,
-    "neon": true,
-    "uv_reactive": true
+    "neon": true
   }
 }

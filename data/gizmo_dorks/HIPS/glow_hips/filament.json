@@ -1,6 +1,6 @@
 {
   "id": "glow_hips",
-  "name": "HIPS",
+  "name": "Glow HIPS",
   "diameter_tolerance": 0.02,
   "density": 1.04,
   "min_print_temperature": 220,

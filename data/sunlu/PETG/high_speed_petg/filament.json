@@ -1,6 +1,6 @@
 {
   "id": "high_speed_petg",
-  "name": "PETG",
+  "name": "High Speed PETG",
   "diameter_tolerance": 0.02,
   "density": 1.27,
   "min_print_temperature": 220,

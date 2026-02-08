@@ -1,6 +1,6 @@
 {
   "id": "silk_gf_pla",
-  "name": "Silk PLA",
+  "name": "Silk GF PLA",
   "diameter_tolerance": 0.02,
   "density": 1.28,
   "min_print_temperature": 190,

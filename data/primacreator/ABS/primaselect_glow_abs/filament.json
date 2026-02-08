@@ -1,6 +1,6 @@
 {
   "id": "primaselect_glow_abs",
-  "name": "Primaselect ABS",
+  "name": "Primaselect Glow ABS",
   "diameter_tolerance": 0.02,
   "density": 1.04,
   "min_print_temperature": 230,

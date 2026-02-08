@@ -1,9 +1,0 @@
-{
-  "id": "wood_maple",
-  "name": "Wood  Maple",
-  "color_hex": "#ECCEA7",
-  "traits": {
-    "industrially_compostable": true,
-    "contains_wood": true
-  }
-}

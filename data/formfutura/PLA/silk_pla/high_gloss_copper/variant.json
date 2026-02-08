@@ -1,9 +1,0 @@
-{
-  "id": "high_gloss_copper",
-  "name": "High Gloss  Copper",
-  "color_hex": "#8D5D4F",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

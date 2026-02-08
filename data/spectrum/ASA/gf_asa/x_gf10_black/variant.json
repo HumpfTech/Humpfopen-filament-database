@@ -1,9 +1,0 @@
-{
-  "id": "x_gf10_black",
-  "name": "X GF10 Black",
-  "color_hex": "#000000",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

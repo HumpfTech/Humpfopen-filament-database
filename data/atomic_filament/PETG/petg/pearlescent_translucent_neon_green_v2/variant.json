@@ -5,7 +5,6 @@
   "traits": {
     "translucent": true,
     "pearlescent": true,
-    "neon": true,
-    "uv_reactive": true
+    "neon": true
   }
 }

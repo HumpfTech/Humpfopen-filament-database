@@ -1,6 +1,6 @@
 {
   "id": "gt_3_high_speed_tpu",
-  "name": "Gt 3 TPU",
+  "name": "Gt 3 High Speed TPU",
   "diameter_tolerance": 0.02,
   "density": 1.21,
   "min_print_temperature": 210,

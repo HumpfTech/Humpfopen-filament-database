@@ -1,0 +1,12 @@
+{
+  "id": "military_green",
+  "name": "Military Green",
+  "color_hex": "#4C645B",
+  "traits": {
+    "matte": true,
+    "industrially_compostable": true
+  },
+  "color_standards": {
+    "ral": "6003"
+  }
+}

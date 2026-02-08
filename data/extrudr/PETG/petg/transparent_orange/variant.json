@@ -1,0 +1,11 @@
+{
+  "id": "transparent_orange",
+  "name": "Transparent Orange",
+  "color_hex": "#FF5F2E",
+  "traits": {
+    "translucent": true
+  },
+  "color_standards": {
+    "ral": "2010"
+  }
+}
