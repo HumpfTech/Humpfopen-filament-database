@@ -53,8 +53,20 @@ if not defined SKIP_SETUP (
             echo [INFO] Dependencies have changed. Updating...
             call "%VENV_DIR%\Scripts\activate.bat"
             pip install -q --upgrade pip
+            if errorlevel 1 (
+                echo [ERROR] Failed to upgrade pip
+                exit /b 1
+            )
             pip install -q -r "%REQUIREMENTS_FILE%"
+            if errorlevel 1 (
+                echo [ERROR] Failed to install requirements
+                exit /b 1
+            )
             pip install -q -e "%SCRIPT_DIR%"
+            if errorlevel 1 (
+                echo [ERROR] Failed to install package
+                exit /b 1
+            )
             echo. > "%SETUP_MARKER%"
             echo [OK] Dependencies updated
         )
@@ -162,8 +174,20 @@ call "%VENV_DIR%\Scripts\activate.bat"
 
 echo [INFO] Installing Python dependencies...
 pip install -q --upgrade pip
+if errorlevel 1 (
+    echo [ERROR] Failed to upgrade pip
+    exit /b 1
+)
 pip install -q -r "%REQUIREMENTS_FILE%"
+if errorlevel 1 (
+    echo [ERROR] Failed to install requirements
+    exit /b 1
+)
 pip install -q -e "%SCRIPT_DIR%"
+if errorlevel 1 (
+    echo [ERROR] Failed to install package
+    exit /b 1
+)
 echo [OK] Python dependencies installed
 
 :: Mark setup complete
@@ -217,8 +241,20 @@ call "%VENV_DIR%\Scripts\activate.bat"
 
 echo [INFO] Installing Python dependencies...
 pip install -q --upgrade pip
+if errorlevel 1 (
+    echo [ERROR] Failed to upgrade pip
+    exit /b 1
+)
 pip install -q -r "%REQUIREMENTS_FILE%"
+if errorlevel 1 (
+    echo [ERROR] Failed to install requirements
+    exit /b 1
+)
 pip install -q -e "%SCRIPT_DIR%"
+if errorlevel 1 (
+    echo [ERROR] Failed to install package
+    exit /b 1
+)
 
 :: Mark setup complete
 echo. > "%SETUP_MARKER%"
