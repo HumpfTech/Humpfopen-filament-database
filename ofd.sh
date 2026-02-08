@@ -210,6 +210,18 @@ is_setup_complete() {
     [ -f "$SETUP_MARKER" ] && [ -d "$VENV_DIR/bin" ]
 }
 
+# Check if dependencies need updating (requirements.txt or pyproject.toml changed since last install)
+deps_need_update() {
+    [ -f "$SETUP_MARKER" ] || return 1
+    if [ -f "$REQUIREMENTS_FILE" ] && [ "$REQUIREMENTS_FILE" -nt "$SETUP_MARKER" ]; then
+        return 0
+    fi
+    if [ -f "$SCRIPT_DIR/pyproject.toml" ] && [ "$SCRIPT_DIR/pyproject.toml" -nt "$SETUP_MARKER" ]; then
+        return 0
+    fi
+    return 1
+}
+
 # Check if WebUI setup is complete
 is_webui_setup_complete() {
     [ -f "$WEBUI_SETUP_MARKER" ] && [ -d "$WEBUI_DIR/node_modules" ]
@@ -419,6 +431,12 @@ main() {
     if [ "$skip_setup" = false ] && ! is_setup_complete; then
         info "First run detected. Setting up Python environment..."
         run_python_setup
+    elif [ "$skip_setup" = false ] && deps_need_update; then
+        info "Dependencies have changed. Updating..."
+        activate_venv
+        install_python_deps
+        mark_setup_complete
+        success "Dependencies updated"
     fi
 
     # Setup WebUI if webui command is used and not yet setup
