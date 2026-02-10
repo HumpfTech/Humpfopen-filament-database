@@ -56,6 +56,8 @@
       <BrandForm
         defaultForm={data.brandForm}
         formType={'edit'}
+        brandId={brandData.id}
+        brandLogo={brandData.logo}
       />
     </EditModal>
   </div>

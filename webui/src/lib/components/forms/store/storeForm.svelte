@@ -15,7 +15,7 @@
   import ShippingList from './components/shippingList.svelte';
 
   type formType = 'edit' | 'create';
-  let { defaultForm, formType } = $props();
+  let { defaultForm, formType, storeId = null, storeLogo = null } = $props();
 
   const {
     form,
@@ -75,15 +75,14 @@
   />
 
 
-  {#if formType === 'create'}
-    <LogoUpload
-      id="logo"
-      title="Logo"
-      bind:file={$file}
-      errorVar={$errors.logo}
-      required={true}
-    />
-  {/if}
+  <LogoUpload
+    id="logo"
+    title="Logo"
+    bind:file={$file}
+    errorVar={$errors.logo}
+    required={formType === 'create'}
+    currentLogo={formType === 'edit' && storeId && storeLogo ? `/stores/${storeId}/${storeLogo}` : null}
+  />
 
   <div class="grid grid-cols-2 gap-3">
     <ShippingList

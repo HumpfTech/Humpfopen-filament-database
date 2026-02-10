@@ -15,7 +15,7 @@
   import { pseudoEdit } from '$lib/pseudoEditor';
 
   type formType = 'edit' | 'create';
-  let { defaultForm, formType } = $props();
+  let { defaultForm, formType, brandId = null, brandLogo = null } = $props();
 
   const {
     form,
@@ -92,15 +92,14 @@
     required={true} 
   />
 
-  {#if formType === 'create'}
-    <LogoUpload
-      id="logo"
-      title="Logo"
-      bind:file={$file}
-      errorVar={$errors.logo}
-      required={true}
-    />
-  {/if}
+  <LogoUpload
+    id="logo"
+    title="Logo"
+    bind:file={$file}
+    errorVar={$errors.logo}
+    required={formType === 'create'}
+    currentLogo={formType === 'edit' && brandId && brandLogo ? `/data/${brandId}/${brandLogo}` : null}
+  />
 
   <SubmitButton>
     {formType === 'edit' ? 'Save' : 'Create'}
