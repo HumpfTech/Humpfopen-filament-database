@@ -58,7 +58,10 @@
           >
             <StoreForm
               defaultForm={data.storeForm}
-              formType={'edit'} />
+              formType={'edit'}
+              storeId={data.storeData.id}
+              storeLogo={data.storeData.logo}
+            />
           </EditModal>
         {/key}
       </div>

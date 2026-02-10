@@ -8,82 +8,33 @@
 	import ValidationProgressModal from './ValidationProgressModal.svelte';
 
 	let isOpen = $state(false);
-	let showModal = $state(false);
-	let currentJobId = $state<string | null>(null);
 	let checkInterval: NodeJS.Timeout | null = null;
 	const sse = useSSE();
 
-	// Function to check validation status and reconnect if needed
-	async function checkValidationStatus() {
-		// Don't check if already connected or modal is open
-		if ($validationStore.isValidating || showModal) {
-			return;
-		}
+	// Sort & Validate state
+	let showModal = $state(false);
+	let currentJobId = $state<string | null>(null);
+	let isRunning = $state(false);
 
-		try {
-			const response = await fetch('/api/validate/status');
-			if (response.ok) {
-				const { running, jobId } = await response.json();
-				if (running) {
-					// Silently reconnect to existing validation
-					validationStore.setValidating(true);
-					currentJobId = jobId;
-
-					// Connect to SSE stream in background
-					sse.connect('/api/validate/stream/current', {
-						onProgress: () => {
-							// Silent progress updates
-						},
-						onComplete: (result) => {
-							if (result.errors !== undefined) {
-								validationStore.setResults(result);
-							}
-							validationStore.setValidating(false);
-						},
-						onError: (err) => {
-							console.error('Background validation error:', err);
-							validationStore.setValidating(false);
-						}
-					});
-				}
-			}
-		} catch (error) {
-			console.error('Failed to check validation status:', error);
-		}
-	}
-
-	// Check for running validation on mount
-	onMount(async () => {
-		await checkValidationStatus();
-
-		// Poll for validation status every 3 seconds
-		checkInterval = setInterval(checkValidationStatus, 3000);
-	});
-
-	// Clean up interval on unmount
-	onDestroy(() => {
-		if (checkInterval) {
-			clearInterval(checkInterval);
-		}
-	});
-
-	async function runValidation() {
+	async function runSortAndValidate() {
+		isRunning = true;
 		validationStore.setValidating(true);
 
 		try {
-			const response = await fetch('/api/validate', {
+			const response = await fetch('/api/sort', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ type: 'full' })
+				body: JSON.stringify({ dryRun: false, runValidation: true })
 			});
 
 			if (!response.ok) {
 				if (response.status === 409) {
 					const { error } = await response.json();
-					alert(error || 'A validation is already running. Please wait for it to complete.');
+					alert(error || 'An operation is already running. Please wait for it to complete.');
 				} else {
-					alert('Failed to start validation. Please try again.');
+					alert('Failed to start operation. Please try again.');
 				}
+				isRunning = false;
 				validationStore.setValidating(false);
 				return;
 			}
@@ -92,16 +43,72 @@
 			currentJobId = jobId;
 			showModal = true;
 		} catch (error) {
-			console.error('Failed to start validation:', error);
+			console.error('Failed to start sort & validate:', error);
+			isRunning = false;
 			validationStore.setValidating(false);
-			alert('Failed to start validation. Please try again.');
+			alert('Failed to start operation. Please try again.');
 		}
 	}
 
 	function handleModalClose() {
 		showModal = false;
+		isRunning = false;
 		validationStore.setValidating(false);
 	}
+
+	// Function to check for running operations and reconnect if needed
+	async function checkOperationStatus() {
+		if ($validationStore.isValidating) {
+			return;
+		}
+
+		try {
+			const response = await fetch('/api/validate/status');
+			if (response.ok) {
+				const { running, jobId } = await response.json();
+				if (running) {
+					// Silently reconnect to existing operation
+					validationStore.setValidating(true);
+
+					// Connect to SSE stream in background
+					sse.connect('/api/validate/stream/current', {
+						onProgress: () => {
+							// Silent progress updates
+						},
+						onComplete: (result) => {
+							if (result && result.errors !== undefined) {
+								validationStore.setResults(result);
+							} else if (result && result.validation !== undefined) {
+								validationStore.setResults(result.validation);
+							}
+							validationStore.setValidating(false);
+						},
+						onError: (err) => {
+							console.error('Background operation error:', err);
+							validationStore.setValidating(false);
+						}
+					});
+				}
+			}
+		} catch (error) {
+			console.error('Failed to check operation status:', error);
+		}
+	}
+
+	// Check for running operations on mount
+	onMount(async () => {
+		await checkOperationStatus();
+
+		// Poll for status every 3 seconds
+		checkInterval = setInterval(checkOperationStatus, 3000);
+	});
+
+	// Clean up interval on unmount
+	onDestroy(() => {
+		if (checkInterval) {
+			clearInterval(checkInterval);
+		}
+	});
 
 	function handleErrorClick(error: ValidationError) {
 		if (error.path) {
@@ -151,7 +158,7 @@
 						d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 					></path>
 				</svg>
-				<span>Validating...</span>
+				<span>Processing...</span>
 			{:else}
 				<span>Validation</span>
 			{/if}
@@ -174,44 +181,6 @@
 			role="menu"
 			aria-label="Validation results"
 		>
-			<!-- Run Validation Button -->
-			<div class="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900" role="menuitem">
-				<button
-					onclick={runValidation}
-					disabled={$validationStore.isValidating}
-					class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-				>
-					{#if $validationStore.isValidating}
-						<svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-							<circle
-								class="opacity-25"
-								cx="12"
-								cy="12"
-								r="10"
-								stroke="currentColor"
-								stroke-width="4"
-							></circle>
-							<path
-								class="opacity-75"
-								fill="currentColor"
-								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-							></path>
-						</svg>
-						<span>Validating...</span>
-					{:else}
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-							></path>
-						</svg>
-						<span>Run Validation</span>
-					{/if}
-				</button>
-			</div>
-
 			<!-- Validation Results -->
 			{#if $errorCount + $warningCount === 0}
 				<div class="p-4 text-center text-green-600 dark:text-green-400" role="menuitem">
@@ -273,6 +242,28 @@
 					{/each}
 				</div>
 			{/if}
+
+			<!-- Sort & Validate button at bottom -->
+			<div class="sticky bottom-0 p-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+				<button
+					onclick={() => runSortAndValidate()}
+					disabled={isRunning}
+					class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white rounded-lg text-sm font-semibold shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+				>
+					{#if isRunning}
+						<svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+						Processing...
+					{:else}
+						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 18.364a9 9 0 1012.728 0M12 3v9" />
+						</svg>
+						Sort & Validate
+					{/if}
+				</button>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -280,6 +271,6 @@
 <ValidationProgressModal
 	isOpen={showModal}
 	jobId={currentJobId}
-	jobType="validation"
+	jobType="sort"
 	onClose={handleModalClose}
 />

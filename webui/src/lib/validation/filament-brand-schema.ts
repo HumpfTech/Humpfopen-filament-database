@@ -31,11 +31,10 @@ export const brandSchema = z.object({
     z.string().regex(/^[A-Z]{2}$/, "Must be an uppercase two-letter string or Unknown"),
   ]),
   logo: z
-    .instanceof(File, {
-      message: 'Please upload a file.'
-    })
-    .refine((f) => f.size <= MAX_FILE_SIZE, {
-      message: `The image is too large. Please choose an image smaller than ${formatBytes(MAX_FILE_SIZE)}.`,
-    })
+    .any()
+    .refine(
+      (f) => !(f instanceof File) || f.size <= MAX_FILE_SIZE,
+      { message: `The image is too large. Please choose an image smaller than ${formatBytes(MAX_FILE_SIZE)}.` }
+    )
     .optional(),
 });

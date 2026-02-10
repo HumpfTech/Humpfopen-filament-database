@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { slicerSettingsSchema } from './filament-material-schema';
 
 const optionalUrl = z
   .string()
@@ -31,4 +32,5 @@ export const filamentSchema = z.object({
   discontinued: z.boolean().default(false),
   data_sheet_url: optionalUrl,
   safety_sheet_url: optionalUrl,
+  slicer_settings: slicerSettingsSchema.optional(),
 });

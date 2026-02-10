@@ -2,7 +2,6 @@
   import BackBtn from '$lib/components/backBtn.svelte';
   import Breadcrumb from '$lib/components/breadcrumb.svelte';
   import ValidationDropdown from '$lib/components/ValidationDropdown.svelte';
-  import SortDataButton from '$lib/components/SortDataButton.svelte';
   import { getFlash, updateFlash } from 'sveltekit-flash-message';
   import '../app.css';
   import type { LayoutProps } from './$types';
@@ -86,7 +85,6 @@
       </div>
 
       <div class="flex gap-3 items-center">
-        <SortDataButton />
         <ValidationDropdown />
       </div>
     </nav>
