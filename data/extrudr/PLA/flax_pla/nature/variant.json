@@ -2,10 +2,10 @@
   "id": "nature",
   "name": "Nature",
   "color_hex": "#EADAC2",
-  "traits": {
-    "industrially_compostable": true
-  },
   "color_standards": {
     "ral": "1013"
+  },
+  "traits": {
+    "industrially_compostable": true
   }
 }

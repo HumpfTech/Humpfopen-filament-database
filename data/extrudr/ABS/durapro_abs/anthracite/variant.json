@@ -2,10 +2,10 @@
   "id": "anthracite",
   "name": "Anthracite",
   "color_hex": "#55555E",
-  "traits": {
-    "filtration_recommended": true
-  },
   "color_standards": {
     "ral": "7016"
+  },
+  "traits": {
+    "filtration_recommended": true
   }
 }

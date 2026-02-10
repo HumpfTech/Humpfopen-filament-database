@@ -2,10 +2,10 @@
   "id": "transparent_green",
   "name": "Transparent Green",
   "color_hex": "#41A840",
-  "traits": {
-    "translucent": true
-  },
   "color_standards": {
     "ral": "6018"
+  },
+  "traits": {
+    "translucent": true
   }
 }

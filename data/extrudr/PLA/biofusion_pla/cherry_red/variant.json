@@ -2,10 +2,10 @@
   "id": "cherry_red",
   "name": "Cherry Red",
   "color_hex": "#000000",
-  "traits": {
-    "industrially_compostable": true
-  },
   "color_standards": {
     "ral": "3018"
+  },
+  "traits": {
+    "industrially_compostable": true
   }
 }

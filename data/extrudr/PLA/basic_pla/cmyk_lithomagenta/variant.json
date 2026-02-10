@@ -2,10 +2,10 @@
   "id": "cmyk_lithomagenta",
   "name": "CMYK Lithomagenta",
   "color_hex": "#C75072",
-  "traits": {
-    "industrially_compostable": true
-  },
   "color_standards": {
     "ral": "4010"
+  },
+  "traits": {
+    "industrially_compostable": true
   }
 }

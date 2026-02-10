@@ -2,11 +2,11 @@
   "id": "epic_purple",
   "name": "Epic Purple",
   "color_hex": "#7142A3",
+  "color_standards": {
+    "ral": "4007"
+  },
   "traits": {
     "matte": true,
     "industrially_compostable": true
-  },
-  "color_standards": {
-    "ral": "4007"
   }
 }
