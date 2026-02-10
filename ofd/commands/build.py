@@ -242,17 +242,17 @@ def run_build(args: argparse.Namespace) -> int:
     else:
         print("\n[7/9] Skipping HTML export")
 
-    # Step 8: Generate directory listings
+    # Step 8: Export badges
+    print("\n[8/9] Exporting badges...")
+    export_badges(db, str(output_dir))
+
+    # Step 9: Generate directory listings (must run last so all dirs are covered)
     if not args.skip_html:
-        print("\n[8/9] Generating directory listings...")
+        print("\n[9/9] Generating directory listings...")
         templates_dir = Path(__file__).parent.parent / "builder" / "templates"
         export_directory_listings(str(output_dir), str(templates_dir))
     else:
-        print("\n[8/9] Skipping directory listings")
-
-    # Step 9: Export badges
-    print("\n[9/9] Exporting badges...")
-    export_badges(db, str(output_dir))
+        print("\n[9/9] Skipping directory listings")
 
     # Calculate checksums and write manifest
     print("\nGenerating checksums and manifest...")
