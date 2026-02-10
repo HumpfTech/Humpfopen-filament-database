@@ -24,6 +24,10 @@ COLOR_MODIFIERS = {
     "neon", "dark", "light", "bright", "galaxy", "matte", "pastel",
     "deep", "pale", "hot", "liquid", "kaoss", "mango", "midnight",
     "cherry", "luminous", "mojito",
+    # Additional modifiers for better color recognition in product-line splitting
+    "mint", "jet", "sky", "fire", "royal", "ocean", "forest",
+    "baby", "wine", "rust", "electric", "ice", "signal", "pearl",
+    "brick", "pure",
 }
 
 MATERIAL_KEYWORDS = {
