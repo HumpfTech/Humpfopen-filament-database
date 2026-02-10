@@ -317,6 +317,7 @@ class ImportReport:
     naming_fixes: list[str] = field(default_factory=list)
     tech_spec_warnings: list[str] = field(default_factory=list)
     long_name_warnings: list[str] = field(default_factory=list)
+    duplicate_skips: list[str] = field(default_factory=list)
 
     def generate_report(self) -> str:
         """Generate a human-readable report showing only issues."""
@@ -383,6 +384,13 @@ class ImportReport:
             lines.append(f"LONG NAME WARNINGS ({len(self.long_name_warnings)}):")
             for warn in self.long_name_warnings:
                 lines.append(f"   - {warn}")
+            lines.append("")
+
+        if self.duplicate_skips:
+            has_issues = True
+            lines.append(f"DUPLICATE SKIPS ({len(self.duplicate_skips)}):")
+            for skip in self.duplicate_skips:
+                lines.append(f"   - {skip}")
             lines.append("")
 
         if not has_issues:
@@ -1060,7 +1068,7 @@ class ImportOpenPrintTagScript(BaseScript):
             if color_id not in hierarchy[material_type][filament_id]:
                 filament_data = {
                     "id": filament_id,
-                    "name": self._extract_filament_name(name, material_type, tags),
+                    "name": id_to_display_name(filament_id),
                     "density": properties.get("density", DENSITY_DEFAULTS.get(material_type, 1.24)),
                     "diameter_tolerance": 0.02,  # Default
                 }
@@ -1180,6 +1188,19 @@ class ImportOpenPrintTagScript(BaseScript):
         color = color.strip(" ,-+")
         color_id = slugify(color) if color else "default"
 
+        # Validate color_id: if it's not color-like, the non-color prefix
+        # is likely a product-line qualifier that belongs in the filament_id.
+        # E.g. "plus_black" -> filament gets "_plus", color becomes "black".
+        if color_id != "default" and not is_color_like(color_id):
+            parts = color_id.split("_")
+            for i in range(1, len(parts)):
+                candidate_color = "_".join(parts[i:])
+                if is_color_like(candidate_color):
+                    extra_prefix = "_".join(parts[:i])
+                    filament_id = f"{filament_id}_{extra_prefix}"
+                    color_id = candidate_color
+                    break
+
         return (filament_id, color_id)
 
     def _extract_color_name(self, name: str, material_type: str, tags: list[str]) -> str:
@@ -1204,6 +1225,18 @@ class ImportOpenPrintTagScript(BaseScript):
             color = re.sub(pattern, "", color, flags=re.IGNORECASE)
 
         color = color.strip(" ,-+")
+
+        # If the extracted color contains product-line words, strip them
+        # to return only the actual color portion as the display name.
+        color_slug = slugify(color) if color else "default"
+        if color_slug != "default" and not is_color_like(color_slug):
+            parts = color_slug.split("_")
+            for i in range(1, len(parts)):
+                candidate = "_".join(parts[i:])
+                if is_color_like(candidate):
+                    color = clean_display_name(candidate)
+                    break
+
         return color if color else "Default"
 
     def _extract_filament_name(self, name: str, material_type: str, tags: list[str]) -> str:
@@ -1852,6 +1885,128 @@ class ImportOpenPrintTagScript(BaseScript):
                             f"({len(color_id)} chars)"
                         )
 
+    # ------------------------------------------------------------------
+    # Duplicate detection
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _build_existing_index(
+        brand_dir: Path,
+    ) -> dict[str, dict[str, set[str]]]:
+        """Build index of existing filament/variant structure on disk.
+
+        Returns ``{material_type: {filament_id: {variant_id, ...}}}``.
+        """
+        index: dict[str, dict[str, set[str]]] = {}
+        if not brand_dir.exists():
+            return index
+
+        for material_dir in brand_dir.iterdir():
+            if not material_dir.is_dir() or material_dir.name.startswith("."):
+                continue
+            material_type = material_dir.name
+            index[material_type] = {}
+
+            for filament_dir in material_dir.iterdir():
+                if not filament_dir.is_dir():
+                    continue
+                filament_id = filament_dir.name
+                index[material_type][filament_id] = set()
+
+                for variant_dir in filament_dir.iterdir():
+                    if variant_dir.is_dir():
+                        index[material_type][filament_id].add(variant_dir.name)
+
+        return index
+
+    @staticmethod
+    def _check_for_duplicates(
+        existing_index: dict[str, dict[str, set[str]]],
+        hierarchy: dict[str, dict[str, dict[str, dict]]],
+    ) -> list[tuple[str, str, str, str, str]]:
+        """Check if any hierarchy entry duplicates existing on-disk data.
+
+        Two checks are performed for each hierarchy entry at
+        ``{material_type}/{filament_id}/{color_id}``:
+
+        1. **Forward**: splitting *color_id* into ``prefix + remainder``
+           yields an existing ``{filament_id}_{prefix}/{remainder}`` path.
+           Catches: ``abs/plus_black`` duplicating ``abs_plus/black``.
+
+        2. **Reverse**: the hierarchy *filament_id* is a longer form of an
+           existing on-disk filament (``filament_id = base + "_" + suffix``),
+           and ``suffix + "_" + color_id`` exists as a variant under that
+           base filament.
+           Catches: ``hips_x_bahama/yellow`` duplicating ``hips_x/bahama_yellow``.
+
+        Returns list of
+        ``(material_type, new_filament, new_color, existing_filament, existing_color)``.
+        """
+        duplicates: list[tuple[str, str, str, str, str]] = []
+        seen: set[tuple[str, str, str]] = set()
+
+        for material_type, filaments in hierarchy.items():
+            # Merge on-disk index with in-hierarchy entries for forward check
+            combined: dict[str, set[str]] = {}
+            if material_type in existing_index:
+                for fil_id, variants in existing_index[material_type].items():
+                    combined[fil_id] = set(variants)
+            for fil_id, colors in filaments.items():
+                if fil_id not in combined:
+                    combined[fil_id] = set()
+                combined[fil_id].update(colors.keys())
+
+            for filament_id, colors in filaments.items():
+                for color_id in colors:
+                    key = (material_type, filament_id, color_id)
+                    if key in seen:
+                        continue
+
+                    # Forward check: split color_id into prefix + remainder
+                    parts = color_id.split("_")
+                    found = False
+                    for i in range(1, len(parts)):
+                        prefix = "_".join(parts[:i])
+                        remainder = "_".join(parts[i:])
+                        candidate_filament = f"{filament_id}_{prefix}"
+
+                        if candidate_filament in combined and remainder in combined[candidate_filament]:
+                            if candidate_filament != filament_id or remainder != color_id:
+                                duplicates.append((
+                                    material_type,
+                                    filament_id, color_id,
+                                    candidate_filament, remainder,
+                                ))
+                                seen.add(key)
+                                found = True
+                                break
+
+                    if found:
+                        continue
+
+                    # Reverse check: hierarchy filament_id is an oversplit
+                    # of an existing on-disk filament.  Only check disk data
+                    # to avoid flagging the correct entry when both forms
+                    # exist in the same hierarchy.
+                    if material_type in existing_index:
+                        for base_filament in existing_index[material_type]:
+                            if base_filament == filament_id:
+                                continue
+                            if not filament_id.startswith(base_filament + "_"):
+                                continue
+                            suffix = filament_id[len(base_filament) + 1:]
+                            reconstructed_color = f"{suffix}_{color_id}"
+                            if reconstructed_color in existing_index[material_type][base_filament]:
+                                duplicates.append((
+                                    material_type,
+                                    filament_id, color_id,
+                                    base_filament, reconstructed_color,
+                                ))
+                                seen.add(key)
+                                break
+
+        return duplicates
+
     def _write_hierarchy(
         self,
         brand_dir: Path,
@@ -1859,6 +2014,18 @@ class ImportOpenPrintTagScript(BaseScript):
         dry_run: bool,
     ) -> None:
         """Write the material hierarchy to disk."""
+        # Detect duplicates against existing data and within the hierarchy
+        existing_index = self._build_existing_index(brand_dir)
+        duplicates = self._check_for_duplicates(existing_index, hierarchy)
+
+        skip_set: set[tuple[str, str, str]] = set()
+        for mat_type, fil_id, color_id, exist_fil, exist_color in duplicates:
+            skip_set.add((mat_type, fil_id, color_id))
+            self.report.duplicate_skips.append(
+                f"{brand_dir.name}/{mat_type}/{fil_id}/{color_id} "
+                f"(duplicate of {exist_fil}/{exist_color})"
+            )
+
         for material_type in sorted(hierarchy.keys()):
             filaments = hierarchy[material_type]
             material_dir = brand_dir / material_type
@@ -1896,6 +2063,8 @@ class ImportOpenPrintTagScript(BaseScript):
                 self.report.filaments_created += 1
 
                 for color_id in sorted(colors.keys()):
+                    if (material_type, filament_id, color_id) in skip_set:
+                        continue
                     color_data = colors[color_id]
                     variant_dir = filament_dir / color_id
                     variant_data = color_data.get("variant", {})
