@@ -2,10 +2,10 @@
   "id": "brown",
   "name": "Brown",
   "color_hex": "#A47C48",
-  "traits": {
-    "industrially_compostable": true
-  },
   "color_standards": {
     "ral": "8007"
+  },
+  "traits": {
+    "industrially_compostable": true
   }
 }

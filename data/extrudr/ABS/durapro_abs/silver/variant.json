@@ -2,10 +2,10 @@
   "id": "silver",
   "name": "Silver",
   "color_hex": "#C9D0D4",
-  "traits": {
-    "filtration_recommended": true
-  },
   "color_standards": {
     "ral": "9006"
+  },
+  "traits": {
+    "filtration_recommended": true
   }
 }

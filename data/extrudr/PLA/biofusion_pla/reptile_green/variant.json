@@ -2,10 +2,10 @@
   "id": "reptile_green",
   "name": "Reptile Green",
   "color_hex": "#06B100",
-  "traits": {
-    "industrially_compostable": true
-  },
   "color_standards": {
     "ral": "6035"
+  },
+  "traits": {
+    "industrially_compostable": true
   }
 }

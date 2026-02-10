@@ -2,10 +2,10 @@
   "id": "cmyk_lithowhite",
   "name": "CMYK Lithowhite",
   "color_hex": "#FFFFFF",
-  "traits": {
-    "industrially_compostable": true
-  },
   "color_standards": {
     "ral": "9003"
+  },
+  "traits": {
+    "industrially_compostable": true
   }
 }

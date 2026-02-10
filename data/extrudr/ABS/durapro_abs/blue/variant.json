@@ -2,10 +2,10 @@
   "id": "blue",
   "name": "Blue",
   "color_hex": "#0353BA",
-  "traits": {
-    "filtration_recommended": true
-  },
   "color_standards": {
     "ral": "5003"
+  },
+  "traits": {
+    "filtration_recommended": true
   }
 }

@@ -2,10 +2,10 @@
   "id": "nature",
   "name": "Nature",
   "color_hex": "#EFE8D8",
-  "traits": {
-    "filtration_recommended": true
-  },
   "color_standards": {
     "ral": "1013"
+  },
+  "traits": {
+    "filtration_recommended": true
   }
 }
