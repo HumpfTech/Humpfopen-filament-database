@@ -68,6 +68,12 @@
     }
   });
 
+  function handleSlicerToggle(key: string) {
+    if (!selectedSlicer.includes(key) && $form.slicer_settings?.[key]) {
+      $form.slicer_settings[key] = {};
+    }
+  }
+
   // Proxies for nested slicer_settings properties
   const generic_flbt = intProxy(form, 'slicer_settings.generic.first_layer_bed_temp');
   const generic_flnt = intProxy(form, 'slicer_settings.generic.first_layer_nozzle_temp');
@@ -195,6 +201,7 @@
             type="checkbox"
             value={option.key}
             bind:group={selectedSlicer}
+            onchange={() => handleSlicerToggle(option.key)}
             class="rounded border-gray-300 dark:border-gray-600" />
           {option.label}
         </label>
