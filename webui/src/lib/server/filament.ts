@@ -3,7 +3,8 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { env } from "$env/dynamic/public";
 import { filamentSchema } from '$lib/validation/filament-schema';
-import { getIdFromName, removeUndefined } from '$lib/globalHelpers';
+import { getIdFromName, isEmptyObject, removeUndefined } from '$lib/globalHelpers';
+import { transformGeneric, transformSpecific } from '$lib/server/material';
 
 const DATA_DIR = env.PUBLIC_DATA_PATH;
 
@@ -95,19 +96,59 @@ function transformFilamentData(filamentData: any) {
     transformedData.discontinued = filamentData.discontinued;
   }
 
-  // // Add slicer profile paths if they exist
-  // if (filamentData.prusa_profile_path !== undefined) {
-  //   transformedData.prusa_profile_path = filamentData.prusa_profile_path;
-  // }
-  // if (filamentData.bambus_profile_path !== undefined) {
-  //   transformedData.bambus_profile_path = filamentData.bambus_profile_path;
-  // }
-  // if (filamentData.orca_profile_path !== undefined) {
-  //   transformedData.orca_profile_path = filamentData.orca_profile_path;
-  // }
-  // if (filamentData.cura_profile_path !== undefined) {
-  //   transformedData.cura_profile_path = filamentData.cura_profile_path;
-  // }
+  // Handle slicer_settings
+  if (!isEmptyObject(filamentData?.slicer_settings)) {
+    let slicer_settings_input = filamentData.slicer_settings;
+    let slicer_settings: any = {};
+
+    if (slicer_settings_input?.generic) {
+      let genericSettings = transformGeneric(slicer_settings_input.generic);
+      if (genericSettings) {
+        slicer_settings.generic = genericSettings;
+      }
+    }
+
+    if (slicer_settings_input?.prusaslicer) {
+      let prusaSettings = transformSpecific(slicer_settings_input.prusaslicer);
+      if (prusaSettings) {
+        slicer_settings.prusaslicer = prusaSettings;
+      }
+    }
+
+    if (slicer_settings_input?.bambustudio) {
+      let bambuSettings = transformSpecific(slicer_settings_input.bambustudio);
+      if (bambuSettings) {
+        slicer_settings.bambustudio = bambuSettings;
+      }
+    }
+
+    if (slicer_settings_input?.orcaslicer) {
+      let orcaSettings = transformSpecific(slicer_settings_input.orcaslicer);
+      if (orcaSettings) {
+        slicer_settings.orcaslicer = orcaSettings;
+      }
+    }
+
+    if (slicer_settings_input?.cura) {
+      let curaSettings = transformSpecific(slicer_settings_input.cura);
+      if (curaSettings) {
+        slicer_settings.cura = curaSettings;
+      }
+    }
+
+    if (!isEmptyObject(slicer_settings)) {
+      // Clean up empty sub-objects
+      Object.keys(slicer_settings).forEach(key => {
+        if (isEmptyObject(slicer_settings[key])) {
+          delete slicer_settings[key];
+        }
+      });
+
+      if (!isEmptyObject(slicer_settings)) {
+        transformedData.slicer_settings = slicer_settings;
+      }
+    }
+  }
 
   return removeUndefined(transformedData);
 }
