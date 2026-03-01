@@ -2,5 +2,8 @@
   "id": "black",
   "name": "Black",
   "color_hex": "#000000",
-  "esd_safe": true
+  "esd_safe": true,
+  "traits": {
+    "esd_safe": true
+  }
 }

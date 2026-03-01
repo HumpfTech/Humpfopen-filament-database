@@ -3,7 +3,7 @@
   "name": "Matte Black",
   "color_hex": "#1A1A1A",
   "traits": {
-    "contains_carbon": true,
-    "abrasive": true
+    "abrasive": true,
+    "contains_carbon_fiber": true
   }
 }
