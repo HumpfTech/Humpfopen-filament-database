@@ -3,6 +3,6 @@
   "name": "Fluorescent Yellow",
   "color_hex": "#CCFF00",
   "traits": {
-    "glow": true
+    "neon": true
   }
 }
