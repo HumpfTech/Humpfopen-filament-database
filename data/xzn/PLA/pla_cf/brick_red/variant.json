@@ -3,6 +3,7 @@
   "name": "Brick Red",
   "color_hex": "#CB4154",
   "traits": {
-    "contains_carbon_fiber": true
+    "contains_carbon_fiber": true,
+    "abrasive": true
   }
 }

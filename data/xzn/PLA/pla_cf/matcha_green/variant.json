@@ -3,6 +3,7 @@
   "name": "Matcha Green",
   "color_hex": "#38571A",
   "traits": {
-    "contains_carbon_fiber": true
+    "contains_carbon_fiber": true,
+    "abrasive": true
   }
 }

@@ -3,6 +3,6 @@
   "name": "White",
   "color_hex": "#F3F3F3",
   "traits": {
-    "transparent": true
+    "translucent": true
   }
 }
