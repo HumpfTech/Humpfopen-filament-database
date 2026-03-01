@@ -6,6 +6,7 @@
     "#E8537A"
   ],
   "traits": {
-    "silk": true
+    "silk": true,
+    "coextruded": true
   }
 }

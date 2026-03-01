@@ -6,6 +6,7 @@
     "#B87333"
   ],
   "traits": {
-    "silk": true
+    "silk": true,
+    "coextruded": true
   }
 }
