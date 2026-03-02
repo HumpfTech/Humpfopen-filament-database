@@ -8,6 +8,8 @@ import json
 import sqlite3
 from typing import Any
 
+from ofd.builder.models import ENTITY_TYPES
+
 
 def entity_to_dict(entity: Any, exclude_none: bool = True) -> dict | None:
     """
@@ -66,6 +68,8 @@ def serialize_for_sqlite(value: Any) -> Any:
 
 def get_table_columns(cursor: sqlite3.Cursor, table_name: str) -> list[str]:
     """Get column names for a table from the SQLite schema."""
+    if table_name not in ENTITY_TYPES:
+        raise ValueError(f"Unknown table name: {table_name}")
     cursor.execute(f"PRAGMA table_info({table_name})")
     return [row[1] for row in cursor.fetchall()]
 
