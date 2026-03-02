@@ -8,20 +8,12 @@ making the exporter resilient to schema changes.
 import csv
 from dataclasses import fields
 from pathlib import Path
-from typing import Type
 
-from ..models import (
-    Database, Brand, Material, Filament, Variant, Size, Store, PurchaseLink
-)
-from ..serialization import entity_to_dict, serialize_for_csv
+from ..models import Brand, Database, Filament, Material, PurchaseLink, Size, Store, Variant
+from ..serialization import serialize_for_csv
 
 
-def export_entity_csv(
-    entities: list,
-    entity_class: Type,
-    output_path: Path,
-    filename: str
-) -> Path:
+def export_entity_csv(entities: list, entity_class: type, output_path: Path, filename: str) -> Path:
     """
     Export a list of entities to a CSV file using dataclass introspection.
 
@@ -40,12 +32,13 @@ def export_entity_csv(
 
     # Get field names, excluding directory_name for Brand and Store
     field_names = [
-        f.name for f in fields(entity_class)
+        f.name
+        for f in fields(entity_class)
         if not (entity_class in (Brand, Store) and f.name == "directory_name")
     ]
 
     csv_path = output_path / filename
-    with open(csv_path, 'w', newline='', encoding='utf-8') as f:
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(field_names)
 

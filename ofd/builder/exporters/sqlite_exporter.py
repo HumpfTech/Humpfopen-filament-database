@@ -5,18 +5,13 @@ Uses dataclass introspection for INSERT statements, making it resilient to
 field additions/removals in the models.
 """
 
-import json
 import lzma
 import sqlite3
 from dataclasses import fields
 from pathlib import Path
-from typing import Type
 
-from ..models import (
-    Database, Brand, Material, Filament, Variant, Size, Store, PurchaseLink
-)
-from ..serialization import entity_to_dict, serialize_for_sqlite
-
+from ..models import Brand, Database, Filament, Material, PurchaseLink, Size, Store, Variant
+from ..serialization import serialize_for_sqlite
 
 # =============================================================================
 # Schema DDL - Defines table structure, indexes, and views
@@ -205,12 +200,8 @@ JOIN brand b ON f.brand_id = b.id;
 # Dynamic Insert Generation
 # =============================================================================
 
-def insert_entities(
-    cursor: sqlite3.Cursor,
-    entities: list,
-    entity_class: Type,
-    table_name: str
-):
+
+def insert_entities(cursor: sqlite3.Cursor, entities: list, entity_class: type, table_name: str):
     """
     Insert entities into SQLite using dataclass introspection.
 
@@ -227,7 +218,8 @@ def insert_entities(
 
     # Get field names, excluding directory_name for Brand and Store
     field_names = [
-        f.name for f in fields(entity_class)
+        f.name
+        for f in fields(entity_class)
         if not (entity_class in (Brand, Store) and f.name == "directory_name")
     ]
     placeholders = ", ".join(["?"] * len(field_names))
@@ -236,16 +228,14 @@ def insert_entities(
     sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
 
     for entity in entities:
-        values = tuple(
-            serialize_for_sqlite(getattr(entity, name))
-            for name in field_names
-        )
+        values = tuple(serialize_for_sqlite(getattr(entity, name)) for name in field_names)
         cursor.execute(sql, values)
 
 
 # =============================================================================
 # Main Export Function
 # =============================================================================
+
 
 def export_sqlite(db: Database, output_dir: str, version: str, generated_at: str):
     """Export database to SQLite format."""
@@ -284,7 +274,7 @@ def export_sqlite(db: Database, output_dir: str, version: str, generated_at: str
 
     # Create compressed version
     db_xz_path = output_path / "filaments.db.xz"
-    with open(db_path, 'rb') as f_in:
-        with lzma.open(db_xz_path, 'wb') as f_out:
+    with open(db_path, "rb") as f_in:
+        with lzma.open(db_xz_path, "wb") as f_out:
             f_out.write(f_in.read())
     print(f"  Written: {db_xz_path}")

@@ -22,56 +22,54 @@ Or programmatically:
 
 __version__ = "2.0.0"
 
-from .models import (
-    Brand,
-    Material,
-    Filament,
-    Variant,
-    Size,
-    Store,
-    PurchaseLink,
-    Database,
-    SlicerSettings,
-    GenericSlicerSettings,
-    AllSlicerSettings,
-    ColorStandards,
-    VariantTraits,
-)
-
-from .crawler import crawl_data, DataCrawler
-
+from .crawler import DataCrawler, crawl_data
 from .exporters import (
-    export_json,
-    export_sqlite,
-    export_csv,
     export_api,
     export_badges,
+    export_csv,
+    export_json,
+    export_sqlite,
+)
+from .models import (
+    AllSlicerSettings,
+    Brand,
+    ColorStandards,
+    Database,
+    Filament,
+    GenericSlicerSettings,
+    Material,
+    PurchaseLink,
+    Size,
+    SlicerSettings,
+    Store,
+    Variant,
+    VariantTraits,
 )
 
 __all__ = [
     # Version
-    '__version__',
+    "__version__",
     # Models
-    'Brand',
-    'Material',
-    'Filament',
-    'Variant',
-    'Size',
-    'Store',
-    'PurchaseLink',
-    'Database',
-    'SlicerSettings',
-    'GenericSlicerSettings',
-    'AllSlicerSettings',
-    'ColorStandards',
-    'VariantTraits',
+    "Brand",
+    "Material",
+    "Filament",
+    "Variant",
+    "Size",
+    "Store",
+    "PurchaseLink",
+    "Database",
+    "SlicerSettings",
+    "GenericSlicerSettings",
+    "AllSlicerSettings",
+    "ColorStandards",
+    "VariantTraits",
     # Crawler
-    'crawl_data',
-    'DataCrawler',
+    "crawl_data",
+    "DataCrawler",
     # Exporters
-    'export_json',
-    'export_sqlite',
-    'export_csv',
-    'export_api',
-    'export_badges',
+    "export_json",
+    "export_sqlite",
+    "export_csv",
+    "export_api",
+    "export_badges",
 ]

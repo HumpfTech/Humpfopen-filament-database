@@ -4,18 +4,34 @@ Data crawler that scans the canonical data structure and builds normalized entit
 
 import json
 from pathlib import Path
-from typing import Optional
 
 from .errors import BuildResult
 from .models import (
-    Brand, Material, Filament, Variant, Size, Store, PurchaseLink, Database,
-    SlicerSettings, GenericSlicerSettings, AllSlicerSettings,
-    ColorStandards, VariantTraits
+    AllSlicerSettings,
+    Brand,
+    ColorStandards,
+    Database,
+    Filament,
+    GenericSlicerSettings,
+    Material,
+    PurchaseLink,
+    Size,
+    SlicerSettings,
+    Store,
+    Variant,
+    VariantTraits,
 )
 from .utils import (
-    generate_brand_id, generate_material_id, generate_filament_id,
-    generate_variant_id, generate_size_id, generate_store_id,
-    generate_purchase_link_id, normalize_color_hex, slugify, ensure_list
+    ensure_list,
+    generate_brand_id,
+    generate_filament_id,
+    generate_material_id,
+    generate_purchase_link_id,
+    generate_size_id,
+    generate_store_id,
+    generate_variant_id,
+    normalize_color_hex,
+    slugify,
 )
 
 
@@ -44,7 +60,7 @@ class DataCrawler:
         self._crawl_data_directory()
 
         # Print summary
-        print(f"\nCrawl complete!")
+        print("\nCrawl complete!")
         print(f"  Brands: {len(self.db.brands)}")
         print(f"  Materials: {len(self.db.materials)}")
         print(f"  Filaments: {len(self.db.filaments)}")
@@ -58,13 +74,15 @@ class DataCrawler:
     def _crawl_stores_directory(self):
         """Crawl the stores/ directory."""
         if not self.stores_dir.exists():
-            self._result.add_warning("Directory", "Stores directory does not exist", self.stores_dir)
+            self._result.add_warning(
+                "Directory", "Stores directory does not exist", self.stores_dir
+            )
             return
 
         for store_dir in sorted(self.stores_dir.iterdir()):
             if not store_dir.is_dir():
                 continue
-            if store_dir.name.startswith('.'):
+            if store_dir.name.startswith("."):
                 continue
 
             self._process_store_directory(store_dir)
@@ -76,9 +94,9 @@ class DataCrawler:
             return
 
         try:
-            with open(store_json, 'r', encoding='utf-8') as f:
+            with open(store_json, encoding="utf-8") as f:
                 data = json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             self._result.add_warning("JSON Parse", f"Failed to parse: {e}", store_json)
             return
 
@@ -102,7 +120,7 @@ class DataCrawler:
             storefront_url=data.get("storefront_url", ""),
             logo=data.get("logo", ""),
             ships_from=ships_from,
-            ships_to=ships_to
+            ships_to=ships_to,
         )
 
         self.db.stores.append(store)
@@ -118,7 +136,7 @@ class DataCrawler:
         for brand_dir in sorted(self.data_dir.iterdir()):
             if not brand_dir.is_dir():
                 continue
-            if brand_dir.name.startswith('.'):
+            if brand_dir.name.startswith("."):
                 continue
 
             self._process_brand_directory(brand_dir)
@@ -134,9 +152,9 @@ class DataCrawler:
             return
 
         try:
-            with open(brand_json, 'r', encoding='utf-8') as f:
+            with open(brand_json, encoding="utf-8") as f:
                 brand_data = json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             self._result.add_warning("JSON Parse", f"Failed to parse: {e}", brand_json)
             return
 
@@ -150,7 +168,7 @@ class DataCrawler:
             directory_name=brand_name,
             website=brand_data.get("website", ""),
             logo=brand_data.get("logo", ""),
-            origin=brand_data.get("origin", "Unknown")
+            origin=brand_data.get("origin", "Unknown"),
         )
 
         self.db.brands.append(brand)
@@ -160,7 +178,7 @@ class DataCrawler:
         for material_dir in sorted(brand_dir.iterdir()):
             if not material_dir.is_dir():
                 continue
-            if material_dir.name.startswith('.'):
+            if material_dir.name.startswith("."):
                 continue
 
             self._process_material_directory(material_dir, brand_id)
@@ -174,9 +192,9 @@ class DataCrawler:
         material_data = {}
         if material_json.exists():
             try:
-                with open(material_json, 'r', encoding='utf-8') as f:
+                with open(material_json, encoding="utf-8") as f:
                     material_data = json.load(f)
-            except (json.JSONDecodeError, IOError) as e:
+            except (OSError, json.JSONDecodeError) as e:
                 self._result.add_warning("JSON Parse", f"Failed to parse: {e}", material_json)
 
         # Create material
@@ -195,7 +213,7 @@ class DataCrawler:
                 material=material_data.get("material", material_name),
                 slug=slugify(material_name),
                 default_max_dry_temperature=material_data.get("default_max_dry_temperature"),
-                default_slicer_settings=default_slicer_settings
+                default_slicer_settings=default_slicer_settings,
             )
 
             self.db.materials.append(material)
@@ -205,7 +223,7 @@ class DataCrawler:
         for filament_dir in sorted(material_dir.iterdir()):
             if not filament_dir.is_dir():
                 continue
-            if filament_dir.name.startswith('.'):
+            if filament_dir.name.startswith("."):
                 continue
 
             self._process_filament_directory(filament_dir, brand_id, material_id, material_name)
@@ -221,9 +239,9 @@ class DataCrawler:
             return
 
         try:
-            with open(filament_json, 'r', encoding='utf-8') as f:
+            with open(filament_json, encoding="utf-8") as f:
                 filament_data = json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             self._result.add_warning("JSON Parse", f"Failed to parse: {e}", filament_json)
             return
 
@@ -247,7 +265,7 @@ class DataCrawler:
             data_sheet_url=filament_data.get("data_sheet_url"),
             safety_sheet_url=filament_data.get("safety_sheet_url"),
             discontinued=filament_data.get("discontinued", False),
-            slicer_settings=slicer_settings
+            slicer_settings=slicer_settings,
         )
 
         self.db.filaments.append(filament)
@@ -256,7 +274,7 @@ class DataCrawler:
         for variant_dir in sorted(filament_dir.iterdir()):
             if not variant_dir.is_dir():
                 continue
-            if variant_dir.name.startswith('.'):
+            if variant_dir.name.startswith("."):
                 continue
 
             self._process_variant_directory(variant_dir, filament_id)
@@ -270,9 +288,9 @@ class DataCrawler:
             return
 
         try:
-            with open(variant_json, 'r', encoding='utf-8') as f:
+            with open(variant_json, encoding="utf-8") as f:
                 variant_data = json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             self._result.add_warning("JSON Parse", f"Failed to parse: {e}", variant_json)
             return
 
@@ -309,7 +327,7 @@ class DataCrawler:
             hex_variants=hex_variants,
             color_standards=color_standards,
             traits=traits,
-            discontinued=variant_data.get("discontinued", False)
+            discontinued=variant_data.get("discontinued", False),
         )
 
         self.db.variants.append(variant)
@@ -322,9 +340,9 @@ class DataCrawler:
     def _process_sizes_file(self, sizes_json: Path, variant_id: str):
         """Process sizes.json file to create sizes and purchase links."""
         try:
-            with open(sizes_json, 'r', encoding='utf-8') as f:
+            with open(sizes_json, encoding="utf-8") as f:
                 sizes_data = json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             self._result.add_warning("JSON Parse", f"Failed to parse: {e}", sizes_json)
             return
 
@@ -343,7 +361,9 @@ class DataCrawler:
             diameter = 1.75
 
         if weight is None:
-            self._result.add_warning("Missing Field", f"Size entry [{index}] missing filament_weight", sizes_json)
+            self._result.add_warning(
+                "Missing Field", f"Size entry [{index}] missing filament_weight", sizes_json
+            )
             return
 
         size_id = generate_size_id(variant_id, size_entry, index)
@@ -360,7 +380,7 @@ class DataCrawler:
             barcode_identifier=size_entry.get("barcode_identifier"),
             nfc_identifier=size_entry.get("nfc_identifier"),
             qr_identifier=size_entry.get("qr_identifier"),
-            discontinued=size_entry.get("discontinued", False)
+            discontinued=size_entry.get("discontinued", False),
         )
 
         self.db.sizes.append(size)
@@ -370,7 +390,9 @@ class DataCrawler:
         for pl_idx, pl_entry in enumerate(purchase_links):
             self._create_purchase_link(pl_entry, size_id, index, pl_idx, sizes_json)
 
-    def _create_purchase_link(self, pl_entry: dict, size_id: str, size_index: int, link_index: int, sizes_json: Path):
+    def _create_purchase_link(
+        self, pl_entry: dict, size_id: str, size_index: int, link_index: int, sizes_json: Path
+    ):
         """Create a purchase link entity."""
         original_store_id = pl_entry.get("store_id")
         url = pl_entry.get("url")
@@ -379,7 +401,7 @@ class DataCrawler:
             self._result.add_warning(
                 "Missing Field",
                 f"Purchase link [{size_index}].purchase_links[{link_index}] missing store_id or url",
-                sizes_json
+                sizes_json,
             )
             return
 
@@ -389,7 +411,7 @@ class DataCrawler:
             self._result.add_warning(
                 "Invalid Reference",
                 f"Unknown store_id '{original_store_id}' at [{size_index}].purchase_links[{link_index}]",
-                sizes_json
+                sizes_json,
             )
             return
 
@@ -411,17 +433,17 @@ class DataCrawler:
             url=url,
             spool_refill=pl_entry.get("spool_refill", False),
             ships_from=ships_from,
-            ships_to=ships_to
+            ships_to=ships_to,
         )
 
         self.db.purchase_links.append(purchase_link)
 
-    def _parse_slicer_settings(self, data: Optional[dict]) -> Optional[AllSlicerSettings]:
+    def _parse_slicer_settings(self, data: dict | None) -> AllSlicerSettings | None:
         """Parse slicer settings from JSON data."""
         if not data:
             return None
 
-        def parse_specific(d: Optional[dict]) -> Optional[SlicerSettings]:
+        def parse_specific(d: dict | None) -> SlicerSettings | None:
             if not d:
                 return None
             profile_name = d.get("profile_name")
@@ -431,7 +453,7 @@ class DataCrawler:
                 profile_name=profile_name,
                 overrides=d.get("overrides"),
                 id=d.get("id"),
-                generic_id=d.get("generic_id")
+                generic_id=d.get("generic_id"),
             )
 
         generic_data = data.get("generic")
@@ -441,7 +463,7 @@ class DataCrawler:
                 first_layer_bed_temp=generic_data.get("first_layer_bed_temp"),
                 first_layer_nozzle_temp=generic_data.get("first_layer_nozzle_temp"),
                 bed_temp=generic_data.get("bed_temp"),
-                nozzle_temp=generic_data.get("nozzle_temp")
+                nozzle_temp=generic_data.get("nozzle_temp"),
             )
 
         return AllSlicerSettings(
@@ -451,10 +473,10 @@ class DataCrawler:
             cura=parse_specific(data.get("cura")),
             superslicer=parse_specific(data.get("superslicer")),
             elegooslicer=parse_specific(data.get("elegooslicer")),
-            generic=generic
+            generic=generic,
         )
 
-    def _parse_color_standards(self, data: Optional[dict]) -> Optional[ColorStandards]:
+    def _parse_color_standards(self, data: dict | None) -> ColorStandards | None:
         """Parse color standards from JSON data."""
         if not data:
             return None
@@ -464,10 +486,10 @@ class DataCrawler:
             ncs=data.get("ncs"),
             pantone=data.get("pantone"),
             bs=data.get("bs"),
-            munsell=data.get("munsell")
+            munsell=data.get("munsell"),
         )
 
-    def _parse_traits(self, data: Optional[dict]) -> Optional[VariantTraits]:
+    def _parse_traits(self, data: dict | None) -> VariantTraits | None:
         """Parse variant traits from JSON data."""
         if not data:
             return None
@@ -478,7 +500,7 @@ class DataCrawler:
             matte=data.get("matte", False),
             recycled=data.get("recycled", False),
             recyclable=data.get("recyclable", False),
-            biodegradable=data.get("biodegradable", False)
+            biodegradable=data.get("biodegradable", False),
         )
 
 
