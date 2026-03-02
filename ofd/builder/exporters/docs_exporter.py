@@ -6,6 +6,7 @@ Python markdown library, wraps them in Adwaita-themed templates, and writes
 them to dist/api/v1/editor/.
 """
 
+import html
 import json
 import re
 from pathlib import Path
@@ -110,7 +111,8 @@ def export_docs(output_dir: str, docs_dir: str = "docs", templates_dir: str = No
     if index_template:
         listing_items = []
         for entry in doc_entries:
-            listing_items.append(f'<li><a href="{entry["file"]}">{entry["title"]}</a></li>')
+            safe_title = html.escape(entry["title"])
+            listing_items.append(f'<li><a href="{entry["file"]}">{safe_title}</a></li>')
         listing_html = "<ul>\n" + "\n".join(listing_items) + "\n</ul>"
 
         index_page = index_template
