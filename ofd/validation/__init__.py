@@ -7,6 +7,7 @@ delegating all validation logic to ofd-validator.
 """
 
 from pathlib import Path
+from typing import Optional
 
 from ofd_validator import (
     ValidationError,
@@ -31,6 +32,11 @@ from ofd_validator import (
 from ofd_validator import (
     validate_store_ids as _validate_store_ids,
 )
+
+try:
+    from ofd_validator import validate_all_with_changes as _validate_all_with_changes
+except ImportError:
+    _validate_all_with_changes = None
 
 
 class ValidationOrchestrator:
@@ -67,9 +73,14 @@ class ValidationOrchestrator:
         """Validate GTIN/EAN rules."""
         return _validate_gtin_ean(self.data_dir)
 
-    def validate_all(self) -> ValidationResult:
-        """Run all validations."""
-        return _validate_all(self.data_dir, self.stores_dir, max_workers=self.max_workers)
+    def validate_all(self, changes_json: Optional[str] = None) -> ValidationResult:
+        """Run all validations, optionally with pending changes applied."""
+        if changes_json and _validate_all_with_changes is not None:
+            return _validate_all_with_changes(
+                self.data_dir, self.stores_dir, changes_json,
+                max_workers=self.max_workers)
+        return _validate_all(self.data_dir, self.stores_dir,
+                             max_workers=self.max_workers)
 
 
 __all__ = [
