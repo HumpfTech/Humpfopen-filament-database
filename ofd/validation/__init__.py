@@ -7,46 +7,57 @@ delegating all validation logic to ofd-validator.
 """
 
 from pathlib import Path
-from typing import Optional
 
 from ofd_validator import (
-    ValidationLevel,
     ValidationError,
+    ValidationLevel,
     ValidationResult,
+)
+from ofd_validator import (
     validate_all as _validate_all,
-    validate_json_files as _validate_json_files,
-    validate_logo_files as _validate_logo_files,
+)
+from ofd_validator import (
     validate_folder_names as _validate_folder_names,
-    validate_store_ids as _validate_store_ids,
+)
+from ofd_validator import (
     validate_gtin_ean as _validate_gtin_ean,
+)
+from ofd_validator import (
+    validate_json_files as _validate_json_files,
+)
+from ofd_validator import (
+    validate_logo_files as _validate_logo_files,
+)
+from ofd_validator import (
+    validate_store_ids as _validate_store_ids,
 )
 
 
 class ValidationOrchestrator:
     """Orchestrates all validation tasks using the ofd-validator Rust package."""
 
-    def __init__(self, data_dir: Path = Path("./data"),
-                 stores_dir: Path = Path("./stores"),
-                 max_workers: Optional[int] = None,
-                 **_kwargs):
+    def __init__(
+        self,
+        data_dir: Path = Path("./data"),
+        stores_dir: Path = Path("./stores"),
+        max_workers: int | None = None,
+        **_kwargs,
+    ):
         self.data_dir = str(data_dir)
         self.stores_dir = str(stores_dir)
         self.max_workers = max_workers
 
     def validate_json_files(self) -> ValidationResult:
         """Validate all JSON files against schemas."""
-        return _validate_json_files(self.data_dir, self.stores_dir,
-                                    max_workers=self.max_workers)
+        return _validate_json_files(self.data_dir, self.stores_dir, max_workers=self.max_workers)
 
     def validate_logo_files(self) -> ValidationResult:
         """Validate all logo files."""
-        return _validate_logo_files(self.data_dir, self.stores_dir,
-                                    max_workers=self.max_workers)
+        return _validate_logo_files(self.data_dir, self.stores_dir, max_workers=self.max_workers)
 
     def validate_folder_names(self) -> ValidationResult:
         """Validate all folder names."""
-        return _validate_folder_names(self.data_dir, self.stores_dir,
-                                      max_workers=self.max_workers)
+        return _validate_folder_names(self.data_dir, self.stores_dir, max_workers=self.max_workers)
 
     def validate_store_ids(self) -> ValidationResult:
         """Validate store IDs."""
@@ -58,13 +69,12 @@ class ValidationOrchestrator:
 
     def validate_all(self) -> ValidationResult:
         """Run all validations."""
-        return _validate_all(self.data_dir, self.stores_dir,
-                             max_workers=self.max_workers)
+        return _validate_all(self.data_dir, self.stores_dir, max_workers=self.max_workers)
 
 
 __all__ = [
-    'ValidationLevel',
-    'ValidationError',
-    'ValidationResult',
-    'ValidationOrchestrator',
+    "ValidationLevel",
+    "ValidationError",
+    "ValidationResult",
+    "ValidationOrchestrator",
 ]
