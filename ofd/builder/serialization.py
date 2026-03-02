@@ -89,6 +89,9 @@ def insert_entities(
     if not entities:
         return
 
+    if table_name not in ENTITY_TYPES:
+        raise ValueError(f"Unknown table name: {table_name}")
+
     columns = get_table_columns(cursor, table_name)
     placeholders = ", ".join(["?"] * len(columns))
     col_names = ", ".join(columns)
