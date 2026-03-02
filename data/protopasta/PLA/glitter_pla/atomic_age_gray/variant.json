@@ -1,5 +1,8 @@
 {
   "id": "atomic_age_gray",
   "name": "Atomic Age Gray",
-  "color_hex": "#A39E91"
+  "color_hex": "#A39E91",
+  "traits": {
+    "glitter": true
+  }
 }
