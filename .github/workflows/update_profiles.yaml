@@ -4,14 +4,10 @@ on:
     schedule:
         -   cron: "0 0 * * *"
     workflow_dispatch:
-    push:
-        branches:
-            - main
 
 jobs:
     update_slicer_profiles:
-        # Only run on main branch, not on PRs
-        if: github.repository == 'OpenFilamentCollective/open-filament-database' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: github.repository == 'OpenFilamentCollective/open-filament-database'
         runs-on: ubuntu-latest
         permissions:
             contents: write
