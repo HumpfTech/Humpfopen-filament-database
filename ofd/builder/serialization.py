@@ -6,7 +6,7 @@ Works with plain dict entities — no dataclass introspection needed.
 
 import json
 import sqlite3
-from typing import Any, Optional
+from typing import Any
 
 
 def entity_to_dict(entity: Any, exclude_none: bool = True) -> dict | None:
@@ -92,8 +92,5 @@ def insert_entities(
 
     for entity in entities:
         exported = entity_to_dict(entity)
-        values = tuple(
-            serialize_for_sqlite(exported.get(col))
-            for col in columns
-        )
+        values = tuple(serialize_for_sqlite(exported.get(col)) for col in columns)
         cursor.execute(sql, values)
