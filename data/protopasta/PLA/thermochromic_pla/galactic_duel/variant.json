@@ -1,0 +1,8 @@
+{
+  "id": "galactic_duel",
+  "name": "Galactic Duel",
+  "color_hex": "#262629",
+  "traits": {
+    "temperature_color_change": true
+  }
+}
