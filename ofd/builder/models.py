@@ -21,6 +21,8 @@ class SlicerSettings:
     """Slicer-specific settings."""
     profile_name: str
     overrides: Optional[dict[str, Any]] = None
+    id: Optional[str] = None
+    generic_id: Optional[str] = None
 
 
 @dataclass
@@ -39,16 +41,9 @@ class AllSlicerSettings:
     bambustudio: Optional[SlicerSettings] = None
     orcaslicer: Optional[SlicerSettings] = None
     cura: Optional[SlicerSettings] = None
+    superslicer: Optional[SlicerSettings] = None
+    elegooslicer: Optional[SlicerSettings] = None
     generic: Optional[GenericSlicerSettings] = None
-
-
-@dataclass
-class SlicerIds:
-    """Slicer identifiers for this filament."""
-    prusaslicer: Optional[str] = None
-    bambustudio: Optional[str] = None
-    orcaslicer: Optional[str] = None
-    cura: Optional[str] = None
 
 
 @dataclass
@@ -114,7 +109,6 @@ class Filament:
     data_sheet_url: Optional[str] = None
     safety_sheet_url: Optional[str] = None
     discontinued: bool = False
-    slicer_ids: Optional[SlicerIds] = None
     slicer_settings: Optional[AllSlicerSettings] = None
 
 
