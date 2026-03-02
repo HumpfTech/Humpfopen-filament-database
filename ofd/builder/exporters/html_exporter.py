@@ -79,9 +79,32 @@ def build_abstract_file_tree(db: Database) -> str:
         "schemas",
         li_placeholder("*.json") + "\n" + li_file("index.json", "api/v1/schemas/index.json"),
     )
+    api_badges = li_dir(
+        "badges",
+        "\n".join(
+            [
+                li_file("brands.svg", "api/v1/badges/brands.svg"),
+                li_file("filaments.svg", "api/v1/badges/filaments.svg"),
+                li_file("variants.svg", "api/v1/badges/variants.svg"),
+                li_file("stores.svg", "api/v1/badges/stores.svg"),
+            ]
+        ),
+    )
+    api_editor = li_dir(
+        "editor",
+        li_placeholder("*.html")
+        + "\n"
+        + li_file("index.html", "api/v1/editor/index.html")
+        + "\n"
+        + li_file("index.json", "api/v1/editor/index.json"),
+    )
     api_v1 = li_dir(
         "v1",
-        api_brands
+        api_badges
+        + "\n"
+        + api_brands
+        + "\n"
+        + api_editor
         + "\n"
         + api_stores
         + "\n"

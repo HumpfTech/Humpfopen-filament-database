@@ -6,6 +6,7 @@ ValidationOrchestrator class that preserves the existing API while
 delegating all validation logic to ofd-validator.
 """
 
+import logging
 from pathlib import Path
 
 from ofd_validator import (
@@ -31,6 +32,13 @@ from ofd_validator import (
 from ofd_validator import (
     validate_store_ids as _validate_store_ids,
 )
+
+try:
+    from ofd_validator import validate_all_with_changes as _validate_all_with_changes
+except ImportError:
+    _validate_all_with_changes = None
+
+logger = logging.getLogger(__name__)
 
 
 class ValidationOrchestrator:
@@ -67,8 +75,17 @@ class ValidationOrchestrator:
         """Validate GTIN/EAN rules."""
         return _validate_gtin_ean(self.data_dir)
 
-    def validate_all(self) -> ValidationResult:
-        """Run all validations."""
+    def validate_all(self, changes_json: str | None = None) -> ValidationResult:
+        """Run all validations, optionally with pending changes applied."""
+        if changes_json and _validate_all_with_changes is not None:
+            return _validate_all_with_changes(
+                self.data_dir, self.stores_dir, changes_json, max_workers=self.max_workers
+            )
+        if changes_json and _validate_all_with_changes is None:
+            logger.warning(
+                "validate_all_with_changes not available in ofd_validator; "
+                "falling back to validation without pending changes applied"
+            )
         return _validate_all(self.data_dir, self.stores_dir, max_workers=self.max_workers)
 
 
