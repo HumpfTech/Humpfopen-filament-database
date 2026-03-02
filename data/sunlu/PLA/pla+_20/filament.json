@@ -1,6 +1,26 @@
 {
-    "id": "pla+_20",
-    "name": "PLA+ 2.0",
-    "diameter_tolerance": 0.02,
-    "density": 1.26
+  "id": "pla+_20",
+  "name": "PLA+ 2.0",
+  "diameter_tolerance": 0.02,
+  "density": 1.26,
+  "slicer_settings": {
+    "prusaslicer": {
+      "profile_name": "Sunlu PLA+ 2.0"
+    },
+    "bambustudio": {
+      "generic_id": "GFL99",
+      "id": "GFSNL04",
+      "profile_name": "SUNLU PLA+ 2.0"
+    },
+    "orcaslicer": {
+      "generic_id": "GFL99",
+      "id": "GFSNL04",
+      "profile_name": "SUNLU PLA+ 2.0"
+    },
+    "elegooslicer": {
+      "generic_id": "GFL99",
+      "id": "GFSNL04",
+      "profile_name": "SUNLU PLA+ 2.0"
+    }
+  }
 }

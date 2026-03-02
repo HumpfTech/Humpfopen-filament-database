@@ -1,6 +1,21 @@
 {
-    "id": "rpla",
-    "name": "rPLA",
-    "diameter_tolerance": 0.03,
-    "density": 1.24
+  "id": "rpla",
+  "name": "rPLA",
+  "diameter_tolerance": 0.03,
+  "density": 1.24,
+  "slicer_settings": {
+    "prusaslicer": {
+      "profile_name": "Prusament rPLA"
+    },
+    "orcaslicer": {
+      "generic_id": "GFL99",
+      "id": "GFL99",
+      "profile_name": "Prusament rPLA"
+    },
+    "elegooslicer": {
+      "generic_id": "GFL99",
+      "id": "GFL99",
+      "profile_name": "Prusament rPLA"
+    }
+  }
 }

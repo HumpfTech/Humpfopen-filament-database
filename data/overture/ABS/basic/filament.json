@@ -1,6 +1,13 @@
 {
-    "id": "basic",
-    "name": "Basic",
-    "diameter_tolerance": 0.02,
-    "density": 1.05
+  "id": "basic",
+  "name": "Basic",
+  "diameter_tolerance": 0.02,
+  "density": 1.05,
+  "slicer_settings": {
+    "elegooslicer": {
+      "generic_id": "GFB99",
+      "id": "OVTABS08",
+      "profile_name": "Overture ABS Basic"
+    }
+  }
 }

@@ -1,6 +1,18 @@
 {
-    "id": "asa_cf",
-    "name": "ASA-CF",
-    "diameter_tolerance": 0.03,
-    "density": 1.05
+  "id": "asa_cf",
+  "name": "ASA-CF",
+  "diameter_tolerance": 0.03,
+  "density": 1.05,
+  "slicer_settings": {
+    "orcaslicer": {
+      "generic_id": "GFB98",
+      "id": "EFL82",
+      "profile_name": "Eryone ASA-CF"
+    },
+    "elegooslicer": {
+      "generic_id": "GFB98",
+      "id": "EFL82",
+      "profile_name": "Eryone ASA-CF"
+    }
+  }
 }

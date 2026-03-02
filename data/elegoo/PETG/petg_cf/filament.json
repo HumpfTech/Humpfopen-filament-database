@@ -1,6 +1,13 @@
 {
-    "id": "petg_cf",
-    "name": "PETG-CF",
-    "diameter_tolerance": 0.02,
-    "density": 1.29
+  "id": "petg_cf",
+  "name": "PETG-CF",
+  "diameter_tolerance": 0.02,
+  "density": 1.29,
+  "slicer_settings": {
+    "elegooslicer": {
+      "generic_id": "GFG99",
+      "id": "EPETGB00",
+      "profile_name": "Elegoo PETG-CF"
+    }
+  }
 }

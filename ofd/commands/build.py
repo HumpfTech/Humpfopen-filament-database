@@ -8,13 +8,23 @@ JSON, SQLite, CSV, API, and HTML exports.
 import argparse
 import hashlib
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict
 
 from ofd.builder.crawler import crawl_data
 from ofd.builder.errors import BuildResult
-from ofd.builder.exporters import export_json, export_sqlite, export_sqlite_stores, export_csv, export_api, export_html, export_directory_listings, export_badges
+from ofd.builder.exporters import (
+    export_api,
+    export_badges,
+    export_csv,
+    export_directory_listings,
+    export_docs,
+    export_html,
+    export_json,
+    export_sqlite,
+    export_sqlite_stores,
+)
 from ofd.builder.utils import get_current_timestamp
 
 project_root = Path(__file__).parent.parent.parent
@@ -26,43 +36,39 @@ def generate_version() -> str:
     return now.strftime("%Y.%m.%d")
 
 
-def calculate_checksums(output_dir: str) -> Dict[str, str]:
+def calculate_checksums(output_dir: str) -> dict[str, str]:
     """Calculate SHA256 checksums for all generated files."""
     checksums = {}
     output_path = Path(output_dir)
 
-    for file_path in output_path.rglob('*'):
-        if file_path.is_file() and not file_path.name.endswith('.sha256'):
+    for file_path in output_path.rglob("*"):
+        if file_path.is_file() and not file_path.name.endswith(".sha256"):
             rel_path = str(file_path.relative_to(output_path))
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 sha256 = hashlib.sha256(f.read()).hexdigest()
             checksums[rel_path] = sha256
 
     return checksums
 
 
-def write_manifest(output_dir: str, version: str, generated_at: str, checksums: Dict[str, str]):
+def write_manifest(output_dir: str, version: str, generated_at: str, checksums: dict[str, str]):
     """Write the manifest file with all artifacts."""
     output_path = Path(output_dir)
 
     artifacts = []
     for rel_path, sha256 in sorted(checksums.items()):
         file_path = output_path / rel_path
-        artifacts.append({
-            "path": rel_path,
-            "sha256": sha256,
-            "size": file_path.stat().st_size
-        })
+        artifacts.append({"path": rel_path, "sha256": sha256, "size": file_path.stat().st_size})
 
     manifest = {
         "dataset_version": version,
         "generated_at": generated_at,
         "artifact_count": len(artifacts),
-        "artifacts": artifacts
+        "artifacts": artifacts,
     }
 
     manifest_file = output_path / "manifest.json"
-    with open(manifest_file, 'w', encoding='utf-8') as f:
+    with open(manifest_file, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
     print(f"Written: {manifest_file}")
@@ -72,9 +78,9 @@ def write_manifest(output_dir: str, version: str, generated_at: str, checksums: 
 def register_subcommand(subparsers: argparse._SubParsersAction) -> None:
     """Register the build subcommand."""
     parser = subparsers.add_parser(
-        'build',
-        help='Build database exports (JSON, SQLite, CSV, API, HTML)',
-        description='Build all database exports from the data and stores directories.',
+        "build",
+        help="Build database exports (JSON, SQLite, CSV, API, HTML)",
+        description="Build all database exports from the data and stores directories.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -82,61 +88,36 @@ Examples:
   ofd build -o output              Build to custom output directory
   ofd build --skip-sqlite          Skip SQLite export
   ofd build --skip-json --skip-csv Only build API and HTML
-        """
+        """,
     )
 
     # Output options
     parser.add_argument(
-        '--output-dir', '-o',
-        default='dist',
-        help='Output directory (default: dist)'
+        "--output-dir", "-o", default="dist", help="Output directory (default: dist)"
     )
 
     # Input options
+    parser.add_argument("--data-dir", "-d", default="data", help="Data directory (default: data)")
     parser.add_argument(
-        '--data-dir', '-d',
-        default='data',
-        help='Data directory (default: data)'
-    )
-    parser.add_argument(
-        '--stores-dir', '-s',
-        default='stores',
-        help='Stores directory (default: stores)'
+        "--stores-dir", "-s", default="stores", help="Stores directory (default: stores)"
     )
 
     # Version
     parser.add_argument(
-        '--version', '-v',
-        default=None,
-        help='Dataset version (default: auto-generated from date)'
+        "--version", "-v", default=None, help="Dataset version (default: auto-generated from date)"
     )
 
     # Skip options
-    skip_group = parser.add_argument_group('skip options')
+    skip_group = parser.add_argument_group("skip options")
+    skip_group.add_argument("--skip-json", action="store_true", help="Skip JSON export")
+    skip_group.add_argument("--skip-sqlite", action="store_true", help="Skip SQLite export")
+    skip_group.add_argument("--skip-csv", action="store_true", help="Skip CSV export")
+    skip_group.add_argument("--skip-api", action="store_true", help="Skip static API export")
     skip_group.add_argument(
-        '--skip-json',
-        action='store_true',
-        help='Skip JSON export'
+        "--skip-html", action="store_true", help="Skip HTML landing page export"
     )
     skip_group.add_argument(
-        '--skip-sqlite',
-        action='store_true',
-        help='Skip SQLite export'
-    )
-    skip_group.add_argument(
-        '--skip-csv',
-        action='store_true',
-        help='Skip CSV export'
-    )
-    skip_group.add_argument(
-        '--skip-api',
-        action='store_true',
-        help='Skip static API export'
-    )
-    skip_group.add_argument(
-        '--skip-html',
-        action='store_true',
-        help='Skip HTML landing page export'
+        "--skip-docs", action="store_true", help="Skip editor documentation export"
     )
 
     parser.set_defaults(func=run_build)
@@ -188,71 +169,83 @@ def run_build(args: argparse.Namespace) -> int:
     build_result = BuildResult()
 
     # Step 1: Crawl data
-    print("\n[1/9] Crawling data...")
+    print("\n[1/10] Crawling data...")
     db, crawl_result = crawl_data(str(data_dir), str(stores_dir))
     build_result.merge(crawl_result)
 
     # Step 2: Export JSON
     if not args.skip_json:
-        print("\n[2/9] Exporting JSON...")
+        print("\n[2/10] Exporting JSON...")
         export_json(db, str(output_dir), version, generated_at)
     else:
-        print("\n[2/9] Skipping JSON export")
+        print("\n[2/10] Skipping JSON export")
 
     # Step 3: Export SQLite (filaments)
     if not args.skip_sqlite:
-        print("\n[3/9] Exporting SQLite (filaments)...")
+        print("\n[3/10] Exporting SQLite (filaments)...")
         export_sqlite(db, str(output_dir), version, generated_at)
     else:
-        print("\n[3/9] Skipping SQLite export")
+        print("\n[3/10] Skipping SQLite export")
 
     # Step 4: Export SQLite (stores)
     if not args.skip_sqlite:
-        print("\n[4/9] Exporting SQLite (stores)...")
+        print("\n[4/10] Exporting SQLite (stores)...")
         export_sqlite_stores(db, str(output_dir), version, generated_at)
     else:
-        print("\n[4/9] Skipping SQLite stores export")
+        print("\n[4/10] Skipping SQLite stores export")
 
     # Step 5: Export CSV
     if not args.skip_csv:
-        print("\n[5/9] Exporting CSV...")
+        print("\n[5/10] Exporting CSV...")
         export_csv(db, str(output_dir), version, generated_at)
     else:
-        print("\n[5/9] Skipping CSV export")
+        print("\n[5/10] Skipping CSV export")
 
     # Step 6: Export Static API
     if not args.skip_api:
-        print("\n[6/9] Exporting Static API...")
+        print("\n[6/10] Exporting Static API...")
         export_api(
-            db, str(output_dir), version, generated_at,
+            db,
+            str(output_dir),
+            version,
+            generated_at,
             schemas_dir=str(schemas_dir),
             builder_schemas_dir=str(builder_schemas_dir),
             data_dir=str(data_dir),
-            stores_dir=str(stores_dir)
+            stores_dir=str(stores_dir),
         )
     else:
-        print("\n[6/9] Skipping Static API export")
+        print("\n[6/10] Skipping Static API export")
 
     # Step 7: Export HTML landing page
     if not args.skip_html:
-        print("\n[7/9] Exporting HTML landing page...")
+        print("\n[7/10] Exporting HTML landing page...")
         templates_dir = Path(__file__).parent.parent / "builder" / "templates"
         config_dir = project_root / "config"
         export_html(db, str(output_dir), version, generated_at, str(templates_dir), str(config_dir))
     else:
-        print("\n[7/9] Skipping HTML export")
+        print("\n[7/10] Skipping HTML export")
 
     # Step 8: Export badges
-    print("\n[8/9] Exporting badges...")
+    print("\n[8/10] Exporting badges...")
     export_badges(db, str(output_dir))
 
-    # Step 9: Generate directory listings (must run last so all dirs are covered)
+    # Step 9: Export editor documentation
+    if not args.skip_docs:
+        print("\n[9/10] Exporting editor documentation...")
+        docs_dir = project_root / "docs"
+        templates_dir = Path(__file__).parent.parent / "builder" / "templates"
+        export_docs(str(output_dir), docs_dir=str(docs_dir), templates_dir=str(templates_dir))
+    else:
+        print("\n[9/10] Skipping docs export")
+
+    # Step 10: Generate directory listings (must run last so all dirs are covered)
     if not args.skip_html:
-        print("\n[9/9] Generating directory listings...")
+        print("\n[10/10] Generating directory listings...")
         templates_dir = Path(__file__).parent.parent / "builder" / "templates"
         export_directory_listings(str(output_dir), str(templates_dir))
     else:
-        print("\n[9/9] Skipping directory listings")
+        print("\n[10/10] Skipping directory listings")
 
     # Calculate checksums and write manifest
     print("\nGenerating checksums and manifest...")
@@ -269,7 +262,9 @@ def run_build(args: argparse.Namespace) -> int:
     print(f"Total artifacts: {len(checksums)}")
 
     if build_result.errors:
-        print(f"\nBuild issues: {build_result.error_count} errors, {build_result.warning_count} warnings")
+        print(
+            f"\nBuild issues: {build_result.error_count} errors, {build_result.warning_count} warnings"
+        )
 
     # Return non-zero exit code if there were errors
     return 1 if build_result.has_errors else 0

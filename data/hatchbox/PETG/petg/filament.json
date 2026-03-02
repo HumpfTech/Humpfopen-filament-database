@@ -6,5 +6,23 @@
   "min_print_temperature": 220,
   "max_print_temperature": 250,
   "min_bed_temperature": 70,
-  "max_bed_temperature": 90
+  "max_bed_temperature": 90,
+  "slicer_settings": {
+    "prusaslicer": {
+      "profile_name": "Hatchbox PETG"
+    },
+    "orcaslicer": {
+      "generic_id": "GFG99",
+      "id": "GFG99",
+      "profile_name": "HATCHBOX PETG"
+    },
+    "superslicer": {
+      "profile_name": "Hatchbox PETG"
+    },
+    "elegooslicer": {
+      "generic_id": "GFG99",
+      "id": "GFG99",
+      "profile_name": "HATCHBOX PETG"
+    }
+  }
 }

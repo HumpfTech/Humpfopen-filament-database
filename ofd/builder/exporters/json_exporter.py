@@ -34,13 +34,13 @@ def export_all_json(db: Database, output_dir: str, version: str, generated_at: s
 
     # Write uncompressed JSON
     all_json_path = output_path / "all.json"
-    with open(all_json_path, 'w', encoding='utf-8') as f:
+    with open(all_json_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     print(f"  Written: {all_json_path}")
 
     # Write gzip compressed JSON
     all_json_gz_path = output_path / "all.json.gz"
-    with gzip.open(all_json_gz_path, 'wt', encoding='utf-8') as f:
+    with gzip.open(all_json_gz_path, "wt", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False)
     print(f"  Written: {all_json_gz_path}")
 
@@ -51,39 +51,39 @@ def export_ndjson(db: Database, output_dir: str, version: str, generated_at: str
     output_path.mkdir(parents=True, exist_ok=True)
 
     ndjson_path = output_path / "all.ndjson"
-    with open(ndjson_path, 'w', encoding='utf-8') as f:
+    with open(ndjson_path, "w", encoding="utf-8") as f:
         # Write metadata line
         meta = {"_type": "meta", "version": version, "generated_at": generated_at}
-        f.write(json.dumps(meta, ensure_ascii=False) + '\n')
+        f.write(json.dumps(meta, ensure_ascii=False) + "\n")
 
         # Write each entity type
         for brand in db.brands:
             line = {"_type": "brand", **entity_to_dict(brand)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
         for material in db.materials:
             line = {"_type": "material", **entity_to_dict(material)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
         for filament in db.filaments:
             line = {"_type": "filament", **entity_to_dict(filament)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
         for variant in db.variants:
             line = {"_type": "variant", **entity_to_dict(variant)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
         for size in db.sizes:
             line = {"_type": "size", **entity_to_dict(size)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
         for store in db.stores:
             line = {"_type": "store", **entity_to_dict(store)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
         for pl in db.purchase_links:
             line = {"_type": "purchase_link", **entity_to_dict(pl)}
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
 
     print(f"  Written: {ndjson_path}")
 
@@ -94,22 +94,18 @@ def export_per_brand_json(db: Database, output_dir: str, version: str, generated
     output_path.mkdir(parents=True, exist_ok=True)
 
     # Build index
-    index = {
-        "version": version,
-        "generated_at": generated_at,
-        "brands": []
-    }
+    index = {"version": version, "generated_at": generated_at, "brands": []}
 
     for brand in db.brands:
         # Get all data for this brand
-        brand_materials = [m for m in db.materials if m.brand_id == brand.id]
-        brand_filaments = [f for f in db.filaments if f.brand_id == brand.id]
-        brand_filament_ids = {f.id for f in brand_filaments}
-        brand_variants = [v for v in db.variants if v.filament_id in brand_filament_ids]
-        brand_variant_ids = {v.id for v in brand_variants}
-        brand_sizes = [s for s in db.sizes if s.variant_id in brand_variant_ids]
-        brand_size_ids = {s.id for s in brand_sizes}
-        brand_purchase_links = [pl for pl in db.purchase_links if pl.size_id in brand_size_ids]
+        brand_materials = [m for m in db.materials if m["brand_id"] == brand["id"]]
+        brand_filaments = [f for f in db.filaments if f["brand_id"] == brand["id"]]
+        brand_filament_ids = {f["id"] for f in brand_filaments}
+        brand_variants = [v for v in db.variants if v["filament_id"] in brand_filament_ids]
+        brand_variant_ids = {v["id"] for v in brand_variants}
+        brand_sizes = [s for s in db.sizes if s["variant_id"] in brand_variant_ids]
+        brand_size_ids = {s["id"] for s in brand_sizes}
+        brand_purchase_links = [pl for pl in db.purchase_links if pl["size_id"] in brand_size_ids]
 
         brand_data = {
             "version": version,
@@ -123,21 +119,23 @@ def export_per_brand_json(db: Database, output_dir: str, version: str, generated
         }
 
         # Write brand JSON
-        brand_json_path = output_path / f"{brand.slug}.json"
-        with open(brand_json_path, 'w', encoding='utf-8') as f:
+        brand_json_path = output_path / f"{brand['slug']}.json"
+        with open(brand_json_path, "w", encoding="utf-8") as f:
             json.dump(brand_data, f, indent=2, ensure_ascii=False)
 
         # Add to index
-        index["brands"].append({
-            "id": brand.id,
-            "name": brand.name,
-            "slug": brand.slug,
-            "path": f"brands/{brand.slug}.json"
-        })
+        index["brands"].append(
+            {
+                "id": brand["id"],
+                "name": brand["name"],
+                "slug": brand["slug"],
+                "path": f"brands/{brand['slug']}.json",
+            }
+        )
 
     # Write index
     index_path = output_path / "index.json"
-    with open(index_path, 'w', encoding='utf-8') as f:
+    with open(index_path, "w", encoding="utf-8") as f:
         json.dump(index, f, indent=2, ensure_ascii=False)
     print(f"  Written: {index_path} and {len(db.brands)} brand files")
 

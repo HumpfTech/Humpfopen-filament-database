@@ -20,6 +20,16 @@
                     "type": "object",
                     "description": "Key-value pairs for settings that should be overridden for this filament"
                 },
+                "id": {
+                    "type": "string",
+                    "description": "The slicer-native identifier for this filament profile (e.g. GFB00, FFF02)",
+                    "$ref": "#/definitions/string_limit"
+                },
+                "generic_id": {
+                    "type": "string",
+                    "description": "Fallback generic slicer profile ID for this material type (e.g. GFL99 for Generic PLA)",
+                    "$ref": "#/definitions/string_limit"
+                },
                 "first_layer_bed_temp": {
                     "type": "integer"
                 },
@@ -52,6 +62,12 @@
                 "cura": {
                     "$ref": "#/definitions/specific_slicer_settings"
                 },
+                "superslicer": {
+                    "$ref": "#/definitions/specific_slicer_settings"
+                },
+                "elegooslicer": {
+                    "$ref": "#/definitions/specific_slicer_settings"
+                },
                 "generic": {
                     "type": "object",
                     "description": "Generic options that will automatically be mapped to the correct config definition for each slicer. Slicer specific settings are applied first, then these are applied on top",
@@ -76,21 +92,27 @@
     },
     "properties": {
         "material": {
-            "description": "The material type of the filament",
+            "title": "Material Type",
+            "description": "The type of material (e.g., PLA, PETG, ABS). This determines the base properties and recommended settings.",
             "$ref": "#/definitions/material_type"
         },
         "material_class": {
             "type": "string",
+            "title": "Material Class",
             "enum": ["FFF", "SLA"],
             "default": "FFF",
-            "description": "The class of the material (FFF for filament, SLA for resin)"
+            "description": "The manufacturing process class. FFF (Fused Filament Fabrication) for standard filament printing, SLA for resin-based printing."
         },
         "default_max_dry_temperature": {
-            "type": "integer"
+            "type": "integer",
+            "title": "Default Max Dry Temperature (°C)",
+            "description": "Maximum temperature (in °C) that can be used to dry this material without degradation. Common values: PLA ~45°C, PETG ~65°C, ABS ~80°C.",
+            "x-placeholder": "e.g., 55"
         },
         "default_slicer_settings": {
             "$ref": "#/definitions/slicer_settings",
-            "description": "The default slicer settings that should be used for this type of filament material. This will be used in any case where a filament does not specify its own \"slicer_settings\""
+            "title": "Default Slicer Settings",
+            "description": "Configure default slicer profiles and temperature overrides for different slicing software. Toggle each slicer to configure its specific settings."
         }
     },
     "additionalProperties": false,

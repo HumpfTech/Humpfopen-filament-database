@@ -1,8 +1,20 @@
 {
-    "id": "rabs",
-    "name": "rABS",
-    "diameter_tolerance": 0.02,
-    "density": 1.03,
-    "max_dry_temperature": 65,
-    "safety_sheet_url": "https://storage.googleapis.com/addnorth-com.appspot.com/imgix/assets/production/MSDS_rABS_Aw6GuW.pdf"
+  "id": "rabs",
+  "name": "rABS",
+  "diameter_tolerance": 0.02,
+  "density": 1.03,
+  "max_dry_temperature": 65,
+  "safety_sheet_url": "https://storage.googleapis.com/addnorth-com.appspot.com/imgix/assets/production/MSDS_rABS_Aw6GuW.pdf",
+  "slicer_settings": {
+    "bambustudio": {
+      "generic_id": "GFB99",
+      "id": "GF_ANRA",
+      "profile_name": "addnorth ABS rABS"
+    },
+    "orcaslicer": {
+      "generic_id": "GFB99",
+      "id": "GF_ANRA",
+      "profile_name": "addnorth ABS rABS"
+    }
+  }
 }
