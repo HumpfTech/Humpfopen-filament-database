@@ -20,9 +20,12 @@ Or programmatically:
     export_json(db, "dist", "2025.1.0", "2025-01-01T00:00:00Z")
 """
 
-__version__ = "2.0.0"
+__version__ = "3.0.0"
 
-from .crawler import DataCrawler, crawl_data
+from .models import Database, DocumentType, ENTITY_TYPES
+
+from .crawler import crawl_data, DataCrawler
+
 from .exporters import (
     export_api,
     export_badges,
@@ -30,39 +33,14 @@ from .exporters import (
     export_json,
     export_sqlite,
 )
-from .models import (
-    AllSlicerSettings,
-    Brand,
-    ColorStandards,
-    Database,
-    Filament,
-    GenericSlicerSettings,
-    Material,
-    PurchaseLink,
-    Size,
-    SlicerSettings,
-    Store,
-    Variant,
-    VariantTraits,
-)
 
 __all__ = [
     # Version
     "__version__",
     # Models
-    "Brand",
-    "Material",
-    "Filament",
-    "Variant",
-    "Size",
-    "Store",
-    "PurchaseLink",
     "Database",
-    "SlicerSettings",
-    "GenericSlicerSettings",
-    "AllSlicerSettings",
-    "ColorStandards",
-    "VariantTraits",
+    "DocumentType",
+    "ENTITY_TYPES",
     # Crawler
     "crawl_data",
     "DataCrawler",
