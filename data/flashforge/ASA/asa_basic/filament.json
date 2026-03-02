@@ -7,12 +7,12 @@
     "slicer_settings": {
         "orcaslicer": {
             "profile_name": "Flashforge ASA Basic",
-            "id": "GFL99",
+            "id": "GFB99",
             "generic_id": "GFB98"
         },
         "elegooslicer": {
             "profile_name": "Flashforge ASA Basic",
-            "id": "GFL99",
+            "id": "GFB99",
             "generic_id": "GFB98"
         }
     }
