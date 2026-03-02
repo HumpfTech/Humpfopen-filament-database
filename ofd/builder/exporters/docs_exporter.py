@@ -38,7 +38,9 @@ def _render_doc(md_text: str) -> str:
     )
 
 
-def export_docs(output_dir: str, docs_dir: str = "docs", templates_dir: str = None, **kwargs):
+def export_docs(
+    output_dir: str, docs_dir: str = "docs", templates_dir: str | None = None, **kwargs
+):
     """Export documentation markdown files as styled HTML to dist/api/v1/editor/."""
     docs_path = Path(docs_dir)
     if not docs_path.exists():
@@ -84,7 +86,6 @@ def export_docs(output_dir: str, docs_dir: str = "docs", templates_dir: str = No
         page_html = doc_template
         page_html = page_html.replace("<TITLE/>", title)
         page_html = page_html.replace("<CONTENT/>", html_content)
-        page_html = page_html.replace("<SLUG/>", slug)
 
         out_file = editor_path / f"{slug}.html"
         out_file.write_text(page_html, encoding="utf-8")
