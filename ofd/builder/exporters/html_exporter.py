@@ -16,6 +16,7 @@ from ..models import Database
 
 def build_abstract_file_tree(db: Database) -> str:
     """Build an abstract file tree showing the layout structure, not every file."""
+
     # Helper to create nested structure
     def li_file(name: str, href: str = None) -> str:
         if href:
@@ -33,46 +34,103 @@ def build_abstract_file_tree(db: Database) -> str:
 
     # API structure
     api_variants = li_placeholder("{variant}.json")
-    api_filaments = li_dir("{filament-slug}", li_dir("variants", api_variants) + "\n" + li_file("index.json"))
-    api_materials = li_dir("{material-slug}", li_dir("filaments", api_filaments) + "\n" + li_file("index.json"))
-    api_brands_inner = li_dir("{brand-slug}", li_dir("materials", api_materials) + "\n" + li_file("index.json"))
-    api_brand_logos = li_dir("logo", li_placeholder("{logo-id}.json") + "\n" + li_placeholder("{logo-id}.{ext}") + "\n" + li_file("index.json", "api/v1/brands/logo/index.json"))
-    api_brands = li_dir("brands", api_brands_inner + "\n" + api_brand_logos + "\n" + li_file("index.json", "api/v1/brands/index.json"))
-    api_store_logos = li_dir("logo", li_placeholder("{logo-id}.json") + "\n" + li_placeholder("{logo-id}.{ext}") + "\n" + li_file("index.json", "api/v1/stores/logo/index.json"))
-    api_stores = li_dir("stores", li_placeholder("{store-slug}.json") + "\n" + api_store_logos + "\n" + li_file("index.json", "api/v1/stores/index.json"))
-    api_schemas = li_dir("schemas", li_placeholder("*.json") + "\n" + li_file("index.json", "api/v1/schemas/index.json"))
-    api_v1 = li_dir("v1", api_brands + "\n" + api_stores + "\n" + api_schemas + "\n" + li_file("index.json", "api/v1/index.json"))
+    api_filaments = li_dir(
+        "{filament-slug}", li_dir("variants", api_variants) + "\n" + li_file("index.json")
+    )
+    api_materials = li_dir(
+        "{material-slug}", li_dir("filaments", api_filaments) + "\n" + li_file("index.json")
+    )
+    api_brands_inner = li_dir(
+        "{brand-slug}", li_dir("materials", api_materials) + "\n" + li_file("index.json")
+    )
+    api_brand_logos = li_dir(
+        "logo",
+        li_placeholder("{logo-id}.json")
+        + "\n"
+        + li_placeholder("{logo-id}.{ext}")
+        + "\n"
+        + li_file("index.json", "api/v1/brands/logo/index.json"),
+    )
+    api_brands = li_dir(
+        "brands",
+        api_brands_inner
+        + "\n"
+        + api_brand_logos
+        + "\n"
+        + li_file("index.json", "api/v1/brands/index.json"),
+    )
+    api_store_logos = li_dir(
+        "logo",
+        li_placeholder("{logo-id}.json")
+        + "\n"
+        + li_placeholder("{logo-id}.{ext}")
+        + "\n"
+        + li_file("index.json", "api/v1/stores/logo/index.json"),
+    )
+    api_stores = li_dir(
+        "stores",
+        li_placeholder("{store-slug}.json")
+        + "\n"
+        + api_store_logos
+        + "\n"
+        + li_file("index.json", "api/v1/stores/index.json"),
+    )
+    api_schemas = li_dir(
+        "schemas",
+        li_placeholder("*.json") + "\n" + li_file("index.json", "api/v1/schemas/index.json"),
+    )
+    api_v1 = li_dir(
+        "v1",
+        api_brands
+        + "\n"
+        + api_stores
+        + "\n"
+        + api_schemas
+        + "\n"
+        + li_file("index.json", "api/v1/index.json"),
+    )
     lines.append(li_dir("api", api_v1))
 
     # CSV structure
-    csv_files = "\n".join([
-        li_file("brands.csv", "csv/brands.csv"),
-        li_file("filaments.csv", "csv/filaments.csv"),
-        li_file("materials.csv", "csv/materials.csv"),
-        li_file("purchase_links.csv", "csv/purchase_links.csv"),
-        li_file("sizes.csv", "csv/sizes.csv"),
-        li_file("stores.csv", "csv/stores.csv"),
-        li_file("variants.csv", "csv/variants.csv"),
-    ])
+    csv_files = "\n".join(
+        [
+            li_file("brands.csv", "csv/brands.csv"),
+            li_file("filaments.csv", "csv/filaments.csv"),
+            li_file("materials.csv", "csv/materials.csv"),
+            li_file("purchase_links.csv", "csv/purchase_links.csv"),
+            li_file("sizes.csv", "csv/sizes.csv"),
+            li_file("stores.csv", "csv/stores.csv"),
+            li_file("variants.csv", "csv/variants.csv"),
+        ]
+    )
     lines.append(li_dir("csv", csv_files))
 
     # JSON structure
-    json_brands = li_dir("brands", li_placeholder("{brand-slug}.json") + "\n" + li_file("index.json", "json/brands/index.json"))
-    json_files = "\n".join([
-        json_brands,
-        li_file("all.json", "json/all.json"),
-        li_file("all.json.gz", "json/all.json.gz"),
-        li_file("all.ndjson", "json/all.ndjson"),
-    ])
+    json_brands = li_dir(
+        "brands",
+        li_placeholder("{brand-slug}.json")
+        + "\n"
+        + li_file("index.json", "json/brands/index.json"),
+    )
+    json_files = "\n".join(
+        [
+            json_brands,
+            li_file("all.json", "json/all.json"),
+            li_file("all.json.gz", "json/all.json.gz"),
+            li_file("all.ndjson", "json/all.ndjson"),
+        ]
+    )
     lines.append(li_dir("json", json_files))
 
     # SQLite structure
-    sqlite_files = "\n".join([
-        li_file("filaments.db", "sqlite/filaments.db"),
-        li_file("filaments.db.xz", "sqlite/filaments.db.xz"),
-        li_file("stores.db", "sqlite/stores.db"),
-        li_file("stores.db.xz", "sqlite/stores.db.xz"),
-    ])
+    sqlite_files = "\n".join(
+        [
+            li_file("filaments.db", "sqlite/filaments.db"),
+            li_file("filaments.db.xz", "sqlite/filaments.db.xz"),
+            li_file("stores.db", "sqlite/stores.db"),
+            li_file("stores.db.xz", "sqlite/stores.db.xz"),
+        ]
+    )
     lines.append(li_dir("sqlite", sqlite_files))
 
     # Root files
@@ -95,21 +153,17 @@ def generate_stats_html(db: Database) -> str:
 
     html_parts = ['<div class="stats">']
     for value, label in stats:
-        html_parts.append(f'''<div class="stat">
+        html_parts.append(f"""<div class="stat">
     <div class="stat-value">{value}</div>
     <div class="stat-label">{label}</div>
-</div>''')
-    html_parts.append('</div>')
+</div>""")
+    html_parts.append("</div>")
 
     return "\n".join(html_parts)
 
 
 def process_template(
-    template: str,
-    db: Database,
-    version: str,
-    generated_at: str,
-    output_dir: Path
+    template: str, db: Database, version: str, generated_at: str, output_dir: Path
 ) -> str:
     """Process the template and replace all placeholders."""
     # Build abstract file tree
@@ -135,7 +189,7 @@ def export_html(
     generated_at: str,
     templates_dir: str = None,
     config_dir: str = None,
-    **kwargs
+    **kwargs,
 ):
     """Export index.html landing page from template."""
     output_path = Path(output_dir)
@@ -154,7 +208,7 @@ def export_html(
         return
 
     # Read template
-    with open(template_path, 'r', encoding='utf-8') as f:
+    with open(template_path, encoding="utf-8") as f:
         template = f.read()
 
     # Process template
@@ -162,7 +216,7 @@ def export_html(
 
     # Write output
     index_file = output_path / "index.html"
-    with open(index_file, 'w', encoding='utf-8') as f:
+    with open(index_file, "w", encoding="utf-8") as f:
         f.write(html_content)
 
     print(f"  Written: {index_file}")

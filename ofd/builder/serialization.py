@@ -7,10 +7,10 @@ to dictionaries, eliminating duplication across exporters.
 
 import json
 from dataclasses import fields, is_dataclass
-from typing import Any, Optional, Type, get_type_hints, get_origin, get_args, Union
+from typing import Any, Union, get_args, get_origin, get_type_hints
 
 
-def entity_to_dict(entity: Any, exclude_none: bool = True) -> Optional[dict]:
+def entity_to_dict(entity: Any, exclude_none: bool = True) -> dict | None:
     """
     Convert a dataclass entity to a dictionary, handling nested dataclasses.
 
@@ -28,6 +28,7 @@ def entity_to_dict(entity: Any, exclude_none: bool = True) -> Optional[dict]:
 
         # Check if this is a Brand or Store entity (special handling)
         from .models import Brand, Store
+
         is_brand_or_store = isinstance(entity, (Brand, Store))
 
         for field_info in fields(entity):
@@ -47,7 +48,9 @@ def entity_to_dict(entity: Any, exclude_none: bool = True) -> Optional[dict]:
                     result[field_name] = entity_to_dict(value, exclude_none)
                 elif isinstance(value, list):
                     result[field_name] = [
-                        entity_to_dict(v, exclude_none) if is_dataclass(v) and not isinstance(v, type) else v
+                        entity_to_dict(v, exclude_none)
+                        if is_dataclass(v) and not isinstance(v, type)
+                        else v
                         for v in value
                     ]
                 else:
@@ -56,7 +59,7 @@ def entity_to_dict(entity: Any, exclude_none: bool = True) -> Optional[dict]:
     return entity
 
 
-def get_dataclass_field_names(cls: Type) -> list[str]:
+def get_dataclass_field_names(cls: type) -> list[str]:
     """
     Get all field names from a dataclass.
 
@@ -71,7 +74,7 @@ def get_dataclass_field_names(cls: Type) -> list[str]:
     return [f.name for f in fields(cls)]
 
 
-def get_dataclass_fields_with_types(cls: Type) -> list[tuple[str, Type]]:
+def get_dataclass_fields_with_types(cls: type) -> list[tuple[str, type]]:
     """
     Get all field names and their types from a dataclass.
 
@@ -96,7 +99,7 @@ _PYTHON_TO_SQLITE = {
 }
 
 
-def _unwrap_optional(python_type: Type) -> Type:
+def _unwrap_optional(python_type: type) -> type:
     """Unwrap Optional[X] to get X."""
     origin = get_origin(python_type)
     if origin is Union:
@@ -108,7 +111,7 @@ def _unwrap_optional(python_type: Type) -> Type:
     return python_type
 
 
-def python_type_to_sqlite(python_type: Type) -> str:
+def python_type_to_sqlite(python_type: type) -> str:
     """
     Map a Python type to its SQLite equivalent.
 

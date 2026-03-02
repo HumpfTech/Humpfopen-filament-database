@@ -43,7 +43,9 @@ def merge_schemas(base_schema: dict, logo_schema: dict) -> dict:
     return merged
 
 
-def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path, version: str, generated_at: str) -> int:
+def export_schemas(
+    api_path: Path, schemas_dir: Path, builder_schemas_dir: Path, version: str, generated_at: str
+) -> int:
     """
     Export JSON schemas to the API.
     Logo schemas from builder/schemas are merged on top of general schemas from schemas/.
@@ -59,7 +61,7 @@ def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path,
     merged_logo_schemas = set()  # Track which logo schemas have been merged
     if builder_schemas_dir and builder_schemas_dir.exists():
         for schema_file in builder_schemas_dir.glob("*_logo_schema.json"):
-            with open(schema_file, 'r', encoding='utf-8') as f:
+            with open(schema_file, encoding="utf-8") as f:
                 logo_schemas[schema_file.name] = json.load(f)
 
     if schemas_dir.exists():
@@ -69,7 +71,7 @@ def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path,
 
             if logo_schema_name in logo_schemas:
                 # Load base schema
-                with open(schema_file, 'r', encoding='utf-8') as f:
+                with open(schema_file, encoding="utf-8") as f:
                     base_schema = json.load(f)
 
                 # Merge logo schema on top of base schema
@@ -77,17 +79,15 @@ def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path,
 
                 # Write merged schema
                 dest = schemas_path / logo_schema_name
-                with open(dest, 'w', encoding='utf-8') as f:
+                with open(dest, "w", encoding="utf-8") as f:
                     json.dump(merged_schema, f, indent=2, ensure_ascii=False)
 
                 # Extract schema name (e.g., "brand_logo_schema.json" -> "brand_logo")
                 name = schema_file.stem.replace("_schema", "") + "_logo"
 
-                schema_files.append({
-                    "name": name,
-                    "file": logo_schema_name,
-                    "path": f"{logo_schema_name}"
-                })
+                schema_files.append(
+                    {"name": name, "file": logo_schema_name, "path": f"{logo_schema_name}"}
+                )
 
                 # Mark this logo schema as merged
                 merged_logo_schemas.add(logo_schema_name)
@@ -99,11 +99,9 @@ def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path,
                 # Extract schema name from filename (e.g., "brand_schema.json" -> "brand")
                 name = schema_file.stem.replace("_schema", "").replace("-schema", "")
 
-                schema_files.append({
-                    "name": name,
-                    "file": schema_file.name,
-                    "path": f"{schema_file.name}"
-                })
+                schema_files.append(
+                    {"name": name, "file": schema_file.name, "path": f"{schema_file.name}"}
+                )
 
     # Copy any standalone schemas from builder/schemas that weren't merged
     if builder_schemas_dir and builder_schemas_dir.exists():
@@ -119,22 +117,20 @@ def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path,
             # Extract schema name from filename
             name = schema_file.stem.replace("_schema", "").replace("-schema", "")
 
-            schema_files.append({
-                "name": name,
-                "file": schema_file.name,
-                "path": f"{schema_file.name}"
-            })
+            schema_files.append(
+                {"name": name, "file": schema_file.name, "path": f"{schema_file.name}"}
+            )
 
     # Write schemas index
     schemas_index = {
         "version": version,
         "generated_at": generated_at,
         "count": len(schema_files),
-        "schemas": schema_files
+        "schemas": schema_files,
     }
 
     index_path = schemas_path / "index.json"
-    with open(index_path, 'w', encoding='utf-8') as f:
+    with open(index_path, "w", encoding="utf-8") as f:
         json.dump(schemas_index, f, indent=2, ensure_ascii=False)
 
     return len(schema_files)
@@ -143,7 +139,7 @@ def export_schemas(api_path: Path, schemas_dir: Path, builder_schemas_dir: Path,
 def write_json(path: Path, data: dict):
     """Write JSON file with consistent formatting."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
@@ -205,32 +201,33 @@ def export_brand_logos(db: Database, api_path: Path, data_dir: Path) -> tuple[in
             "brand_name": brand.name,
             "filename": brand.logo,
             "extension": ext,
-            "logo_file": f"{logo_id}.{ext}"
+            "logo_file": f"{logo_id}.{ext}",
         }
         write_json(logos_path / f"{logo_id}.json", logo_json)
 
-        logo_index.append({
-            "id": logo_id,
-            "slug": logo_id,
-            "brand_id": brand.id,
-            "brand_name": brand.name,
-            "path": f"{logo_id}.json"
-        })
+        logo_index.append(
+            {
+                "id": logo_id,
+                "slug": logo_id,
+                "brand_id": brand.id,
+                "brand_name": brand.name,
+                "path": f"{logo_id}.json",
+            }
+        )
 
         # Add to mapping (with file extension)
         logo_id_mapping[brand.id] = f"{logo_id}.{ext}"
         copied_count += 1
 
     # Write index
-    write_json(logos_path / "index.json", {
-        "count": len(logo_index),
-        "logos": logo_index
-    })
+    write_json(logos_path / "index.json", {"count": len(logo_index), "logos": logo_index})
 
     return copied_count, logo_id_mapping
 
 
-def export_store_logos(db: Database, api_path: Path, stores_dir: Path) -> tuple[int, dict[str, str]]:
+def export_store_logos(
+    db: Database, api_path: Path, stores_dir: Path
+) -> tuple[int, dict[str, str]]:
     """
     Export store logos to API.
 
@@ -273,32 +270,42 @@ def export_store_logos(db: Database, api_path: Path, stores_dir: Path) -> tuple[
             "store_name": store.name,
             "filename": store.logo,
             "extension": ext,
-            "logo_file": f"{logo_id}.{ext}"
+            "logo_file": f"{logo_id}.{ext}",
         }
         write_json(logos_path / f"{logo_id}.json", logo_json)
 
-        logo_index.append({
-            "id": logo_id,
-            "slug": logo_id,
-            "store_id": store.id,
-            "store_name": store.name,
-            "path": f"{logo_id}.json"
-        })
+        logo_index.append(
+            {
+                "id": logo_id,
+                "slug": logo_id,
+                "store_id": store.id,
+                "store_name": store.name,
+                "path": f"{logo_id}.json",
+            }
+        )
 
         # Add to mapping (with file extension)
         logo_id_mapping[store.id] = f"{logo_id}.{ext}"
         copied_count += 1
 
     # Write index
-    write_json(logos_path / "index.json", {
-        "count": len(logo_index),
-        "logos": logo_index
-    })
+    write_json(logos_path / "index.json", {"count": len(logo_index), "logos": logo_index})
 
     return copied_count, logo_id_mapping
 
 
-def export_api(db: Database, output_dir: str, version: str, generated_at: str, schemas_dir: str = None, builder_schemas_dir: str = None, base_url: str = "", data_dir: str = "data", stores_dir: str = "stores", **kwargs):
+def export_api(
+    db: Database,
+    output_dir: str,
+    version: str,
+    generated_at: str,
+    schemas_dir: str = None,
+    builder_schemas_dir: str = None,
+    base_url: str = "",
+    data_dir: str = "data",
+    stores_dir: str = "stores",
+    **kwargs,
+):
     """Export static API structure following native directory hierarchy."""
     api_path = Path(output_dir) / "api" / "v1"
     api_path.mkdir(parents=True, exist_ok=True)
@@ -308,7 +315,9 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
     if schemas_dir:
         schemas_path = Path(schemas_dir)
         builder_schemas_path = Path(builder_schemas_dir) if builder_schemas_dir else None
-        schemas_count = export_schemas(api_path, schemas_path, builder_schemas_path, version, generated_at)
+        schemas_count = export_schemas(
+            api_path, schemas_path, builder_schemas_path, version, generated_at
+        )
         print(f"  Written: {schemas_count} schemas")
 
     # Export brand and store logos (get logo ID mappings)
@@ -345,7 +354,7 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
         "stores": "stores/index.json",
         "brand_logos": "brands/logo/index.json",
         "store_logos": "stores/logo/index.json",
-        "all": "../json/all.json"
+        "all": "../json/all.json",
     }
     if schemas_count > 0:
         endpoints["schemas"] = "schemas/index.json"
@@ -360,9 +369,9 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
             "variants": len(db.variants),
             "sizes": len(db.sizes),
             "stores": len(db.stores),
-            "purchase_links": len(db.purchase_links)
+            "purchase_links": len(db.purchase_links),
         },
-        "endpoints": endpoints
+        "endpoints": endpoints,
     }
     write_json(api_path / "index.json", index)
     print(f"  Written: {api_path / 'index.json'}")
@@ -379,19 +388,22 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
             "slug": brand.slug,
             "origin": brand.origin,
             "material_count": len(brand_materials),
-            "path": f"{brand.slug}/index.json"
+            "path": f"{brand.slug}/index.json",
         }
         # Add logo_slug if brand has a logo
         if brand.id in brand_logo_id_mapping:
             brand_entry["logo_slug"] = brand_logo_id_mapping[brand.id]
         brands_index.append(brand_entry)
 
-    write_json(brands_path / "index.json", {
-        "version": version,
-        "generated_at": generated_at,
-        "count": len(db.brands),
-        "brands": brands_index
-    })
+    write_json(
+        brands_path / "index.json",
+        {
+            "version": version,
+            "generated_at": generated_at,
+            "count": len(db.brands),
+            "brands": brands_index,
+        },
+    )
 
     # Per-brand structure
     brand_count = 0
@@ -407,13 +419,15 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
         materials_list = []
         for mat in brand_materials:
             mat_filaments = filaments_by_material.get(mat.id, [])
-            materials_list.append({
-                "id": mat.id,
-                "material": mat.material,
-                "slug": mat.slug,
-                "filament_count": len(mat_filaments),
-                "path": f"materials/{mat.slug}/index.json"
-            })
+            materials_list.append(
+                {
+                    "id": mat.id,
+                    "material": mat.material,
+                    "slug": mat.slug,
+                    "filament_count": len(mat_filaments),
+                    "path": f"materials/{mat.slug}/index.json",
+                }
+            )
 
         brand_data = entity_to_dict(brand)
         brand_data["materials"] = materials_list
@@ -432,13 +446,15 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
             filaments_list = []
             for fil in mat_filaments:
                 fil_variants = variants_by_filament.get(fil.id, [])
-                filaments_list.append({
-                    "id": fil.id,
-                    "name": fil.name,
-                    "slug": fil.slug,
-                    "variant_count": len(fil_variants),
-                    "path": f"filaments/{fil.slug}/index.json"
-                })
+                filaments_list.append(
+                    {
+                        "id": fil.id,
+                        "name": fil.name,
+                        "slug": fil.slug,
+                        "variant_count": len(fil_variants),
+                        "path": f"filaments/{fil.slug}/index.json",
+                    }
+                )
 
             mat_data = entity_to_dict(mat)
             mat_data["filaments"] = filaments_list
@@ -454,14 +470,16 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
                 variants_list = []
                 for var in fil_variants:
                     var_sizes = sizes_by_variant.get(var.id, [])
-                    variants_list.append({
-                        "id": var.id,
-                        "color_name": var.color_name,
-                        "color_hex": var.color_hex,
-                        "slug": var.slug,
-                        "size_count": len(var_sizes),
-                        "path": f"variants/{var.slug}.json"
-                    })
+                    variants_list.append(
+                        {
+                            "id": var.id,
+                            "color_name": var.color_name,
+                            "color_hex": var.color_hex,
+                            "slug": var.slug,
+                            "size_count": len(var_sizes),
+                            "path": f"variants/{var.slug}.json",
+                        }
+                    )
 
                 fil_data = entity_to_dict(fil)
                 fil_data["variants"] = variants_list
@@ -487,7 +505,9 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
                     write_json(variants_path / f"{var.slug}.json", var_data)
                     variant_count += 1
 
-    print(f"  Written: {brand_count} brands, {material_count} materials, {filament_count} filaments, {variant_count} variants")
+    print(
+        f"  Written: {brand_count} brands, {material_count} materials, {filament_count} filaments, {variant_count} variants"
+    )
 
     # Stores index
     stores_path = api_path / "stores"
@@ -499,19 +519,22 @@ def export_api(db: Database, output_dir: str, version: str, generated_at: str, s
             "name": store.name,
             "slug": store.slug,
             "storefront_url": store.storefront_url,
-            "path": f"{store.slug}.json"
+            "path": f"{store.slug}.json",
         }
         # Add logo_slug if store has a logo
         if store.id in store_logo_id_mapping:
             store_entry["logo_slug"] = store_logo_id_mapping[store.id]
         stores_index.append(store_entry)
 
-    write_json(stores_path / "index.json", {
-        "version": version,
-        "generated_at": generated_at,
-        "count": len(db.stores),
-        "stores": stores_index
-    })
+    write_json(
+        stores_path / "index.json",
+        {
+            "version": version,
+            "generated_at": generated_at,
+            "count": len(db.stores),
+            "stores": stores_index,
+        },
+    )
 
     # Individual store files (just store info, no embedded purchase links)
     for store in db.stores:
