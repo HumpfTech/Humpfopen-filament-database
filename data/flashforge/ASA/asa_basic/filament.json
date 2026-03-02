@@ -1,19 +1,19 @@
 {
-    "id": "asa_basic",
-    "name": "ASA Basic",
-    "diameter_tolerance": 0.02,
-    "density": 1.08,
-    "max_dry_temperature": 80,
-    "slicer_settings": {
-        "orcaslicer": {
-            "profile_name": "Flashforge ASA Basic",
-            "id": "GFB99",
-            "generic_id": "GFB98"
-        },
-        "elegooslicer": {
-            "profile_name": "Flashforge ASA Basic",
-            "id": "GFB99",
-            "generic_id": "GFB98"
-        }
+  "id": "asa_basic",
+  "name": "ASA Basic",
+  "diameter_tolerance": 0.02,
+  "density": 1.08,
+  "max_dry_temperature": 80,
+  "slicer_settings": {
+    "orcaslicer": {
+      "generic_id": "GFB98",
+      "id": "GFB99",
+      "profile_name": "Flashforge ASA Basic"
+    },
+    "elegooslicer": {
+      "generic_id": "GFB98",
+      "id": "GFB99",
+      "profile_name": "Flashforge ASA Basic"
     }
+  }
 }

@@ -1,23 +1,23 @@
 {
-    "id": "pla+",
-    "name": "PLA+",
-    "diameter_tolerance": 0.02,
-    "density": 1.26,
-    "slicer_settings": {
-        "bambustudio": {
-            "profile_name": "SUNLU PLA+",
-            "id": "GFSNL03",
-            "generic_id": "GFL99"
-        },
-        "orcaslicer": {
-            "profile_name": "SUNLU PLA+",
-            "id": "GFSNL03",
-            "generic_id": "GFL99"
-        },
-        "elegooslicer": {
-            "profile_name": "SUNLU PLA+",
-            "id": "GFSNL03",
-            "generic_id": "GFL99"
-        }
+  "id": "pla+",
+  "name": "PLA+",
+  "diameter_tolerance": 0.02,
+  "density": 1.26,
+  "slicer_settings": {
+    "bambustudio": {
+      "generic_id": "GFL99",
+      "id": "GFSNL03",
+      "profile_name": "SUNLU PLA+"
+    },
+    "orcaslicer": {
+      "generic_id": "GFL99",
+      "id": "GFSNL03",
+      "profile_name": "SUNLU PLA+"
+    },
+    "elegooslicer": {
+      "generic_id": "GFL99",
+      "id": "GFSNL03",
+      "profile_name": "SUNLU PLA+"
     }
+  }
 }

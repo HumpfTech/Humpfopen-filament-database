@@ -1,18 +1,18 @@
 {
-    "id": "asa",
-    "name": "ASA",
-    "diameter_tolerance": 0.03,
-    "density": 1.17,
-    "slicer_settings": {
-        "orcaslicer": {
-            "profile_name": "Eryone ASA",
-            "id": "EFL92",
-            "generic_id": "GFB98"
-        },
-        "elegooslicer": {
-            "profile_name": "Eryone ASA",
-            "id": "EFL92",
-            "generic_id": "GFB98"
-        }
+  "id": "asa",
+  "name": "ASA",
+  "diameter_tolerance": 0.03,
+  "density": 1.17,
+  "slicer_settings": {
+    "orcaslicer": {
+      "generic_id": "GFB98",
+      "id": "EFL92",
+      "profile_name": "Eryone ASA"
+    },
+    "elegooslicer": {
+      "generic_id": "GFB98",
+      "id": "EFL92",
+      "profile_name": "Eryone ASA"
     }
+  }
 }

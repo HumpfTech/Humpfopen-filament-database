@@ -1,21 +1,21 @@
 {
-    "id": "ht_pla_pro_matte",
-    "name": "HT-PLA Pro Matte",
-    "diameter_tolerance": 0.02,
-    "density": 1.24,
-    "max_dry_temperature": 50,
-    "data_sheet_url": "https://storage.googleapis.com/addnorth-com.appspot.com/imgix/assets/production/TDS_htplapromatte_-qP4pe.pdf",
-    "safety_sheet_url": "https://storage.googleapis.com/addnorth-com.appspot.com/imgix/assets/production/MSDS_HTPLA_W-_Rjk.pdf",
-    "slicer_settings": {
-        "bambustudio": {
-            "profile_name": "addnorth PLA HT-PLA PRO Matte",
-            "id": "GF_ANHTP",
-            "generic_id": "GFL99"
-        },
-        "orcaslicer": {
-            "profile_name": "addnorth PLA HT-PLA PRO Matte",
-            "id": "GF_ANHTP",
-            "generic_id": "GFL99"
-        }
+  "id": "ht_pla_pro_matte",
+  "name": "HT-PLA Pro Matte",
+  "diameter_tolerance": 0.02,
+  "density": 1.24,
+  "max_dry_temperature": 50,
+  "data_sheet_url": "https://storage.googleapis.com/addnorth-com.appspot.com/imgix/assets/production/TDS_htplapromatte_-qP4pe.pdf",
+  "safety_sheet_url": "https://storage.googleapis.com/addnorth-com.appspot.com/imgix/assets/production/MSDS_HTPLA_W-_Rjk.pdf",
+  "slicer_settings": {
+    "bambustudio": {
+      "generic_id": "GFL99",
+      "id": "GF_ANHTP",
+      "profile_name": "addnorth PLA HT-PLA PRO Matte"
+    },
+    "orcaslicer": {
+      "generic_id": "GFL99",
+      "id": "GF_ANHTP",
+      "profile_name": "addnorth PLA HT-PLA PRO Matte"
     }
+  }
 }
