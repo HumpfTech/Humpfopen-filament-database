@@ -1,18 +1,18 @@
 {
-  "id": "abs",
-  "name": "ABS",
-  "diameter_tolerance": 0.03,
-  "density": 1.04,
-  "slicer_settings": {
-    "orcaslicer": {
-      "generic_id": "GFB99",
-      "id": "EFL91",
-      "profile_name": "Eryone ABS"
-    },
-    "elegooslicer": {
-      "generic_id": "GFB99",
-      "id": "EFL91",
-      "profile_name": "Eryone ABS"
+    "id": "abs",
+    "name": "ABS",
+    "diameter_tolerance": 0.03,
+    "density": 1.04,
+    "slicer_settings": {
+        "orcaslicer": {
+            "generic_id": "GFB99",
+            "id": "EFL91",
+            "profile_name": "Eryone ABS"
+        },
+        "elegooslicer": {
+            "generic_id": "GFB99",
+            "id": "EFL91",
+            "profile_name": "Eryone ABS"
+        }
     }
-  }
 }

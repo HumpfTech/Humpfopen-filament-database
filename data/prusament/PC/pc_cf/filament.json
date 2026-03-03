@@ -1,18 +1,18 @@
 {
-  "id": "pc_cf",
-  "name": "PC-CF",
-  "diameter_tolerance": 0.04,
-  "density": 1.22,
-  "slicer_settings": {
-    "orcaslicer": {
-      "generic_id": "GFC99",
-      "id": "GFC98",
-      "profile_name": "Prusament PC-CF"
-    },
-    "elegooslicer": {
-      "generic_id": "GFC99",
-      "id": "GFC98",
-      "profile_name": "Prusament PC-CF"
+    "id": "pc_cf",
+    "name": "PC-CF",
+    "diameter_tolerance": 0.04,
+    "density": 1.22,
+    "slicer_settings": {
+        "orcaslicer": {
+            "generic_id": "GFC99",
+            "id": "GFC98",
+            "profile_name": "Prusament PC-CF"
+        },
+        "elegooslicer": {
+            "generic_id": "GFC99",
+            "id": "GFC98",
+            "profile_name": "Prusament PC-CF"
+        }
     }
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "id": "ht_pla_gf",
-  "name": "HT-PLA-GF",
-  "diameter_tolerance": 0.02,
-  "density": 1.33,
-  "slicer_settings": {
-    "orcaslicer": {
-      "generic_id": "GFL99",
-      "id": "GFPM018",
-      "profile_name": "Polymaker HT-PLA-GF"
-    },
-    "elegooslicer": {
-      "generic_id": "GFL99",
-      "id": "GFPM018",
-      "profile_name": "Polymaker HT-PLA-GF"
+    "id": "ht_pla_gf",
+    "name": "HT-PLA-GF",
+    "diameter_tolerance": 0.02,
+    "density": 1.33,
+    "slicer_settings": {
+        "orcaslicer": {
+            "generic_id": "GFL99",
+            "id": "GFPM018",
+            "profile_name": "Polymaker HT-PLA-GF"
+        },
+        "elegooslicer": {
+            "generic_id": "GFL99",
+            "id": "GFPM018",
+            "profile_name": "Polymaker HT-PLA-GF"
+        }
     }
-  }
 }
