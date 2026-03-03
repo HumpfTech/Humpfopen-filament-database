@@ -9,8 +9,9 @@
     "#0099E6"
   ],
   "traits": {
+    "gradual_color_change": true,
     "industrially_compostable": true,
-    "silk": true,
-    "gradual_color_change": true
+    "iridescent": true,
+    "silk": true
   }
 }
