@@ -1,5 +1,10 @@
 {
   "id": "matte_fiber_gray",
   "name": "Matte Fiber Gray",
-  "color_hex": "#77818A"
+  "color_hex": "#77818A",
+  "traits": {
+    "high_temperature": true,
+    "industrially_compostable": true,
+    "matte": true
+  }
 }

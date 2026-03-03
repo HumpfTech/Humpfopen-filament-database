@@ -3,6 +3,7 @@
   "name": "Galactic Duel",
   "color_hex": "#262629",
   "traits": {
+    "glitter": true,
     "temperature_color_change": true
   }
 }
