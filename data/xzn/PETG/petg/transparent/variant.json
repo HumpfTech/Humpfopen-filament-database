@@ -3,6 +3,7 @@
   "name": "Transparent",
   "color_hex": "#F5F5F5",
   "traits": {
+    "translucent": true,
     "transparent": true
   }
 }
