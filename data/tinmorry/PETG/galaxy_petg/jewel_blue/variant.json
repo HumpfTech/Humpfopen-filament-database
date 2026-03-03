@@ -3,6 +3,7 @@
   "name": "Jewel Blue",
   "color_hex": "#453A72",
   "traits": {
+    "glitter": true,
     "iridescent": true
   }
 }

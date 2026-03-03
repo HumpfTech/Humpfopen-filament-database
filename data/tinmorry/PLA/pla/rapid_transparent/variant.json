@@ -3,6 +3,7 @@
   "name": "Rapid Transparent",
   "color_hex": "#DFDFD3",
   "traits": {
+    "translucent": true,
     "transparent": true
   }
 }

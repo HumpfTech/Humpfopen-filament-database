@@ -3,6 +3,7 @@
   "name": "Purple Gold",
   "color_hex": "#4A463B",
   "traits": {
+    "glitter": true,
     "iridescent": true
   }
 }
