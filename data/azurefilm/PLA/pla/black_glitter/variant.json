@@ -3,7 +3,7 @@
   "name": "Black glitter",
   "color_hex": "#121212",
   "traits": {
-    "glitter": true,
-    "recyclable": true
+    "recyclable": true,
+    "glitter": true
   }
 }

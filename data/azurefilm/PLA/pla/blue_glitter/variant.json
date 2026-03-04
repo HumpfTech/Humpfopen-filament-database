@@ -3,7 +3,7 @@
   "name": "Blue glitter",
   "color_hex": "#1a3095",
   "traits": {
-    "glitter": true,
-    "recyclable": true
+    "recyclable": true,
+    "glitter": true
   }
 }

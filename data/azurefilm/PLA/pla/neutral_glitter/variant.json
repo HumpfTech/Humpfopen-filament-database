@@ -3,7 +3,7 @@
   "name": "Neutral glitter",
   "color_hex": "#f5f5f5",
   "traits": {
-    "glitter": true,
-    "recyclable": true
+    "recyclable": true,
+    "glitter": true
   }
 }

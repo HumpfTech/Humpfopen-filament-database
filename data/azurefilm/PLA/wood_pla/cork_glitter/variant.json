@@ -3,7 +3,7 @@
   "name": "Cork glitter",
   "color_hex": "#8e7d61",
   "traits": {
-    "contains_wood": true,
-    "glitter": true
+    "glitter": true,
+    "contains_wood": true
   }
 }

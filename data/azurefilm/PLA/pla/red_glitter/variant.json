@@ -3,7 +3,7 @@
   "name": "Red glitter",
   "color_hex": "#931924",
   "traits": {
-    "glitter": true,
-    "recyclable": true
+    "recyclable": true,
+    "glitter": true
   }
 }
