@@ -3,8 +3,8 @@
   "name": "Universe Rainbow",
   "color_hex": "#4B0082",
   "traits": {
-    "gradual_color_change": true,
+    "silk": true,
     "iridescent": true,
-    "silk": true
+    "gradual_color_change": true
   }
 }

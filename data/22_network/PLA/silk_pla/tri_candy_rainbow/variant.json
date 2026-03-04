@@ -3,8 +3,8 @@
   "name": "Tri Candy Rainbow",
   "color_hex": "#FF69B4",
   "traits": {
-    "gradual_color_change": true,
+    "silk": true,
     "iridescent": true,
-    "silk": true
+    "gradual_color_change": true
   }
 }

@@ -3,8 +3,8 @@
   "name": "Rainbow",
   "color_hex": "#FF0000",
   "traits": {
-    "gradual_color_change": true,
+    "silk": true,
     "iridescent": true,
-    "silk": true
+    "gradual_color_change": true
   }
 }
