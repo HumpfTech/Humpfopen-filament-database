@@ -1,10 +1,10 @@
 <img align="left" width="80" height="80" src="docs/img/logo.png">
 <div style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">
-  <img src="https://github.com/OpenFilamentCollective/open-filament-database/actions/workflows/validate_data.yaml/badge.svg">
-  <img src="https://api.openfilamentdatabase.org/badges/brands.svg">
-  <img src="https://api.openfilamentdatabase.org/badges/filaments.svg">
-  <img src="https://api.openfilamentdatabase.org/badges/variants.svg">
-  <img src="https://api.openfilamentdatabase.org/badges/stores.svg">
+  <img src="https://github.com/OpenFilamentCollective/open-filament-database/actions/workflows/validate_data.yaml/badge.svg?v=1">
+  <img src="https://api.openfilamentdatabase.org/badges/brands.svg?v=1">
+  <img src="https://api.openfilamentdatabase.org/badges/filaments.svg?v=1">
+  <img src="https://api.openfilamentdatabase.org/badges/variants.svg?v=1">
+  <img src="https://api.openfilamentdatabase.org/badges/stores.svg?v=1">
 </div>
 
 # Open Filament Database
