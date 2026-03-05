@@ -3,8 +3,8 @@
   "name": "Matte Fiber Mahogany",
   "color_hex": "#905F51",
   "traits": {
-    "high_temperature": true,
+    "matte": true,
     "industrially_compostable": true,
-    "matte": true
+    "high_temperature": true
   }
 }

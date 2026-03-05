@@ -3,8 +3,8 @@
   "name": "Yellow",
   "color_hex": "#C5EC82",
   "traits": {
-    "abrasive": true,
     "glow": true,
-    "industrially_compostable": true
+    "industrially_compostable": true,
+    "abrasive": true
   }
 }

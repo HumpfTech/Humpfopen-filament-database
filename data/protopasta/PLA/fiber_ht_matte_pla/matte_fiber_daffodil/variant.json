@@ -3,8 +3,8 @@
   "name": "Matte Fiber Daffodil",
   "color_hex": "#D5A76F",
   "traits": {
-    "high_temperature": true,
+    "matte": true,
     "industrially_compostable": true,
-    "matte": true
+    "high_temperature": true
   }
 }

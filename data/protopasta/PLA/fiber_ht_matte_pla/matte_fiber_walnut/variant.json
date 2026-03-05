@@ -3,8 +3,8 @@
   "name": "Matte Fiber Walnut",
   "color_hex": "#78635A",
   "traits": {
-    "high_temperature": true,
+    "matte": true,
     "industrially_compostable": true,
-    "matte": true
+    "high_temperature": true
   }
 }

@@ -3,8 +3,8 @@
   "name": "Matte Fiber Black",
   "color_hex": "#29292B",
   "traits": {
-    "high_temperature": true,
+    "matte": true,
     "industrially_compostable": true,
-    "matte": true
+    "high_temperature": true
   }
 }
