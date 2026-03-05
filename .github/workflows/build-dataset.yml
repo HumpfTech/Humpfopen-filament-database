@@ -241,6 +241,7 @@ jobs:
       # Commit updated badge SVGs back to the repository
       - name: Commit badge SVGs
         run: |
+          mkdir -p docs/img/badges/
           cp dist/api/v1/badges/*.svg docs/img/badges/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
