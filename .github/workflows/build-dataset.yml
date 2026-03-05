@@ -237,6 +237,10 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: false
+      
+      # Purge camo cache
+      - name: Purge Camo Cache
+        uses: kevincobain2000/action-camo-purge@v1
 
   # Validate the build
   validate:
