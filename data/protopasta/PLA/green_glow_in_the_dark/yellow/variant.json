@@ -1,5 +1,10 @@
 {
   "id": "yellow",
   "name": "Yellow",
-  "color_hex": "#C5EC82"
+  "color_hex": "#C5EC82",
+  "traits": {
+    "abrasive": true,
+    "glow": true,
+    "industrially_compostable": true
+  }
 }
