@@ -3,7 +3,8 @@
   "name": "Polypropylene Black",
   "color_hex": "#000000",
   "traits": {
-    "matte": true,
-    "contains_carbon_fiber": true
+    "abrasive": true,
+    "contains_carbon_fiber": true,
+    "matte": true
   }
 }
