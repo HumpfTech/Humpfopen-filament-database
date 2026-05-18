@@ -1,7 +1,10 @@
 {
   "id": "colormorph_magenta_silver",
   "name": "ColorMorph Magenta & Silver",
-  "color_hex": "#C80181",
+  "color_hex": [
+    "#C80181",
+    "#C0C0C0"
+  ],
   "discontinued": true,
   "traits": {
     "industrially_compostable": true,

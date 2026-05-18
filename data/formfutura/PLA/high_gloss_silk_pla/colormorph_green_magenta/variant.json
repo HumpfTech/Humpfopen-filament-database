@@ -1,7 +1,10 @@
 {
   "id": "colormorph_green_magenta",
   "name": "ColorMorph Green & Magenta",
-  "color_hex": "#008059",
+  "color_hex": [
+    "#008059",
+    "#FF00FF"
+  ],
   "discontinued": true,
   "traits": {
     "industrially_compostable": true,

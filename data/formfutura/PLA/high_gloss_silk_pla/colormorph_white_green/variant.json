@@ -1,7 +1,7 @@
 {
   "id": "colormorph_white_green",
   "name": "ColorMorph White & Green",
-  "color_hex": "#4E7642",
+  "color_hex": ["#FFFFFF", "#4E7642"],
   "discontinued": true,
   "traits": {
     "industrially_compostable": true,

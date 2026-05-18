@@ -1,7 +1,10 @@
 {
   "id": "colormorph_pink_purple",
   "name": "ColorMorph Pink & Purple",
-  "color_hex": "#B645A9",
+  "color_hex": [
+    "#B645A9",
+    "#800080"
+  ],
   "discontinued": true,
   "traits": {
     "industrially_compostable": true,
