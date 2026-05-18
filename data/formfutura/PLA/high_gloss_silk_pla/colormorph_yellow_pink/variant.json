@@ -1,7 +1,10 @@
 {
   "id": "colormorph_yellow_pink",
   "name": "ColorMorph Yellow & Pink",
-  "color_hex": "#FCE575",
+  "color_hex": [
+    "#FCE575",
+    "#F4A3C0"
+  ],
   "discontinued": true,
   "traits": {
     "industrially_compostable": true,
