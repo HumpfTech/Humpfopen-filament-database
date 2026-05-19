@@ -16,10 +16,17 @@ downstream entity whose UUID is derived from the filament UUID:
 
 Brand, material, and store UUIDs are unchanged.
 
-Output is a single JSON file with two top-level keys:
-  - `mapping`: a flat `{old_uid: new_uid}` dictionary
-  - `old_filament_collisions`: list of cases where multiple filament folders
-    shared the same old UUID (omitted when there are none)
+Output is a single JSON file. Top-level keys:
+  - `mapping`: flat `{old_uid: new_uid}` dictionary (only unambiguous entries)
+  - `old_filament_collisions`: filament folders that derived the same old UUID
+    (omitted when none)
+  - `ambiguous_mappings`: `{old_uid: [new_uid, ...]}` for old UUIDs that could
+    resolve to more than one new UUID (omitted when none). Consumers must
+    decide per-case; these entries are NOT included in `mapping` to avoid
+    silent overwrites.
+  - `parse_errors`: list of `{path, error}` for JSON files that could not be
+    read (omitted when none). The script exits non-zero when this list is
+    non-empty so CI catches incomplete migrations.
 
 Usage:
     ofd script generate_uid_migration
@@ -31,6 +38,7 @@ import argparse
 import csv
 import json
 from pathlib import Path
+from typing import Any
 
 from ofd.base import BaseScript, ScriptResult, register_script
 from ofd.builder.utils import (
@@ -84,10 +92,29 @@ class GenerateUidMigrationScript(BaseScript):
         if not stores_dir.exists():
             return ScriptResult(success=False, message=f"Stores directory not found: {stores_dir}")
 
-        store_uuid_by_source_id = self._build_store_uuid_index(stores_dir)
-
-        mapping: dict[str, str] = {}
+        # Collected during the walk
+        parse_errors: list[dict[str, str]] = []
         old_filament_collisions: dict[str, list[str]] = {}
+        # Candidates per old_id; multiple distinct new_ids means ambiguous.
+        candidates: dict[str, set[str]] = {}
+
+        def load_json(path: Path) -> Any:
+            try:
+                return json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                try:
+                    rel = str(path.relative_to(self.project_root))
+                except ValueError:
+                    rel = str(path)
+                parse_errors.append({"path": rel, "error": str(exc)})
+                return None
+
+        def record(old_id: str, new_id: str) -> None:
+            if old_id == new_id:
+                return
+            candidates.setdefault(old_id, set()).add(new_id)
+
+        store_uuid_by_source_id = self._build_store_uuid_index(stores_dir, load_json)
 
         for brand_dir in sorted(data_dir.iterdir()):
             if not brand_dir.is_dir() or brand_dir.name.startswith("."):
@@ -105,9 +132,8 @@ class GenerateUidMigrationScript(BaseScript):
                     filament_json = filament_dir / "filament.json"
                     if not filament_json.exists():
                         continue
-                    try:
-                        filament_data = json.loads(filament_json.read_text(encoding="utf-8"))
-                    except (OSError, json.JSONDecodeError):
+                    filament_data = load_json(filament_json)
+                    if filament_data is None:
                         continue
 
                     filament_source_id = filament_data.get("id", filament_dir.name)
@@ -120,8 +146,7 @@ class GenerateUidMigrationScript(BaseScript):
                         f"{brand_dir.name}/{material_dir.name}/{filament_dir.name}"
                     )
 
-                    if old_fid != new_fid:
-                        mapping[old_fid] = new_fid
+                    record(old_fid, new_fid)
 
                     for variant_dir in sorted(filament_dir.iterdir()):
                         if not variant_dir.is_dir() or variant_dir.name.startswith("."):
@@ -129,23 +154,20 @@ class GenerateUidMigrationScript(BaseScript):
                         variant_json = variant_dir / "variant.json"
                         if not variant_json.exists():
                             continue
-                        try:
-                            variant_data = json.loads(variant_json.read_text(encoding="utf-8"))
-                        except (OSError, json.JSONDecodeError):
+                        variant_data = load_json(variant_json)
+                        if variant_data is None:
                             continue
 
                         variant_source_id = variant_data.get("id", variant_dir.name)
                         old_vid = generate_variant_id(old_fid, variant_source_id)
                         new_vid = generate_variant_id(new_fid, variant_source_id)
-                        if old_vid != new_vid:
-                            mapping[old_vid] = new_vid
+                        record(old_vid, new_vid)
 
                         sizes_json = variant_dir / "sizes.json"
                         if not sizes_json.exists():
                             continue
-                        try:
-                            sizes_data = json.loads(sizes_json.read_text(encoding="utf-8"))
-                        except (OSError, json.JSONDecodeError):
+                        sizes_data = load_json(sizes_json)
+                        if sizes_data is None:
                             continue
                         if not isinstance(sizes_data, list):
                             sizes_data = [sizes_data]
@@ -158,8 +180,7 @@ class GenerateUidMigrationScript(BaseScript):
 
                             old_sid = generate_size_id(old_vid, size_entry, idx)
                             new_sid = generate_size_id(new_vid, size_entry, idx)
-                            if old_sid != new_sid:
-                                mapping[old_sid] = new_sid
+                            record(old_sid, new_sid)
 
                             for pl_entry in size_entry.get("purchase_links") or []:
                                 if not isinstance(pl_entry, dict):
@@ -174,8 +195,16 @@ class GenerateUidMigrationScript(BaseScript):
 
                                 old_plid = generate_purchase_link_id(old_sid, store_uuid, url)
                                 new_plid = generate_purchase_link_id(new_sid, store_uuid, url)
-                                if old_plid != new_plid:
-                                    mapping[old_plid] = new_plid
+                                record(old_plid, new_plid)
+
+        # Resolve candidates into safe mapping + ambiguous bucket.
+        mapping: dict[str, str] = {}
+        ambiguous: dict[str, list[str]] = {}
+        for old_id, new_ids in candidates.items():
+            if len(new_ids) == 1:
+                mapping[old_id] = next(iter(new_ids))
+            else:
+                ambiguous[old_id] = sorted(new_ids)
 
         collisions = [
             {"old_id": old_fid, "locations": sorted(locs)}
@@ -188,9 +217,13 @@ class GenerateUidMigrationScript(BaseScript):
             output_path = self.project_root / output_path
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        payload: dict = {"mapping": mapping}
+        payload: dict[str, Any] = {"mapping": mapping}
         if collisions:
             payload["old_filament_collisions"] = collisions
+        if ambiguous:
+            payload["ambiguous_mappings"] = ambiguous
+        if parse_errors:
+            payload["parse_errors"] = parse_errors
 
         output_path.write_text(
             json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
@@ -218,19 +251,41 @@ class GenerateUidMigrationScript(BaseScript):
                     "collided across multiple folders — see "
                     "`old_filament_collisions` in the JSON output"
                 )
+            if ambiguous:
+                print(
+                    f"WARNING: {len(ambiguous):,} old UUID(s) resolve to multiple "
+                    "new UUIDs and were excluded from `mapping`; see "
+                    "`ambiguous_mappings` in the JSON output"
+                )
+            if parse_errors:
+                print(
+                    f"ERROR: {len(parse_errors)} JSON file(s) failed to parse; "
+                    "see `parse_errors` in the JSON output"
+                )
+
+        # Surface parse errors as a non-zero exit so CI catches incomplete output.
+        success = not parse_errors
+        message_parts = [f"Generated {len(mapping)} UID mappings"]
+        if ambiguous:
+            message_parts.append(f"{len(ambiguous)} ambiguous")
+        if parse_errors:
+            message_parts.append(f"{len(parse_errors)} parse errors")
+        message = "; ".join(message_parts)
 
         return ScriptResult(
-            success=True,
-            message=f"Generated {len(mapping)} UID mappings",
+            success=success,
+            message=message,
             data={
                 "output": str(output_path),
                 "csv": str(csv_path) if csv_path else None,
                 "count": len(mapping),
                 "collision_count": len(collisions),
+                "ambiguous_count": len(ambiguous),
+                "parse_error_count": len(parse_errors),
             },
         )
 
-    def _build_store_uuid_index(self, stores_dir: Path) -> dict[str, str]:
+    def _build_store_uuid_index(self, stores_dir: Path, load_json) -> dict[str, str]:
         """Map source store id (from store.json) -> derived store UUID."""
         index: dict[str, str] = {}
         for store_dir in sorted(stores_dir.iterdir()):
@@ -239,9 +294,8 @@ class GenerateUidMigrationScript(BaseScript):
             store_json = store_dir / "store.json"
             if not store_json.exists():
                 continue
-            try:
-                data = json.loads(store_json.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
+            data = load_json(store_json)
+            if data is None:
                 continue
             source_id = data.get("id")
             if not source_id:
