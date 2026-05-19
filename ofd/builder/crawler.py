@@ -229,9 +229,12 @@ class DataCrawler:
             self._result.add_warning("JSON Parse", f"Failed to parse: {e}", filament_json)
             return
 
-        # Generate filament ID using OFD standard algorithm
+        # Use source "id" for UUID generation (matches directory name, preserves UUIDs)
+        filament_source_id = filament_data.get("id", filament_dir.name)
         filament_name = filament_data.get("name", filament_dir.name)
-        filament_id = generate_filament_id(brand_id, material_id, filament_name)
+
+        # Generate filament ID using OFD standard algorithm
+        filament_id = generate_filament_id(brand_id, material_id, filament_source_id)
 
         # All source fields pass through via **filament_data
         filament = {
@@ -240,7 +243,7 @@ class DataCrawler:
             "brand_id": brand_id,
             "material_id": material_id,
             "name": filament_name,
-            "slug": slugify(filament_name),
+            "slug": slugify(filament_source_id),
             "material": material_name,
             "density": filament_data.get("density", 1.24),
             "diameter_tolerance": filament_data.get("diameter_tolerance", 0.02),
