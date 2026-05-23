@@ -1,5 +1,9 @@
 {
-    "id": "titan_gray",
-    "name": "Titan Gray",
-    "color_hex": "#565656"
+  "id": "titan_gray",
+  "name": "Titan Gray",
+  "color_hex": "#565656",
+  "traits": {
+    "abrasive": true,
+    "contains_carbon_fiber": true
+  }
 }

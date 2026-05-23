@@ -1,6 +1,6 @@
 {
     "id": "for_pla",
-    "name": "for PLA",
+    "name": "Support for PLA",
     "diameter_tolerance": 0.05,
     "density": 1.33,
     "max_dry_temperature": 55,
@@ -19,7 +19,7 @@
         },
         "elegooslicer": {
             "generic_id": "GFS99",
-            "id": "OGFS02",
+            "id": "GFS02",
             "profile_name": "Bambu Support For PLA"
         }
     }

@@ -1,5 +1,10 @@
 {
-    "id": "blue",
-    "name": "Blue",
-    "color_hex": "#0C3B95"
+  "id": "blue",
+  "name": "Blue",
+  "color_hex": "#0C3B95",
+  "traits": {
+    "filtration_recommended": true,
+    "abrasive": true,
+    "contains_glass_fiber": true
+  }
 }

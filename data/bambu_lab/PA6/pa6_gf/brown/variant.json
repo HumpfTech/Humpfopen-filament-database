@@ -1,5 +1,9 @@
 {
-    "id": "brown",
-    "name": "Brown",
-    "color_hex": "#5B492F"
+  "id": "brown",
+  "name": "Brown",
+  "color_hex": "#5B492F",
+  "traits": {
+    "abrasive": true,
+    "contains_glass_fiber": true
+  }
 }

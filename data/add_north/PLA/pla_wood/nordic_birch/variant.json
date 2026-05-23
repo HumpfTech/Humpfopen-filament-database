@@ -1,5 +1,10 @@
 {
-    "id": "nordic_birch",
-    "name": "Nordic Birch",
-    "color_hex": "#f8dfa1"
+  "id": "nordic_birch",
+  "name": "Nordic Birch",
+  "color_hex": "#f8dfa1",
+  "traits": {
+    "industrially_compostable": true,
+    "contains_wood": true,
+    "imitates_wood": true
+  }
 }

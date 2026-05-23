@@ -11,6 +11,11 @@
         "prusaslicer": {
             "profile_name": "Esun PETG"
         },
+        "orcaslicer": {
+            "generic_id": "GFG99",
+            "id": "ESN03",
+            "profile_name": "eSUN PETG"
+        },
         "superslicer": {
             "profile_name": "Esun PETG"
         },

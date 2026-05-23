@@ -1,9 +1,0 @@
-{
-  "id": "apple_green",
-  "name": "Apple Green",
-  "color_hex": "#91C500",
-  "traits": {
-    "industrially_compostable": true,
-    "silk": true
-  }
-}

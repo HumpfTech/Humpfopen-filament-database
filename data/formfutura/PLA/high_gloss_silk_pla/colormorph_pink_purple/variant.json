@@ -3,8 +3,9 @@
   "name": "ColorMorph Pink & Purple",
   "color_hex": [
     "#B645A9",
-    "#7142A3"
+    "#800080"
   ],
+  "discontinued": true,
   "traits": {
     "industrially_compostable": true,
     "silk": true,

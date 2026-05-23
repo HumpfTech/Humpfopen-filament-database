@@ -3,8 +3,9 @@
   "name": "ColorMorph Green & Magenta",
   "color_hex": [
     "#008059",
-    "#C80181"
+    "#FF00FF"
   ],
+  "discontinued": true,
   "traits": {
     "industrially_compostable": true,
     "silk": true,

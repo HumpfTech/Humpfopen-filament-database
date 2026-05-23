@@ -1,0 +1,11 @@
+{
+  "id": "black",
+  "name": "Black",
+  "color_hex": "#000000",
+  "discontinued": false,
+  "traits": {
+    "self_extinguishing": true,
+    "high_temperature": true,
+    "contains_ceramic": true
+  }
+}

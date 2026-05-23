@@ -1,9 +1,0 @@
-{
-  "id": "white",
-  "name": "White",
-  "color_hex": "#FFFFFF",
-  "traits": {
-    "abrasive": true,
-    "contains_glass_fiber": true
-  }
-}

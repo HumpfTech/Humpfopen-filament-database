@@ -1,5 +1,8 @@
 {
-    "id": "cream_white",
-    "name": "Cream White",
-    "color_hex": "#E6E2C7"
+  "id": "cream_white",
+  "name": "Cream White",
+  "color_hex": "#E6E2C7",
+  "traits": {
+    "silk": true
+  }
 }

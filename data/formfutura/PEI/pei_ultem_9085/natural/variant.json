@@ -1,0 +1,9 @@
+{
+  "id": "natural",
+  "name": "Natural",
+  "color_hex": "#DBDABD",
+  "discontinued": false,
+  "traits": {
+    "low_outgassing": true
+  }
+}

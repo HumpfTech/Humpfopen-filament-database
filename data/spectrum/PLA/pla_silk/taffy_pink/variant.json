@@ -1,5 +1,9 @@
 {
-    "id": "taffy_pink",
-    "name": "Taffy Pink",
-    "color_hex": "#e296cf"
+  "id": "taffy_pink",
+  "name": "Taffy Pink",
+  "color_hex": "#e296cf",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true
+  }
 }

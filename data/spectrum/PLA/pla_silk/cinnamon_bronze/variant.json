@@ -1,5 +1,9 @@
 {
-    "id": "cinnamon_bronze",
-    "name": "Cinnamon Bronze",
-    "color_hex": "#63503f"
+  "id": "cinnamon_bronze",
+  "name": "Cinnamon Bronze",
+  "color_hex": "#63503f",
+  "traits": {
+    "industrially_compostable": true,
+    "silk": true
+  }
 }

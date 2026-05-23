@@ -247,11 +247,17 @@ def generate_purchase_link_id(size_id: str, store_id: str, url: str) -> str:
 
 
 def slugify(text: str) -> str:
-    """Convert text to a URL-friendly slug using underscores."""
+    """Convert text to a slug that matches the schema id pattern: ^[a-z0-9+]+(_[a-z0-9+]+)*$
+
+    Uses underscores as separators to stay consistent with on-disk directory
+    names and the JSON schema id constraints.
+    """
     # Convert to lowercase
     text = text.lower()
-    # Replace any non-alphanumeric characters with underscores
-    text = re.sub(r"[^a-z0-9]+", "_", text)
+    # Replace spaces and hyphens with underscores
+    text = re.sub(r"[\s\-]+", "_", text)
+    # Remove non-alphanumeric characters except underscores and plus
+    text = re.sub(r"[^a-z0-9_+]", "", text)
     # Remove consecutive underscores
     text = re.sub(r"_+", "_", text)
     # Strip leading/trailing underscores

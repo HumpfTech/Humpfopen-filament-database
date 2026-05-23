@@ -1,8 +1,12 @@
 [
   {
     "filament_weight": 850,
-    "diameter": 0,
+    "diameter": 1.75,
     "empty_spool_weight": 320,
     "ean": "5902560990836"
+  },
+  {
+    "filament_weight": 1000,
+    "diameter": 1.75
   }
 ]

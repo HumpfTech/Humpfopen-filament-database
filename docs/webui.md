@@ -46,11 +46,14 @@ Then open http://localhost:5173 and start editing.
 ### Command Options
 
 ```bash
-./ofd.sh webui              # Default port 5173
-./ofd.sh webui --port 3000  # Custom port
-./ofd.sh webui --open       # Open browser automatically
-./ofd.sh webui --install    # Force reinstall npm dependencies
+./ofd.sh webui                  # Start on default port (5173)
+./ofd.sh webui --port 3000      # Start on a custom port
+./ofd.sh webui --host 0.0.0.0   # Bind to all interfaces (e.g. for LAN access)
+./ofd.sh webui --open           # Open browser automatically
+./ofd.sh webui --install        # Force reinstall npm dependencies
 ```
+
+The same flags work with `ofd.bat` on Windows.
 
 ### Manual Setup
 

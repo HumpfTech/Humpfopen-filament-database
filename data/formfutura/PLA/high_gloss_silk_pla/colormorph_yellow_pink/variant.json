@@ -3,8 +3,9 @@
   "name": "ColorMorph Yellow & Pink",
   "color_hex": [
     "#FCE575",
-    "#F79DBC"
+    "#F4A3C0"
   ],
+  "discontinued": true,
   "traits": {
     "industrially_compostable": true,
     "silk": true,
