@@ -106,9 +106,11 @@ test.describe('Duplicate flow', () => {
 		// Pick without children
 		await page.locator('button:text("Without children")').click();
 
-		// Form should open with "(Copy)" appended
+		// Form should open with "(Copy)" appended.
+		// Use a label-based selector for the name field — `input.first()` would
+		// match the origin-mode radio buttons that appear above it in the DOM.
 		await expect(page.locator('text=Duplicate Brand')).toBeVisible();
-		const nameInput = page.locator('input[name="name"], input').first();
+		const nameInput = page.getByLabel(/^name/i).first();
 		const nameValue = await nameInput.inputValue();
 		expect(nameValue).toContain('(Copy)');
 	});

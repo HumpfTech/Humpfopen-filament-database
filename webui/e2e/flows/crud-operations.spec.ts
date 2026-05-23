@@ -38,16 +38,34 @@ async function fillUrlField(page: import('@playwright/test').Page, inputId: stri
 	}, { id: inputId, val: urlBody });
 }
 
+/** Open the EntityActionDropdown kebab menu and click Delete inside it.
+ *  Delete moved from a top-level ActionButtons button to a dropdown item;
+ *  every delete test goes through this helper now. */
+async function openDeleteFromDropdown(page: import('@playwright/test').Page) {
+	const dropdown = page.locator('[title="More actions"]').first();
+	await dropdown.click();
+	// Wait for the menu item to actually appear before clicking — fixed
+	// timeouts can race the dropdown animation.
+	const deleteItem = page.locator('[role="menuitem"]:text("Delete")');
+	await deleteItem.waitFor({ state: 'visible', timeout: 5000 });
+	await deleteItem.click();
+}
+
 /** Upload the project logo via the hidden file input and handle crop modal */
 async function uploadLogo(page: import('@playwright/test').Page) {
 	const fileInput = page.locator('input[type="file"]');
 	await fileInput.setInputFiles(LOGO_PATH);
-	// Crop modal appears for raster (PNG) images
+	// Crop modal appears for raster (PNG) images.
 	const applyCrop = page.getByRole('button', { name: /apply crop/i });
 	await applyCrop.waitFor({ state: 'visible', timeout: 5000 });
+	// The button becomes clickable before the underlying <Image> loads.
+	// If clicked too early, applyCrop() early-returns on `!cropImage` and the
+	// modal silently stays open. Give the image a moment to finish loading.
+	await page.waitForTimeout(600);
 	await applyCrop.click();
-	// Wait for crop processing to complete
-	await page.waitForTimeout(500);
+	// Wait for the crop dialog to actually close before continuing — otherwise
+	// the overlay sits over the form and intercepts the next click.
+	await applyCrop.waitFor({ state: 'hidden', timeout: 5000 });
 }
 
 /** Get all entity links on a list/detail page matching a prefix pattern */
@@ -146,8 +164,8 @@ test.describe.serial('CRUD Operations', () => {
 	test('delete a variant', async ({ page }) => {
 		const result = await navigateDeep(page, 'variant', 'last');
 
-		// Click Delete in ActionButtons
-		await page.getByRole('button', { name: 'Delete' }).click();
+		// Open kebab dropdown and click Delete (Delete moved out of ActionButtons)
+		await openDeleteFromDropdown(page);
 
 		// Confirm in DeleteConfirmationModal
 		const modal = page.getByRole('dialog');
@@ -164,7 +182,7 @@ test.describe.serial('CRUD Operations', () => {
 		// Navigate to a filament (use last to get a different one than the variant's parent)
 		const result = await navigateDeep(page, 'filament', 'last');
 
-		await page.getByRole('button', { name: 'Delete' }).click();
+		await openDeleteFromDropdown(page);
 		const modal = page.getByRole('dialog');
 		await expect(modal.getByText(/are you sure/i)).toBeVisible();
 		await modal.getByRole('button', { name: 'Delete' }).click();
@@ -178,7 +196,7 @@ test.describe.serial('CRUD Operations', () => {
 		const result = await navigateDeep(page, 'material', 'last');
 		const heading = await page.locator('h1').textContent();
 
-		await page.getByRole('button', { name: 'Delete' }).click();
+		await openDeleteFromDropdown(page);
 		const modal = page.getByRole('dialog');
 		await expect(modal.getByText(/are you sure/i)).toBeVisible();
 		await modal.getByRole('button', { name: 'Delete' }).click();
@@ -199,7 +217,7 @@ test.describe.serial('CRUD Operations', () => {
 		await lastBrand.click();
 		await waitForLoad(page);
 
-		await page.getByRole('button', { name: 'Delete' }).click();
+		await openDeleteFromDropdown(page);
 		const modal = page.getByRole('dialog');
 		await expect(modal.getByText(/are you sure/i)).toBeVisible();
 		await modal.getByRole('button', { name: 'Delete' }).click();
@@ -218,7 +236,7 @@ test.describe.serial('CRUD Operations', () => {
 		await lastStore.click();
 		await waitForLoad(page);
 
-		await page.getByRole('button', { name: 'Delete' }).click();
+		await openDeleteFromDropdown(page);
 		const modal = page.getByRole('dialog');
 		await expect(modal.getByText(/are you sure/i)).toBeVisible();
 		await modal.getByRole('button', { name: 'Delete' }).click();
@@ -319,10 +337,10 @@ test.describe.serial('CRUD Operations', () => {
 		const modal = page.getByRole('dialog').filter({ hasText: /edit variant/i });
 		await expect(modal).toBeVisible();
 
-		// Modify color hex
+		// Modify color hex (maxlength=6, strips # — pass raw hex without #)
 		const colorInput = modal.locator('input[id="color_hex"]').first();
 		if (await colorInput.isVisible()) {
-			await colorInput.fill('#FF5733');
+			await colorInput.fill('FF5733');
 		}
 
 		await modal.getByRole('button', { name: /update variant/i }).click();
@@ -409,9 +427,11 @@ test.describe.serial('CRUD Operations', () => {
 		// Wait for schema to load
 		await page.waitForTimeout(1000);
 
-		// Fill required fields: name, color_hex
+		// Fill required fields: name, color_hex.
+		// Color hex input has maxlength=6 and strips the # via its oninput handler,
+		// so '#XXXXXX' would be truncated to '#XXXXX' (5 hex chars). Pass raw hex.
 		await modal.locator('input[id="name"]').fill(TEST_ADD_VARIANT_NAME);
-		await modal.locator('input[id="color_hex"]').fill('#00FF00');
+		await modal.locator('input[id="color_hex"]').fill('00FF00');
 
 		// Fill size weight — SizeCard uses id "size-{id}-weight" where id=1 for first size
 		await modal.locator('input[id="size-1-weight"]').fill('1000');
@@ -444,8 +464,13 @@ test.describe.serial('CRUD Operations', () => {
 		await brandFileInput.setInputFiles(LOGO_PATH);
 		const applyCrop = page.getByRole('button', { name: /apply crop/i });
 		await applyCrop.waitFor({ state: 'visible', timeout: 5000 });
+		// Apply Crop becomes clickable before the underlying <Image> finishes
+		// loading; clicking too early no-ops and the modal stays open.
+		await page.waitForTimeout(600);
 		await applyCrop.click();
-		await page.waitForTimeout(500);
+		// Wait for the crop dialog to actually disappear before moving on —
+		// otherwise the overlay can intercept subsequent clicks.
+		await applyCrop.waitFor({ state: 'hidden', timeout: 5000 });
 
 		await modal.locator('input[id="name"]').fill(TEST_BRAND_NAME);
 		await fillUrlField(page, 'website', 'e2e-test-brand.example.com');
@@ -497,7 +522,8 @@ test.describe.serial('CRUD Operations', () => {
 		await page.waitForTimeout(1000);
 
 		await modal.locator('input[id="name"]').fill(TEST_VARIANT_NAME);
-		await modal.locator('input[id="color_hex"]').fill('#000000');
+		// color_hex input has maxlength=6 + strips #; pass raw hex without the # prefix.
+		await modal.locator('input[id="color_hex"]').fill('000000');
 		await modal.locator('input[id="size-1-weight"]').fill('1000');
 
 		await modal.getByRole('button', { name: /create variant/i }).click();
@@ -520,13 +546,15 @@ test.describe.serial('CRUD Operations', () => {
 		await expect(modal).toBeVisible();
 		await modal.locator('input[id="name"]').waitFor({ state: 'visible', timeout: 10000 });
 
-		// Upload logo
+		// Upload logo — wait for image to actually load before clicking Apply Crop
+		// and for the dialog to close before continuing.
 		const fileInput = modal.locator('input[type="file"]');
 		await fileInput.setInputFiles(LOGO_PATH);
 		const applyCrop = page.getByRole('button', { name: /apply crop/i });
 		await applyCrop.waitFor({ state: 'visible', timeout: 5000 });
+		await page.waitForTimeout(600);
 		await applyCrop.click();
-		await page.waitForTimeout(500);
+		await applyCrop.waitFor({ state: 'hidden', timeout: 5000 });
 
 		await modal.locator('input[id="name"]').fill(TEST_STORE_NAME);
 		await fillUrlField(page, 'storefront_url', 'e2e-test-store.example.com');

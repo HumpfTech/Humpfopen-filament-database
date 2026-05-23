@@ -8,6 +8,8 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+playwright-report/*
+playwright-report/index.html
 
 # OS
 .DS_Store

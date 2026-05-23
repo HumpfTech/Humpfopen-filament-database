@@ -53,18 +53,21 @@ test.describe('Home Page', () => {
 	});
 
 	test('should have working theme toggle', async ({ page }) => {
-		// Theme toggle is a dropdown menu button
+		// Wait for hydration before interacting — click handlers aren't bound
+		// until SvelteKit hydrates, which can lag a few ms after navigation.
+		await page.waitForLoadState('domcontentloaded');
+
 		const themeToggle = page.locator('button[title="Change theme"]');
+		if (!(await themeToggle.isVisible())) return;
 
-		if (await themeToggle.isVisible()) {
-			// Open theme dropdown
-			await themeToggle.click();
+		// Open the theme dropdown and wait for its content to render before
+		// clicking the Dark option. Without this, Playwright can race the click
+		// against Svelte's reactive update.
+		await themeToggle.click();
+		const darkBtn = page.getByRole('button', { name: 'Dark' });
+		await darkBtn.waitFor({ state: 'visible' });
+		await darkBtn.click();
 
-			// Select dark theme from the dropdown
-			await page.getByRole('button', { name: 'Dark' }).click();
-
-			// HTML should have dark class
-			await expect(page.locator('html')).toHaveClass(/dark/);
-		}
+		await expect(page.locator('html')).toHaveClass(/dark/);
 	});
 });
