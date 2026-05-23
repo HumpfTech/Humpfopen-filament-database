@@ -204,6 +204,79 @@ The repository runs these workflows:
 - Ensure all required JSON files exist at each hierarchy level
 - Use illegal character list: `#%&{}\\<>*?/$!'":@+\`|=` (see `ofd/validation/validators.py`)
 
+## WebUI Architecture Patterns
+
+### Entity Actions (Copy/Duplicate/Paste/Delete)
+
+All entity actions (copy, duplicate, paste, delete) are centralized through **shared composables** in `webui/src/lib/utils/useEntityActions.svelte.ts`. These ensure that both detail-page dropdowns AND list-view card menus go through the exact same code path.
+
+**Key composables:**
+- `createCopyAction(entityType, loadChildrenFn?)` - Handles copy with optional "with/without children" modal
+- `createDuplicateAction(entityType, hasChildren, openFormFn)` - Handles duplicate with optional children modal
+- `createPasteHandler(entityType, openFormFn, hasConflict?)` - Handles paste with conflict-aware name suffixing
+
+**Critical rule:** Never create inline copy/duplicate/paste handlers directly in page components. Always use these composables to avoid action inconsistencies between detail-page dropdowns and list-view card menus.
+
+**Clipboard service** (`webui/src/lib/services/clipboardService.ts`):
+- Uses localStorage as primary store, system clipboard as secondary
+- `ClipboardEntry` includes optional `children` field for nested data
+- `prepareDuplicateData()` clears identity fields and appends "(Copy)" to names
+- Uses `JSON.parse(JSON.stringify())` instead of `structuredClone` (Svelte 5 proxies can't be structuredCloned)
+
+**Duplicate service** (`webui/src/lib/services/duplicateService.ts`):
+- `loadXxxChildren()` - loads nested children into clipboard-compatible structure
+- `pasteXxxChildren()` - creates children from clipboard data under a new parent
+- `duplicateXxxChildren()` - duplicates children from one parent to another via DB
+
+### Schema Filtering & Supplementary Keys
+
+The change store (`webui/src/lib/stores/changes.ts`) filters entity data through JSON schemas via `filterToSchema()`. Fields not in the schema are stripped. For fields that are needed for change tracking but aren't in the schema (like `materialType` for materials, `sizes` for variants), add them to `SUPPLEMENTARY_KEYS`:
+
+```typescript
+const SUPPLEMENTARY_KEYS: Partial<Record<EntityType, string[]>> = {
+    variant: ['sizes'],
+    material: ['id', 'materialType']
+};
+```
+
+**Warning:** If you add a field to entity data that needs to survive change tracking but isn't in the JSON schema, you MUST add it to `SUPPLEMENTARY_KEYS` or it will be silently stripped.
+
+### Submitted Changes Buffer (Pending Merge)
+
+When a user submits changes (creating a PR), the changes are archived into a **submitted buffer** (`webui/src/lib/stores/submitted.ts`) before being cleared from the pending change store. This keeps submitted entities visible in the UI with a purple "Submitted" badge until the buffer entries expire (7-day TTL).
+
+**Key files:**
+- `webui/src/lib/stores/submitted.ts` - Submitted store (localStorage-backed, key `ofd_submitted_changes`)
+- `webui/src/lib/types/changes.ts` - `SubmittedEntry` and `SubmittedBuffer` types
+
+**Data layering precedence:** pending changes > submitted changes > API data. The `DatabaseService` applies submitted changes via `layerSubmittedChanges()` before `layerChanges()`.
+
+**Visual indicators:** Submitted entities show `border-l-4 border-l-purple-500` border and a purple "Submitted" badge on EntityCards. Detail pages show a "Submitted - awaiting merge" info banner.
+
+**Integration points:** The `getChildChangeProps()` function in `deletedStubs.ts` accepts an optional `submitted` parameter. All list pages pass `submittedStore` to this function and to `withDeletedStubs()`. The `entityState` composable exposes `hasSubmittedChanges` for detail pages.
+
+### Entity Detail Page Structure
+
+Each entity detail page follows this pattern:
+1. **Shared action composables** at the top (via `createCopyAction`, `createDuplicateAction`, `createPasteHandler`)
+2. **Data loading** via `$effect` watching route params
+3. **Edit/Delete/Duplicate/Paste handlers** as async functions
+4. **Template** with `EntityDetails` (showing fields + Edit button + `EntityActionDropdown`) and `ChildListPanel` (showing child cards with actions)
+5. **Modals** at the bottom: Edit, Delete, DuplicateOptions, CopyOptions, Duplicate form, Paste form, CloudCompare
+
+### UI Components
+
+- `DropdownMenu.svelte` - Reusable kebab dropdown (auto-strips empty separators)
+- `ContextMenu.svelte` - Right-click menu positioned at pointer
+- `EntityActionDropdown.svelte` - Entity-specific dropdown with Duplicate/Copy/Paste/View/Delete
+- `DuplicateOptionsModal.svelte` - "With children" / "Without children" / "Cancel" chooser
+- `CloudCompareModal.svelte` - Side-by-side JSON diff (cloud mode only)
+- `EntityCard.svelte` - Cards with inline dropdown + right-click context menu
+
+### Form Create vs Update Detection
+
+Forms determine their submit button label ("Create X" vs "Update X") by checking `entity?.id`. Since `prepareDuplicateData()` strips `id`, duplicate/paste forms correctly show "Create". If you add a new form, use `?.id` for this check, not just truthiness of the entity prop.
+
 ## Critical Configuration Files
 
 **Root Level:**
@@ -219,8 +292,8 @@ The repository runs these workflows:
 **WebUI Configuration:**
 - `webui/package.json` - npm scripts and dependencies
 - `webui/svelte.config.js` - SvelteKit configuration
-- `webui/vite.config.js` - Vite build configuration (Tailwind 4 is configured here via `@tailwindcss/vite`, no separate `tailwind.config.js`)
-- `webui/playwright.config.js` - Test configuration (baseURL: localhost:4173)
+- `webui/vite.config.ts` - Vite build configuration (Tailwind 4 is configured here via `@tailwindcss/vite`, no separate `tailwind.config.js`)
+- `webui/playwright.config.ts` - E2E test configuration (baseURL: localhost:4173)
 
 **Validation Schemas:**
 - `schemas/brand_schema.json` - Brand metadata validation

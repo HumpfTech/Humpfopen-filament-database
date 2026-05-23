@@ -1,0 +1,430 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import type { Variant, Store } from '$lib/types/database';
+	import { Modal, MessageBanner, DeleteConfirmationModal, Button, EntityActionDropdown, CloudCompareModal } from '$lib/components/ui';
+	import { VariantForm } from '$lib/components/forms';
+	import { BackButton } from '$lib/components/actions';
+	import { DataDisplay } from '$lib/components/layout';
+	import { createMessageHandler } from '$lib/utils/messageHandler.svelte';
+	import { createEntityState } from '$lib/utils/entityState.svelte';
+	import { deleteEntity, generateSlug } from '$lib/services/entityService';
+	import { db } from '$lib/services/database';
+	import { untrack } from 'svelte';
+	import { useChangeTracking } from '$lib/stores/environment';
+	import { changes } from '$lib/stores/changes';
+	import { getTraitLabel } from '$lib/config/traitConfig';
+	import { prepareDuplicateData } from '$lib/services/clipboardService';
+	import { formDrafts } from '$lib/stores/formDrafts';
+
+	let brandId: string = $derived($page.params.brand!);
+	let materialType: string = $derived($page.params.material!);
+	let filamentId: string = $derived($page.params.filament!);
+	let variantSlug: string = $derived($page.params.variant!);
+	let variantEditDraftKey = $derived(`edit:variant:${brandId}:${materialType}:${filamentId}:${variantSlug}`);
+	let variantCreateDraftKey = $derived(`create:variant:${brandId}:${materialType}:${filamentId}`);
+	let loadGeneration = 0;
+	let variant: Variant | null = $state(null);
+	let originalVariant: Variant | null = $state(null);
+	let stores: Store[] = $state([]);
+	let loading: boolean = $state(true);
+	let error: string | null = $state(null);
+
+	// Duplicate variant state
+	let duplicateVariantError: string | null = $state(null);
+
+	function getStoreName(storeId: string): string {
+		const store = stores.find((s) => s.id === storeId);
+		return store?.name || storeId;
+	}
+
+	const messageHandler = createMessageHandler();
+
+	const entityState = createEntityState({
+		getEntityPath: () =>
+			variant
+				? `brands/${brandId}/materials/${materialType}/filaments/${filamentId}/variants/${variant.slug}`
+				: null,
+		getEntity: () => variant
+	});
+
+	// Load data when route parameters change
+	$effect(() => {
+		const params = { brandId, materialType, filamentId, variantSlug };
+		const gen = ++loadGeneration;
+
+		loading = true;
+		error = null;
+		entityState.showEditModal = false;
+
+		(async () => {
+			try {
+				const [variantData, storesData] = await Promise.all([
+					db.getVariant(params.brandId, params.materialType, params.filamentId, params.variantSlug),
+					db.loadStores()
+				]);
+
+				if (gen !== loadGeneration) return;
+
+				if (!variantData) {
+					// Check if this was locally deleted
+					const variantPath = `brands/${params.brandId}/materials/${params.materialType}/filaments/${params.filamentId}/variants/${params.variantSlug}`;
+					const change = untrack(() => $changes.get(variantPath));
+					if (untrack(() => $useChangeTracking) && change?.operation === 'delete') {
+						error = 'This variant has been deleted in your local changes. Export your changes to finalize the deletion.';
+					} else {
+						error = 'Variant not found';
+					}
+					loading = false;
+					return;
+				}
+
+				variant = variantData;
+				originalVariant = structuredClone(variantData);
+				stores = storesData;
+			} catch (e) {
+				if (gen !== loadGeneration) return;
+				error = e instanceof Error ? e.message : 'Failed to load variant';
+			} finally {
+				if (gen === loadGeneration) {
+					loading = false;
+				}
+			}
+		})();
+	});
+
+	async function handleSubmit(data: any) {
+		if (!variant) return;
+
+		entityState.saving = true;
+		messageHandler.clear();
+
+		try {
+			const existingSlug = variant.slug || variant.id;
+			const updatedVariant = {
+				...variant,
+				...data,
+				id: existingSlug,
+				slug: existingSlug
+			} as Variant;
+
+			const success = await db.saveVariant(
+				brandId,
+				materialType,
+				filamentId,
+				existingSlug,
+				updatedVariant,
+				originalVariant ?? variant
+			);
+
+			if (success) {
+				variant = updatedVariant;
+				messageHandler.showSuccess('Variant saved successfully!');
+				formDrafts.clear(variantEditDraftKey);
+				entityState.closeEdit();
+			} else {
+				messageHandler.showError('Failed to save variant');
+			}
+		} catch (e) {
+			messageHandler.showError(e instanceof Error ? e.message : 'Failed to save variant');
+		} finally {
+			entityState.saving = false;
+		}
+	}
+
+	async function handleDelete() {
+		if (!variant) return;
+
+		entityState.deleting = true;
+		messageHandler.clear();
+
+		try {
+			const result = await deleteEntity(
+				`brands/${brandId}/materials/${materialType}/filaments/${filamentId}/variants/${variantSlug}`,
+				'Variant',
+				() => db.deleteVariant(brandId, materialType, filamentId, variantSlug, variant!)
+			);
+
+			if (result.success) {
+				messageHandler.showSuccess(result.message);
+				entityState.closeDelete();
+				entityState.deleting = false;
+				setTimeout(() => {
+					goto(`/brands/${brandId}/${materialType}/${filamentId}`);
+				}, 1500);
+			} else {
+				messageHandler.showError(result.message);
+				entityState.deleting = false;
+			}
+		} catch (e) {
+			messageHandler.showError(e instanceof Error ? e.message : 'Failed to delete variant');
+			entityState.deleting = false;
+		}
+	}
+
+	// Duplicate variant handler
+	async function handleDuplicateVariantSubmit(data: any) {
+		entityState.creating = true;
+		duplicateVariantError = null;
+
+		try {
+			const newSlug = generateSlug(data.name);
+			const siblingVariants = await db.loadVariants(brandId, materialType, filamentId);
+			const dup = siblingVariants.find((v) =>
+				(v.slug ?? v.id).toLowerCase() === newSlug ||
+				v.name.toLowerCase() === data.name.trim().toLowerCase()
+			);
+			if (dup) {
+				duplicateVariantError = `Variant "${data.name}" already exists`;
+				entityState.creating = false;
+				return;
+			}
+
+			const result = await db.createVariant(brandId, materialType, filamentId, data);
+
+			if (result.success && result.variantSlug) {
+				messageHandler.showSuccess('Variant duplicated successfully!');
+				formDrafts.clear(variantCreateDraftKey);
+				entityState.closeDuplicate();
+				goto(`/brands/${brandId}/${materialType}/${filamentId}/${result.variantSlug}`);
+			} else {
+				duplicateVariantError = 'Failed to create variant';
+			}
+		} catch (e) {
+			duplicateVariantError = e instanceof Error ? e.message : 'Failed to duplicate variant';
+		} finally {
+			entityState.creating = false;
+		}
+	}
+
+	function getActiveTraits(traits: Record<string, boolean> | undefined): string[] {
+		if (!traits) return [];
+		return Object.entries(traits)
+			.filter(([_, value]) => value === true)
+			.map(([key]) => key);
+	}
+</script>
+
+<svelte:head>
+	<title>{variant ? `${variant.name}` : 'Variant Not Found'}</title>
+</svelte:head>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+	<div class="mb-6">
+		<BackButton href="/brands/{brandId}/{materialType}/{filamentId}" label="Filament" />
+	</div>
+
+	<DataDisplay {loading} {error} data={variant}>
+		{#snippet children(variantData)}
+			<header class="mb-6">
+				<div class="flex items-center gap-3 mb-2">
+					<div
+						class="w-12 h-12 rounded-full border-2 border-border"
+						style="background-color: {variantData.color_hex}"
+						title={variantData.color_hex}
+					></div>
+					<div>
+						<h1 class="text-3xl font-bold">{variantData.name}</h1>
+						{#if variantData.discontinued}
+							<span class="px-3 py-1 text-sm bg-destructive/10 text-destructive rounded-full"
+								>Discontinued</span
+							>
+						{/if}
+					</div>
+				</div>
+				<p class="text-muted-foreground">ID: {variantData.slug || variantData.id}</p>
+			</header>
+
+			{#if entityState.hasLocalChanges}
+				<MessageBanner type="info" message="Local changes - export to save" />
+			{:else if entityState.hasSubmittedChanges}
+				<MessageBanner type="info" message="Submitted - awaiting merge" />
+			{/if}
+
+			{#if (variant as any)?.__migratedSpoolRefill}
+				<MessageBanner
+					type="info"
+					message="Heads up: this variant uses a deprecated location for spool_refill (on purchase links). It's been auto-migrated to the size level — your next save will update the file to the current schema."
+				/>
+			{/if}
+
+			{#if messageHandler.message}
+				<MessageBanner type={messageHandler.type} message={messageHandler.message} />
+			{/if}
+
+			<div class="bg-card border border-border rounded-lg p-6">
+				<div class="flex justify-between items-center mb-4">
+					<h2 class="text-xl font-semibold">Variant Details</h2>
+					<div class="flex gap-2">
+						<Button onclick={entityState.openEdit} variant="primary">Edit</Button>
+						<EntityActionDropdown
+							entityType="variant"
+							entityData={variantData}
+							entityPath="brands/{brandId}/materials/{materialType}/filaments/{filamentId}/variants/{variantSlug}"
+							isLocalCreate={entityState.isLocalCreate}
+							onDuplicate={(data) => { formDrafts.clear(variantCreateDraftKey); entityState.openDuplicate(data); }}
+							onPaste={(data) => { formDrafts.clear(variantCreateDraftKey); entityState.openPaste(data); }}
+							onDelete={entityState.openDelete}
+							onViewDiff={entityState.openCloudCompare}
+							parentNames={{ brand: '', material: '', filament: '' }}
+						/>
+					</div>
+				</div>
+
+				<dl class="space-y-4">
+					<div>
+						<dt class="text-sm font-medium text-muted-foreground">Color Name</dt>
+						<dd class="mt-1 text-lg">{variantData.name}</dd>
+					</div>
+					<div>
+						<dt class="text-sm font-medium text-muted-foreground">Slug</dt>
+						<dd class="mt-1">{variantData.slug}</dd>
+					</div>
+					<div>
+						<dt class="text-sm font-medium text-muted-foreground">Color</dt>
+						<dd class="mt-1 flex items-center gap-2">
+							<div
+								class="w-8 h-8 rounded border-2 border-border"
+								style="background-color: {variantData.color_hex}"
+							></div>
+							<span class="font-mono">{variantData.color_hex}</span>
+						</dd>
+					</div>
+					<div>
+						<dt class="text-sm font-medium text-muted-foreground">Status</dt>
+						<dd class="mt-1">
+							{variantData.discontinued ? 'Discontinued' : 'Active'}
+						</dd>
+					</div>
+					{#if getActiveTraits(variantData.traits).length > 0}
+						{@const activeTraits = getActiveTraits(variantData.traits)}
+						<div>
+							<dt class="text-sm font-medium text-muted-foreground mb-2">Traits</dt>
+							<dd class="flex flex-wrap gap-1.5">
+								{#each activeTraits as trait}
+									<span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-sm">
+										{getTraitLabel(trait)}
+									</span>
+								{/each}
+							</dd>
+						</div>
+					{/if}
+					{#if (variantData as any).color_standards && Object.values((variantData as any).color_standards as Record<string, string>).some(v => v)}
+						{@const colorStandardsEntries = Object.entries((variantData as any).color_standards as Record<string, string>).filter(([, v]) => v)}
+						<div>
+							<dt class="text-sm font-medium text-muted-foreground mb-2">Color Standards</dt>
+							<dd class="flex flex-wrap gap-1.5">
+								{#each colorStandardsEntries as [key, value]}
+									<span class="px-2 py-1 bg-muted text-foreground rounded text-sm">
+										<span class="font-medium uppercase">{key}</span>
+										<span class="font-mono ml-1">{value}</span>
+									</span>
+								{/each}
+							</dd>
+						</div>
+					{/if}
+				</dl>
+
+				{#if variantData.sizes && variantData.sizes.length > 0}
+					<div class="mt-6 pt-6 border-t border-border">
+						<h3 class="text-lg font-semibold mb-4">Available Sizes ({variantData.sizes.length})</h3>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+							{#each variantData.sizes as size, index}
+								<div class="bg-muted/50 rounded-lg p-4">
+									<div class="flex items-center justify-between mb-2">
+										<span class="font-medium">{size.filament_weight}g / {size.diameter}mm</span>
+										{#if size.discontinued}
+											<span class="px-2 py-0.5 text-xs bg-destructive/10 text-destructive rounded">Discontinued</span>
+										{/if}
+										{#if size.spool_refill}
+											<span class="px-2 py-0.5 text-xs bg-primary/10 text-primary rounded">Refill</span>
+										{/if}
+									</div>
+									<dl class="text-sm space-y-1 text-muted-foreground">
+										{#if size.empty_spool_weight}
+											<div>Empty spool: {size.empty_spool_weight}g</div>
+										{/if}
+										{#if size.spool_core_diameter}
+											<div>Core diameter: {size.spool_core_diameter}mm</div>
+										{/if}
+										{#if size.gtin}
+											<div>GTIN: {size.gtin}</div>
+										{/if}
+										{#if size.article_number}
+											<div>Article #: {size.article_number}</div>
+										{/if}
+										{#if size.purchase_links && size.purchase_links.length > 0}
+											<div class="mt-2">
+												<span class="text-foreground">Purchase links:</span>
+												<ul class="list-disc list-inside mt-1">
+													{#each size.purchase_links as link}
+														<li>
+															<a href={link.url} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+																{getStoreName(link.store_id)}
+															</a>
+														</li>
+													{/each}
+												</ul>
+											</div>
+										{/if}
+									</dl>
+								</div>
+							{/each}
+						</div>
+					</div>
+				{/if}
+			</div>
+		{/snippet}
+	</DataDisplay>
+</div>
+
+<Modal show={entityState.showEditModal} title="Edit Variant" onClose={entityState.closeEdit} maxWidth="5xl">
+	{#if variant}
+		<div class="h-[70vh]">
+			<VariantForm {variant} draftKey={variantEditDraftKey} onSubmit={handleSubmit} saving={entityState.saving} />
+		</div>
+	{/if}
+</Modal>
+
+<DeleteConfirmationModal
+	show={entityState.showDeleteModal}
+	title="Delete Variant"
+	entityName={variant?.name ?? ''}
+	isLocalCreate={entityState.isLocalCreate}
+	deleting={entityState.deleting}
+	onClose={entityState.closeDelete}
+	onDelete={handleDelete}
+/>
+
+<!-- Duplicate Variant Modal -->
+<Modal show={entityState.showDuplicateModal} title="Duplicate Variant" onClose={entityState.closeDuplicate} maxWidth="5xl">
+	{#if duplicateVariantError}
+		<MessageBanner type="error" message={duplicateVariantError} />
+	{/if}
+	{#if entityState.duplicateData}
+		<div class="h-[70vh]">
+			<VariantForm variant={entityState.duplicateData} draftKey={variantCreateDraftKey} onSubmit={handleDuplicateVariantSubmit} saving={entityState.creating} />
+		</div>
+	{/if}
+</Modal>
+
+<!-- Paste Variant Modal -->
+<Modal show={entityState.showPasteModal} title="Paste Variant" onClose={entityState.closePaste} maxWidth="5xl">
+	{#if duplicateVariantError}
+		<MessageBanner type="error" message={duplicateVariantError} />
+	{/if}
+	{#if entityState.pasteData}
+		<div class="h-[70vh]">
+			<VariantForm variant={entityState.pasteData} draftKey={variantCreateDraftKey} onSubmit={handleDuplicateVariantSubmit} saving={entityState.creating} />
+		</div>
+	{/if}
+</Modal>
+
+<!-- Cloud Compare Modal -->
+<CloudCompareModal
+	show={entityState.showCloudCompareModal}
+	onClose={entityState.closeCloudCompare}
+	title="Compare Variant with Cloud"
+	currentData={variant}
+	apiPath="/api/brands/{brandId}/materials/{materialType}/filaments/{filamentId}/variants/{variantSlug}"
+/>

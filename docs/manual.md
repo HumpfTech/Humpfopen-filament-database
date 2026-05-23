@@ -1,7 +1,7 @@
 # Manual Contribution Guide
 This guide explains how to manually edit the database files. We recommend reading through this document first, then exploring the `/data` and `/stores` folders for reference examples. The authoritative source for every field is the JSON Schema in [`/schemas`](../schemas) — if anything here disagrees with a schema, the schema wins.
 
-**Note:** Most contributors find the [WebUI](webui.md) easier to use than manual editing. Consider using the WebUI unless you have a specific reason to edit files directly.
+**Note:** Most contributors find the [WebUI](webui.md) easier to use than manual editing — the hosted instance at <http://ofd-webui-vv73c.ondigitalocean.app/> needs no setup and opens a pull request for you. Consider using the WebUI unless you have a specific reason to edit files directly.
 
 ## 📁 Project Structure
 The database is organized as a structured JSON-based hierarchy inside the `/data` directory, following this pattern:

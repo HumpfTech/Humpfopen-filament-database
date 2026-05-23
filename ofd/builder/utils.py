@@ -9,6 +9,7 @@ UUID Generation follows the OFD standard specification:
 
 import hashlib
 import re
+import subprocess
 import uuid
 from datetime import datetime, timezone
 
@@ -307,6 +308,16 @@ def normalize_color_hex(color: str) -> str | None:
 def get_current_timestamp() -> str:
     """Get the current UTC timestamp in ISO 8601 format."""
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def get_git_commit() -> str | None:
+    """Get the current git commit hash, or None if not in a git repo."""
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True
+        ).strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
 
 
 # =============================================================================
