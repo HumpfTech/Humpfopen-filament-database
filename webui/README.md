@@ -2,6 +2,8 @@
 
 A web-based editor for the Open Filament Database. This application allows you to browse and edit stores, brands, materials, and filaments from the database.
 
+> **Just want to contribute data?** Use the hosted instance at <http://ofd-webui-vv73c.ondigitalocean.app/> — no setup required, sign in with GitHub and changes are submitted as a pull request. This README covers running and developing the editor locally. The canonical hosted URL is recorded under `[project.urls].WebUI` in the repo's [`pyproject.toml`](../pyproject.toml).
+
 ## Features
 
 - **Dual Mode Operation**: Works both locally and in the cloud

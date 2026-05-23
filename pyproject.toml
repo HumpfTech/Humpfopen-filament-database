@@ -52,6 +52,7 @@ Homepage = "https://github.com/OpenFilamentCollective/open-filament-database"
 Documentation = "https://api.openfilamentdatabase.org/"
 Repository = "https://github.com/OpenFilamentCollective/open-filament-database"
 Issues = "https://github.com/OpenFilamentCollective/open-filament-database/issues"
+WebUI = "http://ofd-webui-vv73c.ondigitalocean.app/"
 
 [build-system]
 requires = ["hatchling"]

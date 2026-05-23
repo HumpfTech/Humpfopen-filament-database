@@ -13,9 +13,21 @@ The Open Filament Database, hosted by the new "Open Filament Collective" group, 
 ## ✅ Contributing: how to add to the database
 The beautiful thing about the database is that it's open source so anyone can contribute, whether you're a hobbyist, print farm or brand.
 
-The steps to contribute to the database are simple but may get technical at times depending on how you want to do it, don't worry if you don't all understand terms, we'll guide you through it.
+### The easiest way: use the hosted web editor
 
-### So what are the steps?
+For most contributors there is **no setup required** — just open the hosted editor, sign in with GitHub, make your edits, and the editor opens a pull request for you:
+
+👉 **<http://ofd-webui-vv73c.ondigitalocean.app/>**
+
+The hosted editor runs in **cloud mode**: your changes are tracked in your browser and submitted as a GitHub pull request when you're ready (or anonymously, if enabled). See the [WebUI guide](docs/webui.md) for a full walkthrough.
+
+> The URL above is the canonical hosted instance, also recorded under `[project.urls].WebUI` in [`pyproject.toml`](pyproject.toml).
+
+### Or run it locally / edit by hand
+
+If you'd rather work from a local clone — for offline editing, running the validator against your own data, or developing on the WebUI itself — follow the longer path below.
+
+### So what are the steps (local route)?
 1. **Create a GitHub account**
 2. **Create a copy of the database** (called "forking" this repository)
 3. **Install a few small applications** (Git, Python, Node.js)
@@ -42,9 +54,15 @@ git clone https://github.com/YOUR_USERNAME/open-filament-database.git
 cd open-filament-database
 ```
 ### 5. Make your changes!
-Use the web editor (recommended) or edit files manually:
+You have three options, in order of how much setup they need:
 
-**Using the OFD Wrapper (Recommended - handles setup automatically):**
+**Option A — Hosted web editor (no setup, recommended):**
+
+Just open <http://ofd-webui-vv73c.ondigitalocean.app/> and sign in with GitHub. Edits become a pull request automatically. See the [WebUI guide](docs/webui.md) for details.
+
+**Option B — Local web editor (for offline work or WebUI development):**
+
+Run the same editor against your local clone using the OFD wrapper (handles setup automatically):
 
 Linux/macOS:
 ```bash
@@ -66,14 +84,14 @@ Then access it in your browser at http://localhost:5173
 
 The WebUI includes built-in validation and data sorting features to help ensure your changes are correct. [Full WebUI guide](docs/webui.md)
 
-**Manual setup:** If you prefer to set things up manually, [install our requirements](docs/installing-software.md) and then:
+If you'd rather run things by hand, [install our requirements](docs/installing-software.md) and then:
 ```bash
 cd webui
 npm ci
 npm run dev
 ```
 
-**Manual editing:** If you prefer to edit files directly, [follow this guide](docs/manual.md)
+**Option C — Edit JSON files directly:** [follow this guide](docs/manual.md)
 
 ### 6. Validate and sort your changes
 The WebUI can validate and sort your data automatically:

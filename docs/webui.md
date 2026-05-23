@@ -1,11 +1,12 @@
 # WebUI — Open Filament Database Editor
 
-The WebUI is a SvelteKit web application for browsing and editing the Open Filament Database.  It runs in two modes — **local** (direct filesystem access) and **cloud** (remote API with change-tracking) — so contributors can edit data from a cloned repo or from the hosted instance at openfilamentdatabase.org.
+The WebUI is a SvelteKit web application for browsing and editing the Open Filament Database.  It runs in two modes — **local** (direct filesystem access) and **cloud** (remote API with change-tracking) — so contributors can edit data from a cloned repo or from the hosted instance.
 
 ---
 
 ## Table of Contents
 
+- [Hosted Editor](#hosted-editor-no-setup)
 - [Getting Started](#getting-started)
 - [Application Modes](#application-modes)
 - [Pages](#pages)
@@ -16,11 +17,25 @@ The WebUI is a SvelteKit web application for browsing and editing the Open Filam
 
 ---
 
+## Hosted Editor (No Setup)
+
+Most contributors don't need to install anything. The hosted instance runs the WebUI in **cloud mode** and is available at:
+
+👉 **<http://ofd-webui-vv73c.ondigitalocean.app/>**
+
+Sign in with your GitHub account and any edits you make are tracked in your browser and submitted as a pull request when you're ready. Anonymous submissions are also supported when enabled — see [Cloud Mode](#cloud-mode-cloud) and [GitHub Integration](#github-integration) for details.
+
+> The hosted URL is recorded under `[project.urls].WebUI` in [`pyproject.toml`](../pyproject.toml) and is the single source of truth — if it ever moves, that entry is updated first.
+
+The rest of this document covers running the same editor locally, which is useful for offline work, contributing to the WebUI itself, or running the Python validator against a local clone.
+
+---
+
 ## Getting Started
 
-### Quick Start (Recommended)
+### Quick Start (Recommended for local development)
 
-The easiest way to launch the WebUI is with the OFD wrapper script, which handles Python, Node.js, and dependency setup automatically.
+The easiest way to launch the WebUI locally is with the OFD wrapper script, which handles Python, Node.js, and dependency setup automatically.
 
 **Linux / macOS:**
 

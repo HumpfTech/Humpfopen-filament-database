@@ -2,7 +2,7 @@
 To ensure all your files are correct, you can validate them using either the WebUI (recommended) or the command-line tooling.
 
 ## Option 1: Validate Using the WebUI (Recommended)
-The easiest way to validate your changes is directly in the WebUI:
+The easiest way to validate your changes is directly in the WebUI — either the hosted instance at <http://ofd-webui-vv73c.ondigitalocean.app/> (no setup) or a local copy:
 
 1. While editing in the WebUI, validation runs automatically in the background
 2. Look for the "Validation" dropdown in the top-right corner
@@ -10,7 +10,7 @@ The easiest way to validate your changes is directly in the WebUI:
 4. Any errors or warnings will appear in the dropdown with links to the problematic data
 5. Click on an error to navigate directly to the issue
 
-This method is recommended because it provides immediate feedback and makes it easy to locate and fix issues.
+This method is recommended because it provides immediate feedback and makes it easy to locate and fix issues. In cloud mode (the hosted instance) validation runs in-process against the JSON schemas; in local mode it shells out to the Python validator described below.
 
 ## Option 2: Validate From the Command Line
 If you prefer the command line, the OFD wrapper script will set up Python automatically and run the validator. If you haven't installed Python yet, [follow this guide](installing-software.md#python).
