@@ -3,7 +3,7 @@
   "name": "Metallic Finish Light Blue",
   "color_hex": "#ABD5F3",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

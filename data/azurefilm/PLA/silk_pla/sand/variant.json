@@ -3,7 +3,7 @@
   "name": "Sand",
   "color_hex": "#d0a85e",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Ocean blue",
   "color_hex": "#5b95e6",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

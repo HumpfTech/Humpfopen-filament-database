@@ -3,7 +3,7 @@
   "name": "Neon Green",
   "color_hex": "#06B100",
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

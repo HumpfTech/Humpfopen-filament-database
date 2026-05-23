@@ -3,9 +3,9 @@
   "name": "Polished Glass (Transparent)",
   "color_hex": "#E4E7E5",
   "traits": {
-    "recycled": true,
-    "industrially_compostable": true,
+    "transparent": true,
     "silk": true,
-    "transparent": true
+    "recycled": true,
+    "industrially_compostable": true
   }
 }

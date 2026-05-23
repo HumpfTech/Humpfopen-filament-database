@@ -3,7 +3,7 @@
   "name": "Galaxy Black",
   "color_hex": "#000000",
   "traits": {
-    "filtration_recommended": true,
-    "glitter": true
+    "glitter": true,
+    "filtration_recommended": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Galaxy Orange",
   "color_hex": "#F97429",
   "traits": {
-    "filtration_recommended": true,
-    "glitter": true
+    "glitter": true,
+    "filtration_recommended": true
   }
 }

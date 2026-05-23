@@ -3,7 +3,7 @@
   "name": "Black New Made In USA Premium Composite",
   "color_hex": "#000000",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

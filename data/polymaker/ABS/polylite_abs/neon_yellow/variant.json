@@ -5,7 +5,7 @@
     "#FBE200"
   ],
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

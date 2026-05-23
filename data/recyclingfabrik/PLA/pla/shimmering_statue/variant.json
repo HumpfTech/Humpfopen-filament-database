@@ -3,8 +3,8 @@
   "name": "Shimmering Statue",
   "color_hex": "#613B3A",
   "traits": {
+    "iridescent": true,
     "recycled": true,
-    "industrially_compostable": true,
-    "iridescent": true
+    "industrially_compostable": true
   }
 }

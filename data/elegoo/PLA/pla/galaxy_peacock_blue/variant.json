@@ -3,7 +3,7 @@
   "name": "Galaxy Peacock Blue",
   "color_hex": "#375680",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

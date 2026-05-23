@@ -3,7 +3,7 @@
   "name": "Fuchsia",
   "color_hex": "#71577E",
   "traits": {
-    "iridescent": true,
-    "glitter": true
+    "glitter": true,
+    "iridescent": true
   }
 }

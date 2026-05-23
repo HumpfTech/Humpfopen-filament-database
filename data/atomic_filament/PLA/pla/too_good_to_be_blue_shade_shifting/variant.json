@@ -3,7 +3,7 @@
   "name": "Too Good to be Blue Shade-Shifting",
   "color_hex": "#0E21AE",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

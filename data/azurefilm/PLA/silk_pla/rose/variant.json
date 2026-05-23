@@ -3,7 +3,7 @@
   "name": "Rose",
   "color_hex": "#d72830",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

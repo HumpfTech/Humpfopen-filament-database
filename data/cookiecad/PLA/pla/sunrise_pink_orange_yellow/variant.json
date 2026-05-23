@@ -7,7 +7,7 @@
     "#FADB24"
   ],
   "traits": {
-    "industrially_compostable": true,
-    "gradual_color_change": true
+    "gradual_color_change": true,
+    "industrially_compostable": true
   }
 }

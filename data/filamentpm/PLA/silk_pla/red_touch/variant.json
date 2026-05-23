@@ -3,7 +3,7 @@
   "name": "Red Touch",
   "color_hex": "#E60000",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

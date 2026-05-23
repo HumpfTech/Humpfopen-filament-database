@@ -3,7 +3,7 @@
   "name": "Marble Red",
   "color_hex": "#ECE0EA",
   "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
+    "imitates_marble": true,
+    "industrially_compostable": true
   }
 }

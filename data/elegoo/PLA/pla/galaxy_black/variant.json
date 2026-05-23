@@ -3,7 +3,7 @@
   "name": "Galaxy Black",
   "color_hex": "#000000",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

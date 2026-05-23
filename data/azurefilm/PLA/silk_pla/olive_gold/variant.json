@@ -3,7 +3,7 @@
   "name": "Olive gold",
   "color_hex": "#fff480",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

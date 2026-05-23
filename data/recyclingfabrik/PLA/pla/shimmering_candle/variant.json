@@ -3,8 +3,8 @@
   "name": "Shimmering Candle",
   "color_hex": "#8A2D40",
   "traits": {
+    "iridescent": true,
     "recycled": true,
-    "industrially_compostable": true,
-    "iridescent": true
+    "industrially_compostable": true
   }
 }

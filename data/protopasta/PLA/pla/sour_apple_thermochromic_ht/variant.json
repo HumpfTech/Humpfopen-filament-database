@@ -6,8 +6,8 @@
     "#C4DC00"
   ],
   "traits": {
+    "temperature_color_change": true,
     "industrially_compostable": true,
-    "high_temperature": true,
-    "temperature_color_change": true
+    "high_temperature": true
   }
 }

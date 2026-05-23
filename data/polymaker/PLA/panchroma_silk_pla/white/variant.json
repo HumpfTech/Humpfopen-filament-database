@@ -3,7 +3,7 @@
   "name": "White",
   "color_hex": "#E6EAEF",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

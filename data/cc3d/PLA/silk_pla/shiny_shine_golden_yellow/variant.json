@@ -3,7 +3,7 @@
   "name": "Shiny Shine Golden Yellow",
   "color_hex": "#F9E352",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

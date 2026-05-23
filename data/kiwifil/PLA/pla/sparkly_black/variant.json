@@ -3,7 +3,7 @@
   "name": "Sparkly Black",
   "color_hex": "#373737",
   "traits": {
-    "industrially_compostable": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

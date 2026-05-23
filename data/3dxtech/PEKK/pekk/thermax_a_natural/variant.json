@@ -3,7 +3,7 @@
   "name": "THERMAX A Natural",
   "color_hex": "#EADAC2",
   "traits": {
-    "low_outgassing": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "low_outgassing": true
   }
 }

@@ -4,7 +4,7 @@
   "color_hex": "#5D4A2D",
   "discontinued": false,
   "traits": {
-    "low_outgassing": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "low_outgassing": true
   }
 }

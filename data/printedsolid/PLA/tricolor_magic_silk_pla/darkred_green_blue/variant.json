@@ -7,8 +7,8 @@
     "#C60F3E"
   ],
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
-    "coextruded": true
+    "coextruded": true,
+    "industrially_compostable": true
   }
 }

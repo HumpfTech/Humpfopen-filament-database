@@ -4,7 +4,7 @@
   "color_hex": "#EADAC2",
   "discontinued": true,
   "traits": {
-    "low_outgassing": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "low_outgassing": true
   }
 }

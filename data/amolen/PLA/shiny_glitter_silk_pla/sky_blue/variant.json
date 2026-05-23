@@ -3,8 +3,8 @@
   "name": "Sky Blue",
   "color_hex": "#9AE0DD",
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

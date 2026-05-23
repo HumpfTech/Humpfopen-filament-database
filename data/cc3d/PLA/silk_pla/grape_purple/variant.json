@@ -3,7 +3,7 @@
   "name": "Grape Purple",
   "color_hex": "#AE00FF",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

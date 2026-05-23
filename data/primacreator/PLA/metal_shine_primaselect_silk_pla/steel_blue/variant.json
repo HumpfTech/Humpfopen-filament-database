@@ -3,7 +3,7 @@
   "name": "Steel Blue",
   "color_hex": "#40719A",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

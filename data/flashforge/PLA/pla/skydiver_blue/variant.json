@@ -3,7 +3,7 @@
   "name": "Skydiver Blue",
   "color_hex": "#2E56F1",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

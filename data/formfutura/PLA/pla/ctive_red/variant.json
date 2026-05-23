@@ -4,8 +4,8 @@
   "color_hex": "#98282F",
   "traits": {
     "industrially_compostable": true,
-    "antibacterial": true,
     "abrasive": true,
+    "antibacterial": true,
     "contains_copper": true
   }
 }

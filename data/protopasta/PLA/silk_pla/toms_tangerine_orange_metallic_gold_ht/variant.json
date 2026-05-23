@@ -3,9 +3,9 @@
   "name": "Tom's Tangerine Orange Metallic Gold HT",
   "color_hex": "#F67405",
   "traits": {
-    "industrially_compostable": true,
-    "high_temperature": true,
     "silk": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true,
+    "high_temperature": true
   }
 }

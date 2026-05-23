@@ -3,9 +3,9 @@
   "name": "Second to None Silver HT",
   "color_hex": "#A8B0BD",
   "traits": {
-    "industrially_compostable": true,
-    "high_temperature": true,
     "silk": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true,
+    "high_temperature": true
   }
 }

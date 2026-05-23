@@ -3,7 +3,7 @@
   "name": "Galaxy",
   "color_hex": "#492972",
   "traits": {
-    "industrially_compostable": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

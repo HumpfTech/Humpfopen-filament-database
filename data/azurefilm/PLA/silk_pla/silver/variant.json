@@ -3,7 +3,7 @@
   "name": "Silver",
   "color_hex": "#d6d6d6",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

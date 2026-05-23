@@ -4,7 +4,7 @@
   "color_hex": "#000000",
   "traits": {
     "abrasive": true,
-    "esd_safe": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "esd_safe": true
   }
 }

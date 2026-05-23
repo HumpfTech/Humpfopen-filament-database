@@ -3,7 +3,7 @@
   "name": "Dark",
   "color_hex": "#A2AAAD",
   "traits": {
-    "industrially_compostable": true,
-    "imitates_stone": true
+    "imitates_stone": true,
+    "industrially_compostable": true
   }
 }

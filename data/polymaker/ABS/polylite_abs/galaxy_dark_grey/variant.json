@@ -3,7 +3,7 @@
   "name": "Galaxy Dark Grey",
   "color_hex": "#6A6C6E",
   "traits": {
-    "filtration_recommended": true,
-    "glitter": true
+    "glitter": true,
+    "filtration_recommended": true
   }
 }

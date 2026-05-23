@@ -4,8 +4,8 @@
   "color_hex": "#EBFF57",
   "traits": {
     "translucent": true,
-    "industrially_compostable": true,
     "pearlescent": true,
-    "neon": true
+    "neon": true,
+    "industrially_compostable": true
   }
 }

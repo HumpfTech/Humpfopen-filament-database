@@ -3,7 +3,7 @@
   "name": "Neon Orange",
   "color_hex": "#FA8423",
   "traits": {
-    "industrially_compostable": true,
-    "neon": true
+    "neon": true,
+    "industrially_compostable": true
   }
 }

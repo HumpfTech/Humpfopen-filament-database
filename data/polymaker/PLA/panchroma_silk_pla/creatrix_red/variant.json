@@ -3,7 +3,7 @@
   "name": "Creatrix Red",
   "color_hex": "#E20010",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

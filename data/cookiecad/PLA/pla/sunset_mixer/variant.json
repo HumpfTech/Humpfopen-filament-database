@@ -6,7 +6,7 @@
     "#567BAC"
   ],
   "traits": {
-    "industrially_compostable": true,
-    "coextruded": true
+    "coextruded": true,
+    "industrially_compostable": true
   }
 }

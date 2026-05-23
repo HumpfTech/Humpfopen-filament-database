@@ -3,7 +3,7 @@
   "name": "Neon Red",
   "color_hex": "#DF3303",
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

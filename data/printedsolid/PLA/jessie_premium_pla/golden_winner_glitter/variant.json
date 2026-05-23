@@ -3,7 +3,7 @@
   "name": "Golden Winner Glitter",
   "color_hex": "#816300",
   "traits": {
-    "industrially_compostable": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

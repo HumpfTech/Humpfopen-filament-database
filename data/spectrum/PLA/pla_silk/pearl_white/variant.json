@@ -3,7 +3,7 @@
   "name": "Pearl White",
   "color_hex": "#d6dcdc",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

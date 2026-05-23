@@ -8,9 +8,9 @@
     "#0095FF"
   ],
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
     "glitter": true,
-    "gradual_color_change": true
+    "gradual_color_change": true,
+    "industrially_compostable": true
   }
 }

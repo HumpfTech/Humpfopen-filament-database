@@ -7,9 +7,9 @@
     "#F8CC00"
   ],
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
     "iridescent": true,
-    "gradual_color_change": true
+    "gradual_color_change": true,
+    "industrially_compostable": true
   }
 }

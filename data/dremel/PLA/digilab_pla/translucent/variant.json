@@ -3,7 +3,7 @@
   "name": "Translucent",
   "color_hex": "#FFFFFF",
   "traits": {
-    "industrially_compostable": true,
-    "transparent": true
+    "transparent": true,
+    "industrially_compostable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Neonorange",
   "color_hex": "#FF7A33",
   "traits": {
-    "industrially_compostable": true,
-    "neon": true
+    "neon": true,
+    "industrially_compostable": true
   }
 }

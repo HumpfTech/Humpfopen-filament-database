@@ -3,7 +3,7 @@
   "name": "Ruby Red",
   "color_hex": "#d83743",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

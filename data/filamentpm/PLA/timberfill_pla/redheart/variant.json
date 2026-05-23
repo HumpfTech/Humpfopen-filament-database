@@ -3,8 +3,8 @@
   "name": "Redheart",
   "color_hex": "#983B4E",
   "traits": {
+    "imitates_wood": true,
     "industrially_compostable": true,
-    "contains_wood": true,
-    "imitates_wood": true
+    "contains_wood": true
   }
 }

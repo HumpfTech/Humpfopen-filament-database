@@ -3,7 +3,7 @@
   "name": "Magenta MH Build Series",
   "color_hex": "#C80181",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

@@ -3,8 +3,8 @@
   "name": "Neon Green",
   "color_hex": "#9FEC41",
   "traits": {
+    "neon": true,
     "industrially_compostable": true,
-    "foaming": true,
-    "neon": true
+    "foaming": true
   }
 }

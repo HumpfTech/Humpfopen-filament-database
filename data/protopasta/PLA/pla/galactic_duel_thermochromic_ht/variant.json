@@ -6,9 +6,9 @@
     "#FFFFFF"
   ],
   "traits": {
-    "industrially_compostable": true,
-    "high_temperature": true,
     "glitter": true,
-    "temperature_color_change": true
+    "temperature_color_change": true,
+    "industrially_compostable": true,
+    "high_temperature": true
   }
 }

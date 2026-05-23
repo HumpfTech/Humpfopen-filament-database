@@ -3,7 +3,7 @@
   "name": "Natural",
   "color_hex": "#DFDFD3",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

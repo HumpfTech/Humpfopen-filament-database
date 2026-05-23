@@ -10,7 +10,7 @@
   },
   "traits": {
     "glow": true,
-    "abrasive": true,
-    "illuminescent_color_change": true
+    "illuminescent_color_change": true,
+    "abrasive": true
   }
 }

@@ -3,8 +3,8 @@
   "name": "Nordic Birch",
   "color_hex": "#f8dfa1",
   "traits": {
+    "imitates_wood": true,
     "industrially_compostable": true,
-    "contains_wood": true,
-    "imitates_wood": true
+    "contains_wood": true
   }
 }

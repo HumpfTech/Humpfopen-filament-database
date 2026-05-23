@@ -3,7 +3,7 @@
   "name": "Apple Green",
   "color_hex": "#99d066",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

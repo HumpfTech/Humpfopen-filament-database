@@ -3,7 +3,7 @@
   "name": "Magenta",
   "color_hex": "#771B6B",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

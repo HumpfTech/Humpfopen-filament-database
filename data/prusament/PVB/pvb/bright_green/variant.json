@@ -3,7 +3,7 @@
   "name": "Bright Green",
   "color_hex": "#51CC00",
   "traits": {
-    "ipa_soluble": true,
-    "transparent": true
+    "transparent": true,
+    "ipa_soluble": true
   }
 }

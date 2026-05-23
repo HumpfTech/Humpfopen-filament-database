@@ -3,8 +3,8 @@
   "name": "Performance Blue",
   "color_hex": "#0066D9",
   "traits": {
+    "silk": true,
     "industrially_compostable": true,
-    "self_extinguishing": true,
-    "silk": true
+    "self_extinguishing": true
   }
 }

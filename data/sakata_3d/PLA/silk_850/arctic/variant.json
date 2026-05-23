@@ -3,7 +3,7 @@
   "name": "Arctic",
   "color_hex": "#CAC2DA",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

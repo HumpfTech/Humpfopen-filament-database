@@ -3,7 +3,7 @@
   "name": "Neon Orange",
   "color_hex": "#FF520E",
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

@@ -4,7 +4,7 @@
   "color_hex": "#98FBCB",
   "traits": {
     "translucent": true,
-    "industrially_compostable": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

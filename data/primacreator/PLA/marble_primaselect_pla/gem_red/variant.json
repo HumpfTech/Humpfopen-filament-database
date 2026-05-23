@@ -3,7 +3,7 @@
   "name": "Gem Red",
   "color_hex": "#CD5A2E",
   "traits": {
-    "industrially_compostable": true,
-    "imitates_marble": true
+    "imitates_marble": true,
+    "industrially_compostable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Lime",
   "color_hex": "#cef157",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

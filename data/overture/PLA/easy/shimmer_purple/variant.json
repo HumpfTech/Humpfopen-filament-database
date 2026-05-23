@@ -3,7 +3,7 @@
   "name": "Shimmer Purple",
   "color_hex": "#906482",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

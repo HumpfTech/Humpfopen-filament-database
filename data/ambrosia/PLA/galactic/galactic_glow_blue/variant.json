@@ -3,7 +3,7 @@
   "name": "Galactic Glow Blue",
   "color_hex": "#09D6EB",
   "traits": {
-    "glow": true,
-    "glitter": true
+    "glitter": true,
+    "glow": true
   }
 }

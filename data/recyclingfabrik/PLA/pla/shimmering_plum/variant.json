@@ -3,8 +3,8 @@
   "name": "Shimmering Plum",
   "color_hex": "#A38496",
   "traits": {
+    "iridescent": true,
     "recycled": true,
-    "industrially_compostable": true,
-    "iridescent": true
+    "industrially_compostable": true
   }
 }

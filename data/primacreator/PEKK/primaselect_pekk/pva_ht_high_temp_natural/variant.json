@@ -3,7 +3,7 @@
   "name": "Pva Ht High Temp Natural",
   "color_hex": "#F1E6B2",
   "traits": {
-    "water_soluble": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "water_soluble": true
   }
 }

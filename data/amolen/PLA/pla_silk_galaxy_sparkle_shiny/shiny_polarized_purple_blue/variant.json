@@ -6,10 +6,10 @@
     "#453A72"
   ],
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
-    "iridescent": true,
     "glitter": true,
-    "coextruded": true
+    "iridescent": true,
+    "coextruded": true,
+    "industrially_compostable": true
   }
 }

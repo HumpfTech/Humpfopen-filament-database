@@ -3,7 +3,7 @@
   "name": "Purple",
   "color_hex": "#7D3C55",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

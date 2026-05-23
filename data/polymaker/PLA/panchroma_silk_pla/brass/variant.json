@@ -3,7 +3,7 @@
   "name": "Brass",
   "color_hex": "#998D58",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

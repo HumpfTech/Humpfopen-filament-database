@@ -10,8 +10,8 @@
   ],
   "traits": {
     "glow": true,
+    "gradual_color_change": true,
     "industrially_compostable": true,
-    "abrasive": true,
-    "gradual_color_change": true
+    "abrasive": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Light Blue",
   "color_hex": "#99F1FF",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

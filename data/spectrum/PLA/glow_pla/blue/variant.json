@@ -4,8 +4,8 @@
   "color_hex": "#000000",
   "traits": {
     "glow": true,
+    "illuminescent_color_change": true,
     "industrially_compostable": true,
-    "abrasive": true,
-    "illuminescent_color_change": true
+    "abrasive": true
   }
 }

@@ -6,8 +6,8 @@
     "#BD917E"
   ],
   "traits": {
-    "industrially_compostable": true,
     "gradual_color_change": true,
+    "industrially_compostable": true,
     "contains_wood": true
   }
 }

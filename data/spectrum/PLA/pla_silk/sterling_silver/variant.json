@@ -3,7 +3,7 @@
   "name": "Sterling Silver",
   "color_hex": "#88a1ad",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Metallic Finish Orange",
   "color_hex": "#F6A25C",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Chrome",
   "color_hex": "#91C2CC",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

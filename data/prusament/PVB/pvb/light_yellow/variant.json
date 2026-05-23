@@ -3,7 +3,7 @@
   "name": "Light Yellow",
   "color_hex": "#F6FB38",
   "traits": {
-    "ipa_soluble": true,
-    "transparent": true
+    "transparent": true,
+    "ipa_soluble": true
   }
 }

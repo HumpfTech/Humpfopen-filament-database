@@ -3,7 +3,7 @@
   "name": "Green (Black Light Reactive)",
   "color_hex": "#9FEC41",
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

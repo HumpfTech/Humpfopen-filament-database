@@ -6,8 +6,8 @@
     "#FC6D8E"
   ],
   "traits": {
+    "gradual_color_change": true,
     "recycled": true,
-    "industrially_compostable": true,
-    "gradual_color_change": true
+    "industrially_compostable": true
   }
 }

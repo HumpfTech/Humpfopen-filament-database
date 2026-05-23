@@ -3,7 +3,7 @@
   "name": "Abyss",
   "color_hex": "#282D42",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

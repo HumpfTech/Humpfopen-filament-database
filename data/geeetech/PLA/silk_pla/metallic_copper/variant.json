@@ -3,7 +3,7 @@
   "name": "Metallic Copper",
   "color_hex": "#C66547",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

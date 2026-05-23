@@ -3,8 +3,8 @@
   "name": "Natural",
   "color_hex": "#E8EBCE",
   "traits": {
-    "filtration_recommended": true,
     "transparent": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "filtration_recommended": true
   }
 }

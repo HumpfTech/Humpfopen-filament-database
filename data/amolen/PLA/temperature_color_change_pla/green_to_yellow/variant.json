@@ -6,7 +6,7 @@
     "#FBF942"
   ],
   "traits": {
-    "industrially_compostable": true,
-    "temperature_color_change": true
+    "temperature_color_change": true,
+    "industrially_compostable": true
   }
 }

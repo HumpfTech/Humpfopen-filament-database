@@ -3,7 +3,7 @@
   "name": "Yellow",
   "color_hex": "#EFDC4C",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

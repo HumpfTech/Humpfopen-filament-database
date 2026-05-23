@@ -3,7 +3,7 @@
   "name": "Ocean",
   "color_hex": "#375680",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

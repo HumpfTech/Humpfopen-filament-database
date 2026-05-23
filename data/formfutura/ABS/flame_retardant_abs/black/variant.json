@@ -4,7 +4,7 @@
   "color_hex": "#000000",
   "discontinued": false,
   "traits": {
-    "filtration_recommended": true,
-    "self_extinguishing": true
+    "self_extinguishing": true,
+    "filtration_recommended": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Clear / Natural Filament \"NO YELLOW HUE\"",
   "color_hex": "#E4E7E5",
   "traits": {
-    "industrially_compostable": true,
-    "transparent": true
+    "transparent": true,
+    "industrially_compostable": true
   }
 }

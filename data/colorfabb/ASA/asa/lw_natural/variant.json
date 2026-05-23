@@ -3,7 +3,7 @@
   "name": "LW- Natural",
   "color_hex": "#F2EFE9",
   "traits": {
-    "foaming": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "foaming": true
   }
 }

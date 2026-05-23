@@ -6,10 +6,10 @@
     "#EFE8D8"
   ],
   "traits": {
-    "glow": true,
-    "filtration_recommended": true,
-    "abrasive": true,
     "transparent": true,
-    "illuminescent_color_change": true
+    "glow": true,
+    "illuminescent_color_change": true,
+    "abrasive": true,
+    "filtration_recommended": true
   }
 }

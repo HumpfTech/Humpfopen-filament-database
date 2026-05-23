@@ -3,7 +3,7 @@
   "name": "NewFilament",
   "color_hex": "#000000",
   "traits": {
-    "recycled": true,
-    "glitter": true
+    "glitter": true,
+    "recycled": true
   }
 }

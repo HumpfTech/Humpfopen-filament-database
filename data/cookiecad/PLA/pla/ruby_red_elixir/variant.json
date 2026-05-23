@@ -3,7 +3,7 @@
   "name": "Ruby Red Elixir",
   "color_hex": "#FF4F4D",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

@@ -3,9 +3,9 @@
   "name": "Stardust Glow Glow in Dark Luminous",
   "color_hex": "#11784F",
   "traits": {
+    "glitter": true,
     "glow": true,
     "industrially_compostable": true,
-    "abrasive": true,
-    "glitter": true
+    "abrasive": true
   }
 }

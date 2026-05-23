@@ -4,7 +4,7 @@
   "color_hex": "#EFEFEF",
   "traits": {
     "glow": true,
-    "filtration_recommended": true,
-    "abrasive": true
+    "abrasive": true,
+    "filtration_recommended": true
   }
 }

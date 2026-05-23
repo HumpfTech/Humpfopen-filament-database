@@ -3,7 +3,7 @@
   "name": "Coffee",
   "color_hex": "#877674",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Meteor",
   "color_hex": "#4E7642",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

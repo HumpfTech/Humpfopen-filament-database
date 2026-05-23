@@ -3,8 +3,8 @@
   "name": "Sparkling Fir (Green Glitter)",
   "color_hex": "#AA0101",
   "traits": {
+    "glitter": true,
     "recycled": true,
-    "industrially_compostable": true,
-    "glitter": true
+    "industrially_compostable": true
   }
 }

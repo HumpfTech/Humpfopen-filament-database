@@ -4,8 +4,8 @@
   "color_hex": "#DFDFD3",
   "discontinued": true,
   "traits": {
-    "abrasive": true,
     "without_pigments": true,
+    "abrasive": true,
     "contains_kevlar": true
   }
 }

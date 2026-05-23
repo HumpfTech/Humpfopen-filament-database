@@ -3,8 +3,8 @@
   "name": "Light Wood Tone",
   "color_hex": "#F1D7B8",
   "traits": {
+    "imitates_wood": true,
     "industrially_compostable": true,
-    "contains_wood": true,
-    "imitates_wood": true
+    "contains_wood": true
   }
 }

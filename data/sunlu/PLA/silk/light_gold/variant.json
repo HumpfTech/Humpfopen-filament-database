@@ -3,7 +3,7 @@
   "name": "Light Gold",
   "color_hex": "#E69E20",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

@@ -3,7 +3,7 @@
   "name": "Chrome",
   "color_hex": "#545F67",
   "traits": {
-    "industrially_compostable": true,
-    "imitates_metal": true
+    "imitates_metal": true,
+    "industrially_compostable": true
   }
 }

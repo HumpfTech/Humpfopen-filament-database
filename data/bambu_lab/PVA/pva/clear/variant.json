@@ -3,7 +3,7 @@
   "name": "Clear",
   "color_hex": "#F0F1A8",
   "traits": {
-    "water_soluble": true,
-    "transparent": true
+    "transparent": true,
+    "water_soluble": true
   }
 }

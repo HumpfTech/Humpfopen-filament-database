@@ -3,8 +3,8 @@
   "name": "Bronze Metallic",
   "color_hex": "#A98C4B",
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
-    "imitates_metal": true
+    "imitates_metal": true,
+    "industrially_compostable": true
   }
 }

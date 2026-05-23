@@ -3,7 +3,7 @@
   "name": "Fp Natural",
   "color_hex": "#EADAC2",
   "traits": {
-    "filtration_recommended": true,
-    "self_extinguishing": true
+    "self_extinguishing": true,
+    "filtration_recommended": true
   }
 }

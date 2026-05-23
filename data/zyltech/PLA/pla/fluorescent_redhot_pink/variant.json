@@ -3,7 +3,7 @@
   "name": "Fluorescent Red/Hot Pink",
   "color_hex": "#FC496D",
   "traits": {
-    "industrially_compostable": true,
-    "neon": true
+    "neon": true,
+    "industrially_compostable": true
   }
 }

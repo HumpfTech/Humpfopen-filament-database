@@ -8,8 +8,8 @@
     "#E72F1D"
   ],
   "traits": {
-    "industrially_compostable": true,
     "glitter": true,
-    "gradual_color_change": true
+    "gradual_color_change": true,
+    "industrially_compostable": true
   }
 }

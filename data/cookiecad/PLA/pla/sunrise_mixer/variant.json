@@ -6,7 +6,7 @@
     "#E8BD00"
   ],
   "traits": {
-    "industrially_compostable": true,
-    "coextruded": true
+    "coextruded": true,
+    "industrially_compostable": true
   }
 }

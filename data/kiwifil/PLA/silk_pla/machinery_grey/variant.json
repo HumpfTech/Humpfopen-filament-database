@@ -3,7 +3,7 @@
   "name": "Machinery Grey",
   "color_hex": "#697272",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

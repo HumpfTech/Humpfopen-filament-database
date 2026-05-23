@@ -3,7 +3,7 @@
   "name": "Midnight",
   "color_hex": "#6C47B2",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

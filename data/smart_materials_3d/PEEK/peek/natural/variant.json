@@ -3,7 +3,7 @@
   "name": "Natural",
   "color_hex": "#AFA198",
   "traits": {
-    "low_outgassing": true,
-    "without_pigments": true
+    "without_pigments": true,
+    "low_outgassing": true
   }
 }

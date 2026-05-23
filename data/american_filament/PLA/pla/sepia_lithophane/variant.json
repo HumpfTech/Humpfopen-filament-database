@@ -3,7 +3,7 @@
   "name": "Sepia Lithophane",
   "color_hex": "#D8BA64",
   "traits": {
-    "industrially_compostable": true,
-    "lithophane": true
+    "lithophane": true,
+    "industrially_compostable": true
   }
 }

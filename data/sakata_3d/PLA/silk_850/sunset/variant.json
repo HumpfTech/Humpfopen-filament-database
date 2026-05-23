@@ -3,7 +3,7 @@
   "name": "Sunset",
   "color_hex": "#FFB031",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

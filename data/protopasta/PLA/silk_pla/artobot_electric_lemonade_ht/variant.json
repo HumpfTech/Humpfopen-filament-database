@@ -3,8 +3,8 @@
   "name": "Artobot Electric Lemonade HT",
   "color_hex": "#FBE200",
   "traits": {
+    "silk": true,
     "industrially_compostable": true,
-    "high_temperature": true,
-    "silk": true
+    "high_temperature": true
   }
 }

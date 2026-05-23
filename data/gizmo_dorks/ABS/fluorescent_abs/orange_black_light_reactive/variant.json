@@ -3,7 +3,7 @@
   "name": "Orange (Black Light Reactive)",
   "color_hex": "#FF5F2E",
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

@@ -6,8 +6,8 @@
     "#C63DBA"
   ],
   "traits": {
-    "industrially_compostable": true,
     "silk": true,
-    "coextruded": true
+    "coextruded": true,
+    "industrially_compostable": true
   }
 }

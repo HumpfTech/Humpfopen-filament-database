@@ -3,7 +3,7 @@
   "name": "Wood",
   "color_hex": "#C7A071",
   "traits": {
-    "contains_wood": true,
-    "imitates_wood": true
+    "imitates_wood": true,
+    "contains_wood": true
   }
 }

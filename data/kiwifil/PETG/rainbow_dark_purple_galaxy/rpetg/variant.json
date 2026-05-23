@@ -6,7 +6,7 @@
     "#6C47B2"
   ],
   "traits": {
-    "recycled": true,
-    "gradual_color_change": true
+    "gradual_color_change": true,
+    "recycled": true
   }
 }

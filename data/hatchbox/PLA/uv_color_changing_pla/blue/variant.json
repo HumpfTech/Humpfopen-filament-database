@@ -6,7 +6,7 @@
     "#617FCC"
   ],
   "traits": {
-    "industrially_compostable": true,
-    "illuminescent_color_change": true
+    "illuminescent_color_change": true,
+    "industrially_compostable": true
   }
 }

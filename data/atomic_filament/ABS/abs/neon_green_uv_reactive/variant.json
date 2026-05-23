@@ -3,7 +3,7 @@
   "name": "Neon Green UV Reactive",
   "color_hex": "#58C91B",
   "traits": {
-    "filtration_recommended": true,
-    "neon": true
+    "neon": true,
+    "filtration_recommended": true
   }
 }

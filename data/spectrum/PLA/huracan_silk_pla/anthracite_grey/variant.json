@@ -3,7 +3,7 @@
   "name": "Anthracite Grey",
   "color_hex": "#3F4647",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

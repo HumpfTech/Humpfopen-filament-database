@@ -3,7 +3,7 @@
   "name": "Ultem 1010 Black",
   "color_hex": "#000000",
   "traits": {
-    "esd_safe": true,
-    "low_outgassing": true
+    "low_outgassing": true,
+    "esd_safe": true
   }
 }

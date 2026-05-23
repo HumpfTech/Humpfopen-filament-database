@@ -3,7 +3,7 @@
   "name": "Offshore Mist",
   "color_hex": "#5A7D5A",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

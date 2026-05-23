@@ -3,7 +3,7 @@
   "name": "Twilight",
   "color_hex": "#005DA4",
   "traits": {
-    "industrially_compostable": true,
-    "iridescent": true
+    "iridescent": true,
+    "industrially_compostable": true
   }
 }

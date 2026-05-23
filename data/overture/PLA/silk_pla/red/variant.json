@@ -3,7 +3,7 @@
   "name": "Red",
   "color_hex": "#FC496D",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

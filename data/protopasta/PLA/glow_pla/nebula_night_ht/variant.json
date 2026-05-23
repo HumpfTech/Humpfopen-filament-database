@@ -8,11 +8,11 @@
   ],
   "traits": {
     "translucent": true,
-    "glow": true,
-    "industrially_compostable": true,
-    "high_temperature": true,
     "glitter": true,
     "neon": true,
-    "gradual_color_change": true
+    "glow": true,
+    "gradual_color_change": true,
+    "industrially_compostable": true,
+    "high_temperature": true
   }
 }

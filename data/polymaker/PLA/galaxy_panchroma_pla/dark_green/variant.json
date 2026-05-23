@@ -3,7 +3,7 @@
   "name": "Dark Green",
   "color_hex": "#1E606C",
   "traits": {
-    "industrially_compostable": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

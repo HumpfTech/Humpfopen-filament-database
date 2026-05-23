@@ -4,8 +4,8 @@
   "color_hex": "#1E5A4F",
   "traits": {
     "translucent": true,
+    "glitter": true,
     "industrially_compostable": true,
-    "high_temperature": true,
-    "glitter": true
+    "high_temperature": true
   }
 }

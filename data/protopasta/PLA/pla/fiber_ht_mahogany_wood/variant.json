@@ -3,9 +3,9 @@
   "name": "Fiber HT - Mahogany Wood",
   "color_hex": "#A35A4B",
   "traits": {
+    "imitates_wood": true,
     "industrially_compostable": true,
     "high_temperature": true,
-    "contains_wood": true,
-    "imitates_wood": true
+    "contains_wood": true
   }
 }

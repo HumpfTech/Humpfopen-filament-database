@@ -3,7 +3,7 @@
   "name": "Akvamarin",
   "color_hex": "#c5eece",
   "traits": {
-    "recyclable": true,
-    "silk": true
+    "silk": true,
+    "recyclable": true
   }
 }

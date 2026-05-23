@@ -3,7 +3,7 @@
   "name": "Dark Red",
   "color_hex": "#7A341C",
   "traits": {
-    "industrially_compostable": true,
-    "glitter": true
+    "glitter": true,
+    "industrially_compostable": true
   }
 }

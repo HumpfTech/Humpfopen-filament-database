@@ -3,7 +3,7 @@
   "name": "SILVER",
   "color_hex": "#C5C5BF",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

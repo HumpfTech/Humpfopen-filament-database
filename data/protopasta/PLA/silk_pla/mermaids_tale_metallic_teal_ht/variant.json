@@ -3,10 +3,10 @@
   "name": "Mermaid's Tale Metallic Teal HT",
   "color_hex": "#3292B2",
   "traits": {
-    "industrially_compostable": true,
-    "high_temperature": true,
     "silk": true,
+    "glitter": true,
     "iridescent": true,
-    "glitter": true
+    "industrially_compostable": true,
+    "high_temperature": true
   }
 }

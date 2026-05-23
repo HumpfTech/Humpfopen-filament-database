@@ -3,7 +3,7 @@
   "name": "Vine Leaf Green",
   "color_hex": "#67D8BC",
   "traits": {
-    "industrially_compostable": true,
-    "silk": true
+    "silk": true,
+    "industrially_compostable": true
   }
 }

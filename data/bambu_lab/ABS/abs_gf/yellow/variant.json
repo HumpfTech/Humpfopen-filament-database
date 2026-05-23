@@ -3,8 +3,8 @@
   "name": "Yellow",
   "color_hex": "#FFE133",
   "traits": {
-    "filtration_recommended": true,
     "abrasive": true,
+    "filtration_recommended": true,
     "contains_glass_fiber": true
   }
 }

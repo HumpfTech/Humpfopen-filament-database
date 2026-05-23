@@ -3,7 +3,7 @@
   "name": "Galaxy Purple",
   "color_hex": "#6C5BB1",
   "traits": {
-    "filtration_recommended": true,
-    "glitter": true
+    "glitter": true,
+    "filtration_recommended": true
   }
 }

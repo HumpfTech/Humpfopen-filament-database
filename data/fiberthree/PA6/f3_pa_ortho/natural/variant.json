@@ -3,7 +3,7 @@
   "name": "Natural",
   "color_hex": "#F2EFE9",
   "traits": {
-    "biocompatible": true,
-    "transparent": true
+    "transparent": true,
+    "biocompatible": true
   }
 }
