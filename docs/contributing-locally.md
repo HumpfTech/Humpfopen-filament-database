@@ -1,6 +1,6 @@
 # Contributing from a Local Clone
 
-Most contributors don't need this guide — the [hosted web editor](http://ofd-webui-vv73c.ondigitalocean.app/) lets you add or fix data straight from the browser and opens the pull request for you. See the main [README](../README.md) and the [WebUI guide](webui.md) for that route.
+Most contributors don't need this guide — the [hosted web editor](http://openfilamentdatabase.org/) lets you add or fix data straight from the browser and opens the pull request for you. See the main [README](../README.md) and the [WebUI guide](webui.md) for that route.
 
 This document is for contributors who want to work from a local clone instead — for offline editing, running the Python validator against your own data, bulk imports, or developing the WebUI itself.
 

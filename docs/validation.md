@@ -2,7 +2,7 @@
 To ensure all your files are correct, you can validate them using either the WebUI (recommended) or the command-line tooling.
 
 ## Option 1: Validate Using the WebUI (Recommended)
-The easiest way to validate your changes is directly in the WebUI — either the hosted instance at <http://ofd-webui-vv73c.ondigitalocean.app/> (no setup) or a local copy:
+The easiest way to validate your changes is directly in the WebUI — either the hosted instance at <http://openfilamentdatabase.org/> (no setup) or a local copy:
 
 1. While editing in the WebUI, validation runs automatically in the background
 2. Look for the "Validation" dropdown in the top-right corner

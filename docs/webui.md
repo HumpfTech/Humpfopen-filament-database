@@ -21,7 +21,7 @@ The WebUI is a SvelteKit web application for browsing and editing the Open Filam
 
 Most contributors don't need to install anything. The hosted instance runs the WebUI in **cloud mode** and is available at:
 
-👉 **<http://ofd-webui-vv73c.ondigitalocean.app/>**
+👉 **<http://openfilamentdatabase.org/>**
 
 Sign in with your GitHub account and any edits you make are tracked in your browser and submitted as a pull request when you're ready. Anonymous submissions are also supported when enabled — see [Cloud Mode](#cloud-mode-cloud) and [GitHub Integration](#github-integration) for details.
 

@@ -19,7 +19,7 @@ The data is free to use under MIT — slicers, print farm software, NFC spool ta
 
 The fastest way to add, fix, or correct data is the cloud editor — no install required:
 
-> 👉 **<http://ofd-webui-vv73c.ondigitalocean.app/>**
+> 👉 **<http://openfilamentdatabase.org/>**
 
 Browse brands → materials → filaments → variants → sizes, edit fields, upload logos, and submit your changes as a pull request straight from the browser. The editor validates schema, logos, and store references in-page before submitting, so most mistakes are caught up front.
 
