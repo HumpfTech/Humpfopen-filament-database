@@ -18,6 +18,11 @@
             "generic_id": "GFB99",
             "id": "GFB99",
             "profile_name": "PolyLite ABS"
+        },
+        "crealityprint": {
+            "profile_name": "PolyLite ABS",
+            "id": "GFB60",
+            "generic_id": "GFB99"
         }
     }
 }

@@ -2,5 +2,12 @@
     "id": "pla",
     "name": "PLA",
     "diameter_tolerance": 0.02,
-    "density": 1.23
+    "density": 1.23,
+    "slicer_settings": {
+        "crealityprint": {
+            "profile_name": "PolySonic PLA",
+            "id": "P1004",
+            "generic_id": "GFL99"
+        }
+    }
 }

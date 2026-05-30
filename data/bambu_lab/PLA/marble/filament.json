@@ -20,6 +20,11 @@
             "generic_id": "GFL99",
             "id": "GFA07",
             "profile_name": "Bambu PLA Marble"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PLA Marble",
+            "id": "GFA07",
+            "generic_id": "GFL99"
         }
     }
 }

@@ -22,6 +22,10 @@
         "elegooslicer": {
             "id": "GFS98",
             "profile_name": "Prusament PVB"
+        },
+        "crealityprint": {
+            "profile_name": "Prusament PVB",
+            "id": "GFS99"
         }
     }
 }

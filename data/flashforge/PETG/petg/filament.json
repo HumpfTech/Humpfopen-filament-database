@@ -17,6 +17,11 @@
             "generic_id": "GFG99",
             "id": "FFF03",
             "profile_name": "Flashforge PETG"
+        },
+        "crealityprint": {
+            "profile_name": "Flashforge PETG",
+            "id": "GFG99",
+            "generic_id": "GFG99"
         }
     }
 }

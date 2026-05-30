@@ -20,6 +20,11 @@
             "generic_id": "GFC99",
             "id": "GFC98",
             "profile_name": "Prusament PC-CF"
+        },
+        "crealityprint": {
+            "profile_name": "Prusament PC-CF",
+            "id": "GFL99_1",
+            "generic_id": "GFC99"
         }
     }
 }

@@ -17,6 +17,11 @@
             "generic_id": "GFL99",
             "id": "OGFL05",
             "profile_name": "eSUN PLA-Matte"
+        },
+        "crealityprint": {
+            "profile_name": "eSUN PLA-Matte",
+            "id": "E1003",
+            "generic_id": "GFL99"
         }
     }
 }

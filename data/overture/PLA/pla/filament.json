@@ -28,6 +28,11 @@
             "generic_id": "GFL99",
             "id": "GFB99",
             "profile_name": "Overture PLA"
+        },
+        "crealityprint": {
+            "profile_name": "Overture PLA",
+            "id": "GFL04",
+            "generic_id": "GFL99"
         }
     }
 }
