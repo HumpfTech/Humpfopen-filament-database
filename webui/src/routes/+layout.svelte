@@ -1,6 +1,5 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import { ChangesMenu, Footer, WelcomeModal, DebugOverlay } from '$lib/components/layout';
 	import { Button, SearchBar } from '$lib/components/ui';
 	import { isCloudMode } from '$lib/stores/environment';
@@ -65,8 +64,6 @@
 </script>
 
 <svelte:window onclick={handleClickOutside} onkeydown={(e) => { if (e.key === 'Escape' && themeMenuOpen) themeMenuOpen = false; }} />
-
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <div class="flex min-h-screen flex-col">
 	<!-- Header -->
