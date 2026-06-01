@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import type { Brand } from '$lib/types/database';
 	import { db } from '$lib/services/database';
-	import { Modal, MessageBanner, Button, LoadingSpinner, SearchBar } from '$lib/components/ui';
+	import { Modal, MessageBanner, Button, LoadingSpinner } from '$lib/components/ui';
 	import { BrandForm } from '$lib/components/forms';
 	import { DataDisplay } from '$lib/components/layout';
 	import { EntityCard } from '$lib/components/entity';
@@ -30,7 +30,6 @@
 	let loading: boolean = $state(true);
 	let error: string | null = $state(null);
 	let schema: any = $state(null);
-	let searchQuery: string = $state('');
 
 	let displayBrands = $derived.by(() => withDeletedStubs({
 		changes: $changes,
@@ -41,15 +40,6 @@
 		getKeys: (b) => [b.id, b.slug],
 		buildStub: (id, name) => ({ id, slug: id, name, logo: '', website: '', origin: '' } as Brand)
 	}));
-
-	let filteredBrands = $derived.by(() => {
-		const q = searchQuery.toLowerCase().trim();
-		if (!q) return displayBrands;
-		return displayBrands.filter((b) => {
-			const fields = [b.name, b.id, b.slug, b.origin, b.website].filter(Boolean);
-			return fields.some((f) => f!.toLowerCase().includes(q));
-		});
-	});
 
 	const messageHandler = createMessageHandler();
 
@@ -227,23 +217,8 @@
 
 	<DataDisplay {loading} {error} data={displayBrands}>
 		{#snippet children(brandsList)}
-			<div class="mb-4">
-				<SearchBar
-					value={searchQuery}
-					placeholder="Search brands by name, origin, website..."
-					oninput={(v) => searchQuery = v}
-				/>
-				{#if searchQuery}
-					<p class="text-xs text-muted-foreground mt-1">
-						{filteredBrands.length} of {brandsList.length} brands shown
-					</p>
-				{/if}
-			</div>
-			{#if searchQuery && filteredBrands.length === 0}
-				<p class="text-muted-foreground">No brands matching "{searchQuery}"</p>
-			{:else}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{#each filteredBrands as brand}
+				{#each brandsList as brand}
 					{@const brandPath = `brands/${brand.slug ?? brand.id}`}
 					{@const changeProps = getChildChangeProps($changes, $useChangeTracking, brandPath, submittedStore)}
 					<EntityCard
@@ -268,7 +243,6 @@
 					/>
 				{/each}
 			</div>
-			{/if}
 		{/snippet}
 	</DataDisplay>
 </div>

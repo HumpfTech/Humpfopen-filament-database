@@ -357,6 +357,7 @@ def export_api(
         "store_logos": "stores/logo/index.json",
         "badges": "badges/",
         "all": "../json/all.json",
+        "search_index": "search-index.json",
     }
     if schemas_count > 0:
         endpoints["schemas"] = "schemas/index.json"
@@ -378,6 +379,19 @@ def export_api(
     }
     write_json(api_path / "index.json", index)
     print(f"  Written: {api_path / 'index.json'}")
+
+    # Flat global search index (brands + stores + materials + filaments)
+    from .search_index_exporter import export_search_index
+
+    search_count = export_search_index(
+        db,
+        api_path,
+        version,
+        generated_at,
+        brand_logo_id_mapping,
+        store_logo_id_mapping,
+    )
+    print(f"  Written: {api_path / 'search-index.json'} ({search_count} records)")
 
     # Brands index
     brands_path = api_path / "brands"

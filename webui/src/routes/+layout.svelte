@@ -2,12 +2,14 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { ChangesMenu, Footer, WelcomeModal, DebugOverlay } from '$lib/components/layout';
-	import { Button } from '$lib/components/ui';
+	import { Button, SearchBar } from '$lib/components/ui';
 	import { isCloudMode } from '$lib/stores/environment';
 	import { authStore } from '$lib/stores/auth';
 	import { theme } from '$lib/stores/theme';
 	import { db } from '$lib/services/database';
+	import { clearSearchCache } from '$lib/services/searchIndex';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { loadTraitConfig } from '$lib/config/traitConfig';
@@ -17,6 +19,20 @@
 
 	let refreshing = $state(false);
 	let themeMenuOpen = $state(false);
+	let headerQuery = $state('');
+
+	// Reflect the active query when on the search page (so the box shows ?q=).
+	$effect(() => {
+		if ($page.url.pathname === '/search') {
+			headerQuery = $page.url.searchParams.get('q') ?? '';
+		}
+	});
+
+	function submitSearch(q: string) {
+		const trimmed = q.trim();
+		if (!trimmed) return;
+		goto(`/search?q=${encodeURIComponent(trimmed)}`, { keepFocus: true });
+	}
 
 	onMount(() => {
 		if (get(isCloudMode)) {
@@ -29,8 +45,9 @@
 
 	function handleRefresh() {
 		refreshing = true;
-		// Clear the database cache
+		// Clear cached data
 		db.clearCache();
+		clearSearchCache();
 		// Reload the current page
 		window.location.reload();
 	}
@@ -54,9 +71,9 @@
 <div class="flex min-h-screen flex-col">
 	<!-- Header -->
 	<header class="border-b bg-background">
-		<div class="container mx-auto flex items-center justify-between px-6 py-4">
+		<div class="container mx-auto flex items-center gap-4 px-6 py-4">
 			<!-- Left: App title and navigation -->
-			<div class="flex items-center gap-8">
+			<div class="flex shrink-0 items-center gap-8">
 				<a href="/" class="text-lg font-bold tracking-tight text-foreground transition-colors hover:text-muted-foreground">
 					Filament Database
 				</a>
@@ -82,8 +99,20 @@
 					</a>
 				</nav>
 			</div>
+			<!-- Center: Global search -->
+			<div class="flex min-w-0 flex-1 justify-center px-2">
+				<div class="w-full max-w-md">
+					<SearchBar
+						value={headerQuery}
+						placeholder="Search filaments, brands…"
+						captureKeystrokes={false}
+						oninput={(v) => (headerQuery = v)}
+						onEnter={submitSearch}
+					/>
+				</div>
+			</div>
 			<!-- Right: Action buttons -->
-			<div class="flex items-center gap-2">
+			<div class="flex shrink-0 items-center gap-2">
 				<!-- Theme dropdown menu -->
 				<div class="theme-menu relative">
 					<Button

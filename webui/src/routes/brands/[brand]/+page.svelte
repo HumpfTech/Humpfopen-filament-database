@@ -40,7 +40,6 @@
 	let showCreateMaterialModal: boolean = $state(false);
 	let creatingMaterial: boolean = $state(false);
 	let createMaterialError: string | null = $state(null);
-	let materialSearch: string = $state('');
 	let duplicateBrandError: string | null = $state(null);
 	let prefillMaterialData: Material | null = $state(null);
 
@@ -54,15 +53,6 @@
 		getKeys: (m) => [m.id, m.materialType, m.material?.toLowerCase()],
 		buildStub: (id, name) => ({ id, materialType: id, material: name } as unknown as Material)
 	}));
-
-	let filteredMaterials = $derived.by(() => {
-		const q = materialSearch.toLowerCase().trim();
-		if (!q) return displayMaterials;
-		return displayMaterials.filter((m) => {
-			const fields = [m.material, m.materialType, m.material_class, m.id].filter(Boolean);
-			return fields.some((f) => String(f).toLowerCase().includes(q));
-		});
-	});
 
 	const messageHandler = createMessageHandler();
 
@@ -431,14 +421,10 @@
 					onAdd={openCreateMaterialModal}
 					itemCount={displayMaterials.length}
 					emptyMessage="No materials found for this brand."
-					searchQuery={materialSearch}
-					onSearch={(v) => materialSearch = v}
-					searchPlaceholder="Search materials..."
-					filteredCount={filteredMaterials.length}
 					childEntityType="material"
 					onPaste={materialPaste}
 				>
-					{#each filteredMaterials as material}
+					{#each displayMaterials as material}
 						{@const materialHref = `/brands/${brandData.slug ?? brandData.id}/${material.materialType ?? material.material.toLowerCase()}`}
 						{@const materialPath = `brands/${brandId}/materials/${material.materialType ?? material.material.toLowerCase()}`}
 						{@const changeProps = getChildChangeProps($changes, $useChangeTracking, materialPath, submittedStore)}

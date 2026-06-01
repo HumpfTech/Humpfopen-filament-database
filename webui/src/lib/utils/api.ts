@@ -13,6 +13,14 @@ import { apiCache, getTTLForPath, isCacheEnabled } from './cache';
 export function buildApiUrl(path: string): string {
 	const baseUrl = get(apiBaseUrl);
 
+	// The global search index is always served by our own /api/search-index
+	// endpoint (relative). In cloud mode that endpoint serves the dedicated CDN
+	// file, falling back to building a lean index from json/all.json, so the
+	// browser always gets the small envelope from the same origin.
+	if (path === '/api/search-index') {
+		return path;
+	}
+
 	if (get(isLocalMode)) {
 		// Local mode uses relative paths to local API endpoints
 		return path;

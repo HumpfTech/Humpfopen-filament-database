@@ -5,6 +5,8 @@
 		value: string;
 		placeholder?: string;
 		oninput: (value: string) => void;
+		/** Called when the user presses Enter (e.g. to submit a global search) */
+		onEnter?: (value: string) => void;
 		/** If true, typing anywhere on the page will focus this search bar */
 		captureKeystrokes?: boolean;
 	}
@@ -13,6 +15,7 @@
 		value,
 		placeholder = 'Search...',
 		oninput,
+		onEnter,
 		captureKeystrokes = true
 	}: Props = $props();
 
@@ -82,6 +85,7 @@
 		{value}
 		{placeholder}
 		oninput={(e) => oninput(e.currentTarget.value)}
+		onkeydown={(e) => { if (e.key === 'Enter' && onEnter) { e.preventDefault(); onEnter(e.currentTarget.value); } }}
 		class="w-full pl-9 pr-8 py-2 text-sm rounded-md border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 	/>
 	{#if value}
