@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import type { Store } from '$lib/types/database';
 	import { db } from '$lib/services/database';
-	import { Modal, MessageBanner, Button, LoadingSpinner, SearchBar } from '$lib/components/ui';
+	import { Modal, MessageBanner, Button, LoadingSpinner } from '$lib/components/ui';
 	import { StoreForm } from '$lib/components/forms';
 	import { DataDisplay } from '$lib/components/layout';
 	import { EntityCard } from '$lib/components/entity';
@@ -27,7 +27,6 @@
 	let loading: boolean = $state(true);
 	let error: string | null = $state(null);
 	let schema: any = $state(null);
-	let searchQuery: string = $state('');
 
 	let displayStores = $derived.by(() => withDeletedStubs({
 		changes: $changes,
@@ -38,17 +37,6 @@
 		getKeys: (s) => [s.id, s.slug],
 		buildStub: (id, name) => ({ id, slug: id, name, logo: '', storefront_url: '', ships_from: [], ships_to: [] } as Store)
 	}));
-
-	let filteredStores = $derived.by(() => {
-		const q = searchQuery.toLowerCase().trim();
-		if (!q) return displayStores;
-		return displayStores.filter((s) => {
-			const shipsFrom = Array.isArray(s.ships_from) ? s.ships_from.join(' ') : (s.ships_from ?? '');
-			const shipsTo = Array.isArray(s.ships_to) ? s.ships_to.join(' ') : (s.ships_to ?? '');
-			const fields = [s.name, s.id, s.slug, s.storefront_url, shipsFrom, shipsTo].filter(Boolean);
-			return fields.some((f) => f!.toLowerCase().includes(q));
-		});
-	});
 
 	const messageHandler = createMessageHandler();
 
@@ -219,23 +207,8 @@
 
 	<DataDisplay {loading} {error} data={displayStores}>
 		{#snippet children(storesList)}
-			<div class="mb-4">
-				<SearchBar
-					value={searchQuery}
-					placeholder="Search stores by name, shipping region..."
-					oninput={(v) => searchQuery = v}
-				/>
-				{#if searchQuery}
-					<p class="text-xs text-muted-foreground mt-1">
-						{filteredStores.length} of {storesList.length} stores shown
-					</p>
-				{/if}
-			</div>
-			{#if searchQuery && filteredStores.length === 0}
-				<p class="text-muted-foreground">No stores matching "{searchQuery}"</p>
-			{:else}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{#each filteredStores as store}
+				{#each storesList as store}
 					{@const storePath = `stores/${store.slug ?? store.id}`}
 					{@const changeProps = getChildChangeProps($changes, $useChangeTracking, storePath, submittedStore)}
 					<EntityCard
@@ -264,7 +237,6 @@
 					/>
 				{/each}
 			</div>
-			{/if}
 		{/snippet}
 	</DataDisplay>
 </div>

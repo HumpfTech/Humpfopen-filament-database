@@ -48,7 +48,16 @@ import type { EntityType } from '$lib/types/changes';
  *  These map to supplementary files that are stored separately on disk. */
 const SUPPLEMENTARY_KEYS: Partial<Record<EntityType, string[]>> = {
 	variant: ['sizes'],
-	material: ['id', 'materialType']
+	material: ['id', 'materialType'],
+	// Cloud-loaded stores/brands carry their repo-format identifiers in fields
+	// that the JSON schema doesn't define: `slug` (the on-disk folder id) and
+	// `logo_name` (the on-disk `logo.<ext>` filename); `logo_slug` is the CDN
+	// alias. cleanEntityData() rebuilds the repo `id` from `slug` and `logo`
+	// from `logo_name` when writing/validating. If filterToSchema strips these
+	// first, the cloud UUID `id` and CDN `logo_slug` leak into the saved change
+	// and fail schema validation (id pattern + logo pattern + folder-name check).
+	store: ['slug', 'logo_name', 'logo_slug'],
+	brand: ['slug', 'logo_name', 'logo_slug']
 };
 
 /** Cached sets of allowed property keys per entity type */

@@ -13,7 +13,7 @@
 	import { createCopyAction, createDuplicateAction, createPasteHandler } from '$lib/utils/useEntityActions.svelte';
 	import { saveLogoImage } from '$lib/utils/logoManagement';
 	import { db } from '$lib/services/database';
-	import { deleteEntity, generateMaterialType, generateSlug } from '$lib/services/entityService';
+	import { deleteEntity, generateMaterialType, generateSlug, mergeEntityData } from '$lib/services/entityService';
 	import { fetchEntitySchema } from '$lib/services/schemaService';
 	import { untrack } from 'svelte';
 	import { changes } from '$lib/stores/changes';
@@ -40,7 +40,6 @@
 	let showCreateMaterialModal: boolean = $state(false);
 	let creatingMaterial: boolean = $state(false);
 	let createMaterialError: string | null = $state(null);
-	let materialSearch: string = $state('');
 	let duplicateBrandError: string | null = $state(null);
 	let prefillMaterialData: Material | null = $state(null);
 
@@ -54,15 +53,6 @@
 		getKeys: (m) => [m.id, m.materialType, m.material?.toLowerCase()],
 		buildStub: (id, name) => ({ id, materialType: id, material: name } as unknown as Material)
 	}));
-
-	let filteredMaterials = $derived.by(() => {
-		const q = materialSearch.toLowerCase().trim();
-		if (!q) return displayMaterials;
-		return displayMaterials.filter((m) => {
-			const fields = [m.material, m.materialType, m.material_class, m.id].filter(Boolean);
-			return fields.some((f) => String(f).toLowerCase().includes(q));
-		});
-	});
 
 	const messageHandler = createMessageHandler();
 
@@ -177,12 +167,18 @@
 				logoFilename = savedPath;
 			}
 
-			const updatedBrand = {
-				...data,
-				id: brand.id,
-				slug: brand.slug || brandId,
-				logo: logoFilename
-			};
+			// Spread the original brand first (via mergeEntityData) so cloud-origin
+			// fields the form never emits — notably `logo_name`/`logo_slug` — survive
+			// into the tracked change. cleanEntityData rebuilds the schema-valid `logo`
+			// from `logo_name`; without it, editing any other field (e.g. the URL)
+			// would leave the cloud CDN logo ref in place and trip logo-pattern
+			// validation. Mirrors the store edit path.
+			const updatedBrand = mergeEntityData(
+				brand as unknown as Record<string, unknown>,
+				{ ...data, logo: logoFilename },
+				['id', 'slug']
+			) as unknown as Brand;
+			if (!updatedBrand.slug) updatedBrand.slug = brandId;
 
 			const success = await db.saveBrand(updatedBrand, originalBrand ?? brand);
 
@@ -425,14 +421,10 @@
 					onAdd={openCreateMaterialModal}
 					itemCount={displayMaterials.length}
 					emptyMessage="No materials found for this brand."
-					searchQuery={materialSearch}
-					onSearch={(v) => materialSearch = v}
-					searchPlaceholder="Search materials..."
-					filteredCount={filteredMaterials.length}
 					childEntityType="material"
 					onPaste={materialPaste}
 				>
-					{#each filteredMaterials as material}
+					{#each displayMaterials as material}
 						{@const materialHref = `/brands/${brandData.slug ?? brandData.id}/${material.materialType ?? material.material.toLowerCase()}`}
 						{@const materialPath = `brands/${brandId}/materials/${material.materialType ?? material.material.toLowerCase()}`}
 						{@const changeProps = getChildChangeProps($changes, $useChangeTracking, materialPath, submittedStore)}

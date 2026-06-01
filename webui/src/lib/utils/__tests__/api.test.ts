@@ -162,6 +162,20 @@ describe('API Utils', () => {
 					'https://api.example.com/api/v1/schemas/store_schema.json'
 				);
 			});
+
+			it('keeps /api/search-index relative (served by our own endpoint)', () => {
+				// Cloud mode still routes through our endpoint, which serves the CDN
+				// file or builds a lean index from all.json.
+				expect(buildApiUrl('/api/search-index')).toBe('/api/search-index');
+			});
+		});
+
+		describe('Local mode search index', () => {
+			it('should keep /api/search-index relative', () => {
+				envMocks.mockIsLocalMode.set(true);
+				envMocks.mockApiBaseUrl.set('');
+				expect(buildApiUrl('/api/search-index')).toBe('/api/search-index');
+			});
 		});
 	});
 
