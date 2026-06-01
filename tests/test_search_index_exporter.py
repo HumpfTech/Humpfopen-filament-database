@@ -2,17 +2,23 @@
 
 import json
 
-from ofd.builder.models import Database
 from ofd.builder.exporters.search_index_exporter import (
     build_search_records,
     export_search_index,
 )
+from ofd.builder.models import Database
 
 
 def make_db() -> Database:
     db = Database()
     db.brands = [
-        {"id": "b1", "name": "Bambu Lab", "slug": "bambu_lab", "origin": "CN", "website": "https://bambulab.com"},
+        {
+            "id": "b1",
+            "name": "Bambu Lab",
+            "slug": "bambu_lab",
+            "origin": "CN",
+            "website": "https://bambulab.com",
+        },
         # Divergent case: directory "3deksperten" but brand.json name "3DE" → slug "3de".
         {"id": "b2", "name": "3DE", "slug": "3de", "origin": "DK"},
     ]

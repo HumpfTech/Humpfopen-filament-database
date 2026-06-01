@@ -203,7 +203,10 @@ function originalPath(change: EntityChange): string | null {
 		case 'store':
 			return `stores/${o.slug ?? o.id ?? ep.storeId}`;
 		case 'material': {
-			const mt = (o.materialType ?? o.material ?? ep.materialType).toString().toUpperCase();
+			// Keep the original casing — paths are matched case-insensitively below,
+			// since material segments are uppercase on disk (local) but lowercase
+			// slugs in the cloud index.
+			const mt = (o.materialType ?? o.material ?? ep.materialType).toString();
 			return `brands/${ep.brandId}/materials/${mt}`;
 		}
 		case 'filament':
@@ -214,10 +217,9 @@ function originalPath(change: EntityChange): string | null {
 }
 
 function deleteWithDescendants(map: Map<string, SearchRecord>, path: string): void {
-	map.delete(path);
-	const prefix = `${path}/`;
+	const prefix = `${path.toLowerCase()}/`;
 	for (const key of map.keys()) {
-		if (key.startsWith(prefix)) map.delete(key);
+		if (key === path.toLowerCase() || key.startsWith(prefix)) map.delete(key);
 	}
 }
 
@@ -230,18 +232,22 @@ function applyChange(map: Map<string, SearchRecord>, change: EntityChange): void
 	}
 
 	// create / update
-	const brandNameFor = (slug: string) =>
-		map.get(`brands/${slug}`)?.brandName ?? map.get(`brands/${slug}`)?.name ?? slug;
+	const brandNameFor = (slug: string) => {
+		const b = map.get(`brands/${slug}`.toLowerCase());
+		return b?.brandName ?? b?.name ?? slug;
+	};
 	const record = recordFromChange(change, brandNameFor);
 	if (!record) return;
 
-	// Renames move the change-tree path; drop the now-stale base record at the old path.
+	// Renames move the change-tree path; drop the now-stale base record at the old
+	// path. Match case-insensitively, since the base record's material segment may
+	// be lowercase (cloud slug) while the change path is uppercase (local dir).
 	if (change.operation === 'update') {
 		const old = originalPath(change);
-		if (old && old !== change.entity.path) map.delete(old);
+		if (old && old.toLowerCase() !== record.path.toLowerCase()) map.delete(old.toLowerCase());
 	}
 
-	map.set(record.path, record);
+	map.set(record.path.toLowerCase(), record);
 }
 
 /**
@@ -256,8 +262,10 @@ export function layerChanges(
 ): SearchRecord[] {
 	if (pendingChanges.length === 0 && submittedChanges.length === 0) return base;
 
+	// Keyed by lowercased path so base records and staged changes dedupe even when
+	// their material segments differ in case (uppercase dir vs lowercase slug).
 	const map = new Map<string, SearchRecord>();
-	for (const r of base) map.set(r.path, r);
+	for (const r of base) map.set(r.path.toLowerCase(), r);
 
 	for (const c of submittedChanges) applyChange(map, c);
 	for (const c of pendingChanges) applyChange(map, c);

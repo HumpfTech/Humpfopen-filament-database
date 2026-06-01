@@ -17,12 +17,12 @@ import type { SearchRecord, SearchIndexFile } from '$lib/types/search';
  * In cloud mode this proxies to the CDN file for symmetry; the browser normally
  * fetches that file directly via apiFetch('/api/search-index').
  *
- * The base (on-disk) index is stable within a session — contributor edits are
- * staged client-side via the change stores and layered on top by the search
- * service — so we cache it for the lifetime of the server process.
+ * The local index is rebuilt per request (the client fetches it once per session
+ * and on explicit refresh) so on-disk changes — e.g. a `style_data`/sort run that
+ * rewrites files — are never served stale. The cloud aggregate is immutable per
+ * CDN build, so that one is cached.
  */
 
-let cache: SearchIndexFile | null = null;
 let cloudCache: SearchIndexFile | null = null;
 
 async function readJson(file: string): Promise<Record<string, any> | null> {
@@ -173,8 +173,7 @@ export async function GET() {
 		if (IS_CLOUD) {
 			return json(await getCloudIndex());
 		}
-		if (!cache) cache = await buildIndex();
-		return json(cache);
+		return json(await buildIndex());
 	} catch (error) {
 		console.error('Error building search index:', error);
 		return json({ count: 0, records: [] } satisfies SearchIndexFile, { status: 502 });

@@ -220,6 +220,44 @@ describe('layerChanges', () => {
 		const layered = layerChanges(ALL, [variant]);
 		expect(layered.some((r) => r.path.includes('/variants/'))).toBe(false);
 	});
+
+	// Cloud index paths are lowercase slugs; change paths can be uppercase (local
+	// dir). Layering must dedupe across that case difference — no stale duplicates.
+	const cloudMaterialBase: SearchRecord[] = [
+		{
+			type: 'material',
+			name: 'PLA',
+			href: '/brands/b/pla',
+			brandName: 'B',
+			brandSlug: 'b',
+			materialType: 'PLA',
+			path: 'brands/b/materials/pla'
+		}
+	];
+
+	it('removes the stale lowercase base record when a material is renamed', () => {
+		const rename = change(
+			'material',
+			'brands/b/materials/pla_plus',
+			'update',
+			{ material: 'PLA+' },
+			{ material: 'PLA', materialType: 'PLA' }
+		);
+		const layered = layerChanges(cloudMaterialBase, [rename]);
+		expect(layered.map((r) => r.path)).toEqual(['brands/b/materials/pla_plus']);
+	});
+
+	it('dedupes an in-place material edit whose change path differs only in case', () => {
+		const edit = change(
+			'material',
+			'brands/b/materials/PLA',
+			'update',
+			{ material: 'PLA' },
+			{ material: 'PLA', materialType: 'PLA' }
+		);
+		const layered = layerChanges(cloudMaterialBase, [edit]);
+		expect(layered).toHaveLength(1);
+	});
 });
 
 // --- loadSearchIndex ------------------------------------------------------
