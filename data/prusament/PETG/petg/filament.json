@@ -29,6 +29,11 @@
             "generic_id": "GFG99",
             "id": "GFT02",
             "profile_name": "Prusament PETG"
+        },
+        "crealityprint": {
+            "profile_name": "Prusament PETG",
+            "id": "GFL99_1",
+            "generic_id": "GFG99"
         }
     }
 }

@@ -20,6 +20,11 @@
             "generic_id": "GFL99",
             "id": "GFA00",
             "profile_name": "Bambu PLA Basic"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PLA Basic",
+            "id": "GFA00",
+            "generic_id": "GFL99"
         }
     }
 }

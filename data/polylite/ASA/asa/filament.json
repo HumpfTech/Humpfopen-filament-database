@@ -18,6 +18,11 @@
             "generic_id": "GFB98",
             "id": "GFB61",
             "profile_name": "PolyLite ASA"
+        },
+        "crealityprint": {
+            "profile_name": "PolyLite ASA",
+            "id": "GFB61",
+            "generic_id": "GFB98"
         }
     }
 }

@@ -16,6 +16,11 @@
             "generic_id": "GFL99",
             "id": "GFL99",
             "profile_name": "Prusament rPLA"
+        },
+        "crealityprint": {
+            "profile_name": "Prusament rPLA",
+            "id": "GFL99_1",
+            "generic_id": "GFL99"
         }
     }
 }

@@ -24,6 +24,11 @@
             "generic_id": "GFS99",
             "id": "GFS04",
             "profile_name": "Bambu PVA"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PVA",
+            "id": "GFS04",
+            "generic_id": "GFS99"
         }
     }
 }

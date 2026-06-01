@@ -23,6 +23,11 @@
             "generic_id": "GFG99",
             "id": "ESN03",
             "profile_name": "eSUN PETG"
+        },
+        "crealityprint": {
+            "profile_name": "eSUN PETG",
+            "id": "E2001",
+            "generic_id": "GFG99"
         }
     }
 }

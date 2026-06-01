@@ -22,6 +22,11 @@
             "generic_id": "GFL99",
             "id": "GFL05",
             "profile_name": "Overture Matte PLA"
+        },
+        "crealityprint": {
+            "profile_name": "Overture Matte PLA",
+            "id": "GFL05",
+            "generic_id": "GFL99"
         }
     }
 }

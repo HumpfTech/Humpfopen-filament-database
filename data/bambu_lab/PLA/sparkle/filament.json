@@ -20,6 +20,11 @@
             "generic_id": "GFL99",
             "id": "GFA08",
             "profile_name": "Bambu PLA Sparkle"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PLA Sparkle",
+            "id": "GFA08",
+            "generic_id": "GFL99"
         }
     }
 }

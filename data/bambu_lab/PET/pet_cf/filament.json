@@ -21,6 +21,10 @@
         "elegooslicer": {
             "id": "GFT01",
             "profile_name": "Bambu PET-CF"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PET-CF",
+            "id": "GFT01"
         }
     }
 }

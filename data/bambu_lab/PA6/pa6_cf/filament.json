@@ -21,6 +21,10 @@
         "elegooslicer": {
             "id": "GFN05",
             "profile_name": "Bambu PA6-CF"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PA6-CF",
+            "id": "GFN05"
         }
     }
 }

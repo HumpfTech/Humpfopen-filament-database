@@ -17,6 +17,11 @@
             "generic_id": "GFB99",
             "id": "FFF02",
             "profile_name": "Flashforge ABS"
+        },
+        "crealityprint": {
+            "profile_name": "Flashforge ABS",
+            "id": "GFB99",
+            "generic_id": "GFB99"
         }
     }
 }

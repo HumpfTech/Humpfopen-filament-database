@@ -24,6 +24,11 @@
             "generic_id": "GFL99",
             "id": "GFA01",
             "profile_name": "Bambu PLA Matte"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PLA Matte",
+            "id": "GFA01",
+            "generic_id": "GFL99"
         }
     }
 }

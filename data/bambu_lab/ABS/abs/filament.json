@@ -17,13 +17,18 @@
         },
         "orcaslicer": {
             "generic_id": "GFB99",
-            "id": "GFB00",
+            "id": "GFB99",
             "profile_name": "Bambu ABS"
         },
         "elegooslicer": {
             "generic_id": "GFB99",
-            "id": "GFB00",
+            "id": "GFB99",
             "profile_name": "Bambu ABS"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu ABS",
+            "id": "GFB00",
+            "generic_id": "GFB99"
         }
     }
 }

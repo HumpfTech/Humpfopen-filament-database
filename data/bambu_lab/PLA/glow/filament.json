@@ -24,6 +24,11 @@
             "generic_id": "GFL99",
             "id": "GFA12",
             "profile_name": "Bambu PLA Glow"
+        },
+        "crealityprint": {
+            "profile_name": "Bambu PLA Glow",
+            "id": "GFA12",
+            "generic_id": "GFL99"
         }
     }
 }

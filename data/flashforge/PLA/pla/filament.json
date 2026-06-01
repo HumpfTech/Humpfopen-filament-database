@@ -17,6 +17,11 @@
             "generic_id": "GFL99",
             "id": "FFF01",
             "profile_name": "Flashforge PLA"
+        },
+        "crealityprint": {
+            "profile_name": "Flashforge PLA",
+            "id": "GFL99",
+            "generic_id": "GFL99"
         }
     }
 }

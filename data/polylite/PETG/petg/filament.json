@@ -18,6 +18,11 @@
             "generic_id": "GFG99",
             "id": "GFG60",
             "profile_name": "PolyLite PETG"
+        },
+        "crealityprint": {
+            "profile_name": "PolyLite PETG",
+            "id": "GFG60",
+            "generic_id": "GFG99"
         }
     }
 }
