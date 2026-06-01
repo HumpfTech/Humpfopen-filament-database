@@ -316,4 +316,62 @@ describe('SUPPLEMENTARY_KEYS regression', () => {
 			expect(change!.data.bogus).toBeUndefined();
 		});
 	});
+
+	// Cloud-loaded stores/brands carry repo-format identifiers in non-schema
+	// fields (`slug`, `logo_name`, `logo_slug`). cleanEntityData() needs them to
+	// rebuild the on-disk `id`/`logo` before validation and PR export. If
+	// filterToSchema strips them, the cloud UUID `id` and CDN `logo_slug` leak
+	// into the saved change and fail schema validation.
+	describe('store/brand cloud-origin identifier fields', () => {
+		it('store: preserves slug, logo_name, logo_slug but still strips unknown fields', () => {
+			const entity = {
+				type: 'store' as const,
+				id: 'f78b7ee7-b60e-573d-a98e-f1531ca751b2',
+				path: 'stores/3d_eksperten'
+			};
+			const data = {
+				id: 'f78b7ee7-b60e-573d-a98e-f1531ca751b2', // cloud UUID
+				slug: '3d_eksperten',
+				name: '3D Eksperten',
+				storefront_url: 'https://3deksperten.dk/',
+				logo: 'a1b2c3.jpg', // cloud CDN alias (logo_slug)
+				logo_name: 'logo.jpg', // repo-format filename
+				logo_slug: 'a1b2c3',
+				bogus: 'gone'
+			};
+
+			changeStore.trackCreate(entity, data);
+
+			const change = getChangeAt(entity.path);
+			expect(change).toBeDefined();
+			expect(change!.data.slug).toBe('3d_eksperten');
+			expect(change!.data.logo_name).toBe('logo.jpg');
+			expect(change!.data.logo_slug).toBe('a1b2c3');
+			expect(change!.data.bogus).toBeUndefined();
+		});
+
+		it('brand: preserves slug, logo_name, logo_slug', () => {
+			const entity = {
+				type: 'brand' as const,
+				id: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
+				path: 'brands/acme'
+			};
+			const data = {
+				id: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
+				slug: 'acme',
+				name: 'Acme',
+				logo: 'deadbeef.png',
+				logo_name: 'logo.png',
+				logo_slug: 'deadbeef'
+			};
+
+			changeStore.trackCreate(entity, data);
+
+			const change = getChangeAt('brands/acme');
+			expect(change).toBeDefined();
+			expect(change!.data.slug).toBe('acme');
+			expect(change!.data.logo_name).toBe('logo.png');
+			expect(change!.data.logo_slug).toBe('deadbeef');
+		});
+	});
 });

@@ -174,8 +174,6 @@ function normalizeCloudVariant(variant: any, storeMap: Map<string, string>): any
 	const result = { ...variant };
 	if (result.slug) result.id = result.slug;
 
-	let anyLegacyRefill = false;
-
 	if (Array.isArray(result.sizes)) {
 		result.sizes = result.sizes.map((size: any) => {
 			if (!size || typeof size !== 'object') return size;
@@ -187,12 +185,10 @@ function normalizeCloudVariant(variant: any, storeMap: Map<string, string>): any
 			// gets added). OR across links — if any link was a refill, treat
 			// the size as a refill.
 			let migratedRefill = false;
-			let sawLegacyRefill = false;
 			if (Array.isArray(rest.purchase_links)) {
 				rest.purchase_links = rest.purchase_links.map((link: any) => {
 					if (!link || typeof link !== 'object') return link;
 					const { id: _lid, size_id: _sid, spool_refill: legacyRefill, ...linkRest } = link;
-					if (legacyRefill !== undefined) sawLegacyRefill = true;
 					if (legacyRefill === true) migratedRefill = true;
 					if (linkRest.store_id && storeMap.has(linkRest.store_id)) {
 						linkRest.store_id = storeMap.get(linkRest.store_id);
@@ -200,7 +196,6 @@ function normalizeCloudVariant(variant: any, storeMap: Map<string, string>): any
 					return linkRest;
 				});
 			}
-			if (sawLegacyRefill) anyLegacyRefill = true;
 			// Default size-level booleans the form always emits, so the baseline
 			// matches the form output for unchanged sizes.
 			if (rest.spool_refill === undefined) rest.spool_refill = migratedRefill;
@@ -208,10 +203,6 @@ function normalizeCloudVariant(variant: any, storeMap: Map<string, string>): any
 			return rest;
 		});
 	}
-
-	// Surface to the UI when legacy fields were migrated so users know why their
-	// next save will touch `sizes`. Stripped by filterToSchema before tracking.
-	if (anyLegacyRefill) result.__migratedSpoolRefill = true;
 
 	return result;
 }

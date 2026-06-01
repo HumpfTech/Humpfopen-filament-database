@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { useChangeTracking } from '$lib/stores/environment';
+	import { useChangeTracking, isCloudMode, apiBaseUrl } from '$lib/stores/environment';
 	import { changeStore } from '$lib/stores/changes';
 	import * as imageDb from '$lib/services/imageDb';
 
@@ -37,8 +37,20 @@
 			return indexedDbUrl;
 		}
 
-		// Always use the local endpoint — in cloud mode it proxies to the external API,
-		// keeping requests same-origin to avoid OpaqueResponseBlocking.
+		// In cloud mode, load straight from the CDN. It serves logos over HTTP/2,
+		// so dozens load in parallel instead of queueing behind the browser's
+		// ~6-connection-per-origin HTTP/1.1 limit on the local proxy — and with
+		// `access-control-allow-origin: *`, a long max-age, and Cloudflare edge
+		// caching. Routing every icon through the same-origin /api proxy serialized
+		// them and added a server→cloud round-trip each, which is what made all
+		// icons take a few seconds to appear. (Cross-origin <img> is unaffected by
+		// OpaqueResponseBlocking: the response is a real image/* with CORS `*`.)
+		// encodeURIComponent: logo filenames contain spaces and other unsafe chars.
+		if ($isCloudMode) {
+			return `${$apiBaseUrl}/api/v1/${type}s/logo/${encodeURIComponent(src)}`;
+		}
+
+		// Local mode: same-origin endpoint backed by the filesystem.
 		return `/api/${type}s/${id}/logo/${src}`;
 	});
 
@@ -110,6 +122,8 @@
 		src={logoUrl}
 		{alt}
 		class="object-contain {sizeClasses[size]}"
+		loading="lazy"
+		decoding="async"
 		onerror={handleError}
 	/>
 {/if}

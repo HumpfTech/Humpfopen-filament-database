@@ -327,7 +327,6 @@ describe('cloudProxy', () => {
 			const data = await response.json();
 			expect(data.sizes[0].spool_refill).toBe(true);
 			expect(data.sizes[0].purchase_links[0].spool_refill).toBeUndefined();
-			expect(data.__migratedSpoolRefill).toBe(true);
 		});
 
 		it('defaults spool_refill to false when no legacy field is present and size lacks it', async () => {
@@ -349,7 +348,6 @@ describe('cloudProxy', () => {
 			const response = await proxyGetToCloud(variantPath);
 			const data = await response.json();
 			expect(data.sizes[0].spool_refill).toBe(false);
-			expect(data.__migratedSpoolRefill).toBeUndefined();
 		});
 
 		it('defaults discontinued to false when not provided', async () => {

@@ -202,6 +202,29 @@ describe('saveUtils', () => {
 			const result = cleanEntityData(data);
 			expect(result).not.toHaveProperty('origin');
 		});
+
+		// A cloud-loaded store carries a UUID `id` and a CDN logo alias in `logo`;
+		// the repo-format identifiers live in `slug` and `logo_name`. With those
+		// fields present, cleanEntityData must rebuild a schema-valid id + logo and
+		// drop the cloud-only fields. (Regression: filterToSchema used to strip
+		// slug/logo_name before this ran, leaving the UUID id + bad logo behind.)
+		it('rebuilds store id from slug and logo from logo_name (cloud → repo)', () => {
+			const data = {
+				id: 'f78b7ee7-b60e-573d-a98e-f1531ca751b2',
+				slug: '3d_eksperten',
+				name: '3D Eksperten',
+				storefront_url: 'https://3deksperten.dk/',
+				logo: 'a1b2c3.jpg',
+				logo_name: 'logo.jpg',
+				logo_slug: 'a1b2c3'
+			};
+			const result = cleanEntityData(data, { schemaType: 'store' });
+			expect(result.id).toBe('3d_eksperten');
+			expect(result.logo).toBe('logo.jpg');
+			expect(result).not.toHaveProperty('slug');
+			expect(result).not.toHaveProperty('logo_name');
+			expect(result).not.toHaveProperty('logo_slug');
+		});
 	});
 
 	describe('STRIP_FIELDS', () => {

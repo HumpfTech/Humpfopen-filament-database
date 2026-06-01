@@ -13,7 +13,7 @@
 	import { createCopyAction, createDuplicateAction, createPasteHandler } from '$lib/utils/useEntityActions.svelte';
 	import { saveLogoImage } from '$lib/utils/logoManagement';
 	import { db } from '$lib/services/database';
-	import { deleteEntity, generateMaterialType, generateSlug } from '$lib/services/entityService';
+	import { deleteEntity, generateMaterialType, generateSlug, mergeEntityData } from '$lib/services/entityService';
 	import { fetchEntitySchema } from '$lib/services/schemaService';
 	import { untrack } from 'svelte';
 	import { changes } from '$lib/stores/changes';
@@ -177,12 +177,18 @@
 				logoFilename = savedPath;
 			}
 
-			const updatedBrand = {
-				...data,
-				id: brand.id,
-				slug: brand.slug || brandId,
-				logo: logoFilename
-			};
+			// Spread the original brand first (via mergeEntityData) so cloud-origin
+			// fields the form never emits — notably `logo_name`/`logo_slug` — survive
+			// into the tracked change. cleanEntityData rebuilds the schema-valid `logo`
+			// from `logo_name`; without it, editing any other field (e.g. the URL)
+			// would leave the cloud CDN logo ref in place and trip logo-pattern
+			// validation. Mirrors the store edit path.
+			const updatedBrand = mergeEntityData(
+				brand as unknown as Record<string, unknown>,
+				{ ...data, logo: logoFilename },
+				['id', 'slug']
+			) as unknown as Brand;
+			if (!updatedBrand.slug) updatedBrand.slug = brandId;
 
 			const success = await db.saveBrand(updatedBrand, originalBrand ?? brand);
 
