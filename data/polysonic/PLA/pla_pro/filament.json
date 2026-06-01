@@ -1,13 +1,13 @@
 {
-    "id": "pla_pro",
-    "name": "PLA Pro",
-    "diameter_tolerance": 0.02,
-    "density": 1.23,
-    "slicer_settings": {
-        "crealityprint": {
-            "profile_name": "PolySonic PLA Pro",
-            "id": "P1002",
-            "generic_id": "GFL99"
-        }
+  "id": "pla_pro",
+  "name": "PLA Pro",
+  "diameter_tolerance": 0.02,
+  "density": 1.23,
+  "slicer_settings": {
+    "crealityprint": {
+      "generic_id": "GFL99",
+      "id": "P1002",
+      "profile_name": "PolySonic PLA Pro"
     }
+  }
 }
