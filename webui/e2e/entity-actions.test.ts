@@ -188,29 +188,33 @@ test.describe('Copy flow', () => {
 
 test.describe('Paste flow', () => {
 	test('paste button appears when clipboard has compatible data', async ({ page }) => {
+		// Open a brand detail page — it always renders a Materials panel whose
+		// header offers a Paste action when the clipboard holds a material.
 		await navigateTo(page, '/brands');
-		const firstBrand = page.locator('a[href^="/brands/"]').first();
-		await firstBrand.click();
+		await page.locator('a[href^="/brands/"]').first().click();
+		await page.waitForLoadState('networkidle');
+		await expect(page.locator('button:text("Edit")')).toBeVisible();
+
+		// Seed a compatible (material) clipboard entry directly, then reload so the
+		// panel re-evaluates clipboard compatibility on render. This avoids the
+		// flaky right-click → context-menu → copy → back navigation dance (the copy
+		// flow is covered by its own test) and the Materials Paste button only
+		// surfaces for a material clipboard, so this asserts exactly that.
+		await page.evaluate(() => {
+			localStorage.setItem(
+				'ofd_clipboard',
+				JSON.stringify({
+					entityType: 'material',
+					data: { material: 'PLA' },
+					copiedAt: '2026-01-01T00:00:00.000Z'
+				})
+			);
+		});
+		await page.reload();
 		await page.waitForLoadState('networkidle');
 
-		// Copy a material first
-		const materialCard = page.locator('.space-y-2 a[href*="/brands/"]').first();
-		if (await materialCard.isVisible()) {
-			await materialCard.click({ button: 'right' });
-			await page.waitForTimeout(200);
-			const copyItem = page.locator('[role="menuitem"]:text("Copy")');
-			if (await copyItem.isVisible()) {
-				await copyItem.click();
-				// Wait a moment, then go back
-				await page.waitForTimeout(500);
-				await page.goBack();
-				await page.waitForLoadState('networkidle');
-
-				// Paste button should appear in the materials list
-				const pasteBtn = page.locator('button:text("Paste")');
-				await expect(pasteBtn).toBeVisible();
-			}
-		}
+		// The Materials panel should now show a Paste button.
+		await expect(page.locator('button:text("Paste")').first()).toBeVisible();
 	});
 });
 
