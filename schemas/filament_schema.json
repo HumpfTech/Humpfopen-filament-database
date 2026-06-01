@@ -68,6 +68,11 @@
                     "x-label": "Elegoo Slicer",
                     "x-description": "Settings for Elegoo Slicer. Compatible with Elegoo FDM printers."
                 },
+                "crealityprint": {
+                    "$ref": "#/definitions/specific_slicer_settings",
+                    "x-label": "Creality Print",
+                    "x-description": "Settings for Creality Print. Compatible with Creality FDM printers."
+                },
                 "generic": {
                     "type": "object",
                     "x-label": "Generic",
