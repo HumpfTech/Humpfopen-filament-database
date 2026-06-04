@@ -32,7 +32,7 @@ def make_db() -> Database:
         {
             "id": "s1",
             "name": "Bambu Store",
-            "slug": "bambu_store",
+            "slug": "bblstore",
             "storefront_url": "https://store.bambulab.com",
             "ships_from": "CN",
             "ships_to": [],

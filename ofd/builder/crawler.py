@@ -102,7 +102,7 @@ class DataCrawler:
             **data,
             "id": store_id,
             "name": data.get("name", store_dir.name),
-            "slug": slugify(data.get("name", store_dir.name)),
+            "slug": slugify(data.get("id", store_dir.name)),
             "directory_name": store_dir.name,  # internal, stripped on export
             "storefront_url": data.get("storefront_url", ""),
             "logo": data.get("logo", ""),
@@ -152,7 +152,7 @@ class DataCrawler:
             **brand_data,
             "id": brand_id,
             "name": brand_data.get("name", brand_name),
-            "slug": slugify(brand_name),
+            "slug": slugify(brand_id),
             "directory_name": brand_name,  # internal, stripped on export
             "website": brand_data.get("website", ""),
             "logo": brand_data.get("logo", ""),
@@ -196,7 +196,7 @@ class DataCrawler:
                 "id": material_id,
                 "brand_id": brand_id,
                 "material": material_data.get("material", material_name),
-                "slug": slugify(material_name),
+                "slug": material_data.get("material", material_name),
                 "material_class": material_data.get("material_class", "FFF"),
             }
 
