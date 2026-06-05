@@ -24,6 +24,17 @@ describe('saveUtils', () => {
 			expect(SAFE_SEGMENT.test('my.brand')).toBe(true);
 		});
 
+		it('should accept slugs with a plus sign after the first character', () => {
+			expect(SAFE_SEGMENT.test('pla+')).toBe(true);
+			expect(SAFE_SEGMENT.test('high_speed_pla+')).toBe(true);
+			expect(SAFE_SEGMENT.test('nylon_pa12+cf15')).toBe(true);
+			expect(SAFE_SEGMENT.test('abs+cf')).toBe(true);
+		});
+
+		it('should reject segments starting with a plus sign', () => {
+			expect(SAFE_SEGMENT.test('+plus')).toBe(false);
+		});
+
 		it('should reject segments with spaces', () => {
 			expect(SAFE_SEGMENT.test('my brand')).toBe(false);
 		});

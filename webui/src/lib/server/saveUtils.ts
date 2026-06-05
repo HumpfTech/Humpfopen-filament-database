@@ -9,8 +9,14 @@ export const JSON_INDENT_LOCAL = 4;
 /** JSON indentation for repo/PR writes (matches repo convention) */
 export const JSON_INDENT_REPO = 2;
 
-/** Validates that a path segment contains only safe filesystem characters. */
-export const SAFE_SEGMENT = /^[a-zA-Z0-9][a-zA-Z0-9_\-.]*$/;
+/**
+ * Validates that a path segment contains only safe filesystem characters.
+ * Allows `+` after the first character, since many existing filament folders
+ * use it (e.g. `pla+`, `high_speed_pla+`, `nylon_pa12+cf15`). The first
+ * character must still be alphanumeric, preventing `.`/`-`/`_`-prefixed names
+ * and path traversal (`..`).
+ */
+export const SAFE_SEGMENT = /^[a-zA-Z0-9][a-zA-Z0-9_\-.+]*$/;
 
 /**
  * Fields to strip from entity data before writing to disk.
