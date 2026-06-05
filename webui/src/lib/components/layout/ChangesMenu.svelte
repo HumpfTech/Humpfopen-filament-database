@@ -58,12 +58,14 @@
 			const params = new URLSearchParams(window.location.search);
 			const hasSuccess = params.has('auth_success') || params.has('sp_auth_success');
 			const authError = params.get('sp_auth_error') || params.get('auth_error');
+			const authErrorDetail = params.get('sp_auth_detail');
 
 			if (hasSuccess || authError) {
 				// Clean up the query params
 				params.delete('auth_success');
 				params.delete('sp_auth_success');
 				params.delete('sp_auth_error');
+				params.delete('sp_auth_detail');
 				params.delete('auth_error');
 				const newUrl = params.toString()
 					? `${window.location.pathname}?${params}`
@@ -71,8 +73,9 @@
 				history.replaceState({}, '', newUrl);
 
 				if (authError) {
-					console.error('OAuth error:', authError);
-					alert(`Authentication failed: ${authError}. Check the server logs for details.`);
+					console.error('OAuth error:', authError, authErrorDetail ?? '');
+					const detail = authErrorDetail ? ` (${authErrorDetail})` : '';
+					alert(`Authentication failed: ${authError}${detail}. Check the server logs for details.`);
 					return;
 				}
 

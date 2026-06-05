@@ -37,6 +37,11 @@ export async function exchangeCodeForToken(
 	clientId: string,
 	clientSecret: string
 ): Promise<string> {
+	// Trim to guard against stray whitespace/newlines pasted into env vars,
+	// which the token endpoint rejects as incorrect_client_credentials.
+	clientId = clientId.trim();
+	clientSecret = clientSecret.trim();
+
 	const response = await fetch('https://github.com/login/oauth/access_token', {
 		method: 'POST',
 		headers: {
@@ -51,12 +56,18 @@ export async function exchangeCodeForToken(
 	});
 
 	if (!response.ok) {
+		const body = await response.text();
+		console.error('[GH OAuth] Token endpoint error:', response.status, body, {
+			client_id: clientId
+		});
 		throw new Error('GitHub OAuth request failed: ' + response.status);
 	}
 
 	const data = await response.json();
 
 	if (data.error) {
+		// GitHub returns HTTP 200 with an { error } payload on failures.
+		console.error('[GH OAuth] Token endpoint returned error:', data, { client_id: clientId });
 		throw new Error(`GitHub OAuth error: ${data.error_description || data.error}`);
 	}
 
@@ -80,9 +91,12 @@ export async function getGitHubUser(token: string): Promise<{ login: string; nam
 
 // --- SimplyPrint ---
 
-/** Base URLs for SimplyPrint, configurable for test environments */
+/** Base URLs for SimplyPrint, configurable for test environments.
+ * The API lives at {domain}/api (not an api.{domain} subdomain) — matching the
+ * official Cura/Fusion/Blender integrations. */
 const SP_DOMAIN = (env.SIMPLYPRINT_BASE_URL || 'simplyprint.io').replace(/^https?:\/\//, '');
-const SP_API_BASE = env.SIMPLYPRINT_API_URL || `https://api.${SP_DOMAIN}`;
+// Strip any trailing slash so `${SP_API_BASE}/oauth2/Token` never doubles up.
+const SP_API_BASE = (env.SIMPLYPRINT_API_URL || `https://${SP_DOMAIN}/api`).replace(/\/+$/, '');
 export const SP_AUTHORIZE_URL = `https://${SP_DOMAIN}/panel/oauth2/authorize`;
 
 export function getSimplyPrintToken(cookies: Cookies): string | undefined {
@@ -100,24 +114,41 @@ export function clearSimplyPrintToken(cookies: Cookies): void {
 export async function exchangeSimplyPrintCode(
 	code: string,
 	clientId: string,
-	clientSecret: string,
-	redirectUri: string
+	redirectUri: string,
+	codeVerifier: string,
+	clientSecret?: string
 ): Promise<{ access_token: string; refresh_token: string }> {
+	// Trim to guard against stray whitespace/newlines pasted into env vars.
+	clientId = clientId.trim();
+	clientSecret = clientSecret?.trim();
+
+	// The token endpoint expects application/x-www-form-urlencoded — a JSON body is
+	// silently ignored and reported as invalid_client ("Client authentication failed").
+	// PKCE (code_verifier) is always sent. A confidential client (one issued a secret,
+	// like the OFD panel app) must also authenticate with client_secret; public
+	// clients (the Cura/Fusion/Blender slug IDs) omit it.
+	const form = new URLSearchParams({
+		grant_type: 'authorization_code',
+		client_id: clientId,
+		code,
+		redirect_uri: redirectUri,
+		code_verifier: codeVerifier
+	});
+	if (clientSecret) form.set('client_secret', clientSecret);
+
 	const response = await fetch(`${SP_API_BASE}/oauth2/Token`, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			grant_type: 'authorization_code',
-			client_id: clientId,
-			client_secret: clientSecret,
-			code,
-			redirect_uri: redirectUri
-		})
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: form
 	});
 
 	if (!response.ok) {
 		const body = await response.text();
-		console.error('[SP OAuth] Token endpoint error:', response.status, body);
+		// Log non-sensitive hints to disambiguate config issues (e.g. invalid_client).
+		console.error('[SP OAuth] Token endpoint error:', response.status, body, {
+			client_id: clientId,
+			has_client_secret: !!clientSecret
+		});
 		throw new Error('SimplyPrint OAuth request failed: ' + response.status);
 	}
 
