@@ -1,5 +1,6 @@
 {
-    "id": "roasted_chesnut",
-    "name": "Roasted Chesnut",
-    "color_hex": "#9D8C7C"
+  "id": "roasted_chesnut",
+  "name": "Roasted Chesnut",
+  "color_hex": "#3E2B2E",
+  "discontinued": false
 }
