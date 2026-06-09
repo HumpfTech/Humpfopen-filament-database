@@ -51,6 +51,10 @@
 	onMount(async () => {
 		stores = await db.loadStores();
 
+		// Reconcile tracked submissions against GitHub: drops any whose PR was
+		// merged/closed while the merge webhook was unavailable (e.g. server down).
+		submittedStore.reconcile();
+
 		// Reopen submission wizard after OAuth redirect (GitHub or SimplyPrint)
 		const savedMethod = localStorage.getItem(STORAGE_KEY_REOPEN_WIZARD);
 		if (savedMethod) {

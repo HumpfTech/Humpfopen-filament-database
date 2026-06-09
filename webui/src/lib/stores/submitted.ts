@@ -121,6 +121,49 @@ function createSubmittedStore() {
 			});
 		},
 
+		/**
+		 * Reconcile tracked submissions against GitHub's real PR state.
+		 * Asks the server for the current status of each tracked PR (which checks
+		 * GitHub for anything the merge webhook may have missed) and drops entries
+		 * whose PR is merged or closed. Safe to call on load; no-ops with no entries.
+		 */
+		async reconcile(): Promise<void> {
+			if (!browser) return;
+
+			const entries = Object.values(get({ subscribe }).entries);
+			const prNumbers = entries.map((e) => e.prNumber).filter((n) => n > 0);
+			if (prNumbers.length === 0) return;
+
+			let statuses: Record<number, string>;
+			try {
+				const res = await fetch('/api/submissions/status', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ prNumbers })
+				});
+				if (!res.ok) return;
+				({ statuses } = await res.json());
+			} catch {
+				return; // Network/offline — leave entries as-is.
+			}
+
+			update((buffer) => {
+				let changed = false;
+				for (const entry of Object.values(buffer.entries)) {
+					const status = statuses[entry.prNumber];
+					if (status === 'merged' || status === 'closed') {
+						delete buffer.entries[entry.uuid];
+						changed = true;
+					}
+				}
+				if (changed) {
+					rebuildIndex(buffer);
+					persist(buffer);
+				}
+				return buffer;
+			});
+		},
+
 		/** Remove a specific submission by UUID. */
 		remove(uuid: string) {
 			update((buffer) => {

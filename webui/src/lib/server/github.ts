@@ -301,6 +301,35 @@ export async function createPullRequest(
 }
 
 /**
+ * Get a pull request's current state from GitHub.
+ * `token` is optional — the upstream repo is public, so an unauthenticated
+ * request works (subject to a lower rate limit); pass an installation/user
+ * token when available to raise the limit. Returns null if the PR is not found.
+ */
+export async function getPullRequest(
+	token: string | null,
+	owner: string,
+	repo: string,
+	prNumber: number
+): Promise<{ number: number; state: 'open' | 'closed'; merged: boolean; html_url: string } | null> {
+	const path = `/repos/${owner}/${repo}/pulls/${prNumber}`;
+	const response = token
+		? await ghFetch(token, path)
+		: await fetch(`${API_BASE}${path}`, { headers: { Accept: 'application/vnd.github+json' } });
+
+	if (response.status === 404) return null;
+	if (!response.ok) throw await ghError(response, 'Failed to get PR');
+
+	const pr = await response.json();
+	return {
+		number: pr.number,
+		state: pr.state,
+		merged: pr.merged === true,
+		html_url: pr.html_url
+	};
+}
+
+/**
  * Delete a branch reference
  */
 export async function deleteBranch(
