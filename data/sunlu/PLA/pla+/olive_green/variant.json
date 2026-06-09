@@ -1,5 +1,6 @@
 {
-    "id": "olive_green",
-    "name": "Olive Green",
-    "color_hex": "#2BB7E1"
+  "id": "olive_green",
+  "name": "Olive Green",
+  "color_hex": "#808000",
+  "discontinued": false
 }
