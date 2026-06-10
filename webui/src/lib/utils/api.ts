@@ -84,7 +84,10 @@ export function buildApiUrl(path: string): string {
 				/^materials\/([^/]+)(?:\/filaments(?:\/([^/]+)(?:\/variants(?:\/([^/]+))?)?)?)?$/
 			);
 			if (materialMatch) {
-				const materialType = materialMatch[1];
+				// Material directories in the dataset are uppercase (e.g. PLA, ABS).
+				// Normalize here so a lowercase route param still resolves — this must
+				// stay in sync with the server-side mapper in cloudProxy.ts.
+				const materialType = materialMatch[1].toUpperCase();
 				const filamentName = materialMatch[2];
 				const variantId = materialMatch[3];
 
