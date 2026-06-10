@@ -63,7 +63,9 @@
 	let processedFields = $derived(processFields(schema, config));
 
 	// Split fields for TwoColumnLayout if configured
-	let { leftFields, rightFields } = $derived.by(() => splitFields(processedFields, config.splitAfterKey));
+	let { leftFields, rightFields } = $derived.by(() =>
+		splitFields(processedFields, config.splitAfterKey)
+	);
 
 	// Group fields for rendering
 	let leftRenderItems = $derived(groupFieldsForRender(leftFields));
@@ -153,6 +155,10 @@
 		return config.tooltips?.[field.key] || field.schema.description;
 	}
 
+	function getFieldHelp(field: ProcessedField): string | undefined {
+		return config.fieldHelp?.[field.key];
+	}
+
 	function getPlaceholder(field: ProcessedField): string {
 		return getFieldPlaceholder(field.schema, config.placeholders?.[field.key]);
 	}
@@ -168,7 +174,7 @@
 		// Check dynamic enums first
 		let options = dynamicEnums[field.key]?.length
 			? dynamicEnums[field.key]
-			: (field.schema.enum || []);
+			: field.schema.enum || [];
 
 		// Filter out excluded values
 		const excluded = config.excludeEnumValues?.[field.key];
@@ -198,11 +204,27 @@
 	function getMaxLength(field: ProcessedField): number | undefined {
 		return config.maxLengths?.[field.key] ?? field.schema.maxLength;
 	}
-
-
 </script>
 
+{#snippet optionalNote()}
+	<p class="text-sm text-muted-foreground">
+		Not sure about an optional field? Leave it blank, only fill in details you know or can find.
+	</p>
+{/snippet}
+
 {#snippet renderField(field: ProcessedField)}
+	{@const helpText = getFieldHelp(field)}
+	{#if helpText}
+		<div class="flex flex-col gap-1">
+			{@render fieldControl(field)}
+			<p class="text-xs text-muted-foreground">{helpText}</p>
+		</div>
+	{:else}
+		{@render fieldControl(field)}
+	{/if}
+{/snippet}
+
+{#snippet fieldControl(field: ProcessedField)}
 	{@const label = getLabel(field)}
 	{@const tooltip = getTooltip(field)}
 	{@const placeholder = getPlaceholder(field)}
@@ -268,19 +290,9 @@
 			{/if}
 		</SelectField>
 	{:else if field.type === 'checkbox'}
-		<CheckboxField
-			bind:checked={data[field.key]}
-			id={field.key}
-			{label}
-			{tooltip}
-		/>
+		<CheckboxField bind:checked={data[field.key]} id={field.key} {label} {tooltip} />
 	{:else if field.type === 'tags'}
-		<TagInput
-			bind:tags={data[field.key]}
-			{label}
-			{tooltip}
-			{placeholder}
-		/>
+		<TagInput bind:tags={data[field.key]} {label} {tooltip} {placeholder} />
 	{:else if field.type === 'countryList'}
 		<CountryCodeListSelect
 			bind:values={data[field.key]}
@@ -290,21 +302,9 @@
 			placeholder={COUNTRY_SEARCH_PLACEHOLDER}
 		/>
 	{:else if field.type === 'stringList'}
-		<CountryCodeList
-			bind:values={data[field.key]}
-			{label}
-			{required}
-			{tooltip}
-			{placeholder}
-		/>
+		<CountryCodeList bind:values={data[field.key]} {label} {required} {tooltip} {placeholder} />
 	{:else if field.type === 'color'}
-		<ColorHexField
-			bind:value={data[field.key]}
-			id={field.key}
-			{label}
-			{required}
-			{tooltip}
-		/>
+		<ColorHexField bind:value={data[field.key]} id={field.key} {label} {required} {tooltip} />
 	{/if}
 {/snippet}
 
@@ -329,11 +329,7 @@
 {#snippet submitButton()}
 	{#if onSubmit}
 		<div class="pt-4">
-			<Button
-				type="submit"
-				disabled={saving || submitDisabled}
-				class="w-full"
-			>
+			<Button type="submit" disabled={saving || submitDisabled} class="w-full">
 				{saving ? 'Saving...' : submitLabel}
 			</Button>
 		</div>
@@ -342,45 +338,48 @@
 
 <!-- Main layout -->
 <form onsubmit={handleFormSubmit} class="contents">
-{#if config.splitAfterKey && rightColumnContent}
-	<TwoColumnLayout leftWidth={config.leftWidth} leftSpacing={config.leftSpacing}>
-		{#snippet leftContent()}
+	{#if config.splitAfterKey && rightColumnContent}
+		<TwoColumnLayout leftWidth={config.leftWidth} leftSpacing={config.leftSpacing}>
+			{#snippet leftContent()}
+				{@render optionalNote()}
+				{#if beforeFields}{@render beforeFields()}{/if}
+				{@render renderItems(leftRenderItems)}
+				{#if afterFields}{@render afterFields()}{/if}
+
+				<!-- Spacer to push submit button to bottom -->
+				<div class="flex-1"></div>
+				{@render submitButton()}
+			{/snippet}
+
+			{#snippet rightContent()}
+				{@render rightColumnContent()}
+			{/snippet}
+		</TwoColumnLayout>
+	{:else if rightColumnContent}
+		<!-- Right content provided but no split key - still use two column layout -->
+		<TwoColumnLayout leftWidth={config.leftWidth} leftSpacing={config.leftSpacing}>
+			{#snippet leftContent()}
+				{@render optionalNote()}
+				{#if beforeFields}{@render beforeFields()}{/if}
+				{@render renderItems(leftRenderItems)}
+				{#if afterFields}{@render afterFields()}{/if}
+
+				<!-- Spacer to push submit button to bottom -->
+				<div class="flex-1"></div>
+				{@render submitButton()}
+			{/snippet}
+
+			{#snippet rightContent()}
+				{@render rightColumnContent()}
+			{/snippet}
+		</TwoColumnLayout>
+	{:else}
+		<div class="space-y-4">
+			{@render optionalNote()}
 			{#if beforeFields}{@render beforeFields()}{/if}
 			{@render renderItems(leftRenderItems)}
 			{#if afterFields}{@render afterFields()}{/if}
-
-			<!-- Spacer to push submit button to bottom -->
-			<div class="flex-1"></div>
 			{@render submitButton()}
-		{/snippet}
-
-		{#snippet rightContent()}
-			{@render rightColumnContent()}
-		{/snippet}
-	</TwoColumnLayout>
-{:else if rightColumnContent}
-	<!-- Right content provided but no split key - still use two column layout -->
-	<TwoColumnLayout leftWidth={config.leftWidth} leftSpacing={config.leftSpacing}>
-		{#snippet leftContent()}
-			{#if beforeFields}{@render beforeFields()}{/if}
-			{@render renderItems(leftRenderItems)}
-			{#if afterFields}{@render afterFields()}{/if}
-
-			<!-- Spacer to push submit button to bottom -->
-			<div class="flex-1"></div>
-			{@render submitButton()}
-		{/snippet}
-
-		{#snippet rightContent()}
-			{@render rightColumnContent()}
-		{/snippet}
-	</TwoColumnLayout>
-{:else}
-	<div class="space-y-4">
-		{#if beforeFields}{@render beforeFields()}{/if}
-		{@render renderItems(leftRenderItems)}
-		{#if afterFields}{@render afterFields()}{/if}
-		{@render submitButton()}
-	</div>
-{/if}
+		</div>
+	{/if}
 </form>

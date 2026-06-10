@@ -104,7 +104,7 @@
             "title": "Material Class",
             "enum": ["FFF", "SLA"],
             "default": "FFF",
-            "description": "The manufacturing process class. FFF (Fused Filament Fabrication) for standard filament printing, SLA for resin-based printing."
+            "description": "FFF (Fused Filament Fabrication) for standard filament printing, SLA (Stereolithography) for resin-based printing. Leave as FFF if you're unsure."
         },
         "default_max_dry_temperature": {
             "type": "integer",

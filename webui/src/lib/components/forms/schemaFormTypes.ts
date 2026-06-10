@@ -30,7 +30,8 @@ export interface SchemaFormConfig {
 	fieldOrder?: string[]; // Custom field order (if not specified, uses schema order)
 
 	// Field metadata overrides
-	tooltips?: Record<string, string>; // Tooltip text by field key
+	tooltips?: Record<string, string>; // Tooltip text by field key (hover icon)
+	fieldHelp?: Record<string, string>; // Visible help text rendered below a field, by field key
 	placeholders?: Record<string, string>; // Placeholder text by field key
 	labels?: Record<string, string>; // Custom labels (overrides formatLabel)
 	steps?: Record<string, number>; // Step values for number inputs

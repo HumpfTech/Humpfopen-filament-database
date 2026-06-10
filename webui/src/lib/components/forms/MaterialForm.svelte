@@ -43,7 +43,11 @@
 	// Default config for material form
 	const defaultConfig: SchemaFormConfig = {
 		splitAfterKey: 'default_max_dry_temperature',
-		hiddenFields: ['default_slicer_settings']
+		hiddenFields: ['default_slicer_settings'],
+		fieldHelp: {
+			material_class:
+				'FFF (Fused Filament Fabrication) for standard filament printing, SLA (Stereolithography) for resin-based printing. Leave as FFF if you\'re unsure.'
+		}
 	};
 	let mergedConfig = $derived({ ...defaultConfig, ...config });
 
