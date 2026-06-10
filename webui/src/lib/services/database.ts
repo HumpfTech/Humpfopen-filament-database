@@ -5,7 +5,7 @@ import { get } from 'svelte/store';
 import { useChangeTracking } from '$lib/stores/environment';
 import { changeStore } from '$lib/stores/changes';
 import { submittedStore } from '$lib/stores/submitted';
-import { apiFetch } from '$lib/utils/api';
+import { apiFetch, apiError } from '$lib/utils/api';
 import { parsePath } from '$lib/utils/changePaths';
 import { getDirectChildren } from '$lib/utils/changeTreeOps';
 import { generateSlug, generateMaterialType } from '$lib/services/entityService';
@@ -307,7 +307,7 @@ export class DatabaseService {
 			if (response.ok) {
 				baseItems = await response.json();
 			} else {
-				throw new Error(`Failed to load: ${response.statusText}`);
+				throw await apiError(response, `Failed to load ${apiUrl}`);
 			}
 		}
 
@@ -645,7 +645,7 @@ export class DatabaseService {
 			if (response.ok) {
 				baseMaterials = await response.json();
 			} else {
-				throw new Error(`Failed to load materials: ${response.statusText}`);
+				throw await apiError(response, 'Failed to load materials');
 			}
 		}
 

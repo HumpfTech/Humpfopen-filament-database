@@ -309,6 +309,36 @@ async function transformCloudResponse(data: any, path: string): Promise<any> {
 }
 
 /**
+ * Build an informative Error from a failed API Response.
+ *
+ * `statusText` is frequently empty over HTTP/2, which is why errors surfaced to
+ * users as a bare "Failed to load:" with no cause. This always includes the
+ * numeric status (reliable) and, when present, the error message the server put
+ * in the response body — so the user sees a real reason. Consumes the body.
+ */
+export async function apiError(response: Response, prefix = 'Request failed'): Promise<Error> {
+	let detail = '';
+	try {
+		const text = await response.text();
+		if (text) {
+			try {
+				const body = JSON.parse(text);
+				detail = body.error || body.message || text;
+			} catch {
+				detail = text;
+			}
+		}
+	} catch {
+		// Body already consumed or unreadable — fall back to status only.
+	}
+
+	const status = response.statusText ? `${response.status} ${response.statusText}` : `${response.status}`;
+	// Trim overly long bodies (e.g. an HTML error page) to keep the message readable.
+	if (detail.length > 200) detail = detail.slice(0, 200) + '…';
+	return new Error(`${prefix}: ${status}${detail ? ` — ${detail}` : ''}`);
+}
+
+/**
  * Fetch data from an API endpoint with automatic URL building, caching, and response transformation
  * Wraps the standard fetch API with environment-aware URL building, TTL-based caching, and data normalization
  *

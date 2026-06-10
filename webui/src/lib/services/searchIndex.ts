@@ -5,7 +5,7 @@ import type {
 	SearchResult,
 	SearchIndexFile
 } from '$lib/types/search';
-import { apiFetch } from '$lib/utils/api';
+import { apiFetch, apiError } from '$lib/utils/api';
 import { parsePath } from '$lib/utils/changePaths';
 
 /**
@@ -32,7 +32,7 @@ export async function loadSearchIndex(): Promise<SearchRecord[]> {
 	indexPromise = (async () => {
 		try {
 			const response = await apiFetch('/api/search-index');
-			if (!response.ok) throw new Error(`Failed to load search index: ${response.statusText}`);
+			if (!response.ok) throw await apiError(response, 'Failed to load search index');
 			const data: SearchIndexFile = await response.json();
 			indexCache = Array.isArray(data?.records) ? data.records : [];
 			return indexCache;
