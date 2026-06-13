@@ -224,8 +224,16 @@ export function getSchemaType(repoPath: string): string | null {
 export type TreeItem = { path: string; sha: string | null; mode?: string; type?: string };
 
 /**
+ * A delete change that produced no tree items because the target entity has no
+ * files in the upstream repo — it was never published, or has already been
+ * removed. Such a deletion is a no-op for the PR (there is nothing to delete).
+ */
+export type NoopDelete = { path: string; description?: string };
+
+/**
  * Build tree items from a set of changes and images.
- * Returns the items ready for createTree() and a list of skipped paths.
+ * Returns the items ready for createTree(), a list of skipped (unmappable)
+ * paths, and a list of no-op deletes (deletes with no upstream target).
  */
 export async function buildTreeItems(
 	token: string,
@@ -236,12 +244,13 @@ export async function buildTreeItems(
 	upstreamRepo: string,
 	changes: any[],
 	images: Record<string, any> | undefined
-): Promise<{ treeItems: TreeItem[]; skippedPaths: string[] }> {
+): Promise<{ treeItems: TreeItem[]; skippedPaths: string[]; noopDeletes: NoopDelete[] }> {
 	const imageFilenames = buildImageFilenameMap(images);
 	const schemas = await loadSchemaKeyOrders();
 
 	const treeItems: TreeItem[] = [];
 	const skippedPaths: string[] = [];
+	const noopDeletes: NoopDelete[] = [];
 
 	// Check if any changes are deletes — we need the recursive tree listing
 	// to discover all files under a deleted entity's directory for cascade delete.
@@ -263,12 +272,21 @@ export async function buildTreeItems(
 		if (change.operation === 'delete') {
 			// Cascade delete: find all files under this entity's directory
 			const dirPrefix = repoPath.replace(/\/[^/]+$/, '/');
+			let matched = 0;
 			if (existingTree) {
 				for (const existingPath of existingTree.keys()) {
 					if (existingPath.startsWith(dirPrefix)) {
 						treeItems.push({ path: existingPath, sha: null });
+						matched++;
 					}
 				}
+			}
+			if (matched === 0) {
+				// Nothing exists upstream under this path, so the deletion can't be
+				// expressed as a PR — the entity was never published or is already
+				// gone. Treat it as a no-op and record it so the caller can explain
+				// why it produced no committable change.
+				noopDeletes.push({ path: change.entity.path, description: change.description });
 			}
 		} else if (change.data) {
 			const schemaType = getSchemaType(repoPath);
@@ -318,7 +336,32 @@ export async function buildTreeItems(
 		}
 	}
 
-	return { treeItems, skippedPaths };
+	return { treeItems, skippedPaths, noopDeletes };
+}
+
+/**
+ * Build a user-facing explanation for why a changeset produced no committable
+ * tree items. Used when treeItems is empty so the user gets an actionable
+ * reason instead of a bare "no valid changes" message.
+ */
+export function explainEmptyTree(skippedPaths: string[], noopDeletes: NoopDelete[]): string {
+	const reasons: string[] = [];
+
+	if (noopDeletes.length > 0) {
+		const names = noopDeletes.map((d) => d.description || d.path).join(', ');
+		reasons.push(
+			noopDeletes.length === 1
+				? `This deletion can't be submitted because the item isn't in the database — it may have already been removed, or was never published: ${names}.`
+				: `These deletions can't be submitted because the items aren't in the database (already removed, or never published): ${names}.`
+		);
+	}
+
+	if (skippedPaths.length > 0) {
+		reasons.push(`Some changes referenced paths that couldn't be mapped to the database: ${skippedPaths.join(', ')}.`);
+	}
+
+	const detail = reasons.length > 0 ? ` ${reasons.join(' ')}` : '';
+	return `No changes to submit.${detail}`;
 }
 
 /**

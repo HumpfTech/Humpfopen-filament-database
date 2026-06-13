@@ -12,7 +12,7 @@ import {
 	updateRef,
 	createPullRequest
 } from '$lib/server/github';
-import { buildTreeItems, buildChangesSummary } from '$lib/server/prBuilder';
+import { buildTreeItems, buildChangesSummary, explainEmptyTree } from '$lib/server/prBuilder';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	const token = getGitHubToken(cookies);
@@ -60,14 +60,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		}
 
 		// Build tree items using shared logic
-		const { treeItems, skippedPaths } = await buildTreeItems(
+		const { treeItems, skippedPaths = [], noopDeletes = [] } = await buildTreeItems(
 			token, fork.owner, fork.repo, baseTreeSha,
 			privateEnv.GITHUB_UPSTREAM_OWNER, privateEnv.GITHUB_UPSTREAM_REPO,
 			changes, images
 		);
 
 		if (treeItems.length === 0) {
-			return json({ error: 'No valid changes to commit' }, { status: 400 });
+			return json({ error: explainEmptyTree(skippedPaths, noopDeletes) }, { status: 400 });
 		}
 
 		// Create tree with base_tree — only includes changed/deleted entries.
@@ -116,7 +116,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			success: true,
 			prUrl: pr.html_url,
 			prNumber: pr.number,
-			skippedPaths: skippedPaths.length > 0 ? skippedPaths : undefined
+			skippedPaths: skippedPaths.length > 0 ? skippedPaths : undefined,
+			noopDeletes: noopDeletes.length > 0 ? noopDeletes.map((d) => d.description || d.path) : undefined
 		});
 	} catch (error: any) {
 		console.error('PR creation error:', error);

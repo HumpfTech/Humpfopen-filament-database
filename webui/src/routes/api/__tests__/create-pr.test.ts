@@ -25,9 +25,11 @@ const mocks = vi.hoisted(() => ({
 	createPullRequest: vi.fn(async () => ({ html_url: 'https://github.com/x/y/pull/42', number: 42 })),
 	buildTreeItems: vi.fn(async () => ({
 		treeItems: [{ path: 'data/acme/brand.json', mode: '100644', type: 'blob', content: '{}' }],
-		skippedPaths: [] as string[]
+		skippedPaths: [] as string[],
+		noopDeletes: [] as Array<{ path: string; description?: string }>
 	})),
-	buildChangesSummary: vi.fn(() => '- Updated 1 entity')
+	buildChangesSummary: vi.fn(() => '- Updated 1 entity'),
+	explainEmptyTree: vi.fn(() => 'No changes to submit.')
 }));
 
 vi.mock('$lib/server/auth', () => ({
@@ -46,7 +48,8 @@ vi.mock('$lib/server/github', () => ({
 }));
 vi.mock('$lib/server/prBuilder', () => ({
 	buildTreeItems: mocks.buildTreeItems,
-	buildChangesSummary: mocks.buildChangesSummary
+	buildChangesSummary: mocks.buildChangesSummary,
+	explainEmptyTree: mocks.explainEmptyTree
 }));
 
 vi.mock('@sveltejs/kit', () => ({
@@ -85,9 +88,11 @@ describe('POST /api/github/create-pr', () => {
 		});
 		mocks.buildTreeItems.mockResolvedValue({
 			treeItems: [{ path: 'data/acme/brand.json', mode: '100644', type: 'blob', content: '{}' }],
-			skippedPaths: []
+			skippedPaths: [],
+			noopDeletes: []
 		});
 		mocks.buildChangesSummary.mockReturnValue('- Updated 1 entity');
+		mocks.explainEmptyTree.mockReturnValue('No changes to submit.');
 	});
 
 	it('returns 401 when GitHub token is missing', async () => {
@@ -104,10 +109,24 @@ describe('POST /api/github/create-pr', () => {
 	});
 
 	it('returns 400 when buildTreeItems returns no tree entries', async () => {
-		mocks.buildTreeItems.mockResolvedValue({ treeItems: [], skippedPaths: [] });
+		mocks.buildTreeItems.mockResolvedValue({ treeItems: [], skippedPaths: [], noopDeletes: [] });
 		const res: any = await POST(makeEvent({ changes: [{ x: 1 }] }));
 		expect(res.status).toBe(400);
-		expect(res.body.error).toMatch(/No valid changes/);
+		expect(res.body.error).toMatch(/No changes to submit/);
+	});
+
+	it('explains no-op deletes when they are the only changes', async () => {
+		mocks.explainEmptyTree.mockReturnValue(
+			"No changes to submit. The deletion of variant \"Oliver Green\" can't be submitted because it isn't in the database."
+		);
+		mocks.buildTreeItems.mockResolvedValue({
+			treeItems: [],
+			skippedPaths: [],
+			noopDeletes: [{ path: 'brands/acme/materials/pla/filaments/x/variants/oliver_green', description: 'Deleted variant "Oliver Green"' }]
+		});
+		const res: any = await POST(makeEvent({ changes: [{ x: 1 }] }));
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/isn't in the database/);
 	});
 
 	it('returns 504 when branch creation fails repeatedly', async () => {

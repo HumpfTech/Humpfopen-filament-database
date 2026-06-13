@@ -15,7 +15,7 @@ import {
 	createPullRequest
 } from '$lib/server/github';
 import { getInstallationToken } from '$lib/server/githubApp';
-import { buildTreeItems, buildChangesSummary } from '$lib/server/prBuilder';
+import { buildTreeItems, buildChangesSummary, explainEmptyTree } from '$lib/server/prBuilder';
 
 // --- Types ---
 
@@ -34,6 +34,7 @@ export interface AnonSubmissionResult {
 	prNumber?: number;
 	error?: string;
 	skippedPaths?: string[];
+	noopDeletes?: string[];
 }
 
 // --- Configuration ---
@@ -83,14 +84,14 @@ export async function createAnonPR(submission: AnonSubmission): Promise<AnonSubm
 	}
 
 	// 3. Build tree items directly on upstream
-	const { treeItems, skippedPaths } = await buildTreeItems(
+	const { treeItems, skippedPaths = [], noopDeletes = [] } = await buildTreeItems(
 		token, upstreamOwner, upstreamRepo, baseTreeSha,
 		upstreamOwner, upstreamRepo,
 		submission.changes, submission.images
 	);
 
 	if (treeItems.length === 0) {
-		return { success: false, uuid: submission.uuid, error: 'No valid changes to commit' };
+		return { success: false, uuid: submission.uuid, error: explainEmptyTree(skippedPaths, noopDeletes) };
 	}
 
 	// 4. Create tree, commit
@@ -135,6 +136,7 @@ export async function createAnonPR(submission: AnonSubmission): Promise<AnonSubm
 		uuid: submission.uuid,
 		prUrl: pr.html_url,
 		prNumber: pr.number,
-		skippedPaths: skippedPaths.length > 0 ? skippedPaths : undefined
+		skippedPaths: skippedPaths.length > 0 ? skippedPaths : undefined,
+		noopDeletes: noopDeletes.length > 0 ? noopDeletes.map((d) => d.description || d.path) : undefined
 	};
 }
