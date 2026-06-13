@@ -186,7 +186,8 @@ describe('POST /api/github/create-pr', () => {
 	it('returns skippedPaths in the response when present', async () => {
 		mocks.buildTreeItems.mockResolvedValue({
 			treeItems: [{ path: 'p', mode: '100644', type: 'blob', content: '{}' }],
-			skippedPaths: ['skipped/path/1.json']
+			skippedPaths: ['skipped/path/1.json'],
+			noopDeletes: []
 		});
 		const res: any = await POST(makeEvent({ changes: [{ x: 1 }] }));
 		expect(res.body.skippedPaths).toEqual(['skipped/path/1.json']);

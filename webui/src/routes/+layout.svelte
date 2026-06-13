@@ -7,6 +7,7 @@
 	import { theme } from '$lib/stores/theme';
 	import { db } from '$lib/services/database';
 	import { clearSearchCache } from '$lib/services/searchIndex';
+	import { clearLocalDataExceptSettings } from '$lib/services/localData';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
@@ -53,6 +54,28 @@
 
 	function setTheme(newTheme: 'light' | 'dark' | 'system') {
 		theme.setTheme(newTheme);
+	}
+
+	let clearingLocalData = $state(false);
+
+	async function clearLocalData() {
+		const confirmed = confirm(
+			'Clear all local data?\n\n' +
+				'This permanently removes your pending changes, cached images, submitted-change ' +
+				'history, and clipboard from this browser. Your settings (theme) are kept. ' +
+				'This cannot be undone.'
+		);
+		if (!confirmed) return;
+
+		clearingLocalData = true;
+		try {
+			await clearLocalDataExceptSettings();
+		} catch (e) {
+			console.error('Failed to clear local data:', e);
+		}
+		themeMenuOpen = false;
+		// Reload so every store re-initialises from the now-cleared storage.
+		window.location.reload();
 	}
 
 	function handleClickOutside(event: MouseEvent) {
@@ -166,6 +189,20 @@
 										<path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd" />
 									</svg>
 									System
+								</button>
+							</div>
+
+							<div class="mt-3 border-t pt-3">
+								<button
+									onclick={clearLocalData}
+									disabled={clearingLocalData}
+									class="flex w-full items-center justify-center gap-2 rounded-md border border-destructive/30 px-2 py-2 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-50"
+									title="Remove pending changes, cached images, and other local data from this browser (keeps your settings)"
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+									</svg>
+									{clearingLocalData ? 'Clearing…' : 'Clear local data'}
 								</button>
 							</div>
 						</div>

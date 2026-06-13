@@ -152,7 +152,11 @@ class DataCrawler:
             **brand_data,
             "id": brand_id,
             "name": brand_data.get("name", brand_name),
-            "slug": slugify(brand_id),
+            # Slug must match the on-disk directory so cloud paths round-trip back
+            # to the repo (PR building maps brands/<slug> -> data/<slug>/). Mirror
+            # the store convention: derive from the source id, falling back to the
+            # directory name — NOT from brand_id, which is a generated UUID.
+            "slug": slugify(brand_data.get("id", brand_name)),
             "directory_name": brand_name,  # internal, stripped on export
             "website": brand_data.get("website", ""),
             "logo": brand_data.get("logo", ""),

@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { Modal, Button } from '$lib/components/ui';
+	import { STORAGE_KEY_WELCOME_DISMISSED as STORAGE_KEY } from '$lib/config/storageKeys';
 
-	const STORAGE_KEY = 'ofd_welcome_dismissed';
 	let show = $state(false);
 
 	onMount(() => {
