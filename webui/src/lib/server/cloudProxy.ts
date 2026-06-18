@@ -122,6 +122,22 @@ async function getStoreIdToSlugMap(): Promise<Map<string, string>> {
 }
 
 /**
+ * Cloud entities carry a UUID `id` plus a human-readable `slug`. Local data and
+ * every path/folder name key off the slug, so we collapse `id` onto `slug` at
+ * the proxy boundary. This guarantees a dataset UUID can never reach the client
+ * and leak into a submitted folder name (e.g. data/<uuid>/...), which is exactly
+ * how the orphaned `data/1d35f140_..._9c6` (= uuid5("sunlu")) folder was created.
+ * No-op when `slug` is absent (e.g. already-local shapes or materials, which are
+ * keyed by their uppercase type rather than a slug).
+ */
+function normalizeEntityId(entity: any): any {
+	if (entity && typeof entity === 'object' && entity.slug) {
+		entity.id = entity.slug;
+	}
+	return entity;
+}
+
+/**
  * Strip cloud-only identity fields from a variant so its shape matches the
  * on-disk variant.json + sizes.json format. Sizes and purchase links carry
  * synthetic UUIDs in the cloud dataset that have no meaning locally; keeping
@@ -183,7 +199,7 @@ async function transformCloudResponse(data: any, localPath: string): Promise<any
 	// Brands index: { brands: [...] } -> [...]
 	if (localPath === '/api/brands') {
 		if (data && typeof data === 'object' && 'brands' in data) {
-			return data.brands.map((brand: any) => ({
+			return data.brands.map((brand: any) => normalizeEntityId({
 				...brand,
 				logo: brand.logo_slug || brand.logo
 			}));
@@ -201,7 +217,7 @@ async function transformCloudResponse(data: any, localPath: string): Promise<any
 		/^\/api\/brands\/([^/]+)\/materials\/([^/]+)\/filaments$/
 	);
 	if (filamentsMatch && data && typeof data === 'object' && 'filaments' in data) {
-		return data.filaments;
+		return data.filaments.map(normalizeEntityId);
 	}
 
 	// Variants list: extract variants array from filament response
@@ -209,7 +225,7 @@ async function transformCloudResponse(data: any, localPath: string): Promise<any
 		/^\/api\/brands\/([^/]+)\/materials\/([^/]+)\/filaments\/([^/]+)\/variants$/
 	);
 	if (variantsMatch && data && typeof data === 'object' && 'variants' in data) {
-		return data.variants;
+		return data.variants.map(normalizeEntityId);
 	}
 
 	// Variant detail: strip cloud-only UUID fields from sizes/purchase_links and
@@ -224,10 +240,10 @@ async function transformCloudResponse(data: any, localPath: string): Promise<any
 
 	// Individual entity: map logo_slug -> logo
 	if (data && typeof data === 'object' && 'logo_slug' in data) {
-		return {
+		return normalizeEntityId({
 			...data,
 			logo: data.logo_slug || data.logo
-		};
+		});
 	}
 
 	return data;

@@ -197,6 +197,72 @@ describe('cloudProxy', () => {
 		});
 	});
 
+	// The dataset keys entities by a deterministic UUIDv5 `id` and carries the
+	// human-readable folder name in `slug`. The client builds submission folder
+	// paths from `id`, so the proxy must collapse `id` onto `slug` for every
+	// entity shape — otherwise a UUID leaks into a PR as data/<uuid>/... (this is
+	// how the orphaned `data/1d35f140_..._9c6` = uuid5("sunlu") folder was made).
+	describe('Entity id→slug normalization (prevents UUID folder leaks)', () => {
+		it('aligns brand id with slug in the brands index', async () => {
+			fetchMock.mockResolvedValueOnce(
+				jsonResponse({
+					brands: [{ id: '1d35f140-7cba-5fa4-9bb6-9e3eb2fd95c6', slug: 'sunlu', name: 'Sunlu' }]
+				})
+			);
+			const response = await proxyGetToCloud('/api/brands');
+			const data = await response.json();
+			expect(data[0].id).toBe('sunlu');
+		});
+
+		it('aligns brand id with slug on an individual brand response', async () => {
+			fetchMock.mockResolvedValueOnce(
+				jsonResponse({
+					id: '1d35f140-7cba-5fa4-9bb6-9e3eb2fd95c6',
+					slug: 'sunlu',
+					name: 'Sunlu',
+					logo_slug: 'sunlu.png'
+				})
+			);
+			const response = await proxyGetToCloud('/api/brands/sunlu');
+			const data = await response.json();
+			expect(data.id).toBe('sunlu');
+			expect(data.logo).toBe('sunlu.png');
+		});
+
+		it('aligns filament id with slug in the filaments list', async () => {
+			fetchMock.mockResolvedValueOnce(
+				jsonResponse({
+					filaments: [{ id: 'a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d', slug: 'pla+', name: 'PLA+' }]
+				})
+			);
+			const response = await proxyGetToCloud('/api/brands/sunlu/materials/pla/filaments');
+			const data = await response.json();
+			expect(data[0].id).toBe('pla+');
+		});
+
+		it('aligns variant id with slug in the variants list', async () => {
+			fetchMock.mockResolvedValueOnce(
+				jsonResponse({
+					variants: [
+						{ id: 'b2c3d4e5-f6a7-5b6c-9d0e-1f2a3b4c5d6e', slug: 'grassgreen', color_name: 'Grass Green' }
+					]
+				})
+			);
+			const response = await proxyGetToCloud(
+				'/api/brands/sunlu/materials/pla/filaments/pla+/variants'
+			);
+			const data = await response.json();
+			expect(data[0].id).toBe('grassgreen');
+		});
+
+		it('leaves id untouched when no slug is present (e.g. local-shaped data)', async () => {
+			fetchMock.mockResolvedValueOnce(jsonResponse({ brands: [{ id: 'sunlu', name: 'Sunlu' }] }));
+			const response = await proxyGetToCloud('/api/brands');
+			const data = await response.json();
+			expect(data[0].id).toBe('sunlu');
+		});
+	});
+
 	describe('Variant normalization (strips UUIDs, rewrites store_id, migrates spool_refill)', () => {
 		const variantPath = '/api/brands/acme/materials/pla/filaments/basic/variants/red';
 

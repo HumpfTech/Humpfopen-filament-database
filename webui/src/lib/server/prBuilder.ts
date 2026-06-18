@@ -5,7 +5,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { IS_CLOUD, API_BASE } from '$lib/server/cloudProxy';
-import { SAFE_SEGMENT, cleanEntityData, JSON_INDENT_REPO } from '$lib/server/saveUtils';
+import { SAFE_SEGMENT, isUuidSegment, cleanEntityData, JSON_INDENT_REPO } from '$lib/server/saveUtils';
 import {
 	getRecursiveTree,
 	createBlob
@@ -21,9 +21,10 @@ const SCHEMAS_DIR = path.join(REPO_ROOT, 'schemas');
 export function entityPathToRepoPath(entityPath: string): string | null {
 	const parts = entityPath.split('/');
 
-	// Reject segments with unsafe characters
+	// Reject segments with unsafe characters or UUID-shaped segments (a UUID here
+	// means a slug mapping failed; never let it become a folder name in a PR).
 	for (const part of parts) {
-		if (!SAFE_SEGMENT.test(part)) return null;
+		if (!SAFE_SEGMENT.test(part) || isUuidSegment(part)) return null;
 	}
 
 	if (parts[0] === 'stores' && parts.length === 2) {

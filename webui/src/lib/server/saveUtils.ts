@@ -19,6 +19,26 @@ export const JSON_INDENT_REPO = 2;
 export const SAFE_SEGMENT = /^[a-zA-Z0-9][a-zA-Z0-9_\-.+]*$/;
 
 /**
+ * Matches a UUID used as a path segment, in either the dash form
+ * (`1d35f140-7cba-5fa4-9bb6-9e3eb2fd95c6`) or the underscore form the dataset
+ * uses for folder names (`1d35f140_7cba_5fa4_9bb6_9e3eb2fd95c6`).
+ *
+ * The cloud dataset identifies entities by a deterministic UUIDv5; local data
+ * and folders are named by human-readable slug. A UUID must therefore never
+ * appear as a folder name — if one does, a proxy/slug mapping failed and the
+ * submission would create a junk `data/<uuid>/...` directory (see the orphaned
+ * `data/1d35f140_..._9c6` = uuid5("sunlu")). Reject such segments outright so a
+ * bad submission is cleanly skipped instead of corrupting the tree.
+ */
+export const UUID_SEGMENT =
+	/^[0-9a-f]{8}[-_][0-9a-f]{4}[-_][0-9a-f]{4}[-_][0-9a-f]{4}[-_][0-9a-f]{12}$/i;
+
+/** True if `segment` looks like a UUID (and so must not become a folder name). */
+export function isUuidSegment(segment: string): boolean {
+	return UUID_SEGMENT.test(segment);
+}
+
+/**
  * Fields to strip from entity data before writing to disk.
  * These are internal tracking fields added by the webui.
  */
@@ -53,9 +73,10 @@ const DEFAULT_STRIP_FIELDS = new Set(['brandId', 'materialType', 'filamentDir', 
 export function entityPathToFsPath(entityPath: string): string | null {
 	const parts = entityPath.split('/');
 
-	// Reject empty segments or segments with unsafe characters
+	// Reject empty segments, unsafe characters, or UUID-shaped segments (a UUID
+	// here means a slug mapping failed; never let it become a folder name).
 	for (const part of parts) {
-		if (!SAFE_SEGMENT.test(part)) return null;
+		if (!SAFE_SEGMENT.test(part) || isUuidSegment(part)) return null;
 	}
 
 	if (parts[0] === 'stores' && parts.length === 2) {

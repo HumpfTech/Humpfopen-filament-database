@@ -4,6 +4,7 @@ import {
 	entityPathToFsPath,
 	entityPathToDir,
 	cleanEntityData,
+	isUuidSegment,
 	SAFE_SEGMENT,
 	STRIP_FIELDS,
 	DATA_DIR,
@@ -59,6 +60,30 @@ describe('saveUtils', () => {
 			expect(SAFE_SEGMENT.test('foo/bar')).toBe(false);
 			expect(SAFE_SEGMENT.test('foo\\bar')).toBe(false);
 			expect(SAFE_SEGMENT.test('foo\0bar')).toBe(false);
+		});
+	});
+
+	describe('isUuidSegment', () => {
+		// The dataset names entities by UUID; folders are named by slug. A UUID
+		// segment means a slug mapping failed and must never become a folder —
+		// this is what produced the orphaned `data/1d35f140_..._9c6` (uuid5 of
+		// "sunlu") brand directory.
+		it('matches the underscore form the dataset uses for folder names', () => {
+			expect(isUuidSegment('1d35f140_7cba_5fa4_9bb6_9e3eb2fd95c6')).toBe(true);
+			expect(isUuidSegment('3eb316bd_c732_5d47_ba24_3d26f17eb281')).toBe(true);
+		});
+
+		it('matches the canonical dash form and is case-insensitive', () => {
+			expect(isUuidSegment('1d35f140-7cba-5fa4-9bb6-9e3eb2fd95c6')).toBe(true);
+			expect(isUuidSegment('1D35F140-7CBA-5FA4-9BB6-9E3EB2FD95C6')).toBe(true);
+		});
+
+		it('does not match normal human-readable slugs', () => {
+			expect(isUuidSegment('sunlu')).toBe(false);
+			expect(isUuidSegment('bambu_lab')).toBe(false);
+			expect(isUuidSegment('grassgreen')).toBe(false);
+			expect(isUuidSegment('pla+')).toBe(false);
+			expect(isUuidSegment('nylon_pa12+cf15')).toBe(false);
 		});
 	});
 
@@ -118,6 +143,22 @@ describe('saveUtils', () => {
 		it('should return null for paths with .. segments', () => {
 			expect(entityPathToFsPath('brands/../etc')).toBeNull();
 			expect(entityPathToFsPath('stores/..')).toBeNull();
+		});
+
+		it('should return null when any segment is a UUID (failed slug mapping)', () => {
+			// Regression: a cloud UUID `id` leaked into the brand segment and was
+			// written to disk as data/<uuid>/... instead of data/sunlu/...
+			expect(
+				entityPathToFsPath(
+					'brands/1d35f140_7cba_5fa4_9bb6_9e3eb2fd95c6/materials/PLA/filaments/pla+/variants/grassgreen'
+				)
+			).toBeNull();
+			expect(entityPathToFsPath('brands/1d35f140-7cba-5fa4-9bb6-9e3eb2fd95c6')).toBeNull();
+			expect(
+				entityPathToFsPath(
+					'brands/sunlu/materials/PLA/filaments/3eb316bd_c732_5d47_ba24_3d26f17eb281/variants/green'
+				)
+			).toBeNull();
 		});
 
 		it('should return null for paths with empty segments', () => {
