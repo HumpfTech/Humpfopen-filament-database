@@ -1,13 +1,13 @@
 {
-    "id": "petg_basic",
-    "name": "PETG-Basic",
-    "diameter_tolerance": 0.03,
-    "density": 1.27,
-    "slicer_settings": {
-        "orcaslicer": {
-            "profile_name": "eSUN PETG-Basic",
-            "id": "E2003",
-            "generic_id": "GFG99"
-        }
+  "id": "petg_basic",
+  "name": "PETG-Basic",
+  "diameter_tolerance": 0.03,
+  "density": 1.27,
+  "slicer_settings": {
+    "orcaslicer": {
+      "generic_id": "GFG99",
+      "id": "E2003",
+      "profile_name": "eSUN PETG-Basic"
     }
+  }
 }

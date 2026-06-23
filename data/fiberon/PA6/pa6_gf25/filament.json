@@ -1,12 +1,12 @@
 {
-    "id": "pa6_gf25",
-    "name": "PA6-GF25",
-    "diameter_tolerance": 0.02,
-    "density": 1.2,
-    "slicer_settings": {
-        "orcaslicer": {
-            "profile_name": "Fiberon PA6-GF25",
-            "id": "GFL58"
-        }
+  "id": "pa6_gf25",
+  "name": "PA6-GF25",
+  "diameter_tolerance": 0.02,
+  "density": 1.2,
+  "slicer_settings": {
+    "orcaslicer": {
+      "id": "GFL58",
+      "profile_name": "Fiberon PA6-GF25"
     }
+  }
 }

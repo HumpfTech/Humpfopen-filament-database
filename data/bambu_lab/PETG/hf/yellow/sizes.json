@@ -4,13 +4,13 @@
     "diameter": 1.75,
     "spool_refill": true,
     "ean": "6975337038238",
+    "discontinued": true,
     "purchase_links": [
       {
         "store_id": "bblstore",
         "url": "https://us.store.bambulab.com/collections/petg/products/petg-hf?variant=42735939649672"
       }
-    ],
-    "discontinued": true
+    ]
   },
   {
     "filament_weight": 1000,
