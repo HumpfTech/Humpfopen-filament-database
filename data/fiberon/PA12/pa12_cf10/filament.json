@@ -2,5 +2,11 @@
     "id": "pa12_cf10",
     "name": "PA12-CF10",
     "diameter_tolerance": 0.02,
-    "density": 1.06
+    "density": 1.06,
+    "slicer_settings": {
+        "orcaslicer": {
+            "profile_name": "Fiberon PA12-CF10",
+            "id": "GFL56"
+        }
+    }
 }

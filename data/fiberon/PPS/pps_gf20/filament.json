@@ -2,5 +2,12 @@
     "id": "pps_gf20",
     "name": "PPS-GF20",
     "diameter_tolerance": 0.03,
-    "density": 1.36
+    "density": 1.36,
+    "slicer_settings": {
+        "orcaslicer": {
+            "profile_name": "Fiberon PPS-GF20",
+            "id": "GFL73",
+            "generic_id": "GFT97"
+        }
+    }
 }

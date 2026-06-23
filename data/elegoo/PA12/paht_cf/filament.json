@@ -5,7 +5,7 @@
     "density": 1.06,
     "slicer_settings": {
         "orcaslicer": {
-            "id": "EPAHTB00",
+            "id": "OEPAHTB0",
             "profile_name": "Elegoo PAHT-CF"
         },
         "elegooslicer": {

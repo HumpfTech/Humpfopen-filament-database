@@ -8,6 +8,11 @@
             "generic_id": "GFL99",
             "id": "P1002",
             "profile_name": "PolySonic PLA Pro"
+        },
+        "orcaslicer": {
+            "profile_name": "PolySonic PLA Pro",
+            "id": "P1002",
+            "generic_id": "GFL99"
         }
     }
 }
