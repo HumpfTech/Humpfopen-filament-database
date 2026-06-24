@@ -1,13 +1,13 @@
 {
-  "id": "petg_rcf08",
-  "name": "PETG-rCF08",
-  "diameter_tolerance": 0.02,
-  "density": 1.3,
-  "slicer_settings": {
-    "orcaslicer": {
-      "generic_id": "GFG99",
-      "id": "GFL61",
-      "profile_name": "Fiberon PETG-rCF08"
+    "id": "petg_rcf08",
+    "name": "PETG-rCF08",
+    "diameter_tolerance": 0.02,
+    "density": 1.3,
+    "slicer_settings": {
+        "orcaslicer": {
+            "generic_id": "GFG99",
+            "id": "GFL61",
+            "profile_name": "Fiberon PETG-rCF08"
+        }
     }
-  }
 }
