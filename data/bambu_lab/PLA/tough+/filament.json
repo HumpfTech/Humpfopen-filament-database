@@ -15,6 +15,11 @@
             "generic_id": "GFL99",
             "id": "GFA10",
             "profile_name": "Bambu PLA Tough+"
+        },
+        "elegooslicer": {
+            "profile_name": "Bambu PLA Tough+",
+            "id": "GFA10",
+            "generic_id": "GFL99"
         }
     }
 }

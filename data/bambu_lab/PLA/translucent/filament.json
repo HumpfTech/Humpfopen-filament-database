@@ -15,6 +15,11 @@
             "generic_id": "GFL99",
             "id": "GFA17",
             "profile_name": "Bambu PLA Translucent"
+        },
+        "elegooslicer": {
+            "profile_name": "Bambu PLA Translucent",
+            "id": "GFA17",
+            "generic_id": "GFL99"
         }
     }
 }
