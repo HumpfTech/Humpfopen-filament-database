@@ -1,5 +1,6 @@
 {
-    "id": "galaxy_dark_blue",
-    "name": "Galaxy Dark Blue",
-    "color_hex": "#090C23"
+  "id": "galaxy_dark_blue",
+  "name": "Galaxy Dark Blue",
+  "color_hex": "#090C23",
+  "discontinued": false
 }

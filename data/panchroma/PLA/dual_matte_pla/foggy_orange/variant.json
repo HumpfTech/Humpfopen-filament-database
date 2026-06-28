@@ -1,5 +1,6 @@
 {
-    "id": "foggy_orange",
-    "name": "Foggy Orange",
-    "color_hex": "#C08B55"
+  "id": "foggy_orange",
+  "name": "Foggy Orange",
+  "color_hex": "#C08B55",
+  "discontinued": false
 }
