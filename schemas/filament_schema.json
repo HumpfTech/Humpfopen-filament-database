@@ -73,6 +73,11 @@
                     "x-label": "Creality Print",
                     "x-description": "Settings for Creality Print. Compatible with Creality FDM printers."
                 },
+                "anycubicslicer": {
+                    "$ref": "#/definitions/specific_slicer_settings",
+                    "x-label": "AnyCubic Slicer",
+                    "x-description": "Settings for AnyCubic Slicer. Compatible with AnyCubic FDM printers."
+                },
                 "generic": {
                     "type": "object",
                     "x-label": "Generic",

@@ -71,6 +71,9 @@
                 "crealityprint": {
                     "$ref": "#/definitions/specific_slicer_settings"
                 },
+                "anycubicslicer": {
+                    "$ref": "#/definitions/specific_slicer_settings"
+                },
                 "generic": {
                     "type": "object",
                     "description": "Generic options that will automatically be mapped to the correct config definition for each slicer. Slicer specific settings are applied first, then these are applied on top",
@@ -102,7 +105,10 @@
         "material_class": {
             "type": "string",
             "title": "Material Class",
-            "enum": ["FFF", "SLA"],
+            "enum": [
+                "FFF",
+                "SLA"
+            ],
             "default": "FFF",
             "description": "FFF (Fused Filament Fabrication) for standard filament printing, SLA (Stereolithography) for resin-based printing. Leave as FFF if you're unsure."
         },
