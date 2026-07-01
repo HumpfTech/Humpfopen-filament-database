@@ -13,6 +13,11 @@
             "generic_id": "GFB99",
             "id": "03001",
             "profile_name": "Creality Hyper ABS"
+        },
+        "anycubicslicer": {
+            "profile_name": "Creality Hyper ABS",
+            "id": "03001",
+            "generic_id": "GFB99"
         }
     }
 }

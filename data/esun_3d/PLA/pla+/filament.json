@@ -27,6 +27,11 @@
             "generic_id": "GFL99",
             "id": "E1001",
             "profile_name": "eSUN PLA+"
+        },
+        "anycubicslicer": {
+            "profile_name": "eSUN PLA+",
+            "id": "GFL03",
+            "generic_id": "GFL99"
         }
     }
 }

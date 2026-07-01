@@ -21,6 +21,10 @@
         "crealityprint": {
             "id": "GFN04",
             "profile_name": "Bambu PAHT-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PAHT-CF",
+            "id": "GFN04"
         }
     }
 }

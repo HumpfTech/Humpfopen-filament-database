@@ -26,6 +26,10 @@
         "crealityprint": {
             "id": "GFS99",
             "profile_name": "Prusament PVB"
+        },
+        "anycubicslicer": {
+            "profile_name": "Prusament PVB",
+            "id": "GFS98"
         }
     }
 }

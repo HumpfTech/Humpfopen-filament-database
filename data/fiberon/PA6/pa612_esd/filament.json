@@ -7,6 +7,10 @@
         "orcaslicer": {
             "id": "GFL72",
             "profile_name": "Fiberon PA612-ESD"
+        },
+        "crealityprint": {
+            "profile_name": "Fiberon PA612-ESD",
+            "id": "P7005"
         }
     }
 }

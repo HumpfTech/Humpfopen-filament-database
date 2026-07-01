@@ -7,6 +7,10 @@
         "orcaslicer": {
             "id": "GFL57",
             "profile_name": "Fiberon PA6-CF20"
+        },
+        "crealityprint": {
+            "profile_name": "Fiberon PA6-CF20",
+            "id": "P7003"
         }
     }
 }

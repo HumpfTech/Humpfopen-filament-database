@@ -17,6 +17,10 @@
         "elegooslicer": {
             "id": "OGFN06",
             "profile_name": "Bambu PPA-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PPA-CF",
+            "id": "GFN06"
         }
     }
 }

@@ -25,6 +25,11 @@
             "generic_id": "GFU99",
             "id": "GFU00",
             "profile_name": "Bambu TPU 95A HF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu TPU 95A HF",
+            "id": "GFU00",
+            "generic_id": "GFU99"
         }
     }
 }

@@ -29,6 +29,11 @@
             "generic_id": "GFG99",
             "id": "GFG50",
             "profile_name": "Bambu PETG-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PETG-CF",
+            "id": "GFG50",
+            "generic_id": "GFG99"
         }
     }
 }

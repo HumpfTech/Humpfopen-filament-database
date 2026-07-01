@@ -33,6 +33,11 @@
             "generic_id": "GFL99",
             "id": "GFL04",
             "profile_name": "Overture PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Overture PLA",
+            "id": "GFL04",
+            "generic_id": "GFL99"
         }
     }
 }

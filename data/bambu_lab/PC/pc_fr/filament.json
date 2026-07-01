@@ -20,6 +20,11 @@
             "generic_id": "GFC99",
             "id": "OGFC01",
             "profile_name": "Bambu PC FR"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PC FR",
+            "id": "GFC01",
+            "generic_id": "GFC99"
         }
     }
 }

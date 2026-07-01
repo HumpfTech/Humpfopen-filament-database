@@ -34,6 +34,11 @@
             "generic_id": "GFG99",
             "id": "GFL99_1",
             "profile_name": "Prusament PETG"
+        },
+        "anycubicslicer": {
+            "profile_name": "Prusament PETG",
+            "id": "GFT02",
+            "generic_id": "GFG99"
         }
     }
 }

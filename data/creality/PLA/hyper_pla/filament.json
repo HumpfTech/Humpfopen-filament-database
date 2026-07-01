@@ -13,6 +13,11 @@
             "generic_id": "GFL99",
             "id": "01001",
             "profile_name": "Creality Hyper PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Creality Hyper PLA",
+            "id": "01001",
+            "generic_id": "GFL99"
         }
     }
 }

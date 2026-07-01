@@ -25,6 +25,10 @@
         "crealityprint": {
             "id": "GFT01",
             "profile_name": "Bambu PET-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PET-CF",
+            "id": "GFT01"
         }
     }
 }

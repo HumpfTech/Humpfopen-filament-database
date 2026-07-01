@@ -22,6 +22,11 @@
             "generic_id": "GFB99",
             "id": "GFB99",
             "profile_name": "Flashforge ABS"
+        },
+        "anycubicslicer": {
+            "profile_name": "Flashforge ABS",
+            "id": "FFF02",
+            "generic_id": "GFB99"
         }
     }
 }

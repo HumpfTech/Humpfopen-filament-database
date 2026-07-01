@@ -17,6 +17,11 @@
             "generic_id": "GFL99",
             "id": "OEPLAB00",
             "profile_name": "Elegoo PLA-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo PLA-CF",
+            "id": "EPLACFB00",
+            "generic_id": "GFL99"
         }
     }
 }

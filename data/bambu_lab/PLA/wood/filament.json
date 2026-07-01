@@ -20,6 +20,11 @@
             "generic_id": "GFL99",
             "id": "OGFA16",
             "profile_name": "Bambu PLA Wood"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PLA Wood",
+            "id": "GFA16",
+            "generic_id": "GFL99"
         }
     }
 }

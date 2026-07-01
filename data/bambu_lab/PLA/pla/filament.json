@@ -17,6 +17,11 @@
             "generic_id": "GFL99",
             "id": "GFL99",
             "profile_name": "Bambu PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PLA",
+            "id": "GFL99",
+            "generic_id": "GFL99"
         }
     }
 }

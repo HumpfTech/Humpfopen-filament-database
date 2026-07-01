@@ -20,6 +20,11 @@
             "generic_id": "GFL99",
             "id": "OEPLAB00",
             "profile_name": "Elegoo PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo PLA",
+            "id": "EPLAB00",
+            "generic_id": "GFL99"
         }
     }
 }

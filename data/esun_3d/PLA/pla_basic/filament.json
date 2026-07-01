@@ -17,6 +17,11 @@
             "generic_id": "GFL99",
             "id": "OGFL04",
             "profile_name": "eSUN PLA-Basic"
+        },
+        "crealityprint": {
+            "profile_name": "eSUN PLA-Basic",
+            "id": "E1009",
+            "generic_id": "GFL99"
         }
     }
 }

@@ -31,6 +31,11 @@
             "generic_id": "GFB98",
             "id": "GFB98",
             "profile_name": "Prusament ASA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Prusament ASA",
+            "id": "GFB98",
+            "generic_id": "GFB98"
         }
     }
 }

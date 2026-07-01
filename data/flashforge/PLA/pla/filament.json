@@ -22,6 +22,11 @@
             "generic_id": "GFL99",
             "id": "GFL99",
             "profile_name": "Flashforge PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Flashforge PLA",
+            "id": "FFF01",
+            "generic_id": "GFL99"
         }
     }
 }

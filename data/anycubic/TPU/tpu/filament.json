@@ -16,6 +16,11 @@
             "generic_id": "GFU99",
             "id": "GFU99",
             "profile_name": "Anycubic TPU"
+        },
+        "anycubicslicer": {
+            "profile_name": "Anycubic TPU",
+            "id": "GFU99",
+            "generic_id": "GFU99"
         }
     }
 }

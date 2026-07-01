@@ -18,6 +18,16 @@
             "generic_id": "GFG99",
             "id": "OGFL06",
             "profile_name": "Fiberon PETG-ESD"
+        },
+        "crealityprint": {
+            "profile_name": "Fiberon PETG-ESD",
+            "id": "P2001",
+            "generic_id": "GFG99"
+        },
+        "anycubicslicer": {
+            "profile_name": "Fiberon PETG-ESD",
+            "id": "GFL06",
+            "generic_id": "GFG99"
         }
     }
 }

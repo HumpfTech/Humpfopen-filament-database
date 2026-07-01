@@ -2,5 +2,11 @@
     "id": "pps_cf10",
     "name": "PPS-CF10",
     "diameter_tolerance": 0.03,
-    "density": 1.29
+    "density": 1.29,
+    "slicer_settings": {
+        "crealityprint": {
+            "profile_name": "Fiberon PPS-CF10",
+            "id": "P9001"
+        }
+    }
 }

@@ -23,6 +23,11 @@
             "generic_id": "GFL99",
             "id": "GFB99",
             "profile_name": "HATCHBOX PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "HATCHBOX PLA",
+            "id": "GFB99",
+            "generic_id": "GFL99"
         }
     }
 }

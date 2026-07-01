@@ -23,6 +23,11 @@
             "generic_id": "GFG99",
             "id": "GFG60",
             "profile_name": "PolyLite PETG"
+        },
+        "anycubicslicer": {
+            "profile_name": "PolyLite PETG",
+            "id": "GFG60",
+            "generic_id": "GFG99"
         }
     }
 }

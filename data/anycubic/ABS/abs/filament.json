@@ -15,6 +15,11 @@
             "generic_id": "GFB99",
             "id": "GFB99",
             "profile_name": "Anycubic ABS"
+        },
+        "anycubicslicer": {
+            "profile_name": "Anycubic ABS",
+            "id": "GFB99",
+            "generic_id": "GFB99"
         }
     }
 }

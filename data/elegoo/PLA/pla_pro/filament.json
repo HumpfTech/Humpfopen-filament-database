@@ -13,6 +13,11 @@
             "generic_id": "GFL99",
             "id": "OEPLAB00",
             "profile_name": "Elegoo PLA PRO"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo PLA PRO",
+            "id": "EPLAB00",
+            "generic_id": "GFL99"
         }
     }
 }

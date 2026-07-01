@@ -17,6 +17,11 @@
             "generic_id": "GFL99",
             "id": "OEPLAB00",
             "profile_name": "Elegoo PLA Matte"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo PLA Matte",
+            "id": "EPLAMB00",
+            "generic_id": "GFL99"
         }
     }
 }

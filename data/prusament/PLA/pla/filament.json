@@ -32,6 +32,11 @@
             "generic_id": "GFL99",
             "id": "GFL99_1",
             "profile_name": "Prusament PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Prusament PLA",
+            "id": "GFL99",
+            "generic_id": "GFL99"
         }
     }
 }

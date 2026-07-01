@@ -26,6 +26,11 @@
             "generic_id": "GFL99",
             "id": "1393866034",
             "profile_name": "PolyLite PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "PolyLite PLA",
+            "id": "1393866034",
+            "generic_id": "GFL99"
         }
     }
 }

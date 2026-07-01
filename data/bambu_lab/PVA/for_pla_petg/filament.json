@@ -25,6 +25,11 @@
             "generic_id": "GFS99",
             "id": "GFS05",
             "profile_name": "Bambu Support For PLA/PETG"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu Support For PLA/PETG",
+            "id": "GFS05",
+            "generic_id": "GFS99"
         }
     }
 }

@@ -15,6 +15,11 @@
             "generic_id": "GFL99",
             "id": "GFL99",
             "profile_name": "Anycubic PLA Matte"
+        },
+        "anycubicslicer": {
+            "profile_name": "Anycubic PLA Matte",
+            "id": "GFL95",
+            "generic_id": "GFL99"
         }
     }
 }

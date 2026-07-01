@@ -29,6 +29,11 @@
             "generic_id": "GFB99",
             "id": "GFB50",
             "profile_name": "Bambu ABS-GF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu ABS-GF",
+            "id": "GFB50",
+            "generic_id": "GFB99"
         }
     }
 }

@@ -20,6 +20,11 @@
             "generic_id": "GFS99",
             "id": "OGFS06",
             "profile_name": "Bambu Support for ABS"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu Support for ABS",
+            "id": "GFS06",
+            "generic_id": "GFS99"
         }
     }
 }

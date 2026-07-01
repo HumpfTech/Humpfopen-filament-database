@@ -17,6 +17,11 @@
             "generic_id": "GFL96",
             "id": "05001",
             "profile_name": "Creality Silk PLA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Creality Silk PLA",
+            "id": "05001",
+            "generic_id": "GFL96"
         }
     }
 }

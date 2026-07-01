@@ -20,6 +20,11 @@
             "generic_id": "GFB98",
             "id": "OGFB51",
             "profile_name": "Bambu ASA-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu ASA-CF",
+            "id": "GFB51",
+            "generic_id": "GFB98"
         }
     }
 }

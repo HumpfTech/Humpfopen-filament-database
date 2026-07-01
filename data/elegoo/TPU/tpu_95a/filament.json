@@ -17,6 +17,11 @@
             "generic_id": "GFU99",
             "id": "OETPUB00",
             "profile_name": "Elegoo TPU 95A"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo TPU 95A",
+            "id": "ETPU95AB00",
+            "generic_id": "GFU99"
         }
     }
 }

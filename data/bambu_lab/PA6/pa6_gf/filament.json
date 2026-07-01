@@ -25,6 +25,10 @@
         "crealityprint": {
             "id": "GFN08",
             "profile_name": "Bambu PA6-GF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PA6-GF",
+            "id": "GFN08"
         }
     }
 }

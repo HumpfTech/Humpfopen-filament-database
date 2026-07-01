@@ -25,6 +25,11 @@
             "generic_id": "GFS99",
             "id": "GFS03",
             "profile_name": "Bambu Support For PA/PET"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu Support For PA/PET",
+            "id": "GFS03",
+            "generic_id": "GFS99"
         }
     }
 }

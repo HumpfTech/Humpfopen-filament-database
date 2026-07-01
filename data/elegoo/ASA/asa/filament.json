@@ -17,6 +17,11 @@
             "generic_id": "GFB98",
             "id": "OEASAB00",
             "profile_name": "Elegoo ASA"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo ASA",
+            "id": "GFB98",
+            "generic_id": "GFB98"
         }
     }
 }

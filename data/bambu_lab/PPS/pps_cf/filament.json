@@ -19,6 +19,10 @@
             "generic_id": "GFT97",
             "id": "GFT02",
             "profile_name": "Bambu PPS-CF"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PPS-CF",
+            "id": "GFT02"
         }
     }
 }

@@ -20,6 +20,11 @@
             "generic_id": "GFL96",
             "id": "OGFA06",
             "profile_name": "Bambu PLA Silk+"
+        },
+        "anycubicslicer": {
+            "profile_name": "Bambu PLA Silk+",
+            "id": "GFA06",
+            "generic_id": "GFL96"
         }
     }
 }

@@ -13,6 +13,11 @@
             "generic_id": "GFG99",
             "id": "OEPETGB0",
             "profile_name": "Elegoo PETG PRO"
+        },
+        "anycubicslicer": {
+            "profile_name": "Elegoo PETG PRO",
+            "id": "EPETGPROB00",
+            "generic_id": "GFG99"
         }
     }
 }

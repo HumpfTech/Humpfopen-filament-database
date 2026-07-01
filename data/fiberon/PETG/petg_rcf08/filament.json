@@ -8,6 +8,11 @@
             "generic_id": "GFG99",
             "id": "GFL61",
             "profile_name": "Fiberon PETG-rCF08"
+        },
+        "crealityprint": {
+            "profile_name": "Fiberon PETG-rCF08",
+            "id": "P2002",
+            "generic_id": "GFG99"
         }
     }
 }

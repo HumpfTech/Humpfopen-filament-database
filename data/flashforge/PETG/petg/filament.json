@@ -22,6 +22,11 @@
             "generic_id": "GFG99",
             "id": "GFG99",
             "profile_name": "Flashforge PETG"
+        },
+        "anycubicslicer": {
+            "profile_name": "Flashforge PETG",
+            "id": "FFF03",
+            "generic_id": "GFG99"
         }
     }
 }

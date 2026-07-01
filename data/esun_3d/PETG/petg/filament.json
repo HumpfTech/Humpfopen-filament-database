@@ -28,6 +28,11 @@
             "generic_id": "GFG99",
             "id": "E2001",
             "profile_name": "eSUN PETG"
+        },
+        "anycubicslicer": {
+            "profile_name": "eSUN PETG",
+            "id": "ESN03",
+            "generic_id": "GFG99"
         }
     }
 }
