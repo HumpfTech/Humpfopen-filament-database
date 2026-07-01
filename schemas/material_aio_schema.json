@@ -73,6 +73,9 @@
                 },
                 "crealityprint": {
                     "$ref": "#/definitions/specific_slicer_settings"
+                },
+                "anycubicslicer": {
+                    "$ref": "#/definitions/specific_slicer_settings"
                 }
             },
             "additionalProperties": false
