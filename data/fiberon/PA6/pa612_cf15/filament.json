@@ -1,16 +1,16 @@
 {
-    "id": "pa612_cf15",
-    "name": "PA612-CF15",
-    "diameter_tolerance": 0.02,
-    "density": 1.03,
-    "slicer_settings": {
-        "orcaslicer": {
-            "id": "GFL59",
-            "profile_name": "Fiberon PA612-CF15"
-        },
-        "crealityprint": {
-            "profile_name": "Fiberon PA612-CF15",
-            "id": "P7002"
-        }
+  "id": "pa612_cf15",
+  "name": "PA612-CF15",
+  "diameter_tolerance": 0.02,
+  "density": 1.03,
+  "slicer_settings": {
+    "orcaslicer": {
+      "id": "GFL59",
+      "profile_name": "Fiberon PA612-CF15"
+    },
+    "crealityprint": {
+      "id": "P7002",
+      "profile_name": "Fiberon PA612-CF15"
     }
+  }
 }
