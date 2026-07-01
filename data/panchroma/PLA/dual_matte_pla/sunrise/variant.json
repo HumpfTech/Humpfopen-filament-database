@@ -1,5 +1,6 @@
 {
-    "id": "sunrise",
-    "name": "Sunrise",
-    "color_hex": "#F07931"
+  "id": "sunrise",
+  "name": "Sunrise",
+  "color_hex": "#F07931",
+  "discontinued": false
 }

@@ -2,6 +2,10 @@
   {
     "filament_weight": 1000,
     "diameter": 1.75,
+    "spool_refill": false,
+    "gtin": "6938936714675",
+    "article_number": "CA02025",
+    "discontinued": false,
     "purchase_links": [
       {
         "store_id": "polymaker",
